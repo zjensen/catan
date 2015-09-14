@@ -9,8 +9,8 @@ public class ClientModel {
 	public Player[] players;
 	public TradeOffer tradeOffer;
 	public TurnTracker turnTracker;
-	public int version;
-	public int winner;
+	public Integer version;
+	public Integer winner;
 	
 	public ResourceList getBank() {
 		return bank;
