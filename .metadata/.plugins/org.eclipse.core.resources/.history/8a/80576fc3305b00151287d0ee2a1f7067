@@ -2,8 +2,8 @@ package shared.models;
 
 public class MessageLine {
 	
-	private String message;
-	private String source;
+	public String message;
+	public String source;
 	
 	public String getMessage() {
 		return message;
