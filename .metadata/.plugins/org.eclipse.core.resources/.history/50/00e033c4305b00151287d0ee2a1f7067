@@ -2,7 +2,7 @@ package shared.models;
 
 public class MessageList {
 	
-	private MessageLine[] lines;
+	public MessageLine[] lines;
 
 	public MessageLine[] getLines() {
 		return lines;

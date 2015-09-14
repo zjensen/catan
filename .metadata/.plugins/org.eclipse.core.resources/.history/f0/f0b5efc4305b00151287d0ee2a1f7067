@@ -2,15 +2,15 @@ package shared.models;
 
 public class ClientModel {
 	
-	private ResourceList bank;
-	private MessageList chat;
-	private MessageList log;
-	private Map map;
-	private Player[] players;
-	private TradeOffer tradeOffer;
-	private TurnTracker turnTracker;
-	private int version;
-	private int winner;
+	public ResourceList bank;
+	public MessageList chat;
+	public MessageList log;
+	public Map map;
+	public Player[] players;
+	public TradeOffer tradeOffer;
+	public TurnTracker turnTracker;
+	public int version;
+	public int winner;
 	
 	public ResourceList getBank() {
 		return bank;
