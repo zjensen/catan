@@ -2,13 +2,13 @@ package shared.models;
 
 public class MessageList {
 	
-	public Array<MessageLine> lines;
+	public MessageLine[] lines;
 
-	public Array<MessageLine> getLines() {
+	public MessageLine[] getLines() {
 		return lines;
 	}
 
-	public void setLines(Array<MessageLine> lines) {
+	public void setLines(MessageLine[] lines) {
 		this.lines = lines;
 	}
 

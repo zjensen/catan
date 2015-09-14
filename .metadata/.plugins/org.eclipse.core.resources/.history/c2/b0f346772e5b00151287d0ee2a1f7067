@@ -6,11 +6,11 @@ public class ClientModel {
 	public MessageList chat;
 	public MessageList log;
 	public Map map;
-	public Player[] players;
+	public Array<Player> players;
 	public TradeOffer tradeOffer;
 	public TurnTracker turnTracker;
-	public int version;
-	public int winner;
+	public Integer version;
+	public Integer winner;
 	
 	public ResourceList getBank() {
 		return bank;
@@ -36,10 +36,10 @@ public class ClientModel {
 	public void setMap(Map map) {
 		this.map = map;
 	}
-	public Player[] getPlayers() {
+	public Array<Player> getPlayers() {
 		return players;
 	}
-	public void setPlayers(Player[] players) {
+	public void setPlayers(Array<Player> players) {
 		this.players = players;
 	}
 	public TradeOffer getTradeOffer() {
