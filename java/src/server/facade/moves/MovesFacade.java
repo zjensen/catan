@@ -4,11 +4,23 @@ import shared.communication.moves.*;
 
 public class MovesFacade {
 	
+	/**
+	 * sends a chat message
+	 * 
+	 * @param params
+	 * @return SendChat_Output
+	 */
 	public SendChat_Output sendChat(SendChat_Input params){
 		
 		return null;
 	}
 	
+	/**
+	 * Used to roll a number at the begining of your turn
+	 * 
+	 * @param params
+	 * @return SendChat_Output
+	 */
 	public RollNumber_Output rollNumber(RollNumber_Input params){
 //		moves/rollNumber
 //    VALID INPUT
@@ -18,11 +30,24 @@ public class MovesFacade {
 		return null;
 	}
 	
+	
+	/**
+	 * Moves the Robber, selcting the new robber position and the player to rob
+	 * 
+	 * @param params
+	 * @return RobPlayer_Output
+	 */
 	public RobPlayer_Output robPlayer(RobPlayer_Input params){
 		
 		return null;
 	}
 	
+	/**
+	 * Used to finish your turn
+	 * 
+	 * @param params
+	 * @return FinishTurn_Output
+	 */
 	public FinishTurn_Output finishTurn(FinishTurn_Input params){
 		
 //		/moves/finishTurn
@@ -32,6 +57,13 @@ public class MovesFacade {
 		
 	}
 
+	
+	/**
+	 * Used to buy a development card
+	 * 
+	 * @param params
+	 * @return BuyDevCard_Output
+	 */
 	public BuyDevCard_Output buyDevCard(BuyDevCard_Input params){
 //		/moves/buyDevCard
 //		VALID INPUT
@@ -40,6 +72,13 @@ public class MovesFacade {
 		return null;
 	}
 
+	/**
+	 * Plays a "Year of Plenty" card from your hand to gain 
+	 * the two specified resources
+	 * 
+	 * @param params
+	 * @return YearOfPlenty_Output
+	 */
 	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input params){
 		
 //		/moves/Year_of_Plenty
@@ -51,6 +90,13 @@ public class MovesFacade {
 		return null;
 	}
 
+	/**
+	 * Plays a "Year of Plenty" card from your hand to build 
+	 * two roads at the specified locations
+	 * 
+	 * @param params
+	 * @return RoadBuilding_Output
+	 */
 	public RoadBuilding_Output roadBuilding(RoadBuilding_Input params){
 		
 //		/moves/Road_Building
@@ -68,6 +114,14 @@ public class MovesFacade {
 		return null;
 	}
 
+	
+	/**
+	 * Plays a 'Soldier' from your hand, selecting the 
+	 * new robber position and player to rob.
+	 * 
+	 * @param params
+	 * @return Soldier_Output
+	 */
 	public Soldier_Output soldier(Soldier_Input params){
 		
 		
@@ -82,7 +136,12 @@ public class MovesFacade {
 		return null;
 	}
 
-	
+	/**
+	 * Plays a 'Monopoly' card from your hand to monopolize the specified resource
+	 * 
+	 * @param params
+	 * @return Monopoly_Output
+	 */
 	public Monopoly_Output monopoly(Monopoly_Input params){
 		
 //		/moves/Monopoly
@@ -93,6 +152,12 @@ public class MovesFacade {
 		return null;
 	}
 	
+	/**
+	 * Plays a 'Monument' card from your hand to give you a victory point
+	 * 
+	 * @param params
+	 * @return Monument_Output
+	 */
 	public Monument_Output monument(Monument_Input params){
 		
 //		/moves/Monument
@@ -103,6 +168,13 @@ public class MovesFacade {
 		return null;
 	}
 	
+	/**
+	 * Builds a road at the specified location. 
+	 * (Set 'free' to true during initial setup.)
+	 * 
+	 * @param params
+	 * @return BuildRoad_Output
+	 */
 	public BuildRoad_Output buildRoad(BuildRoad_Input params){
 		
 //		/moves/buildRoad
@@ -117,6 +189,13 @@ public class MovesFacade {
 		return null;
 	}
 	
+	/**
+	 * Builds a settlement at the specified location. 
+	 * (Set 'free' to true during initial setup.)
+	 * 
+	 * @param params
+	 * @return BuildSettlement_Output
+	 */
 	public BuildSettlement_Output buildSettlement(BuildSettlement_Input params){
 		
 //		/moves/buildSettlement
@@ -124,6 +203,12 @@ public class MovesFacade {
 		return null;
 	}
 	
+	/**
+	 * Builds a city at the specified location.
+	 * 
+	 * @param params
+	 * @return BuildCity_Output
+	 */
 	public BuildCity_Output buildCity(BuildCity_Input params){
 //		/moves/buildCity
 //		VALID INPUT
@@ -137,6 +222,12 @@ public class MovesFacade {
 		return null;
 	}
 	
+	/**
+	 * Offers a domestic trade to another player
+	 * 
+	 * @param params
+	 * @return OfferTrade_Output
+	 */
 	public OfferTrade_Output offerTrade(OfferTrade_Input params) {
 	
 //		/moves/offerTrade
@@ -154,6 +245,12 @@ public class MovesFacade {
 		return null;
 	}
 	
+	/**
+	 * Used to accept or reject a trade offered to you
+	 * 
+	 * @param params
+	 * @return AcceptTrade_Output
+	 */
 	public AcceptTrade_Output acceptTrade(AcceptTrade_Input params){
 		
 //		/moves/acceptTrade
@@ -164,11 +261,23 @@ public class MovesFacade {
 		return null;
 	}
 	
+	/**
+	 * Used to execute a maritime trade
+	 * 
+	 * @param params
+	 * @return MaritimeTrade_Output
+	 */
 	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input params){
 		
 		return null;
 	}
 
+	/**
+	 * Discards the specified resource cards.
+	 * 
+	 * @param params
+	 * @return DiscardCards_Output
+	 */
 	public DiscardCards_Output discardCards(DiscardCards_Input params){
 //		/moves/discardCards
 //		VALID INPUT
