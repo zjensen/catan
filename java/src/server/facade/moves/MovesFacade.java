@@ -1,29 +1,24 @@
 package server.facade.moves;
 
-import shared.communication.moves.BuyDevCard_Input;
-import shared.communication.moves.BuyDevCard_Output;
-import shared.communication.moves.FinishTurn_Input;
-import shared.communication.moves.FinishTurn_Output;
-import shared.communication.moves.Monopoly_Input;
-import shared.communication.moves.Monopoly_Output;
-import shared.communication.moves.Monument_Input;
-import shared.communication.moves.Monument_Output;
-import shared.communication.moves.RoadBuilding_Input;
-import shared.communication.moves.RoadBuilding_Output;
-import shared.communication.moves.RollNumber_Input;
-import shared.communication.moves.RollNumber_Output;
-import shared.communication.moves.Soldier_Input;
-import shared.communication.moves.Soldier_Output;
-import shared.communication.moves.YearOfPlenty_Input;
-import shared.communication.moves.YearOfPlenty_Output;
+import shared.communication.moves.*;
 
 public class MovesFacade {
+	
+	public SendChat_Output sendChat(SendChat_Input params){
+		
+		return null;
+	}
 	
 	public RollNumber_Output rollNumber(RollNumber_Input params){
 //		moves/rollNumber
 //    VALID INPUT
 //        playerIndex: 1
 //        number: 8
+		
+		return null;
+	}
+	
+	public RobPlayer_Output robPlayer(RobPlayer_Input params){
 		
 		return null;
 	}
@@ -107,50 +102,85 @@ public class MovesFacade {
 		
 		return null;
 	}
+	
+	public BuildRoad_Output buildRoad(BuildRoad_Input params){
+		
+//		/moves/buildRoad
+//		VALID INPUT
+//		playerIndex: 2
+//		roadLocation
+//		x: -1
+//		y: -1
+//		direction: "NE"
+//			free: false
+		
+		return null;
+	}
+	
+	public BuildSettlement_Output buildSettlement(BuildSettlement_Input params){
+		
+//		/moves/buildSettlement
+		
+		return null;
+	}
+	
+	public BuildCity_Output buildCity(BuildCity_Input params){
+//		/moves/buildCity
+//		VALID INPUT
+//		playerIndex: 2
+//		vertexLocation
+//		x: -1
+//		y: -1
+//		direction: "NE"
+//			free: false
+			
+		return null;
+	}
+	
+	public OfferTrade_Output offerTrade(OfferTrade_Input params) {
+	
+//		/moves/offerTrade
+//		VALID INPUT
+//		playerIndex: 3
+//		offer:
+//			brick: 1
+//			ore: 0
+//			sheep: 0
+//			wheat: 0
+//			wood: 2
+//			receiver: 2
+//			
+		
+		return null;
+	}
+	
+	public AcceptTrade_Output acceptTrade(AcceptTrade_Input params){
+		
+//		/moves/acceptTrade
+//		VALID INPUT
+//		playerIndex: 1
+//		willAccept: true
+//		
+		return null;
+	}
+	
+	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input params){
+		
+		return null;
+	}
+
+	public DiscardCards_Output discardCards(DiscardCards_Input params){
+//		/moves/discardCards
+//		VALID INPUT
+//		playerIndex: 0
+//		discardedCards:
+//			brick: 0
+//			ore: 1
+//			sheep: 1
+//			wheat: 3
+//			wood: 0
+		
+		return null;
+	}
+	
 }
-
-/* 
-/moves/buildRoad
-    VALID INPUT
-        playerIndex: 2
-        roadLocation
-            x: -1
-            y: -1
-            direction: "NE"
-        free: false
-/moves/buildSettlement
-/moves/buildCity
-    VALID INPUT
-        playerIndex: 2
-        vertexLocation
-            x: -1
-            y: -1
-            direction: "NE"
-        free: false
-
-/moves/offerTrade
-    VALID INPUT
-        playerIndex: 3
-        offer:
-            brick: 1
-            ore: 0
-            sheep: 0
-            wheat: 0
-            wood: 2
-        receiver: 2
-
-/moves/acceptTrade
-    VALID INPUT
-        playerIndex: 1
-        willAccept: true
-
-/moves/discardCards
-    VALID INPUT
-        playerIndex: 0
-        discardedCards:
-            brick: 0
-            ore: 1
-            sheep: 1
-            wheat: 3
-            wood: 0
-*/
