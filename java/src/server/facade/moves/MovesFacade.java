@@ -16,7 +16,7 @@ public class MovesFacade {
 	}
 	
 	/**
-	 * Used to roll a number at the begining of your turn
+	 * Used to roll a number at the beginning of your turn
 	 * 
 	 * @param params
 	 * @return SendChat_Output

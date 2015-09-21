@@ -1,17 +1,6 @@
 package server.facade.games;
 
-import shared.communication.games.CreateGame_Input;
-import shared.communication.games.CreateGame_Output;
-import shared.communication.games.JoinGame_Input;
-import shared.communication.games.JoinGame_Output;
-import shared.communication.games.ListGames_Input;
-import shared.communication.games.ListGames_Output;
-import shared.communication.games.LoadGame_Input;
-import shared.communication.games.LoadGame_Output;
-import shared.communication.games.SaveGame_Input;
-import shared.communication.games.SaveGame_Output;
-
-
+import shared.communication.games.*;
 
 /**
  * 

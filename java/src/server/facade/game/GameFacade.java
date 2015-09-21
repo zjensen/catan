@@ -1,17 +1,6 @@
 package server.facade.game;
 
-import shared.communication.game.AddAI_Input;
-import shared.communication.game.AddAI_Output;
-import shared.communication.game.GETCommands_Output;
-import shared.communication.game.GameModel_Input;
-import shared.communication.game.GameModel_Output;
-import shared.communication.game.GetCommands_Input;
-import shared.communication.game.ListAI_Input;
-import shared.communication.game.ListAI_Output;
-import shared.communication.game.POSTCommands_Input;
-import shared.communication.game.POSTCommands_Output;
-import shared.communication.game.ResetGame_Input;
-import shared.communication.game.ResetGame_Output;
+import shared.communication.game.*;
 
 public class GameFacade {
 
