@@ -12,6 +12,16 @@ public class ClientModel {
 	private int version;
 	private int winner;
 	
+	/**
+	 * parses json to update member variables
+	 * 
+	 * @param json -> json with the new client model information
+	 */
+	public void updateClient(String json)
+	{
+
+	}
+	
 	public ResourceList getBank() {
 		return bank;
 	}

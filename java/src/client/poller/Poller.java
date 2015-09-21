@@ -2,6 +2,7 @@ package client.poller;
 
 import java.util.Timer;
 import java.util.TimerTask;
+import client.server.*;
 
 import shared.models.*;
 
@@ -12,14 +13,15 @@ import shared.models.*;
  */
 public class Poller 
 {
-	private iServer server;
+	private IServer server;
 	private Timer timer;
+	private ClientModel clientModel;
 	
 	/**
 	 * 
 	 * @param server interface
 	 */
-	public Poller(iServer server)
+	public Poller(IServer server)
 	{
 		this.server = server;
 	}
@@ -27,8 +29,32 @@ public class Poller
 	/**
 	 * call upon server to update client model
 	 */
-	private void updateCLientModel()
+	private void updateClientModel()
 	{
-		server.updateModel();
+		clientModel.updateClient("Temp");
+	}
+
+	public IServer getServer() {
+		return server;
+	}
+
+	public void setServer(IServer server) {
+		this.server = server;
+	}
+
+	public Timer getTimer() {
+		return timer;
+	}
+
+	public void setTimer(Timer timer) {
+		this.timer = timer;
+	}
+
+	public ClientModel getClientModel() {
+		return clientModel;
+	}
+
+	public void setClientModel(ClientModel clientModel) {
+		this.clientModel = clientModel;
 	}
 }
