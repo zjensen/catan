@@ -38,23 +38,14 @@ public class Player {
 		this.victoryPoints = 0;
 	}
 	
-	public void buildRoad() { //could be a bool function
-		
-	}
-	
-	public void buildSettlement() { //could be a bool function
-		
-	}
-	
-	public void buildCity() { //could be a bool function
-		
-	}
-	
-	public void buyDevCard() { //could be a bool function
-		
-	}
-	
-	public void useDevCard() { //could be a bool function
+	/**
+	 * 
+	 * This function will be called on the Player after the ClientModel has received its new version
+	 * All the objects in the player will be updated based on the changes received from the client model
+	 * Parameters for this function are not yet defined
+	 * 
+	 */
+	public void updatePlayer(/* Params need to be defined */) { //could be a bool function
 		
 	}
 

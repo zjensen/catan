@@ -5,13 +5,13 @@ import shared.locations.HexLocation;
 public class Map {
 	private Hex[] hexes;
 	private Port[] ports;
-	private Road[] roads;
+	private EdgeValue[] roads;
 	private VertexObject[] settlements;
 	private VertexObject[] cities;
 	private int radius;
 	private HexLocation robber;
 	
-	public Map(Hex[] hexes, Port[] ports, Road[] roads,
+	public Map(Hex[] hexes, Port[] ports, EdgeValue[] roads,
 			VertexObject[] settlements, VertexObject[] cities, int radius,
 			HexLocation robber) 
 	{
@@ -56,14 +56,14 @@ public class Map {
 	/**
 	 * @return the roads
 	 */
-	public Road[] getRoads() {
+	public EdgeValue[] getRoads() {
 		return roads;
 	}
 
 	/**
 	 * @param roads the roads to set
 	 */
-	public void setRoads(Road[] roads) {
+	public void setRoads(EdgeValue[] roads) {
 		this.roads = roads;
 	}
 

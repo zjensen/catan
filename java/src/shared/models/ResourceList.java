@@ -16,39 +16,21 @@ public class ResourceList {
 		this.ore = 0;
 	}
 	
-	public void roadCost() {
-		--this.wood;
-		--this.brick;
-	}
-	
-	public void settlementCost() {
-		--this.sheep;
-		--this.wheat;
-		--this.wood;
-		--this.brick;
-	}
-	
-	public void cityCost() {
-		this.wheat = this.wheat - 2;
-		this.ore = this.ore - 3;		
-	}
-	
-	public void devCardCost() {
-		--this.sheep;
-		--this.wheat;
-		--this.ore;
-	}
-	
-	public void discardCards(int sheepLost, int wheatLost, int woodLost, int brickLost, int oreLost) {
-		this.sheep = this.sheep - sheepLost;
-		this.wheat = this.wheat - wheatLost;
-		this.wood = this.wood - woodLost;
-		this.brick = this.brick - brickLost;
-		this.ore = this.ore - oreLost;
-	}
-	
-	//not sure about this one
-	public void stolenCard(String type) {
+	/**
+	 * 
+	 * @param cardTotals
+	 * 
+	 * This function will be called to update the ResourceCardList object.
+	 * The cardTotals is an array containing a number for each of the card types held in the ResourceCardList
+	 * With each number held in cardTotals, it will correspond to a specific card type in order:
+	 * sheep
+	 * wheat
+	 * wood
+	 * brick
+	 * ore
+	 * 
+	 */
+	public void updateResources(int[] cardTotals) {
 		
 	}
 
@@ -56,21 +38,40 @@ public class ResourceList {
 		return sheep;
 	}
 
+	public void setSheep(int sheep) {
+		this.sheep = sheep;
+	}
+
 	public int getWheat() {
 		return wheat;
+	}
+
+	public void setWheat(int wheat) {
+		this.wheat = wheat;
 	}
 
 	public int getWood() {
 		return wood;
 	}
 
+	public void setWood(int wood) {
+		this.wood = wood;
+	}
+
 	public int getBrick() {
 		return brick;
+	}
+
+	public void setBrick(int brick) {
+		this.brick = brick;
 	}
 
 	public int getOre() {
 		return ore;
 	}
-	
+
+	public void setOre(int ore) {
+		this.ore = ore;
+	}
 	
 }
