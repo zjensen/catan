@@ -38,23 +38,7 @@ public class Player {
 		this.victoryPoints = 0;
 	}
 	
-	public void buildRoad() { //could be a bool function
-		
-	}
-	
-	public void buildSettlement() { //could be a bool function
-		
-	}
-	
-	public void buildCity() { //could be a bool function
-		
-	}
-	
-	public void buyDevCard() { //could be a bool function
-		
-	}
-	
-	public void useDevCard() { //could be a bool function
+	public void updatePlayer(/* Params need to be defined */) { //could be a bool function
 		
 	}
 

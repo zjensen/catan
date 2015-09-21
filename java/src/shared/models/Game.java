@@ -38,7 +38,7 @@ public class Game {
 		Player[] players = clientModel.getPlayers();
 		for(Player p : players)
 		{
-			sb.append(player.getName());
+			sb.append(p.getName());
 			sb.append(", ");
 		}
 		

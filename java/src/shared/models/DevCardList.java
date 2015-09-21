@@ -16,6 +16,10 @@ public class DevCardList {
 		this.monument = 0;
 	}
 
+	public void updateCards(int[] cardTotals) {
+		
+	}
+	
 	public int getSoldier() {
 		return soldier;
 	}
