@@ -32,7 +32,7 @@ public class MovesFacade {
 	
 	
 	/**
-	 * Moves the Robber, selcting the new robber position and the player to rob
+	 * Moves the Robber, selecting the new robber position and the player to rob
 	 * 
 	 * @param params
 	 * @return RobPlayer_Output
