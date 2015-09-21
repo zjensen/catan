@@ -12,8 +12,12 @@ public class TradeOffer {
 		this.offer = new ResourceList();	
 	}
 
-	public void benefitsOfTrade() { // what the resources would be if they accepted
-		
+	/**
+	 * Tells them the total amount resources if they accepted the trade
+	 * @return a ResourceList 
+	 */
+	public ResourceList benefitsOfTrade() { // what the resources would be if they accepted
+		return new ResourceList();
 	}
 
 	public int getSender() {
