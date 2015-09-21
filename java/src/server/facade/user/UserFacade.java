@@ -2,6 +2,14 @@ package server.facade.user;
 
 import shared.communication.user.*;
 
+
+
+
+/**
+ * 
+ * UserFacade handles the requests for when users try to login or create a new user
+ *
+ */
 public class UserFacade {
 
 	
