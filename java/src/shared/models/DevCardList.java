@@ -16,6 +16,20 @@ public class DevCardList {
 		this.monument = 0;
 	}
 
+	/**
+	 * 
+	 * @param cardTotals
+	 * 
+	 * This function will be called to update the DevCardList object.
+	 * The cardTotals is an array containing a number for each of the card types held in the DevCardList
+	 * With each number held in cardTotals, it will correspond to a specific card type in order:
+	 * soldier
+	 * monopoly
+	 * roadBuilding
+	 * yearOfPlenty
+	 * monument
+	 * 
+	 */
 	public void updateCards(int[] cardTotals) {
 		
 	}
