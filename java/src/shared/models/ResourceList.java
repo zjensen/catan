@@ -16,6 +16,20 @@ public class ResourceList {
 		this.ore = 0;
 	}
 	
+	/**
+	 * 
+	 * @param cardTotals
+	 * 
+	 * This function will be called to update the ResourceCardList object.
+	 * The cardTotals is an array containing a number for each of the card types held in the ResourceCardList
+	 * With each number held in cardTotals, it will correspond to a specific card type in order:
+	 * sheep
+	 * wheat
+	 * wood
+	 * brick
+	 * ore
+	 * 
+	 */
 	public void updateResources(int[] cardTotals) {
 		
 	}
