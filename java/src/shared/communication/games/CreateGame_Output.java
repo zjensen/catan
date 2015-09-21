@@ -1,4 +1,4 @@
-package shared.communications.games;
+package shared.communication.games;
 
 public class CreateGame_Output {
 

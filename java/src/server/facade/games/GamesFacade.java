@@ -1,15 +1,15 @@
 package server.facade.games;
 
-import shared.communications.games.CreateGame_Input;
-import shared.communications.games.CreateGame_Output;
-import shared.communications.games.JoinGame_Input;
-import shared.communications.games.JoinGame_Output;
-import shared.communications.games.ListGames_Input;
-import shared.communications.games.ListGames_Output;
-import shared.communications.games.LoadGame_Input;
-import shared.communications.games.LoadGame_Output;
-import shared.communications.games.SaveGame_Input;
-import shared.communications.games.SaveGame_Output;
+import shared.communication.games.CreateGame_Input;
+import shared.communication.games.CreateGame_Output;
+import shared.communication.games.JoinGame_Input;
+import shared.communication.games.JoinGame_Output;
+import shared.communication.games.ListGames_Input;
+import shared.communication.games.ListGames_Output;
+import shared.communication.games.LoadGame_Input;
+import shared.communication.games.LoadGame_Output;
+import shared.communication.games.SaveGame_Input;
+import shared.communication.games.SaveGame_Output;
 
 public class GamesFacade {
 
