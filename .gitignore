@@ -1,4 +1,6 @@
-
-demo/logs/
-java/bin/
-bin/
+.metadata/*
+demo/logs/*
+java/bin/*
+bin/*
+java/doc/*
+.recommendors/*

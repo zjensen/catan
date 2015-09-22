@@ -1,6 +1,6 @@
 package shared.models;
 
-public class DevCardList {
+public class DevCards {
 	
 	private int soldier;
 	private int monopoly;
@@ -8,7 +8,7 @@ public class DevCardList {
 	private int yearOfPlenty;
 	private int monument;
 	
-	public DevCardList() {
+	public DevCards() {
 		this.soldier = 0;
 		this.monopoly = 0;
 		this.roadBuilding = 0;
