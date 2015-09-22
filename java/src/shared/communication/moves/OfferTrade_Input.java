@@ -1,15 +1,15 @@
 package shared.communication.moves;
 
-import shared.models.ResourceList;
+import shared.models.ResourceCards;
 
 public class OfferTrade_Input 
 {
 	private final String type = "offerTrade";
 	private int playerIndex;
-	private ResourceList offer;
+	private ResourceCards offer;
 	private int receiver;
 	
-	public OfferTrade_Input(int playerIndex, ResourceList offer, int receiver)
+	public OfferTrade_Input(int playerIndex, ResourceCards offer, int receiver)
 	{
 		super();
 		this.playerIndex = playerIndex;
@@ -36,7 +36,7 @@ public class OfferTrade_Input
 	/**
 	 * @return the offer
 	 */
-	public ResourceList getOffer()
+	public ResourceCards getOffer()
 	{
 		return offer;
 	}
@@ -44,7 +44,7 @@ public class OfferTrade_Input
 	/**
 	 * @param offer the offer to set
 	 */
-	public void setOffer(ResourceList offer)
+	public void setOffer(ResourceCards offer)
 	{
 		this.offer = offer;
 	}

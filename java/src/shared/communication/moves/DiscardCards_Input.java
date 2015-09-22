@@ -1,14 +1,14 @@
 package shared.communication.moves;
 
-import shared.models.ResourceList;
+import shared.models.ResourceCards;
 
 public class DiscardCards_Input 
 {
 	private final String type = "discardCards";
 	private int playerIndex;
-	private ResourceList discardedCards;
+	private ResourceCards discardedCards;
 	
-	public DiscardCards_Input(int playerIndex, ResourceList discardedCards)
+	public DiscardCards_Input(int playerIndex, ResourceCards discardedCards)
 	{
 		super();
 		this.playerIndex = playerIndex;
@@ -34,7 +34,7 @@ public class DiscardCards_Input
 	/**
 	 * @return the discardedCards
 	 */
-	public ResourceList getDiscardedCards()
+	public ResourceCards getDiscardedCards()
 	{
 		return discardedCards;
 	}
@@ -42,7 +42,7 @@ public class DiscardCards_Input
 	/**
 	 * @param discardedCards the discardedCards to set
 	 */
-	public void setDiscardedCards(ResourceList discardedCards)
+	public void setDiscardedCards(ResourceCards discardedCards)
 	{
 		this.discardedCards = discardedCards;
 	}

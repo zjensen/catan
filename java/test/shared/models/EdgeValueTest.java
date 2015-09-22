@@ -16,9 +16,10 @@ public class EdgeValueTest {
 		HexLocation hexLoc = new HexLocation(0, 0);
 		EdgeDirection dir = EdgeDirection.North;
 		EdgeLocation myLoc = new EdgeLocation(hexLoc, dir);
-		int playerIndex = 0;
+		Player myPlayer = new Player();
+		myPlayer.setPlayerID(0);
 		
-		myEdge = new EdgeValue(playerIndex, myLoc);
+		myEdge = new EdgeValue(myPlayer, myLoc);
 	}
 	
 	@Test 
