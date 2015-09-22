@@ -10,61 +10,71 @@ import shared.models.TradeOffer;
 public class Server implements IServer {
 
 	@Override
-	public void buildRoad(Player player, EdgeLocation edgeLocation) {
+	public String buildRoad(Player player, EdgeLocation edgeLocation) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void buildSettlement(Player player, VertexLocation vertexLocation) {
+	public String buildSettlement(Player player, VertexLocation vertexLocation) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void upgradeSettlement(Player player, VertexLocation vertexLocation) {
+	public String upgradeSettlement(Player player, VertexLocation vertexLocation) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void sendTradeOffer(TradeOffer tradeOffer) {
+	public String sendTradeOffer(TradeOffer tradeOffer) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void acceptTradeOffer(TradeOffer tradeOffer) {
+	public String acceptTradeOffer(TradeOffer tradeOffer) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void purchaseDevelopmentCard(Player player) {
+	public String purchaseDevelopmentCard(Player player) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void playDevelopmentCard(Player player, int cardType) {
+	public String playDevelopmentCard(Player player, int cardType) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void produce(int rollValue) {
+	public String produce(int rollValue) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void moveRobber(HexLocation hexLocation) {
+	public String moveRobber(HexLocation hexLocation) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
-	public void sendMessage(MessageLine messageLine) {
+	public String sendMessage(MessageLine messageLine) {
+		return null;
 		// TODO Auto-generated method stub
 		
 	}

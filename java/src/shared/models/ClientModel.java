@@ -2,7 +2,8 @@ package shared.models;
 
 public class ClientModel {
 	
-	private ResourceList bank;
+	private ResourceCards bank;
+	private DevCards deck;
 	private MessageList chat;
 	private MessageList log;
 	private Map map;
@@ -22,10 +23,10 @@ public class ClientModel {
 
 	}
 	
-	public ResourceList getBank() {
+	public ResourceCards getBank() {
 		return bank;
 	}
-	public void setBank(ResourceList bank) {
+	public void setBank(ResourceCards bank) {
 		this.bank = bank;
 	}
 	public MessageList getChat() {
@@ -75,6 +76,14 @@ public class ClientModel {
 	}
 	public void setWinner(Integer winner) {
 		this.winner = winner;
+	}
+
+	public DevCards getDeck() {
+		return deck;
+	}
+
+	public void setDeck(DevCards deck) {
+		this.deck = deck;
 	}
 
 }

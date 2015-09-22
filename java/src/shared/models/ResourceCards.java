@@ -1,6 +1,6 @@
 package shared.models;
 
-public class ResourceList {
+public class ResourceCards {
 
 	private int sheep;
 	private int wheat;
@@ -8,7 +8,7 @@ public class ResourceList {
 	private int brick;
 	private int ore;
 	
-	public ResourceList() {
+	public ResourceCards() {
 		this.sheep = 0;
 		this.wheat = 0;
 		this.wood = 0;
