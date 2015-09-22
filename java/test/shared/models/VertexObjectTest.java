@@ -13,7 +13,8 @@ public class VertexObjectTest {
 	
 	@Before
 	public void init() throws Exception {
-		int owner = 0;
+		Player owner = new Player();
+		owner.setPlayerID(0);
 		
 		HexLocation hexLoc = new HexLocation(0, 0);
 		VertexDirection dir = VertexDirection.East;

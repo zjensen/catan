@@ -49,6 +49,46 @@ public class Player {
 		
 	}
 
+	/**
+	 * Determines whether or not this player has
+	 * -enough roads remaining to build another road
+	 * -sufficient resources to build a road
+	 * @return
+	 */
+	public boolean canBuildRoad() {
+		return false;
+	}
+	
+	/**
+	 * Determines whether or not this player has
+	 * -enough settlements remaining to build another settlement
+	 * -sufficient resources to build a settlement
+	 * @return
+	 */
+	public boolean canBuildSettlement() {
+		return false;
+	}
+	
+	/**
+	 * Determines whether or not this player has
+	 * -enough cities remaining to build a city
+	 * -sufficient resources to build a city
+	 * @return
+	 */
+	public boolean canBuildCity() {
+		return false;
+	}
+	
+	/**
+	 * Determines whether or not this player has
+	 * -any DevCards to play
+	 * -if that card can be played this turn
+	 * @return
+	 */
+	public boolean canPlayDevCard() {
+		return false;
+	}
+	
 	public String getName() {
 		return name;
 	}
