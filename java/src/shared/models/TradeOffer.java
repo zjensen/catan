@@ -4,20 +4,20 @@ public class TradeOffer {
 
 	private int sender; 
 	private int receiver;
-	private ResourceList offer;
+	private ResourceCards offer;
 	
 	public TradeOffer() {
 		this.sender = 0;
 		this.receiver = 0;
-		this.offer = new ResourceList();	
+		this.offer = new ResourceCards();	
 	}
 
 	/**
 	 * Tells them the total amount resources if they accepted the trade
 	 * @return a ResourceList 
 	 */
-	public ResourceList benefitsOfTrade() { // what the resources would be if they accepted
-		return new ResourceList();
+	public ResourceCards benefitsOfTrade() { // what the resources would be if they accepted
+		return new ResourceCards();
 	}
 
 	public int getSender() {
@@ -36,11 +36,11 @@ public class TradeOffer {
 		this.receiver = receiver;
 	}
 
-	public ResourceList getOffer() {
+	public ResourceCards getOffer() {
 		return offer;
 	}
 
-	public void setOffer(ResourceList offer) {
+	public void setOffer(ResourceCards offer) {
 		this.offer = offer;
 	}
 		

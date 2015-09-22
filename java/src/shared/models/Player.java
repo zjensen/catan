@@ -8,9 +8,9 @@ public class Player {
 	private int index; //In the JSON says it's an "Index" data type?
 	private boolean discarded;
 	private boolean playedDevCard;
-	private DevCardList newDevCards;
-	private DevCardList oldDevCards;
-	private ResourceList resources;
+	private DevCards newDevCards;
+	private DevCards oldDevCards;
+	private ResourceCards resources;
 	private int roads;
 	private int settlements;
 	private int cities;
@@ -26,9 +26,9 @@ public class Player {
 		this.index = 0;
 		this.discarded = false;
 		this.playedDevCard = false;
-		this.newDevCards = new DevCardList();
-		this.oldDevCards = new DevCardList();
-		this.resources = new ResourceList();
+		this.newDevCards = new DevCards();
+		this.oldDevCards = new DevCards();
+		this.resources = new ResourceCards();
 		this.roads = 15;
 		this.settlements = 5;
 		this.cities = 4;
@@ -97,27 +97,27 @@ public class Player {
 		this.playedDevCard = playedDevCard;
 	}
 
-	public DevCardList getNewDevCards() {
+	public DevCards getNewDevCards() {
 		return newDevCards;
 	}
 
-	public void setNewDevCards(DevCardList newDevCards) {
+	public void setNewDevCards(DevCards newDevCards) {
 		this.newDevCards = newDevCards;
 	}
 
-	public DevCardList getOldDevCards() {
+	public DevCards getOldDevCards() {
 		return oldDevCards;
 	}
 
-	public void setOldDevCards(DevCardList oldDevCards) {
+	public void setOldDevCards(DevCards oldDevCards) {
 		this.oldDevCards = oldDevCards;
 	}
 
-	public ResourceList getResources() {
+	public ResourceCards getResources() {
 		return resources;
 	}
 
-	public void setResources(ResourceList resources) {
+	public void setResources(ResourceCards resources) {
 		this.resources = resources;
 	}
 
