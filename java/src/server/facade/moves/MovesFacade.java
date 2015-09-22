@@ -1,9 +1,21 @@
 package server.facade.moves;
 
 import shared.communication.moves.*;
+import shared.models.ClientModel;
 
 public class MovesFacade {
 	
+	private ClientModel clientModel;
+	
+	/**
+	 * Constructs a moves facade
+	 * @param clientModel
+	 */
+	public MovesFacade(ClientModel clientModel) {
+		super();
+		this.clientModel = clientModel;
+	}
+
 	/**
 	 * sends a chat message
 	 * 
@@ -13,6 +25,22 @@ public class MovesFacade {
 	public SendChat_Output sendChat(SendChat_Input params){
 		
 		return null;
+	}
+	
+	/**
+	 * @param params
+	 * @return true if client can make this move, else false
+	 */
+	public boolean canRollNumber(RollNumber_Input params)
+	{
+		if(clientModel.getTurnTracker().getCurrentTurn() == params.getPlayerIndex())
+		{
+			if(params.getNumber() <= 12 && params.getNumber() >= 2)
+			{
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**
@@ -30,6 +58,14 @@ public class MovesFacade {
 		return null;
 	}
 	
+	/**
+	 * @param params
+	 * @return true if client can make this move, else false
+	 */
+	public boolean canRobPlayer(RobPlayer_Input params)
+	{
+		return false;
+	}
 	
 	/**
 	 * Moves the Robber, selecting the new robber position and the player to rob
