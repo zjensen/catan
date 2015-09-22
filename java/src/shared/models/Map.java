@@ -1,18 +1,23 @@
 package shared.models;
 
-import shared.locations.HexLocation;
+import java.util.HashMap;
+
+import shared.locations.*;
 
 public class Map {
 	private Hex[] hexes;
 	private Port[] ports;
-	private EdgeValue[] roads;
-	private VertexObject[] settlements;
-	private VertexObject[] cities;
+//	private EdgeValue[] roads;
+	private HashMap<EdgeLocation, Player> roads;
+//	private VertexObject[] settlements;
+	private HashMap<VertexLocation, Player> settlements;
+//	private VertexObject[] cities;
+	private HashMap<VertexLocation, Player> cities;
 	private int radius;
 	private HexLocation robber;
 	
-	public Map(Hex[] hexes, Port[] ports, EdgeValue[] roads,
-			VertexObject[] settlements, VertexObject[] cities, int radius,
+	public Map(Hex[] hexes, Port[] ports, HashMap<EdgeLocation, Player> roads,
+			HashMap<VertexLocation, Player> settlements, HashMap<VertexLocation, Player> cities, int radius,
 			HexLocation robber) 
 	{
 		super();
@@ -56,42 +61,42 @@ public class Map {
 	/**
 	 * @return the roads
 	 */
-	public EdgeValue[] getRoads() {
+	public HashMap<EdgeLocation, Player> getRoads() {
 		return roads;
 	}
 
 	/**
 	 * @param roads the roads to set
 	 */
-	public void setRoads(EdgeValue[] roads) {
+	public void setRoads(HashMap<EdgeLocation, Player> roads) {
 		this.roads = roads;
 	}
 
 	/**
 	 * @return the settlements
 	 */
-	public VertexObject[] getSettlements() {
+	public HashMap<VertexLocation, Player> getSettlements() {
 		return settlements;
 	}
 
 	/**
 	 * @param settlements the settlements to set
 	 */
-	public void setSettlements(VertexObject[] settlements) {
+	public void setSettlements(HashMap<VertexLocation, Player> settlements) {
 		this.settlements = settlements;
 	}
 
 	/**
 	 * @return the cities
 	 */
-	public VertexObject[] getCities() {
+	public HashMap<VertexLocation, Player> getCities() {
 		return cities;
 	}
 
 	/**
 	 * @param cities the cities to set
 	 */
-	public void setCities(VertexObject[] cities) {
+	public void setCities(HashMap<VertexLocation, Player> cities) {
 		this.cities = cities;
 	}
 
