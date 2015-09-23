@@ -42,11 +42,11 @@ public class Poller
 		this.server = server;
 	}
 
-	public Timer getTimer() {
+	private Timer getTimer() {
 		return timer;
 	}
 
-	public void setTimer(Timer timer) {
+	private void setTimer(Timer timer) {
 		this.timer = timer;
 	}
 
