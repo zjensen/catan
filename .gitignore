@@ -1,6 +1,7 @@
-.metadata/*
 demo/logs/*
+.metadata/
 java/bin/*
 bin/*
 java/doc/*
-.recommendors/*
+.recommenders/*
+
