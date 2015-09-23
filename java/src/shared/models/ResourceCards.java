@@ -16,6 +16,15 @@ public class ResourceCards {
 		this.ore = 0;
 	}
 	
+	public ResourceCards(int sheep, int wheat, int wood, int brick, int ore) 
+	{
+		this.sheep = sheep;
+		this.wheat = wheat;
+		this.wood = wood;
+		this.brick = brick;
+		this.ore = ore;
+	}
+	
 	/**
 	 * 
 	 * @param cardTotals
@@ -32,6 +41,32 @@ public class ResourceCards {
 	 */
 	public void updateResources(int[] cardTotals) {
 		
+	}
+	
+	public boolean hasResources(ResourceCards resources)
+	{
+		boolean hasCards = true;
+		if(this.sheep < resources.getSheep())
+		{
+			hasCards = false;
+		}
+		else if(this.wheat < resources.getWheat())
+		{
+			hasCards = false;
+		}
+		else if(this.wood < resources.getWood())
+		{
+			hasCards = false;
+		}
+		else if(this.brick < resources.getBrick())
+		{
+			hasCards = false;
+		}
+		else if(this.ore < resources.getOre())
+		{
+			hasCards = false;
+		}
+		return hasCards;
 	}
 
 	public int getSheep() {

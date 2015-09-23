@@ -2,6 +2,7 @@ package shared.models;
 
 import java.util.HashMap;
 
+import shared.communication.moves.*;
 import shared.locations.*;
 
 public class Map {
@@ -29,7 +30,49 @@ public class Map {
 		this.radius = radius;
 		this.robber = robber;
 	}
+	
+	/**
+	 * checks if the specified location on the map is available for that person to build on
+	 * @param params
+	 * @return
+	 */
+	public boolean canRobPlayer(RobPlayer_Input params)
+	{
+		return false;
+	}
+	
+	/**
+	 * checks if the specified location on the map is available for that person to build on
+	 * @param params
+	 * @return
+	 */
+	public boolean canBuildRoad(BuildRoad_Input params)
+	{
+		return false;
+	}
+	
+	/**
+	 * checks if the specified location on the map is available for that person to build a settlement on
+	 * @param params 
+	 * @param params
+	 * @return
+	 */
+	public boolean canBuildSettlement(BuildSettlement_Input params)
+	{
+		return false;
+	}
 
+	/**
+	 * checks if the specified location on the map is available for that person to build a city on
+	 * @param params 
+	 * @param params
+	 * @return
+	 */
+	public boolean canBuildCity(BuildCity_Input params)
+	{
+		return false;
+	}
+	
 	/**
 	 * @return the hexes
 	 */

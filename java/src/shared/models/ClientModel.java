@@ -1,5 +1,7 @@
 package shared.models;
 
+import shared.communication.moves.*;
+
 public class ClientModel {
 	
 	private ResourceCards bank;
@@ -21,6 +23,93 @@ public class ClientModel {
 	public void updateClient(String json)
 	{
 
+	}
+	
+	/**
+	 * grabs player with the specified index
+	 * @param index
+	 * @return Player with the specified index
+	 */
+	public Player getPlayerByIndex(int index)
+	{
+		for(Player p : players)
+		{
+			if(p.getIndex()==index)
+			{
+				return p;
+			}
+		}
+		return null;
+	}
+	
+	public boolean canBuyDevCard(BuyDevCard_Input params)
+	{
+		return getPlayerByIndex(params.getPlayerIndex()).canBuyDevCard();
+	}
+	
+	public boolean canRobPlayer(RobPlayer_Input params)
+	{
+		return false;
+	}
+	
+	/**
+	 * Checks the player and the map to see if a road can be built as requested
+	 * @param params
+	 * @return
+	 */
+	public boolean canBuildRoad(BuildRoad_Input params)
+	{
+		boolean can = true;
+		int playerIndex = params.getPlayerIndex();
+		if(!getPlayerByIndex(playerIndex).canBuildRoad()) //the player is able to build the road
+		{
+			can = false;
+		}
+		else if(!map.canBuildRoad(params))
+		{
+			can = false;
+		}
+		return can;
+	}
+	
+	/**
+	 * Checks the player and the map to see if a city can be built as requested
+	 * @param params
+	 * @return
+	 */
+	public boolean canBuildCity(BuildCity_Input params)
+	{
+		boolean can = true;
+		int playerIndex = params.getPlayerIndex();
+		if(!getPlayerByIndex(playerIndex).canBuildCity()) //the player is able to build the road
+		{
+			can = false;
+		}
+		else if(!map.canBuildCity(params))
+		{
+			can = false;
+		}
+		return can;
+	}
+	
+	/**
+	 * Checks the player and the map to see if a settlement can be built as requested
+	 * @param params
+	 * @return
+	 */
+	public boolean canBuildSettlement(BuildSettlement_Input params)
+	{
+		boolean can = true;
+		int playerIndex = params.getPlayerIndex();
+		if(!getPlayerByIndex(playerIndex).canBuildSettlement()) //the player is able to build the road
+		{
+			can = false;
+		}
+		else if(!map.canBuildSettlement(params))
+		{
+			can = false;
+		}
+		return can;
 	}
 	
 	public ResourceCards getBank() {
@@ -77,11 +166,9 @@ public class ClientModel {
 	public void setWinner(Integer winner) {
 		this.winner = winner;
 	}
-
 	public DevCards getDeck() {
 		return deck;
 	}
-
 	public void setDeck(DevCards deck) {
 		this.deck = deck;
 	}

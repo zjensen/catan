@@ -50,13 +50,34 @@ public class Player {
 	}
 
 	/**
+	 * @param resources
+	 * @return true if player has at least the given resources
+	 */
+	public boolean hasResources(ResourceCards r)
+	{
+		return this.resources.hasResources(r);
+	}
+	
+	/**
+	 * determines if player has the resources to buy a dev card
+	 * @return
+	 */
+	public boolean canBuyDevCard()
+	{
+		//true if player has at least 1 sheep, 1 ore, and 1 wheat
+		return ((resources.getSheep() > 0 && resources.getOre()>0) && resources.getWheat() > 0);
+	}
+	
+	/**
 	 * Determines whether or not this player has
 	 * -enough roads remaining to build another road
 	 * -sufficient resources to build a road
 	 * @return
 	 */
-	public boolean canBuildRoad() {
-		return false;
+	public boolean canBuildRoad() 
+	{
+		//at least 1 brick and 1 wood
+		return ((resources.getBrick() > 0 && resources.getWood()>0) && roads > 0);
 	}
 	
 	/**
@@ -65,7 +86,13 @@ public class Player {
 	 * -sufficient resources to build a settlement
 	 * @return
 	 */
-	public boolean canBuildSettlement() {
+	public boolean canBuildSettlement() 
+	{
+		//at least 1 brick, at least 1 wheat, at least 1 sheep, at least 1 wood, and at least 1 settlement
+		if(resources.getBrick() > 0 && resources.getWheat() > 0 && resources.getSheep() > 0 && resources.getWood() > 0 && settlements > 0)
+		{
+			return true;
+		}
 		return false;
 	}
 	
@@ -75,7 +102,13 @@ public class Player {
 	 * -sufficient resources to build a city
 	 * @return
 	 */
-	public boolean canBuildCity() {
+	public boolean canBuildCity() 
+	{
+		//at least 2 wheat, at least 3 ore, at least 1 city
+		if(resources.getWheat() >= 2 && resources.getOre() >=3 && cities > 0)
+		{
+			return true;
+		}
 		return false;
 	}
 	
