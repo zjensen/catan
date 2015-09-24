@@ -42,14 +42,49 @@ public class ClientModel {
 		return null;
 	}
 	
+	public boolean canSoldier(Soldier_Input params)
+	{
+		boolean can = true;
+		int playerIndex = params.getPlayerIndex();
+		if(!getPlayerByIndex(playerIndex).canSoldier()) //the player is able to build the road
+		{
+			can = false;
+		}
+		else if(!map.canSoldier(params)) //todo
+		{
+			can = false;
+		}
+		return can;
+	}
+	
 	public boolean canBuyDevCard(BuyDevCard_Input params)
 	{
 		return getPlayerByIndex(params.getPlayerIndex()).canBuyDevCard();
 	}
 	
-	public boolean canRobPlayer(RobPlayer_Input params)
+	public boolean canRobPlayer(RobPlayer_Input params) //todo
 	{
 		return false;
+	}
+	
+	public boolean canYearOfPlenty(YearOfPlenty_Input params)
+	{
+		return getPlayerByIndex(params.getPlayerIndex()).canYearOfPlenty();
+	}
+	
+	public boolean canMonopoly(Monopoly_Input params)
+	{
+		return getPlayerByIndex(params.getPlayerIndex()).canMonopoly();
+	}
+	
+	public boolean canMonument(Monument_Input params)
+	{
+		return getPlayerByIndex(params.getPlayerIndex()).canMonument();
+	}
+
+	public boolean canDiscardCards(DiscardCards_Input params)
+	{
+		return getPlayerByIndex(params.getPlayerIndex()).canDiscardCards(params);
 	}
 	
 	/**
@@ -57,7 +92,7 @@ public class ClientModel {
 	 * @param params
 	 * @return
 	 */
-	public boolean canBuildRoad(BuildRoad_Input params)
+	public boolean canBuildRoad(BuildRoad_Input params) //todo
 	{
 		boolean can = true;
 		int playerIndex = params.getPlayerIndex();
@@ -65,7 +100,7 @@ public class ClientModel {
 		{
 			can = false;
 		}
-		else if(!map.canBuildRoad(params))
+		else if(!map.canBuildRoad(params)) //todo
 		{
 			can = false;
 		}
@@ -97,7 +132,7 @@ public class ClientModel {
 	 * @param params
 	 * @return
 	 */
-	public boolean canBuildSettlement(BuildSettlement_Input params)
+	public boolean canBuildSettlement(BuildSettlement_Input params) //todo
 	{
 		boolean can = true;
 		int playerIndex = params.getPlayerIndex();
@@ -105,7 +140,7 @@ public class ClientModel {
 		{
 			can = false;
 		}
-		else if(!map.canBuildSettlement(params))
+		else if(!map.canBuildSettlement(params)) //todo
 		{
 			can = false;
 		}

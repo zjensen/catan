@@ -17,6 +17,16 @@ public class MovesFacade {
 	}
 	
 	/**
+	 * 
+	 * @param playerIndex
+	 * @return true if it is this players turn, else false
+	 */
+	public boolean isPlayersTurn(int playerIndex)
+	{
+		return (playerIndex == clientModel.getTurnTracker().getCurrentTurn());
+	}
+	
+	/**
 	 * @param params
 	 * @return true if client can make this move, else false
 	 */
@@ -37,6 +47,10 @@ public class MovesFacade {
 	 */
 	public SendChat_Output sendChat(SendChat_Input params)
 	{
+		if(canSendChat(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -46,7 +60,7 @@ public class MovesFacade {
 	 */
 	public boolean canRollNumber(RollNumber_Input params)
 	{
-		if(clientModel.getTurnTracker().getCurrentTurn() == params.getPlayerIndex())
+		if(isPlayersTurn(params.getPlayerIndex()))
 		{
 			if(params.getNumber() <= 12 && params.getNumber() >= 2)
 			{
@@ -64,11 +78,10 @@ public class MovesFacade {
 	 */
 	public RollNumber_Output rollNumber(RollNumber_Input params)
 	{
-//		moves/rollNumber
-//    VALID INPUT
-//        playerIndex: 1
-//        number: 8
-		
+		if(canRollNumber(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -76,10 +89,10 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if client can make this move, else false
 	 */
-	public boolean canRobPlayer(RobPlayer_Input params)
+	public boolean canRobPlayer(RobPlayer_Input params) //todo
 	{
 		//if player is not victim, and it is the players turn
-		if(params.getPlayerIndex()!=params.getVictimIndex()&&params.getPlayerIndex()==clientModel.getTurnTracker().getCurrentTurn())
+		if(params.getPlayerIndex()!=params.getVictimIndex() && isPlayersTurn(params.getPlayerIndex()))
 		{
 			return clientModel.canRobPlayer(params);
 		}
@@ -94,6 +107,10 @@ public class MovesFacade {
 	 */
 	public RobPlayer_Output robPlayer(RobPlayer_Input params)
 	{
+		if(canRobPlayer(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -104,7 +121,7 @@ public class MovesFacade {
 	 */
 	public boolean canFinishTurn(FinishTurn_Input params)
 	{
-		return (params.getPlayerIndex()==clientModel.getTurnTracker().getCurrentTurn());
+		return isPlayersTurn(params.getPlayerIndex());
 	}
 	
 	/**
@@ -115,6 +132,10 @@ public class MovesFacade {
 	 */
 	public FinishTurn_Output finishTurn(FinishTurn_Input params)
 	{
+		if(canFinishTurn(params))
+		{
+			
+		}
 		return null;
 	}
 
@@ -125,7 +146,7 @@ public class MovesFacade {
 	 */
 	public boolean canBuyDevCard(BuyDevCard_Input params)
 	{
-		return clientModel.canBuyDevCard(params);
+		return (clientModel.canBuyDevCard(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 	
 	/**
@@ -136,9 +157,10 @@ public class MovesFacade {
 	 */
 	public BuyDevCard_Output buyDevCard(BuyDevCard_Input params)
 	{
-//		/moves/buyDevCard
-//		VALID INPUT
-//		playerIndex: 2
+		if(canBuyDevCard(params))
+		{
+			
+		}
 		
 		return null;
 	}
@@ -150,7 +172,7 @@ public class MovesFacade {
 	 */
 	public boolean canYearOfPlenty(YearOfPlenty_Input params)
 	{
-		return false;
+		return( clientModel.canYearOfPlenty(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 
 	/**
@@ -162,13 +184,10 @@ public class MovesFacade {
 	 */
 	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input params)
 	{
-		
-//		/moves/Year_of_Plenty
-//		VALID INPUT
-//		playerIndex: 3
-//		resource1 : Ore
-//		resource2 : Sheep
-//		***note that the resource names must be capitalized***
+		if(canYearOfPlenty(params))
+		{
+			
+		}
 		return null;
 	}
 
@@ -177,7 +196,7 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can roadBuilding with these params, else false
 	 */
-	public boolean canRoadBuilding(RoadBuilding_Input params)
+	public boolean canRoadBuilding(RoadBuilding_Input params) //todo
 	{
 		return false;
 	}
@@ -191,19 +210,10 @@ public class MovesFacade {
 	 */
 	public RoadBuilding_Output roadBuilding(RoadBuilding_Input params)
 	{
-		
-//		/moves/Road_Building
-//		VALID INPUT
-//		playerIndex: 0
-//		spot1
-//		x: 0
-//		y: 0
-//		direction: NE in double quotes
-//		spot1
-//		x: 1
-//		y: -1
-//		direction: S in double quotes
-		
+		if(canRoadBuilding(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -212,9 +222,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can soldier with these params, else false
 	 */
-	public boolean canSoldier(Soldier_Input params)
+	public boolean canSoldier(Soldier_Input params) //todo
 	{
-		return false;
+		return( clientModel.canSoldier(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 
 	
@@ -227,16 +237,10 @@ public class MovesFacade {
 	 */
 	public Soldier_Output soldier(Soldier_Input params)
 	{
-		
-		
-//		/moves/Soldier
-//		VALID INPUT
-//		playerIndex: 1
-//		victimindex: 2
-//		location:
-//			x: -2
-//			y: 0
-		
+		if(canSoldier(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -247,7 +251,7 @@ public class MovesFacade {
 	 */
 	public boolean canMonopoly(Monopoly_Input params)
 	{
-		return false;
+		return( clientModel.canMonopoly(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 
 	/**
@@ -258,12 +262,10 @@ public class MovesFacade {
 	 */
 	public Monopoly_Output monopoly(Monopoly_Input params)
 	{
-		
-//		/moves/Monopoly
-//		VALID INPUT
-//		resource : Brick
-//		playerIndex: 0
-		
+		if(canMonopoly(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -274,7 +276,7 @@ public class MovesFacade {
 	 */
 	public boolean canMonument(Monument_Input params)
 	{
-		return false;
+		return( clientModel.canMonument(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 	
 	/**
@@ -285,12 +287,10 @@ public class MovesFacade {
 	 */
 	public Monument_Output monument(Monument_Input params)
 	{
-		
-//		/moves/Monument
-//		VALID INPUT
-//		playerIndex : 1
-//		
-		
+		if(canMonument(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -299,9 +299,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can buildRoad with these params, else false
 	 */
-	public boolean canBuildRoad(BuildRoad_Input params)
+	public boolean canBuildRoad(BuildRoad_Input params) //todo
 	{
-		return clientModel.canBuildRoad(params);
+		return (clientModel.canBuildRoad(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 	
 	/**
@@ -313,16 +313,10 @@ public class MovesFacade {
 	 */
 	public BuildRoad_Output buildRoad(BuildRoad_Input params)
 	{
-		
-//		/moves/buildRoad
-//		VALID INPUT
-//		playerIndex: 2
-//		roadLocation
-//		x: -1
-//		y: -1
-//		direction: "NE"
-//			free: false
-		
+		if(canBuildRoad(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -331,9 +325,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can buildSettlement with these params, else false
 	 */
-	public boolean canBuildSettlement(BuildSettlement_Input params)
+	public boolean canBuildSettlement(BuildSettlement_Input params) //todo
 	{
-		return false;
+		return (clientModel.canBuildSettlement(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 	
 	/**
@@ -345,9 +339,10 @@ public class MovesFacade {
 	 */
 	public BuildSettlement_Output buildSettlement(BuildSettlement_Input params)
 	{
-		
-//		/moves/buildSettlement
-		
+		if(canBuildSettlement(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -358,7 +353,7 @@ public class MovesFacade {
 	 */
 	public boolean canBuildCity(BuildCity_Input params)
 	{
-		return false;
+		return (clientModel.canBuildCity(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 	
 	/**
@@ -369,15 +364,10 @@ public class MovesFacade {
 	 */
 	public BuildCity_Output buildCity(BuildCity_Input params)
 	{
-//		/moves/buildCity
-//		VALID INPUT
-//		playerIndex: 2
-//		vertexLocation
-//		x: -1
-//		y: -1
-//		direction: "NE"
-//			free: false
+		if(canBuildCity(params))
+		{
 			
+		}
 		return null;
 	}
 	
@@ -386,7 +376,7 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can offerTrade with these params, else false
 	 */
-	public boolean canOfferTrade(OfferTrade_Input params)
+	public boolean canOfferTrade(OfferTrade_Input params) //todo
 	{
 		return false;
 	}
@@ -397,20 +387,12 @@ public class MovesFacade {
 	 * @param params
 	 * @return OfferTrade_Output
 	 */
-	public OfferTrade_Output offerTrade(OfferTrade_Input params) {
-	
-//		/moves/offerTrade
-//		VALID INPUT
-//		playerIndex: 3
-//		offer:
-//			brick: 1
-//			ore: 0
-//			sheep: 0
-//			wheat: 0
-//			wood: 2
-//			receiver: 2
-//			
-		
+	public OfferTrade_Output offerTrade(OfferTrade_Input params) 
+	{
+		if(canOfferTrade(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -419,7 +401,7 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can acceptTrade with these params, else false
 	 */
-	public boolean canAcceptTrade(AcceptTrade_Input params)
+	public boolean canAcceptTrade(AcceptTrade_Input params) //todo
 	{
 		return false;
 	}
@@ -432,12 +414,10 @@ public class MovesFacade {
 	 */
 	public AcceptTrade_Output acceptTrade(AcceptTrade_Input params)
 	{
-		
-//		/moves/acceptTrade
-//		VALID INPUT
-//		playerIndex: 1
-//		willAccept: true
-//		
+		if(canAcceptTrade(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -446,7 +426,7 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can maritimeTrade with these params, else false
 	 */
-	public boolean canMaritimeTrade(MaritimeTrade_Input params)
+	public boolean canMaritimeTrade(MaritimeTrade_Input params) //todo
 	{
 		return false;
 	}
@@ -459,7 +439,10 @@ public class MovesFacade {
 	 */
 	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input params)
 	{
-		
+		if(canMaritimeTrade(params))
+		{
+			
+		}
 		return null;
 	}
 	
@@ -470,9 +453,10 @@ public class MovesFacade {
 	 */
 	public boolean canDiscardCards(DiscardCards_Input params)
 	{
-		return false;
+		return (clientModel.canDiscardCards(params));
 	}
 
+	
 	/**
 	 * Discards the specified resource cards.
 	 * 
@@ -481,16 +465,10 @@ public class MovesFacade {
 	 */
 	public DiscardCards_Output discardCards(DiscardCards_Input params)
 	{
-//		/moves/discardCards
-//		VALID INPUT
-//		playerIndex: 0
-//		discardedCards:
-//			brick: 0
-//			ore: 1
-//			sheep: 1
-//			wheat: 3
-//			wood: 0
-		
+		if(canDiscardCards(params))
+		{
+			
+		}
 		return null;
 	}
 	

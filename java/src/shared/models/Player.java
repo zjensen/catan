@@ -1,5 +1,7 @@
 package shared.models;
 
+import shared.communication.moves.DiscardCards_Input;
+
 public class Player {
 	
 	private String name;
@@ -68,6 +70,32 @@ public class Player {
 		return ((resources.getSheep() > 0 && resources.getOre()>0) && resources.getWheat() > 0);
 	}
 	
+	public boolean canYearOfPlenty()
+	{
+		return (oldDevCards.getYearOfPlenty() > 0 && canPlayDevCard());
+	}
+	
+	public boolean canMonument()
+	{
+		return ((oldDevCards.getMonument() > 0 || newDevCards.getMonument() > 0) && canPlayDevCard());
+	}
+	
+	public boolean canMonopoly()
+	{
+		return (oldDevCards.getMonopoly() > 0 && canPlayDevCard());
+	}
+	
+	public boolean canSoldier()
+	{
+		return (oldDevCards.getSoldier() > 0 && canPlayDevCard());
+	}
+	
+	public boolean canDiscardCards(DiscardCards_Input params)
+	{
+		//has not discarded cards yet, and has all the cards
+		return (resources.hasResources(params.getDiscardedCards()) && !discarded);
+	}
+	
 	/**
 	 * Determines whether or not this player has
 	 * -enough roads remaining to build another road
@@ -119,7 +147,7 @@ public class Player {
 	 * @return
 	 */
 	public boolean canPlayDevCard() {
-		return false;
+		return !playedDevCard;
 	}
 	
 	public String getName() {
@@ -249,6 +277,5 @@ public class Player {
 	public void setVictoryPoints(int victoryPoints) {
 		this.victoryPoints = victoryPoints;
 	}
-	
 	
 }

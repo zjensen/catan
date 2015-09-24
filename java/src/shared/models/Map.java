@@ -36,7 +36,12 @@ public class Map {
 	 * @param params
 	 * @return
 	 */
-	public boolean canRobPlayer(RobPlayer_Input params)
+	public boolean canRobPlayer(RobPlayer_Input params) //todo
+	{
+		return false;
+	}
+	
+	public boolean canSoldier(Soldier_Input params)
 	{
 		return false;
 	}
@@ -46,7 +51,7 @@ public class Map {
 	 * @param params
 	 * @return
 	 */
-	public boolean canBuildRoad(BuildRoad_Input params)
+	public boolean canBuildRoad(BuildRoad_Input params) //todo
 	{
 		return false;
 	}
@@ -57,7 +62,7 @@ public class Map {
 	 * @param params
 	 * @return
 	 */
-	public boolean canBuildSettlement(BuildSettlement_Input params)
+	public boolean canBuildSettlement(BuildSettlement_Input params) //todo
 	{
 		return false;
 	}
@@ -70,7 +75,7 @@ public class Map {
 	 */
 	public boolean canBuildCity(BuildCity_Input params)
 	{
-		return false;
+		return (settlements.get(params.getVertexLocation()).getIndex() == params.getPlayerIndex());
 	}
 	
 	/**
