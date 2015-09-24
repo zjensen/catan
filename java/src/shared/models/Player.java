@@ -60,6 +60,12 @@ public class Player {
 		return this.resources.hasResources(r);
 	}
 	
+
+	public boolean canOfferCards(ResourceCards offer)
+	{
+		return resources.canOfferCards(offer);
+	}
+	
 	/**
 	 * determines if player has the resources to buy a dev card
 	 * @return
@@ -106,6 +112,11 @@ public class Player {
 	{
 		//at least 1 brick and 1 wood
 		return ((resources.getBrick() > 0 && resources.getWood()>0) && roads > 0);
+	}
+	
+	public int getAvailableRoads()
+	{
+		return roads;
 	}
 	
 	/**

@@ -198,7 +198,7 @@ public class MovesFacade {
 	 */
 	public boolean canRoadBuilding(RoadBuilding_Input params) //todo
 	{
-		return false;
+		return( clientModel.canRoadBuilding(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 	
 	/**
@@ -376,9 +376,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can offerTrade with these params, else false
 	 */
-	public boolean canOfferTrade(OfferTrade_Input params) //todo
+	public boolean canOfferTrade(OfferTrade_Input params)
 	{
-		return false;
+		return(clientModel.canOfferTrade(params) && isPlayersTurn(params.getPlayerIndex()) && params.getPlayerIndex()!=params.getReceiver());
 	}
 	
 	/**
@@ -403,7 +403,7 @@ public class MovesFacade {
 	 */
 	public boolean canAcceptTrade(AcceptTrade_Input params) //todo
 	{
-		return false;
+		return( clientModel.canAcceptTrade(params));
 	}
 	
 	/**
@@ -428,7 +428,7 @@ public class MovesFacade {
 	 */
 	public boolean canMaritimeTrade(MaritimeTrade_Input params) //todo
 	{
-		return false;
+		return( clientModel.canMaritimeTrade(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 	
 	/**

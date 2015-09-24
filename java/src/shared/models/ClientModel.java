@@ -42,7 +42,32 @@ public class ClientModel {
 		return null;
 	}
 	
-	public boolean canSoldier(Soldier_Input params)
+	public boolean canRoadBuilding(RoadBuilding_Input params) //todo
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean canOfferTrade(OfferTrade_Input params)
+	{
+		Player sender = getPlayerByIndex(params.getPlayerIndex());
+		Player receiver = getPlayerByIndex(params.getReceiver());
+		return (sender.canOfferCards(params.getOffer()) && receiver.hasResources(params.getOffer()));
+	}
+
+	public boolean canAcceptTrade(AcceptTrade_Input params) //todo
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	public boolean canMaritimeTrade(MaritimeTrade_Input params) //todo
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
+	public boolean canSoldier(Soldier_Input params) //todo
 	{
 		boolean can = true;
 		int playerIndex = params.getPlayerIndex();
@@ -207,5 +232,4 @@ public class ClientModel {
 	public void setDeck(DevCards deck) {
 		this.deck = deck;
 	}
-
 }
