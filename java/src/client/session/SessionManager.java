@@ -8,6 +8,10 @@ import server.facade.game.GameFacade;
 import server.facade.games.GamesFacade;
 import server.facade.moves.MovesFacade;
 import server.facade.user.UserFacade;
+import shared.communication.user.Login_Input;
+import shared.communication.user.Login_Output;
+import shared.communication.user.Register_Input;
+import shared.communication.user.Register_Output;
 import shared.models.ClientModel;
 
 public class SessionManager {
@@ -56,5 +60,22 @@ public class SessionManager {
 		this.poller = new Poller(this.server);
 	}
 	
+	/**
+	 * Sends the login information to the user facade
+	 * @param loginInput
+	 * @return
+	 */
+	public Login_Output loginIntoServer(Login_Input loginInput) {
+		return this.userFacade.login(loginInput);
+	}
+	
+	/**
+	 * Sends the registration information to the user facade
+	 * @param registerInput
+	 * @return
+	 */
+	public Register_Output registerNewUser(Register_Input registerInput) {
+		return this.userFacade.register(registerInput);
+	}
 	
 }

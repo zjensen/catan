@@ -8,7 +8,6 @@ import shared.communication.user.*;
  */
 public class UserFacade {
 
-	
 	/**
 	 * Logs into the server with the provided credentials
 	 * 
