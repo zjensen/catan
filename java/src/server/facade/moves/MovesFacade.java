@@ -1,18 +1,19 @@
 package server.facade.moves;
 
+import client.server.IServer;
 import shared.communication.moves.*;
 import shared.models.ClientModel;
 
 public class MovesFacade {
 	
 	private ClientModel clientModel;
+	private IServer server;
 	
 	/**
 	 * Constructs a moves facade
 	 * @param clientModel
 	 */
 	public MovesFacade(ClientModel clientModel) {
-		super();
 		this.clientModel = clientModel;
 	}
 	
@@ -471,5 +472,20 @@ public class MovesFacade {
 		}
 		return null;
 	}
-	
+
+	public ClientModel getClientModel() {
+		return clientModel;
+	}
+
+	public void setClientModel(ClientModel clientModel) {
+		this.clientModel = clientModel;
+	}
+
+	public IServer getServer() {
+		return server;
+	}
+
+	public void setServer(IServer server) {
+		this.server = server;
+	}
 }

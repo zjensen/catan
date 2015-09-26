@@ -1,5 +1,6 @@
 package server.facade.user;
 
+import client.server.IServer;
 import shared.communication.user.*;
 /**
  * 
@@ -8,6 +9,11 @@ import shared.communication.user.*;
  */
 public class UserFacade {
 
+	private IServer server;
+	
+	public UserFacade() {
+		this.server = null;
+	}
 	/**
 	 * Logs into the server with the provided credentials
 	 * 
@@ -29,4 +35,13 @@ public class UserFacade {
 		
 		return null;
 	}
+	
+	public IServer getServer() {
+		return server;
+	}
+	
+	public void setServer(IServer server) {
+		this.server = server;
+	}
+	
 }
