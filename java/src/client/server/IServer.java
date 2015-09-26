@@ -1,115 +1,219 @@
 package client.server;
 
-import shared.models.*;
-import shared.locations.*;
+import shared.communication.game.*;
+import shared.communication.games.*;
+import shared.communication.moves.*;
+import shared.communication.user.*;
 
 public interface IServer {
 	
 	/**
-	 * builds road on given edgeLocation
-	 * player uses required resource cards
 	 * 
-	 * @param player
-	 * @param edgeLocation
-	 * 
-	 * @return json or false
+	 * @param login_input
+	 * @return
 	 */
-	public String buildRoad(Player player, EdgeLocation edgeLocation);
+	public Login_Output login(Login_Input login_input);
 	
 	/**
-	 * builds settlement on given vertexLocation
-	 * players uses required resource cards
 	 * 
-	 * @param player
-	 * @param vertexLocation
-	 * 
-	 * @return json or false
+	 * @param register_input
+	 * @return
 	 */
-	public String buildSettlement(Player player, VertexLocation vertexLocation);
+	public Register_Output register(Register_Input register_input);
 	
 	/**
-	 * upgrades previous settlement to a city
-	 * player uses required resource cards
 	 * 
-	 * @param player
-	 * @param vertexLocation
-	 * 
-	 * @return json or false
+	 * @param list_games_input
+	 * @return
 	 */
-	public String upgradeSettlement(Player player, VertexLocation vertexLocation);
+	public ListGames_Output listGames(ListGames_Input list_games_input);
 	
 	/**
-	 * sends tradeOffer to designated player or port
 	 * 
-	 * @param tradeOffer
-	 * 
-	 * @return json or false
+	 * @param create_game_input
+	 * @return
 	 */
-	public String sendTradeOffer(TradeOffer tradeOffer);
+	public CreateGame_Output createGame(CreateGame_Input create_game_input);
 	
 	/**
-	 * accepts tradeOffer, both parties involved update ResourceCardList
 	 * 
-	 * @param tradeOffer
-	 * 
-	 * @return json or false
+	 * @param join_game_input
+	 * @return
 	 */
-	public String acceptTradeOffer(TradeOffer tradeOffer);
+	public JoinGame_Output joinGame(JoinGame_Input join_game_input);
 	
 	/**
-	 * player uses required resource cards to gain a development card
 	 * 
-	 * @param player
-	 * 
-	 * @return json or false
+	 * @param save_game_input
+	 * @return
 	 */
-	public String purchaseDevelopmentCard(Player player);
+	public SaveGame_Output saveGame(SaveGame_Input save_game_input);
 	
 	/**
-	 * player uses development card
 	 * 
-	 * @param player
-	 * @param cardType
-	 * 
-	 * @return json or false
+	 * @param load_game_input
+	 * @return
 	 */
-	public String playDevelopmentCard(Player player, int cardType);
+	public LoadGame_Output loadGame(LoadGame_Input load_game_input);
 	
 	/**
-	 * all players gain resource cards based on roll
-	 * robber's location is accounted for
 	 * 
-	 * @param rollValue
-	 * 
-	 * @return json or false
+	 * @param game_model_input
+	 * @return
 	 */
-	public String produce(int rollValue);
+	public GameModel_Output getModel(GameModel_Input game_model_input);
 	
 	/**
-	 * robber is moved to hexLocation
-	 * a player is robbed of a resource card
 	 * 
-	 * @param hexLocation
-	 * 
-	 * @return json or false
+	 * @param reset_game_input
+	 * @return
 	 */
-	public String moveRobber(HexLocation hexLocation);
+	public ResetGame_Output resetGame(ResetGame_Input reset_game_input);
 	
 	/**
-	 * message is added to appropriate MessageList
 	 * 
-	 * @param messageLine
-	 * 
-	 * @return json or false
+	 * @param get_commands_input
+	 * @return
 	 */
-	public String sendMessage(MessageLine messageLine);
+	public GETCommands_Output getCommands(GetCommands_Input get_commands_input);
 	
 	/**
-	 * checks if client has most recent version of the ClientModel
 	 * 
-	 * @param version
-	 * 
-	 * @return new model or true
+	 * @param post_commands_input
+	 * @return
 	 */
-	public String checkClientVersion(int version);
+	public POSTCommands_Output postCommands(POSTCommands_Input post_commands_input);
+	
+	/**
+	 * 
+	 * @param add_ai_input
+	 * @return
+	 */
+	public AddAI_Output addAI(AddAI_Input add_ai_input);
+	
+	/**
+	 * 
+	 * @param list_ai_input
+	 * @return
+	 */
+	public ListAI_Output listAI(ListAI_Input list_ai_input);
+	
+	/**
+	 * 
+	 * @param send_chat_input
+	 * @return
+	 */
+	public SendChat_Output sendChat(SendChat_Input send_chat_input);
+	
+	/**
+	 * 
+	 * @param roll_number_input
+	 * @return
+	 */
+	public RollNumber_Output rollNumber(RollNumber_Input roll_number_input);
+	
+	/**
+	 * 
+	 * @param rob_player_input
+	 * @return
+	 */
+	public RobPlayer_Output robPlayer(RobPlayer_Input rob_player_input);
+	
+	/**
+	 * 
+	 * @param finish_turn_input
+	 * @return
+	 */
+	public FinishTurn_Output finishTurn(FinishTurn_Input finish_turn_input);
+	
+	/**
+	 * 
+	 * @param buy_dev_card_input
+	 * @return
+	 */
+	public BuyDevCard_Output buyDevCard(BuyDevCard_Input buy_dev_card_input);
+	
+	/**
+	 * 
+	 * @param year_of_plenty_input
+	 * @return
+	 */
+	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input year_of_plenty_input);
+	
+	/**
+	 * 
+	 * @param road_building_input
+	 * @return
+	 */
+	public RoadBuilding_Output roadBuilding(RoadBuilding_Input road_building_input);
+	
+	/**
+	 * 
+	 * @param soldier_input
+	 * @return
+	 */
+	public Soldier_Output soldier(Soldier_Input soldier_input);
+	
+	/**
+	 * 
+	 * @param monopoly_input
+	 * @return
+	 */
+	public Monopoly_Output monopoly(Monopoly_Input monopoly_input);
+	
+	/**
+	 * 
+	 * @param monument_input
+	 * @return
+	 */
+	public Monument_Output monument(Monument_Input monument_input);
+	
+	/**
+	 * 
+	 * @param build_road_input
+	 * @return
+	 */
+	public BuildRoad_Output buildRoad(BuildRoad_Input build_road_input);
+	
+	/**
+	 * 
+	 * @param build_settlement_input
+	 * @return
+	 */
+	public BuildSettlement_Output buildSettlement(BuildSettlement_Input build_settlement_input);
+	
+	/**
+	 * 
+	 * @param build_city_input
+	 * @return
+	 */
+	public BuildCity_Output buildCity(BuildCity_Input build_city_input);
+	
+	/**
+	 * 
+	 * @param offer_trade_input
+	 * @return
+	 */
+	public OfferTrade_Output offerTrade(OfferTrade_Input offer_trade_input);
+	
+	/**
+	 * 
+	 * @param accept_trade_input
+	 * @return
+	 */
+	public AcceptTrade_Output acceptTrade(AcceptTrade_Input accept_trade_input);
+	
+	/**
+	 * 
+	 * @param maritime_trade_input
+	 * @return
+	 */
+	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input maritime_trade_input);
+	
+	/**
+	 * 
+	 * @param discard_cards_input
+	 * @return
+	 */
+	public DiscardCards_Output discardCards(DiscardCards_Input discard_cards_input);
 }
