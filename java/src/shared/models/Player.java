@@ -153,8 +153,8 @@ public class Player {
 	
 	/**
 	 * Determines whether or not this player has
-	 * -any DevCards to play
-	 * -if that card can be played this turn
+	 * 1) any DevCards to play
+	 * 2) if that card can be played this turn
 	 * @return
 	 */
 	public boolean canPlayDevCard() {
