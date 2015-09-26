@@ -1,5 +1,7 @@
 package shared.communication.user;
 
+import com.google.gson.Gson;
+
 import sun.security.util.Password;
 
 public class Login_Input {
@@ -28,4 +30,9 @@ public class Login_Input {
 		this.password = password;
 	}
 	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 }
