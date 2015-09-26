@@ -1,0 +1,7 @@
+demo/logs/*
+.metadata/
+java/bin/*
+bin/*
+java/doc/*
+.recommenders/*
+
