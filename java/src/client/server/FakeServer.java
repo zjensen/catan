@@ -1,89 +1,190 @@
 package client.server;
 
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
-import shared.locations.VertexLocation;
-import shared.models.MessageLine;
-import shared.models.Player;
-import shared.models.TradeOffer;
+import shared.communication.game.*;
+import shared.communication.games.*;
+import shared.communication.moves.*;
+import shared.communication.user.*;
 
 public class FakeServer implements IServer {
 
 	@Override
-	public String buildRoad(Player player, EdgeLocation edgeLocation) {
-		return null;
+	public Login_Output login(Login_Input login_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String buildSettlement(Player player, VertexLocation vertexLocation) {
-		return null;
+	public Register_Output register(Register_Input register_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String upgradeSettlement(Player player, VertexLocation vertexLocation) {
-		return null;
+	public ListGames_Output listGames(ListGames_Input list_games_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String sendTradeOffer(TradeOffer tradeOffer) {
-		return null;
+	public CreateGame_Output createGame(CreateGame_Input create_game_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String acceptTradeOffer(TradeOffer tradeOffer) {
-		return null;
+	public JoinGame_Output joinGame(JoinGame_Input join_game_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String purchaseDevelopmentCard(Player player) {
-		return null;
+	public SaveGame_Output saveGame(SaveGame_Input save_game_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String playDevelopmentCard(Player player, int cardType) {
-		return null;
+	public LoadGame_Output loadGame(LoadGame_Input load_game_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String produce(int rollValue) {
-		return null;
+	public GameModel_Output getModel(GameModel_Input game_model_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String moveRobber(HexLocation hexLocation) {
-		return null;
+	public ResetGame_Output resetGame(ResetGame_Input reset_game_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String sendMessage(MessageLine messageLine) {
-		return null;
+	public GETCommands_Output getCommands(GetCommands_Input get_commands_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
 	}
 
 	@Override
-	public String checkClientVersion(int version) {
-		return null;
+	public POSTCommands_Output postCommands(POSTCommands_Input post_commands_input) {
 		// TODO Auto-generated method stub
-		
+		return null;
+	}
+
+	@Override
+	public AddAI_Output addAI(AddAI_Input add_ai_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public ListAI_Output listAI(ListAI_Input list_ai_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public SendChat_Output sendChat(SendChat_Input send_chat_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RollNumber_Output rollNumber(RollNumber_Input roll_number_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RobPlayer_Input robPlayer(RobPlayer_Input rob_player_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public FinishTurn_Output finishTurn(FinishTurn_Input finish_turn_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BuyDevCard_Output buyDevCard(BuyDevCard_Input buy_dev_card_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input year_of_plenty_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public RoadBuilding_Output roadBuilding(RoadBuilding_Input road_building_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Soldier_Output soldier(Soldier_Input soldier_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Monopoly_Output monopoly(Monopoly_Input monopoly_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Monument_Output monument(Monument_Input monument_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BuildRoad_Output buildRoad(BuildRoad_Input build_road_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BuildSettlement_Output buildSettlement(BuildSettlement_Input build_settlement_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public BuildCity_Output buildCity(BuildCity_Input build_city_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public OfferTrade_Output offerTrade(OfferTrade_Input offer_trade_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public AcceptTrade_Output acceptTrade(AcceptTrade_Input accept_trade_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input maritime_trade_input) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DiscardCards_Output discardCards(DiscardCards_Input discard_cards_input) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
