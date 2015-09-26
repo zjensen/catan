@@ -4,10 +4,9 @@ public class Register_Output {
 
 	private String response;
 	
-	public Register_Output(int registerStatus) {
-		if(registerStatus == 0) this.response = "Success";
-		else if(registerStatus == 1) this.response = "Invalid";
-		else this.response = "Failed";		
+	public Register_Output(String response) 
+	{
+		this.response = response;		
 	}
 
 	public String getResponse() {
