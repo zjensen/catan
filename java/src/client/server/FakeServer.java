@@ -98,7 +98,7 @@ public class FakeServer implements IServer {
 	}
 
 	@Override
-	public RobPlayer_Input robPlayer(RobPlayer_Input rob_player_input) {
+	public RobPlayer_Output robPlayer(RobPlayer_Input rob_player_input) {
 		// TODO Auto-generated method stub
 		return null;
 	}
