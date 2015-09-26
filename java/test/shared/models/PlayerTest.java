@@ -50,6 +50,28 @@ public class PlayerTest {
 		assertTrue(ian.canPlayDevCard()); 
 		ian.setPlayedDevCard(true);
 		assertFalse(ian.canPlayDevCard());
+		ian.setPlayedDevCard(false);
+		
+		assertFalse(ian.canMonopoly());
+		assertFalse(ian.canSoldier());
+		assertFalse(ian.canMonument());
+		assertFalse(ian.canYearOfPlenty());
+		assertFalse(ian.canRoadBuilding());
+		
+		DevCards myDeck = new DevCards();
+		myDeck.setMonopoly(1);
+		myDeck.setMonument(1);
+		myDeck.setRoadBuilding(1);
+		myDeck.setSoldier(1);
+		myDeck.setYearOfPlenty(1);
+		
+		ian.setOldDevCards(myDeck);
+		
+		assertTrue(ian.canMonopoly());
+		assertTrue(ian.canSoldier());
+		assertTrue(ian.canMonument());
+		assertTrue(ian.canYearOfPlenty());
+		assertTrue(ian.canRoadBuilding());
 		
 	}
 	
