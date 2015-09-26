@@ -63,6 +63,16 @@ public class Player {
 
 	public boolean canOfferCards(ResourceCards offer)
 	{
+		if(offer.getBrick() > resources.getBrick())
+			return false;
+		else if (offer.getOre() > resources.getOre())
+			return false;
+		else if (offer.getSheep() > resources.getSheep())
+			return false;
+		else if (offer.getWheat() > resources.getWheat())
+			return false;
+		else if (offer.getWood() > resources.getWood())
+			return false;
 		return resources.canOfferCards(offer);
 	}
 	
@@ -96,6 +106,10 @@ public class Player {
 		return (oldDevCards.getSoldier() > 0 && canPlayDevCard());
 	}
 	
+	public boolean canRoadBuilding() {
+		return (oldDevCards.getRoadBuilding() > 0 && canPlayDevCard());
+	}
+
 	public boolean canDiscardCards(DiscardCards_Input params)
 	{
 		//has not discarded cards yet, and has all the cards
@@ -288,5 +302,6 @@ public class Player {
 	public void setVictoryPoints(int victoryPoints) {
 		this.victoryPoints = victoryPoints;
 	}
+
 	
 }

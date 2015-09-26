@@ -47,7 +47,31 @@ public class PlayerTest {
 	@Test
 	public void testCanPlayDevCard(){
 		
-		assertFalse(ian.canPlayDevCard()); 
+		assertTrue(ian.canPlayDevCard()); 
+		ian.setPlayedDevCard(true);
+		assertFalse(ian.canPlayDevCard());
+		ian.setPlayedDevCard(false);
+		
+		assertFalse(ian.canMonopoly());
+		assertFalse(ian.canSoldier());
+		assertFalse(ian.canMonument());
+		assertFalse(ian.canYearOfPlenty());
+		assertFalse(ian.canRoadBuilding());
+		
+		DevCards myDeck = new DevCards();
+		myDeck.setMonopoly(1);
+		myDeck.setMonument(1);
+		myDeck.setRoadBuilding(1);
+		myDeck.setSoldier(1);
+		myDeck.setYearOfPlenty(1);
+		
+		ian.setOldDevCards(myDeck);
+		
+		assertTrue(ian.canMonopoly());
+		assertTrue(ian.canSoldier());
+		assertTrue(ian.canMonument());
+		assertTrue(ian.canYearOfPlenty());
+		assertTrue(ian.canRoadBuilding());
 		
 	}
 	
@@ -61,13 +85,13 @@ public class PlayerTest {
 	public void testCanDiscardCards(){
 		// no cards to discard
 		ResourceCards myCards = new ResourceCards();
+		myCards.setBrick(2);
+		myCards.setWheat(2);
+		myCards.setWood(2);
 		DiscardCards_Input params = new DiscardCards_Input(0, myCards);
 		assertFalse(ian.canDiscardCards(params));
 		
 		//add some cards
-		myCards.setBrick(2);
-		myCards.setWheat(2);
-		myCards.setWood(2);
 		myCards.setOre(2);
 		myCards.setSheep(2);
 		ian.setResources(myCards);
