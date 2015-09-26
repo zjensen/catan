@@ -47,7 +47,9 @@ public class PlayerTest {
 	@Test
 	public void testCanPlayDevCard(){
 		
-		assertFalse(ian.canPlayDevCard()); 
+		assertTrue(ian.canPlayDevCard()); 
+		ian.setPlayedDevCard(true);
+		assertFalse(ian.canPlayDevCard());
 		
 	}
 	
@@ -61,13 +63,13 @@ public class PlayerTest {
 	public void testCanDiscardCards(){
 		// no cards to discard
 		ResourceCards myCards = new ResourceCards();
+		myCards.setBrick(2);
+		myCards.setWheat(2);
+		myCards.setWood(2);
 		DiscardCards_Input params = new DiscardCards_Input(0, myCards);
 		assertFalse(ian.canDiscardCards(params));
 		
 		//add some cards
-		myCards.setBrick(2);
-		myCards.setWheat(2);
-		myCards.setWood(2);
 		myCards.setOre(2);
 		myCards.setSheep(2);
 		ian.setResources(myCards);

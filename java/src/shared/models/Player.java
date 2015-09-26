@@ -63,6 +63,16 @@ public class Player {
 
 	public boolean canOfferCards(ResourceCards offer)
 	{
+		if(offer.getBrick() > resources.getBrick())
+			return false;
+		else if (offer.getOre() > resources.getOre())
+			return false;
+		else if (offer.getSheep() > resources.getSheep())
+			return false;
+		else if (offer.getWheat() > resources.getWheat())
+			return false;
+		else if (offer.getWood() > resources.getWood())
+			return false;
 		return resources.canOfferCards(offer);
 	}
 	
