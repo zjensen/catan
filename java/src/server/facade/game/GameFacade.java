@@ -1,8 +1,21 @@
 package server.facade.game;
 
+import client.server.IServer;
 import shared.communication.game.*;
+import shared.models.ClientModel;
 
 public class GameFacade {
+	
+	private ClientModel clientModel;
+	private IServer server;
+	/**
+	 * Constructs a new GameFacade
+	 * @param clientModel
+	 */
+	public GameFacade() {
+		this.clientModel = null;
+		this.server = null;
+	}
 
 	/**
 	 * Returns the current state of the game in JSON format
@@ -11,7 +24,6 @@ public class GameFacade {
 	 * @return GameModel_Output (JSON data)
 	 */
 	public GameModel_Output model(GameModel_Input params){
-		
 		return null;
 	}
 	
@@ -64,5 +76,21 @@ public class GameFacade {
 	 */
 	public ListAI_Output listAI(ListAI_Input params){
 		return null;
+	}
+
+	public ClientModel getClientModel() {
+		return clientModel;
+	}
+
+	public void setClientModel(ClientModel clientModel) {
+		this.clientModel = clientModel;
+	}
+
+	public IServer getServer() {
+		return server;
+	}
+
+	public void setServer(IServer server) {
+		this.server = server;
 	}
 }
