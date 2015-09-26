@@ -4,17 +4,16 @@ public class Login_Output {
 	
 	private String response;
 	
-	public Login_Output(int loginStatus) {
-		if(loginStatus == 0) this.response = "Success";
-		else if(loginStatus == 1) this.response = "Invalid";
-		else this.response = "Failed";		
+	public Login_Output(String response)
+	{
+		this.response = response;
 	}
 
-	public String getReponse() {
+	public String getResponse() {
 		return response;
 	}
 
-	public void setReponse(String response) {
+	public void setResponse(String response) {
 		this.response = response;
 	}
 }
