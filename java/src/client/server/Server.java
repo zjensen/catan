@@ -5,9 +5,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-
 import client.ClientException;
 import shared.communication.game.*;
 import shared.communication.games.*;
