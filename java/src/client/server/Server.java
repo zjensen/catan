@@ -1,5 +1,7 @@
 package client.server;
 
+import java.io.InputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -15,7 +17,7 @@ import shared.communication.user.*;
 public class Server implements IServer {
 	
 	private static String SERVER_HOST = "localhost";
-	private static int SERVER_PORT = 50080;
+	private static int SERVER_PORT = 8081;
 	private static String URL_PREFIX = "http://" + SERVER_HOST + ":"
 			+ SERVER_PORT;
 	private static final String HTTP_GET = "GET";
@@ -39,8 +41,8 @@ public class Server implements IServer {
 	{
 		try 
 		{
-			Login_Output login_result = (Login_Output) doPost(
-					"/user/login", login_input);
+			String result = (String) doPost("/user/login", login_input.toJSON());
+			Login_Output login_result = new Login_Output(result);
 			return login_result;
 		} 
 		catch (ClientException e) 
@@ -55,8 +57,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			Register_Output register_result = (Register_Output) doPost(
-					"/user/register", register_input);
+			String result = (String) doPost("/user/register", register_input.toJSON());
+			Register_Output register_result = new Register_Output(result);
 			return register_result;
 		}
 		catch (ClientException e)
@@ -536,14 +538,34 @@ public class Server implements IServer {
 			connection.connect();
 			URL_PREFIX = "http://" + SERVER_HOST + ":"
 					+ SERVER_PORT;
-			XStream x = new XStream(new DomDriver());
-			x.toXML(postData, connection.getOutputStream());
+			OutputStreamWriter output = new OutputStreamWriter(connection.getOutputStream());
+			output.write(postData.toString());
+			output.flush();
 
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) 
 			{
-				Object o = (Object)x.fromXML(connection.getInputStream());
-				return o;
+				InputStream input = connection.getInputStream();
+				int len = 0;
+				
+				byte[] buffer = new byte[1024];
+				StringBuilder str = new StringBuilder();
+				while(-1 != (len = input.read(buffer))){
+					str.append(new String(buffer, 0, len));
+				}
+				return str.toString();
 			} 
+			else if (connection.getResponseCode() == HttpURLConnection.HTTP_BAD_REQUEST)
+			{
+				InputStream input = connection.getErrorStream();
+				int len = 0;
+				
+				byte[] buffer = new byte[1024];
+				StringBuilder str = new StringBuilder();
+				while(-1 != (len = input.read(buffer))){
+					str.append(new String(buffer, 0, len));
+				}
+				return str.toString();
+			}
 			else 
 			{
 				throw new ClientException(String.format(
