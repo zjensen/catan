@@ -1,5 +1,6 @@
 package server.facade.games;
 
+import client.server.IServer;
 import shared.communication.games.*;
 
 /**
@@ -9,6 +10,11 @@ import shared.communication.games.*;
  */
 public class GamesFacade {
 
+	private IServer server;
+	
+	public GamesFacade() {
+		this.server = null;
+	}
 	
 	/**
 	 * Returns the list of games 
@@ -39,7 +45,6 @@ public class GamesFacade {
 	 * @return JoinGame_Output
 	 */
 	public JoinGame_Output join(JoinGame_Input params){
-		
 		return null;
 	}
 	
@@ -62,6 +67,14 @@ public class GamesFacade {
 	public LoadGame_Output load(LoadGame_Input params){
 		
 		return null;
+	}
+
+	public IServer getServer() {
+		return server;
+	}
+
+	public void setServer(IServer server) {
+		this.server = server;
 	}
 	
 }
