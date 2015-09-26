@@ -106,6 +106,10 @@ public class Player {
 		return (oldDevCards.getSoldier() > 0 && canPlayDevCard());
 	}
 	
+	public boolean canRoadBuilding() {
+		return (oldDevCards.getRoadBuilding() > 0 && canPlayDevCard());
+	}
+
 	public boolean canDiscardCards(DiscardCards_Input params)
 	{
 		//has not discarded cards yet, and has all the cards
@@ -298,5 +302,6 @@ public class Player {
 	public void setVictoryPoints(int victoryPoints) {
 		this.victoryPoints = victoryPoints;
 	}
+
 	
 }
