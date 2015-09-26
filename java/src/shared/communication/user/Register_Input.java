@@ -1,5 +1,7 @@
 package shared.communication.user;
 
+import com.google.gson.Gson;
+
 public class Register_Input {
 
 	private String username;
@@ -24,5 +26,11 @@ public class Register_Input {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
 	}
 }
