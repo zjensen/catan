@@ -1,5 +1,7 @@
 package shared.communication.moves;
 
+import com.google.gson.Gson;
+
 public class SendChat_Input 
 {
 	private final String type = "sendChat";
@@ -51,5 +53,11 @@ public class SendChat_Input
 	public String getType()
 	{
 		return type;
+	}
+	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
 	}
 }

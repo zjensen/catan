@@ -33,7 +33,11 @@ public class ServerUnitTests
 		{
 				"client.server.ServerUnitTests",
 				"client.server.LoginUnitTests",
-				"client.server.RegisterUnitTests"
+				"client.server.RegisterUnitTests",
+				"client.server.ListAllUnitTests",
+				"client.server.JoinGameUnitTests",
+				"client.server.SendChatUnitTests",
+				"client.server.CreateGameUnitTests"
 		};
 
 		org.junit.runner.JUnitCore.main(testClasses);

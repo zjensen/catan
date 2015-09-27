@@ -8,21 +8,30 @@ import shared.communication.user.*;
 public class FakeServer implements IServer {
 
 	@Override
-	public Login_Output login(Login_Input login_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public Login_Output login(Login_Input login_input) 
+	{
+		if(login_input.getUsername() == "valid")
+			return new Login_Output("Success");
+		return new Login_Output("Failed to login - bad username or password.");
 	}
 
 	@Override
-	public Register_Output register(Register_Input register_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public Register_Output register(Register_Input register_input) 
+	{
+		if(register_input.getUsername() == "new_username")
+			return new Register_Output("Success");
+		return new Register_Output("Failed to register - someone already has that username.");
 	}
 
 	@Override
-	public ListGames_Output listGames(ListGames_Input list_games_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public ListGames_Output listGames(ListGames_Input list_games_input) 
+	{
+		String response = "[{\"title\": \"Default Game\",\"id\": 0,\"players\": "
+				+ "[{\"color\": \"orange\",\"name\": \"Sam\",\"id\": 0},"
+				+ "{\"color\": \"blue\",\"name\": \"Brooke\",\"id\": 1},"
+				+ "{\"color\": \"red\",\"name\": \"Pete\",\"id\": 10},"
+				+ "{\"color\": \"green\",\"name\": \"Mark\",\"id\": 11}]}]";
+		return new ListGames_Output(response);
 	}
 
 	@Override
