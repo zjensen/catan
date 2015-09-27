@@ -8,8 +8,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import shared.communication.user.Login_Input;
-import shared.communication.user.Login_Output;
 import shared.communication.user.Register_Input;
 import shared.communication.user.Register_Output;
 
