@@ -6,6 +6,45 @@ import shared.communication.moves.*;
 import shared.communication.user.*;
 
 public class FakeServer implements IServer {
+	
+	private final String no_user = "The catan.user HTTP cookie is missing.  You must login before calling this method.";
+	private final String no_game = "The catan.game HTTP cookie is missing.  You must join a game before calling this method.";
+	private final String exampleModel = "{\"deck\": {\"yearOfPlenty\": 2,\"monopoly\": 2,\"soldier\": 14,\"roadBuilding\": 2,\"monument\": 5},"
+			+ "\"map\": {\"hexes\": [{\"location\": {\"x\": 0,\"y\": -2}},{\"resource\": \"brick\",\"location\": {\"x\": 1,\"y\": -2},"
+			+ "\"number\": 4},{\"resource\": \"wood\",\"location\": {\"x\": 2,\"y\": -2},\"number\": 11},"
+			+ "{\"resource\": \"brick\",\"location\": {\"x\": -1,\"y\": -1},\"number\": 8},"
+			+ "{\"resource\": \"wood\",\"location\": {\"x\": 0,\"y\": -1},\"number\": 3},"
+			+ "{\"resource\": \"ore\",\"location\": {\"x\": 1,\"y\": -1},\"number\": 9},"
+			+ "{\"resource\": \"sheep\",\"location\": {\"x\": 2,\"y\": -1},\"number\": 12},"
+			+ "{\"resource\": \"ore\",\"location\": {\"x\": -2,\"y\": 0},\"number\": 5},"
+			+ "{\"resource\": \"sheep\",\"location\": {\"x\": -1,\"y\": 0},\"number\": 10},"
+			+ "{\"resource\": \"wheat\",\"location\": {\"x\": 0,\"y\": 0},\"number\": 11},"
+			+ "{\"resource\": \"brick\",\"location\": {\"x\": 1,\"y\": 0},\"number\": 5},"
+			+ "{\"resource\": \"wheat\",\"location\": {\"x\": 2,\"y\": 0},\"number\": 6},"
+			+ "{\"resource\": \"wheat\",\"location\": {\"x\": -2,\"y\": 1},\"number\": 2},"
+			+ "{\"resource\": \"sheep\",\"location\": {\"x\": -1,\"y\": 1},\"number\": 9},"
+			+ "{\"resource\": \"wood\",\"location\": {\"x\": 0,\"y\": 1},\"number\": 4},"
+			+ "{\"resource\": \"sheep\",\"location\": {\"x\": 1,\"y\": 1},\"number\": 10},"
+			+ "{\"resource\": \"wood\",\"location\": {\"x\": -2,\"y\": 2},\"number\": 6},"
+			+ "{\"resource\": \"ore\",\"location\": {\"x\": -1,\"y\": 2},\"number\": 3},"
+			+ "{\"resource\": \"wheat\",\"location\": {\"x\": 0,\"y\": 2},\"number\": 8}],"
+			+ "\"roads\": [],\"cities\": [],\"settlements\": [],\"radius\": 3,\"ports\": [{\"ratio\": 3,"
+			+ "\"direction\": \"N\",\"location\": {\"x\": 0,\"y\": 3}},{\"ratio\": 3,\"direction\": \"NW\",\"location\": {\"x\": 2,\"y\": 1}},"
+			+ "{\"ratio\": 2,\"resource\": \"sheep\",\"direction\": \"NW\",\"location\": {\"x\": 3,\"y\": -1}},"
+			+ "{\"ratio\": 3,\"direction\": \"SW\",\"location\": {\"x\": 3,\"y\": -3}},"
+			+ "{\"ratio\": 2,\"resource\": \"wheat\",\"direction\": \"S\",\"location\": {\"x\": -1,\"y\": -2}},"
+			+ "{\"ratio\": 2,\"resource\": \"wood\",\"direction\": \"NE\",\"location\": {\"x\": -3,\"y\": 2}},"
+			+ "{\"ratio\": 2,\"resource\": \"brick\",\"direction\": \"NE\",\"location\": {\"x\": -2,\"y\": 3}},"
+			+ "{\"ratio\": 3,\"direction\": \"SE\",\"location\": {\"x\": -3,\"y\": 0}},"
+			+ "{\"ratio\": 2,\"resource\": \"ore\",\"direction\": \"S\",\"location\": {\"x\": 1,\"y\": -3}}],"
+			+ "\"robber\": {\"x\": 0,\"y\": -2}},\"players\": [{\"resources\": {\"brick\": 0,\"wood\": 0,\"sheep\": 0,\"wheat\": 0,\"ore\": 0},"
+			+ "\"oldDevCards\": {\"yearOfPlenty\": 0,\"monopoly\": 0,\"soldier\": 0,\"roadBuilding\": 0,\"monument\": 0},"
+			+ "\"newDevCards\": {\"yearOfPlenty\": 0,\"monopoly\": 0,\"soldier\": 0,\"roadBuilding\": 0,\"monument\": 0},"
+			+ "\"roads\": 15,\"cities\": 4,\"settlements\": 5,\"soldiers\": 0,\"victoryPoints\": 0,\"monuments\": 0,\"playedDevCard\": false,"
+			+ "\"discarded\": false,\"playerID\": 12,\"playerIndex\": 0,\"name\": \"Test\",\"color\": \"orange\"},null,null,null],"
+			+ "\"log\": {\"lines\": []},\"chat\": {\"lines\": []},\"bank\": {\"brick\": 24,\"wood\": 24,\"sheep\": 24,\"wheat\": 24,\"ore\": 24},"
+			+ "\"turnTracker\": {\"status\": \"FirstRound\",\"currentTurn\": 0,\"longestRoad\": -1,\"largestArmy\": -1},"
+			+ "\"winner\": -1,\"version\": 0}";
 
 	@Override
 	public Login_Output login(Login_Input login_input) 
@@ -35,25 +74,37 @@ public class FakeServer implements IServer {
 	}
 
 	@Override
-	public CreateGame_Output createGame(CreateGame_Input create_game_input) {
+	public CreateGame_Output createGame(CreateGame_Input create_game_input) 
+	{
+		String response = "{\"title\": \"New Game\",\"id\": 1,\"players\": [{},{},{},{}]}";
+		return new CreateGame_Output(response);
+	}
+
+	@Override
+	public JoinGame_Output joinGame(JoinGame_Input join_game_input) 
+	{
+		String response;
+		if(join_game_input.getId() == 1)
+			response = "Success";
+		else if(join_game_input.getId() > 1)
+			response = "The player could not be added to the specified game.";
+		else if(join_game_input.getColor().equals("bad_color_value"))
+			response = "Invalid request: color has bad value";
+		else
+			response = this.no_user;
+		return new JoinGame_Output(response);
+	}
+
+	@Override
+	public SaveGame_Output saveGame(SaveGame_Input save_game_input) 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public JoinGame_Output joinGame(JoinGame_Input join_game_input) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public SaveGame_Output saveGame(SaveGame_Input save_game_input) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public LoadGame_Output loadGame(LoadGame_Input load_game_input) {
+	public LoadGame_Output loadGame(LoadGame_Input load_game_input) 
+	{
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -65,33 +116,57 @@ public class FakeServer implements IServer {
 	}
 
 	@Override
-	public ResetGame_Output resetGame(ResetGame_Input reset_game_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public ResetGame_Output resetGame(ResetGame_Input reset_game_input) 
+	{
+		String response;
+		if(!reset_game_input.hasCatan_user())
+			response = this.no_user;
+		else if(!reset_game_input.hasCatan_game())
+			response = this.no_game;
+		else
+			response = this.exampleModel;
+		return new ResetGame_Output(response);
 	}
 
 	@Override
 	public GETCommands_Output getCommands(GetCommands_Input get_commands_input) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method-stub
 		return null;
 	}
 
 	@Override
-	public POSTCommands_Output postCommands(POSTCommands_Input post_commands_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public POSTCommands_Output postCommands(POSTCommands_Input post_commands_input) 
+	{
+		String response;
+		if(!post_commands_input.hasCatan_user())
+			response = this.no_user;
+		else if(!post_commands_input.hasCatan_game())
+			response = this.no_game;
+		else
+			response = this.exampleModel;
+		return new POSTCommands_Output(response);
 	}
 
 	@Override
-	public AddAI_Output addAI(AddAI_Input add_ai_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public AddAI_Output addAI(AddAI_Input add_ai_input) 
+	{
+		String response;
+		if(!add_ai_input.hasCatan_user())
+			response = this.no_user;
+		else if(!add_ai_input.hasCatan_game())
+			response = this.no_game;
+		else if(add_ai_input.getAi_type().equals("VALID_AI"))
+			response = "Success";
+		else
+			response = "Could not add AI player  [" + add_ai_input.getAi_type() + "]";
+		return new AddAI_Output(response);
 	}
 
 	@Override
-	public ListAI_Output listAI(ListAI_Input list_ai_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public ListAI_Output listAI(ListAI_Input list_ai_input) 
+	{
+		String response = "[\"LARGEST_ARMY\"]";
+		return new ListAI_Output(response);
 	}
 
 	@Override

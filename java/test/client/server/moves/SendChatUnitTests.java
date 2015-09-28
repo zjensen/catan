@@ -1,4 +1,4 @@
-package client.server;
+package client.server.moves;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import client.server.Server;
 import shared.communication.moves.SendChat_Output;
 import shared.communication.moves.SendChat_Input;
 
