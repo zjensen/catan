@@ -10,6 +10,7 @@ public class ServerUnitTests
 	@Before
 	public void setup() 
 	{
+		
 	}
 	
 	@After
@@ -32,12 +33,14 @@ public class ServerUnitTests
 		String[] testClasses = new String[] 
 		{
 				"client.server.ServerUnitTests",
-				"client.server.LoginUnitTests",
-				"client.server.RegisterUnitTests",
-				"client.server.ListAllUnitTests",
-				"client.server.JoinGameUnitTests",
-				"client.server.SendChatUnitTests",
-				"client.server.CreateGameUnitTests"
+				"client.server.user.LoginUnitTests",		// user tests
+				"client.server.user.RegisterUnitTests",
+				"client.server.games.ListAllUnitTests",		// games tests
+				"client.server.games.CreateGameUnitTests",
+				"client.server.games.JoinGameUnitTests",
+				"client.server.game.GameResetUnitTests",    // game tests
+				"client.server.game.ListAIUnitTests",
+				"client.server.moves.SendChatUnitTests"		// moves tests
 		};
 
 		org.junit.runner.JUnitCore.main(testClasses);

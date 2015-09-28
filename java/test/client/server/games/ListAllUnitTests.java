@@ -1,9 +1,10 @@
-package client.server;
+package client.server.games;
 
 import static org.junit.Assert.*;
 
 import org.junit.*;
 
+import client.server.Server;
 import shared.communication.games.ListGames_Input;
 import shared.communication.games.ListGames_Output;
 
@@ -36,11 +37,12 @@ public class ListAllUnitTests
 	}
 	
 	@Test
-	public void testLogin() 
+	public void testListAll() 
 	{
 		// test valid input
 		ListGames_Input list_games_input = new ListGames_Input();
 		ListGames_Output list_games_result = server.listGames(list_games_input);
 		assertNotNull(list_games_result);
+		System.out.println("List all test complete");
 	}
 }
