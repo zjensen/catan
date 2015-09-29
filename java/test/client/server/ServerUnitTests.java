@@ -40,7 +40,16 @@ public class ServerUnitTests
 				"client.server.games.JoinGameUnitTests",
 				"client.server.game.GameResetUnitTests",    // game tests
 				"client.server.game.ListAIUnitTests",
-				"client.server.moves.SendChatUnitTests"		// moves tests
+				"client.server.moves.SendChatUnitTests",	// moves tests
+				"client.server.moves.RollNumberUnitTests",
+				"client.server.moves.RobPlayerUnitTests",
+				"client.server.moves.FinishTurnUnitTests",
+				"client.server.moves.BuyDevCardUnitTests",
+				"client.server.moves.YearOfPlentyUnitTests",
+				"client.server.moves.RoadBuildingUnitTests",
+				"client.server.moves.SoldierUnitTests",
+				"client.server.moves.MonopolyUnitTests",
+				"client.server.moves.MonumentUnitTests"
 		};
 
 		org.junit.runner.JUnitCore.main(testClasses);

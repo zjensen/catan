@@ -1,5 +1,7 @@
 package shared.communication.moves;
 
+import com.google.gson.Gson;
+
 import shared.locations.HexLocation;
 
 public class Soldier_Input 
@@ -73,5 +75,9 @@ public class Soldier_Input
 		return type;
 	}
 	
-	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 }
