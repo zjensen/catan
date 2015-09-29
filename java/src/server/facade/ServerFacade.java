@@ -1,10 +1,36 @@
-package server.facade.moves;
+package server.facade;
 
 import client.server.IServer;
+import shared.communication.game.AddAI_Input;
+import shared.communication.game.AddAI_Output;
+import shared.communication.game.GETCommands_Output;
+import shared.communication.game.GameModel_Input;
+import shared.communication.game.GameModel_Output;
+import shared.communication.game.GetCommands_Input;
+import shared.communication.game.ListAI_Input;
+import shared.communication.game.ListAI_Output;
+import shared.communication.game.POSTCommands_Input;
+import shared.communication.game.POSTCommands_Output;
+import shared.communication.game.ResetGame_Input;
+import shared.communication.game.ResetGame_Output;
+import shared.communication.games.CreateGame_Input;
+import shared.communication.games.CreateGame_Output;
+import shared.communication.games.JoinGame_Input;
+import shared.communication.games.JoinGame_Output;
+import shared.communication.games.ListGames_Input;
+import shared.communication.games.ListGames_Output;
+import shared.communication.games.LoadGame_Input;
+import shared.communication.games.LoadGame_Output;
+import shared.communication.games.SaveGame_Input;
+import shared.communication.games.SaveGame_Output;
 import shared.communication.moves.*;
+import shared.communication.user.Login_Input;
+import shared.communication.user.Login_Output;
+import shared.communication.user.Register_Input;
+import shared.communication.user.Register_Output;
 import shared.models.ClientModel;
 
-public class MovesFacade {
+public class ServerFacade {
 	
 	private ClientModel clientModel;
 	private IServer server;
@@ -13,7 +39,7 @@ public class MovesFacade {
 	 * Constructs a moves facade
 	 * @param clientModel
 	 */
-	public MovesFacade(ClientModel clientModel) {
+	public ServerFacade(ClientModel clientModel) {
 		this.clientModel = clientModel;
 	}
 	
@@ -33,11 +59,7 @@ public class MovesFacade {
 	 */
 	public boolean canSendChat(SendChat_Input params)
 	{
-		if(params.getContent() != null && !params.getContent().isEmpty())
-		{
-			return true;
-		}
-		return false;
+		 return(params.getContent() != null && !params.getContent().isEmpty());
 	}
 
 	/**
@@ -46,13 +68,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return SendChat_Output
 	 */
-	public SendChat_Output sendChat(SendChat_Input params)
+	public boolean sendChat(SendChat_Input params)
 	{
-		if(canSendChat(params))
-		{
-			
-		}
-		return null;
+		return canSendChat(params);
 	}
 	
 	/**
@@ -77,13 +95,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return SendChat_Output
 	 */
-	public RollNumber_Output rollNumber(RollNumber_Input params)
+	public boolean rollNumber(RollNumber_Input params)
 	{
-		if(canRollNumber(params))
-		{
-			
-		}
-		return null;
+		return canRollNumber(params);
 	}
 	
 	/**
@@ -106,13 +120,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return RobPlayer_Output
 	 */
-	public RobPlayer_Output robPlayer(RobPlayer_Input params)
+	public boolean robPlayer(RobPlayer_Input params)
 	{
-		if(canRobPlayer(params))
-		{
-			
-		}
-		return null;
+		return canRobPlayer(params);
 	}
 	
 	/**
@@ -131,13 +141,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return FinishTurn_Output
 	 */
-	public FinishTurn_Output finishTurn(FinishTurn_Input params)
+	public boolean finishTurn(FinishTurn_Input params)
 	{
-		if(canFinishTurn(params))
-		{
-			
-		}
-		return null;
+		return canFinishTurn(params);
 	}
 
 	/**
@@ -156,14 +162,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return BuyDevCard_Output
 	 */
-	public BuyDevCard_Output buyDevCard(BuyDevCard_Input params)
+	public boolean buyDevCard(BuyDevCard_Input params)
 	{
-		if(canBuyDevCard(params))
-		{
-			
-		}
-		
-		return null;
+		return canBuyDevCard(params);
 	}
 	
 	/**
@@ -183,13 +184,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return YearOfPlenty_Output
 	 */
-	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input params)
+	public boolean yearOfPlenty(YearOfPlenty_Input params)
 	{
-		if(canYearOfPlenty(params))
-		{
-			
-		}
-		return null;
+		return canYearOfPlenty(params);
 	}
 
 	/**
@@ -209,13 +206,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return RoadBuilding_Output
 	 */
-	public RoadBuilding_Output roadBuilding(RoadBuilding_Input params)
+	public boolean roadBuilding(RoadBuilding_Input params)
 	{
-		if(canRoadBuilding(params))
-		{
-			
-		}
-		return null;
+		return canRoadBuilding(params);
 	}
 	
 	/**
@@ -236,13 +229,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return Soldier_Output
 	 */
-	public Soldier_Output soldier(Soldier_Input params)
+	public boolean soldier(Soldier_Input params)
 	{
-		if(canSoldier(params))
-		{
-			
-		}
-		return null;
+		return canSoldier(params);
 	}
 	
 	/**
@@ -261,13 +250,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return Monopoly_Output
 	 */
-	public Monopoly_Output monopoly(Monopoly_Input params)
+	public boolean monopoly(Monopoly_Input params)
 	{
-		if(canMonopoly(params))
-		{
-			
-		}
-		return null;
+		return canMonopoly(params);
 	}
 	
 	/**
@@ -286,13 +271,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return Monument_Output
 	 */
-	public Monument_Output monument(Monument_Input params)
+	public boolean monument(Monument_Input params)
 	{
-		if(canMonument(params))
-		{
-			
-		}
-		return null;
+		return canMonument(params);
 	}
 	
 	/**
@@ -312,13 +293,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return BuildRoad_Output
 	 */
-	public BuildRoad_Output buildRoad(BuildRoad_Input params)
+	public boolean buildRoad(BuildRoad_Input params)
 	{
-		if(canBuildRoad(params))
-		{
-			
-		}
-		return null;
+		return canBuildRoad(params);
 	}
 	
 	/**
@@ -338,13 +315,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return BuildSettlement_Output
 	 */
-	public BuildSettlement_Output buildSettlement(BuildSettlement_Input params)
+	public boolean buildSettlement(BuildSettlement_Input params)
 	{
-		if(canBuildSettlement(params))
-		{
-			
-		}
-		return null;
+		return canBuildSettlement(params);
 	}
 	
 	/**
@@ -363,13 +336,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return BuildCity_Output
 	 */
-	public BuildCity_Output buildCity(BuildCity_Input params)
+	public boolean buildCity(BuildCity_Input params)
 	{
-		if(canBuildCity(params))
-		{
-			
-		}
-		return null;
+		return canBuildCity(params);
 	}
 	
 	/**
@@ -388,13 +357,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return OfferTrade_Output
 	 */
-	public OfferTrade_Output offerTrade(OfferTrade_Input params) 
+	public boolean offerTrade(OfferTrade_Input params) 
 	{
-		if(canOfferTrade(params))
-		{
-			
-		}
-		return null;
+		return canOfferTrade(params);
 	}
 	
 	/**
@@ -413,13 +378,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return AcceptTrade_Output
 	 */
-	public AcceptTrade_Output acceptTrade(AcceptTrade_Input params)
+	public boolean acceptTrade(AcceptTrade_Input params)
 	{
-		if(canAcceptTrade(params))
-		{
-			
-		}
-		return null;
+		return canAcceptTrade(params);
 	}
 	
 	/**
@@ -438,13 +399,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return MaritimeTrade_Output
 	 */
-	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input params)
+	public boolean maritimeTrade(MaritimeTrade_Input params)
 	{
-		if(canMaritimeTrade(params))
-		{
-			
-		}
-		return null;
+		return canMaritimeTrade(params);
 	}
 	
 	/**
@@ -464,15 +421,163 @@ public class MovesFacade {
 	 * @param params
 	 * @return DiscardCards_Output
 	 */
-	public DiscardCards_Output discardCards(DiscardCards_Input params)
+	public boolean discardCards(DiscardCards_Input params)
 	{
-		if(canDiscardCards(params))
-		{
-			
-		}
-		return null;
+		return canDiscardCards(params);
 	}
 
+	//*************************************************************************
+	//FORMERLY GAME FACADE
+	//*************************************************************************
+	/**
+	 * Returns the current state of the game in JSON format
+	 * 
+	 * @param params
+	 * @return GameModel_Output (JSON data)
+	 */
+	public GameModel_Output model(GameModel_Input params){
+		return server.getModel(params);
+	}
+	
+	/**
+	 * Clears out the command history of the current game
+	 * 
+	 * @param params
+	 * @return ResetGame_Output
+	 */
+	public ResetGame_Output reset(ResetGame_Input params){
+		return server.resetGame(params);
+	}
+	
+	/**
+	 * Executes the specified command list in the current game
+	 * 
+	 * @param params
+	 * @return POSTCommands_Output
+	 */
+	public POSTCommands_Output postCommands(POSTCommands_Input params){
+		return server.postCommands(params);
+	}
+	
+	/**
+	 * Returns a list of commands that have been executed in the current game
+	 * 
+	 * @param params
+	 * @return GETCommands_Output
+	 */
+	public GETCommands_Output getCommands(GetCommands_Input params){
+		return server.getCommands(params);
+	}
+	
+	/**
+	 * Adds an AI player to the current game
+	 * 
+	 * @param params
+	 * @return AddAI_Output
+	 */
+	public AddAI_Output addAI(AddAI_Input params){
+		return server.addAI(params);
+	}
+	
+	/**
+	 * Returns a list of supported AI player types 
+	 * (currently, LARGEST_ARMY is the only supported type)
+	 * 
+	 * @param params
+	 * @return ListAI_Output
+	 */
+	public ListAI_Output listAI(ListAI_Input params){
+		return server.listAI(params);
+	}
+
+	//*************************************************************************
+	//FORMERLY GAMES FACADE
+	//*************************************************************************
+	/**
+	 * Returns the list of games 
+	 * 
+	 * @param params
+	 * @return ListGames_Output
+	 */
+	public ListGames_Output list(ListGames_Input params){
+		return server.listGames(params);
+	}
+	
+	/**
+	 * Creates a new game
+	 * 
+	 * @param params
+	 * @return
+	 */
+	public CreateGame_Output create(CreateGame_Input params){
+		
+		return server.createGame(params);
+	}
+	
+	/**
+	 * Joins a game that has was started by another player or a game 
+	 * the player started
+	 * 
+	 * @param params
+	 * @return JoinGame_Output
+	 */
+	public JoinGame_Output join(JoinGame_Input params){
+
+		return server.joinGame(params);
+	}
+	
+	/**
+	 * Saves the current game and all associated details about the game state 
+	 * 
+	 * @param params
+	 * @return SaveGame_Output
+	 */
+	public SaveGame_Output save(SaveGame_Input params){
+		return server.saveGame(params);
+	}
+	
+	/**
+	 * Loads a game that was previously saved
+	 * 
+	 * @param params
+	 * @return LoadGame_Output
+	 */
+	public LoadGame_Output load(LoadGame_Input params){
+		return server.loadGame(params);
+	}
+	
+	
+	//*************************************************************************
+	// FORMERLY USER FACADE
+	//*************************************************************************
+	/**
+	 * Logs into the server with the provided credentials
+	 * 
+	 * @param params
+	 * @return Login_Output
+	 */
+	public Login_Output login(Login_Input params){
+		
+		return server.login(params);
+	}
+	
+	/**
+	 * Registers a user with the provided credentials
+	 * 
+	 * @param params
+	 * @return Register_Output
+	 */
+	public Register_Output register(Register_Input params){
+		
+		return server.register(params);
+	}
+	
+	
+	
+	//*************************************************************************
+	// GETTERS AND SETTERS
+	//*************************************************************************
+	
 	public ClientModel getClientModel() {
 		return clientModel;
 	}
