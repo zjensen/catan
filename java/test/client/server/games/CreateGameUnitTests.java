@@ -1,4 +1,4 @@
-package client.server;
+package client.server.games;
 
 import static org.junit.Assert.*;
 
@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import client.server.Server;
 import shared.communication.games.CreateGame_Input;
 import shared.communication.games.CreateGame_Output;
 
@@ -51,5 +52,6 @@ public class CreateGameUnitTests
 		// create regex to make sure our result contains the title
 		Matcher m = Pattern.compile("\"title\":\"My new game\"").matcher(create_game_result.getResponse());
 		assertTrue(m.find());
+		System.out.println("Create game test complete");
 	}
 }

@@ -187,8 +187,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			ResetGame_Output reset_game_result = (ResetGame_Output) doPost(
-				"/game/reset", reset_game_input);
+			String result = (String) doPost("/game/reset", reset_game_input.toJSON());
+			ResetGame_Output reset_game_result = new ResetGame_Output(result);
 			return reset_game_result;
 		}
 		catch (ClientException e)
@@ -236,8 +236,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			AddAI_Output add_ai_result = (AddAI_Output) doPost(
-				"/game/addAI", add_ai_input);
+			String result = (String) doPost("/game/addAI", add_ai_input.toJSON());
+			AddAI_Output add_ai_result = new AddAI_Output(result);
 			return add_ai_result;
 		}
 		catch (ClientException e)
@@ -253,8 +253,8 @@ public class Server implements IServer {
 		try
 		{
 			// TODO Switch this method call to doGet?
-			ListAI_Output list_ai_result = (ListAI_Output) doPost(
-					"/game/listAI", list_ai_input);
+			String result = (String) doPost("/game/listAI", list_ai_input.toJSON());
+			ListAI_Output list_ai_result = new ListAI_Output(result);
 			return list_ai_result;
 		}
 		catch (ClientException e)
