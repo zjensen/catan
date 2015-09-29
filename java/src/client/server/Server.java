@@ -1,5 +1,6 @@
 package client.server;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
@@ -19,6 +20,8 @@ public class Server implements IServer {
 			+ SERVER_PORT;
 	private static final String HTTP_GET = "GET";
 	private static final String HTTP_POST = "POST";
+	private String catan_user = null;
+	private String catan_game = null;
 	
 	public Server()
 	{
@@ -31,6 +34,22 @@ public class Server implements IServer {
 		this.SERVER_PORT = Integer.parseInt(port);
 		this.SERVER_HOST = host;
 		this.URL_PREFIX = "http://" + SERVER_HOST + ":" + SERVER_PORT;
+	}
+	
+	public void setCatanUser(String catan_user) {
+		this.catan_user = catan_user;
+	}
+	
+	public String getCatanUser() {
+		return this.catan_user;
+	}
+	
+	public void setCatanGame(String catan_game) {
+		this.catan_game = catan_game;
+	}
+	
+	public String getCatanGame() {
+		return this.catan_game;
 	}
 
 	@Override
@@ -71,8 +90,8 @@ public class Server implements IServer {
 		try
 		{
 			// TODO Switch this method call to doGet?
-			ListGames_Output list_games_result = (ListGames_Output) doPost(
-					"/games/list", list_games_input);
+			String result = (String) doPost("/games/list", list_games_input.toJSON());
+			ListGames_Output list_games_result = new ListGames_Output(result);
 			return list_games_result;
 		}
 		catch (ClientException e)
@@ -87,8 +106,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			CreateGame_Output create_game_result = (CreateGame_Output) doPost(
-					"/games/create", create_game_input);
+			String result = (String) doPost("/games/create", create_game_input.toJSON());
+			CreateGame_Output create_game_result = new CreateGame_Output(result);
 			return create_game_result;
 		}
 		catch (ClientException e)
@@ -103,8 +122,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			JoinGame_Output join_game_result = (JoinGame_Output) doPost(
-					"/games/join", join_game_input);
+			String result = (String) doPost("/games/join", join_game_input.toJSON());
+			JoinGame_Output join_game_result = new JoinGame_Output(result);
 			return join_game_result;
 		}
 		catch (ClientException e)
@@ -168,8 +187,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			ResetGame_Output reset_game_result = (ResetGame_Output) doPost(
-				"/game/reset", reset_game_input);
+			String result = (String) doPost("/game/reset", reset_game_input.toJSON());
+			ResetGame_Output reset_game_result = new ResetGame_Output(result);
 			return reset_game_result;
 		}
 		catch (ClientException e)
@@ -217,8 +236,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			AddAI_Output add_ai_result = (AddAI_Output) doPost(
-				"/game/addAI", add_ai_input);
+			String result = (String) doPost("/game/addAI", add_ai_input.toJSON());
+			AddAI_Output add_ai_result = new AddAI_Output(result);
 			return add_ai_result;
 		}
 		catch (ClientException e)
@@ -234,8 +253,8 @@ public class Server implements IServer {
 		try
 		{
 			// TODO Switch this method call to doGet?
-			ListAI_Output list_ai_result = (ListAI_Output) doPost(
-					"/game/listAI", list_ai_input);
+			String result = (String) doPost("/game/listAI", list_ai_input.toJSON());
+			ListAI_Output list_ai_result = new ListAI_Output(result);
 			return list_ai_result;
 		}
 		catch (ClientException e)
@@ -250,8 +269,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			SendChat_Output send_chat_result = (SendChat_Output) doPost(
-					"/moves/sendChat", send_chat_input);
+			String result = (String) doPost("/moves/sendChat", send_chat_input.toJSON());
+			SendChat_Output send_chat_result = new SendChat_Output(result);
 			return send_chat_result;
 		}
 		catch (ClientException e)
@@ -532,6 +551,10 @@ public class Server implements IServer {
 			connection.setDoInput(true);
 			connection.setDoOutput(true);
 			connection.setRequestProperty("Accept", "html/text");
+			if(catan_user != null && catan_game != null)
+				connection.setRequestProperty("Cookie", "catan.user=" + catan_user + "; catan.game=" + catan_game);
+			else if(catan_user != null)
+				connection.setRequestProperty("Cookie", "catan.user=" + catan_user);
 			connection.connect();
 			URL_PREFIX = "http://" + SERVER_HOST + ":"
 					+ SERVER_PORT;
@@ -541,27 +564,28 @@ public class Server implements IServer {
 
 			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) 
 			{
-				InputStream input = connection.getInputStream();
-				int len = 0;
-				
-				byte[] buffer = new byte[1024];
-				StringBuilder str = new StringBuilder();
-				while(-1 != (len = input.read(buffer))){
-					str.append(new String(buffer, 0, len));
+				if(catan_user == null || catan_game == null)
+				{
+					String headerName = null;
+					for (int i=1; (headerName = connection.getHeaderFieldKey(i))!=null; i++) 
+					{
+					 	if (headerName.equals("Set-cookie")) 
+					 	{                  
+					 		String cookie = connection.getHeaderField(i);
+					 		if(cookie.substring(0, 10).equals("catan.user="))
+					 			catan_user = cookie.substring(11, cookie.indexOf(';'));
+					 		else
+					 			catan_game = cookie.substring(11, cookie.indexOf(';'));
+					 	}
+					}
 				}
-				return str.toString();
+				InputStream input = connection.getInputStream();
+				return extractResponseBody(input);
 			} 
 			else if (connection.getResponseCode() == HttpURLConnection.HTTP_BAD_REQUEST)
 			{
 				InputStream input = connection.getErrorStream();
-				int len = 0;
-				
-				byte[] buffer = new byte[1024];
-				StringBuilder str = new StringBuilder();
-				while(-1 != (len = input.read(buffer))){
-					str.append(new String(buffer, 0, len));
-				}
-				return str.toString();
+				return extractResponseBody(input);
 			}
 			else 
 			{
@@ -575,6 +599,19 @@ public class Server implements IServer {
 			e.printStackTrace();
 		} 
 		return null;
+	}
+
+	private String extractResponseBody(InputStream input) throws IOException 
+	{
+		int len = 0;
+		
+		byte[] buffer = new byte[1024];
+		StringBuilder str = new StringBuilder();
+		while(-1 != (len = input.read(buffer)))
+		{
+			str.append(new String(buffer, 0, len));
+		}
+		return str.toString();
 	}
 
 }

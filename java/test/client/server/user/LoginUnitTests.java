@@ -1,9 +1,10 @@
-package client.server;
+package client.server.user;
 
 import static org.junit.Assert.*;
 
 import org.junit.*;
 
+import client.server.Server;
 import shared.communication.user.Login_Input;
 import shared.communication.user.Login_Output;
 
@@ -47,5 +48,6 @@ public class LoginUnitTests
 		Login_Input bad_input = new Login_Input("bad_input", "bad_input");
 		Login_Output bad_result = server.login(bad_input);
 		assertEquals(bad_result.getResponse(), "Failed to login - bad username or password.");
+		System.out.println("Login test complete");
 	}
 }
