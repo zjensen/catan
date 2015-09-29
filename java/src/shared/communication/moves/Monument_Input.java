@@ -1,5 +1,6 @@
 package shared.communication.moves;
 
+import com.google.gson.Gson;
 
 public class Monument_Input 
 {
@@ -33,5 +34,9 @@ public class Monument_Input
 		return type;
 	}
 	
-	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 }

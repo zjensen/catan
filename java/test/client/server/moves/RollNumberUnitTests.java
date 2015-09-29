@@ -1,4 +1,4 @@
-package client.server.game;
+package client.server.moves;
 
 import static org.junit.Assert.*;
 
@@ -9,10 +9,10 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import client.server.Server;
-import shared.communication.game.ListAI_Input;
-import shared.communication.game.ListAI_Output;
+import shared.communication.moves.RollNumber_Input;
+import shared.communication.moves.RollNumber_Output;
 
-public class ListAIUnitTests 
+public class RollNumberUnitTests 
 {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception 
@@ -32,6 +32,8 @@ public class ListAIUnitTests
 	public void setUp() throws Exception 
 	{
 		this.server = new Server();
+		server.setCatanUser("%7B%22name%22%3A%22Sam%22%2C%22password%22%3A%22sam%22%2C%22playerID%22%3A0%7D");
+		server.setCatanGame("0");
 	}
 
 	@After
@@ -41,11 +43,10 @@ public class ListAIUnitTests
 	}
 	
 	@Test
-	public void testListAI() 
+	public void testRollNumber() 
 	{
-		// test valid input
-		ListAI_Input list_ai_input = new ListAI_Input();
-		ListAI_Output list_ai_result = server.listAI(list_ai_input);
-		assertEquals(list_ai_result.getResponse(), "[\"LARGEST_ARMY\"]");
+		RollNumber_Input roll_number_input = new RollNumber_Input(0, 5);
+		RollNumber_Output roll_number_result = server.rollNumber(roll_number_input);
+		assertNotNull(roll_number_result);
 	}
 }

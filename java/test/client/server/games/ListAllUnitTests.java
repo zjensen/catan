@@ -43,6 +43,5 @@ public class ListAllUnitTests
 		ListGames_Input list_games_input = new ListGames_Input();
 		ListGames_Output list_games_result = server.listGames(list_games_input);
 		assertNotNull(list_games_result);
-		System.out.println("List all test complete");
 	}
 }
