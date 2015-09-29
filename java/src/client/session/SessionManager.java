@@ -4,9 +4,9 @@ import org.junit.experimental.theories.Theories;
 
 import client.poller.Poller;
 import client.server.*;
+import server.facade.ServerFacade;
 import server.facade.game.GameFacade;
 import server.facade.games.GamesFacade;
-import server.facade.moves.MovesFacade;
 import server.facade.user.UserFacade;
 import shared.communication.game.AddAI_Input;
 import shared.communication.game.AddAI_Output;
@@ -76,7 +76,7 @@ public class SessionManager {
 	private UserFacade userFacade = new UserFacade();
 	private GameFacade gameFacade = new GameFacade();
 	private GamesFacade gamesFacade = new GamesFacade();
-	private MovesFacade movesFacade = new MovesFacade(this.clientModel);
+	private ServerFacade movesFacade = new ServerFacade(this.clientModel);
 	private ClientModel clientModel = new ClientModel();
 	private Poller poller;
 	private IServer server;

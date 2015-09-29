@@ -1,4 +1,4 @@
-package client.server;
+package client.server.user;
 
 import static org.junit.Assert.assertEquals;
 
@@ -8,8 +8,7 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import shared.communication.user.Login_Input;
-import shared.communication.user.Login_Output;
+import client.server.Server;
 import shared.communication.user.Register_Input;
 import shared.communication.user.Register_Output;
 
@@ -53,5 +52,6 @@ public class RegisterUnitTests
 		Register_Input bad_input = new Register_Input("Sam", "sam");
 		Register_Output bad_result = server.register(bad_input);
 		assertEquals(bad_result.getResponse(), "Failed to register - someone already has that username.");
+		System.out.println("Register test complete");
 	}
 }
