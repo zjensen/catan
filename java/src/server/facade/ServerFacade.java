@@ -1,33 +1,10 @@
 package server.facade;
 
 import client.server.IServer;
-import shared.communication.game.AddAI_Input;
-import shared.communication.game.AddAI_Output;
-import shared.communication.game.GETCommands_Output;
-import shared.communication.game.GameModel_Input;
-import shared.communication.game.GameModel_Output;
-import shared.communication.game.GetCommands_Input;
-import shared.communication.game.ListAI_Input;
-import shared.communication.game.ListAI_Output;
-import shared.communication.game.POSTCommands_Input;
-import shared.communication.game.POSTCommands_Output;
-import shared.communication.game.ResetGame_Input;
-import shared.communication.game.ResetGame_Output;
-import shared.communication.games.CreateGame_Input;
-import shared.communication.games.CreateGame_Output;
-import shared.communication.games.JoinGame_Input;
-import shared.communication.games.JoinGame_Output;
-import shared.communication.games.ListGames_Input;
-import shared.communication.games.ListGames_Output;
-import shared.communication.games.LoadGame_Input;
-import shared.communication.games.LoadGame_Output;
-import shared.communication.games.SaveGame_Input;
-import shared.communication.games.SaveGame_Output;
 import shared.communication.moves.*;
-import shared.communication.user.Login_Input;
-import shared.communication.user.Login_Output;
-import shared.communication.user.Register_Input;
-import shared.communication.user.Register_Output;
+import shared.communication.game.*;
+import shared.communication.games.*;
+import shared.communication.user.*;
 import shared.models.ClientModel;
 
 public class ServerFacade {
