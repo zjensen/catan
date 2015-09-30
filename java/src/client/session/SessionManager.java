@@ -2,12 +2,9 @@ package client.session;
 
 import org.junit.experimental.theories.Theories;
 
+import client.facade.ClientFacade;
 import client.poller.Poller;
 import client.server.*;
-import server.facade.ServerFacade;
-import server.facade.game.GameFacade;
-import server.facade.games.GamesFacade;
-import server.facade.user.UserFacade;
 import shared.communication.game.AddAI_Input;
 import shared.communication.game.AddAI_Output;
 import shared.communication.game.GETCommands_Output;
@@ -73,10 +70,7 @@ import shared.models.ClientModel;
 public class SessionManager {
 	
 	//Private Data Members
-	private UserFacade userFacade = new UserFacade();
-	private GameFacade gameFacade = new GameFacade();
-	private GamesFacade gamesFacade = new GamesFacade();
-	private ServerFacade movesFacade = new ServerFacade(this.clientModel);
+	private ClientFacade clientFacade = new ClientFacade(this.clientModel);
 	private ClientModel clientModel = new ClientModel();
 	private Poller poller;
 	private IServer server;
@@ -105,10 +99,7 @@ public class SessionManager {
 	public void setServer() {
 		this.server = new FakeServer();
 		this.poller = new Poller(this.server);
-		this.userFacade.setServer(server);
-		this.gamesFacade.setServer(server);
-		this.gameFacade.setServer(server);
-		this.movesFacade.setServer(server);
+		this.clientFacade.setServer(server);
 	}
 	
 	/**
@@ -119,10 +110,7 @@ public class SessionManager {
 	public void setServer(String host, String port) {
 		this.server = new Server();//This will eventually pass in both the host and port
 		this.poller = new Poller(this.server);
-		this.userFacade.setServer(server);
-		this.gamesFacade.setServer(server);
-		this.gameFacade.setServer(server);
-		this.movesFacade.setServer(server);
+		this.clientFacade.setServer(server);
 	}
 	
 	/**
@@ -134,8 +122,7 @@ public class SessionManager {
 	 */
 	public void updateClientModels(ClientModel newClientModel) {
 		this.clientModel = newClientModel;
-		this.gameFacade.setClientModel(newClientModel);
-		this.movesFacade.setClientModel(newClientModel);
+		this.clientFacade.setClientModel(newClientModel);
 	}
 	
 	//--------------------------------------------------------------------------------------------------
@@ -147,7 +134,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public Login_Output loginIntoServer(Login_Input loginInput) {
-		return this.userFacade.login(loginInput);
+		return this.clientFacade.login(loginInput);
 	}
 	
 	/**
@@ -156,7 +143,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public Register_Output registerNewUser(Register_Input registerInput) {
-		return this.userFacade.register(registerInput);
+		return this.clientFacade.register(registerInput);
 	}
 	
 	//--------------------------------------------------------------------------------------------------
@@ -168,7 +155,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public ListGames_Output list(ListGames_Input listGamesInput){
-		return this.gamesFacade.list(listGamesInput);
+		return this.clientFacade.list(listGamesInput);
 	}
 	
 	/**
@@ -177,7 +164,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public CreateGame_Output create(CreateGame_Input createGameInput){
-		return this.gamesFacade.create(createGameInput);
+		return this.clientFacade.create(createGameInput);
 	}
 	
 	/**
@@ -186,7 +173,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public JoinGame_Output join(JoinGame_Input joinGameInput){
-		return this.gamesFacade.join(joinGameInput);
+		return this.clientFacade.join(joinGameInput);
 	}
 	
 	/**
@@ -195,7 +182,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public SaveGame_Output save(SaveGame_Input saveGameInput){
-		return this.gamesFacade.save(saveGameInput);
+		return this.clientFacade.save(saveGameInput);
 	}
 	
 	/**
@@ -204,7 +191,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public LoadGame_Output load(LoadGame_Input loadGameInput){
-		return this.gamesFacade.load(loadGameInput);
+		return this.clientFacade.load(loadGameInput);
 	}
 	
 	//--------------------------------------------------------------------------------------------------
@@ -216,7 +203,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public GameModel_Output model(GameModel_Input gameModelInput){
-		return this.gameFacade.model(gameModelInput);
+		return this.clientFacade.model(gameModelInput);
 	}
 	
 	/**
@@ -225,7 +212,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public ResetGame_Output reset(ResetGame_Input resetGameInput){
-		return this.gameFacade.reset(resetGameInput);
+		return this.clientFacade.reset(resetGameInput);
 	}
 	
 	/**
@@ -234,7 +221,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public POSTCommands_Output postCommands(POSTCommands_Input postCommandsInput){
-		return this.gameFacade.postCommands(postCommandsInput);
+		return this.clientFacade.postCommands(postCommandsInput);
 	}
 	
 	/**
@@ -243,7 +230,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public GETCommands_Output getCommands(GetCommands_Input getCommandsInput){
-		return this.gameFacade.getCommands(getCommandsInput);
+		return this.clientFacade.getCommands(getCommandsInput);
 	}
 	
 	/**
@@ -252,7 +239,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public AddAI_Output addAI(AddAI_Input addAIInput){
-		return this.gameFacade.addAI(addAIInput);
+		return this.clientFacade.addAI(addAIInput);
 	}
 	
 	/**
@@ -261,7 +248,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public ListAI_Output listAI(ListAI_Input listAIInput){
-		return this.gameFacade.listAI(listAIInput);
+		return this.clientFacade.listAI(listAIInput);
 	}
 
 	//--------------------------------------------------------------------------------------------------
@@ -273,7 +260,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean isPlayersTurn(int playerIndex) {
-		return this.movesFacade.isPlayersTurn(playerIndex);
+		return this.clientFacade.isPlayersTurn(playerIndex);
 	}
 	
 	/**
@@ -282,7 +269,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canSendChat(SendChat_Input canSendChatInput) {
-		return this.movesFacade.canSendChat(canSendChatInput);
+		return this.clientFacade.canSendChat(canSendChatInput);
 	}
 
 	/**
@@ -290,8 +277,8 @@ public class SessionManager {
 	 * @param sendChatInput
 	 * @return
 	 */
-	public SendChat_Output sendChat(SendChat_Input sendChatInput) {
-		return this.movesFacade.sendChat(sendChatInput);
+	public boolean sendChat(SendChat_Input sendChatInput) {
+		return this.clientFacade.sendChat(sendChatInput);
 	}
 	
 	/**
@@ -300,7 +287,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canRollNumber(RollNumber_Input canRollNumberInput) {
-		return this.movesFacade.canRollNumber(canRollNumberInput);
+		return this.clientFacade.canRollNumber(canRollNumberInput);
 	}
 	
 	/**
@@ -308,8 +295,8 @@ public class SessionManager {
 	 * @param rollNumberInput
 	 * @return
 	 */
-	public RollNumber_Output rollNumber(RollNumber_Input rollNumberInput) {
-		return this.movesFacade.rollNumber(rollNumberInput);
+	public boolean rollNumber(RollNumber_Input rollNumberInput) {
+		return this.clientFacade.rollNumber(rollNumberInput);
 	}
 	
 	/**
@@ -318,7 +305,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canRobPlayer(RobPlayer_Input canRobPlayerInput) {
-		return this.movesFacade.canRobPlayer(canRobPlayerInput);
+		return this.clientFacade.canRobPlayer(canRobPlayerInput);
 	}
 	
 	/**
@@ -326,8 +313,8 @@ public class SessionManager {
 	 * @param robPlayerInput
 	 * @return
 	 */
-	public RobPlayer_Output robPlayer(RobPlayer_Input robPlayerInput) {
-		return this.movesFacade.robPlayer(robPlayerInput);
+	public boolean robPlayer(RobPlayer_Input robPlayerInput) {
+		return this.clientFacade.robPlayer(robPlayerInput);
 	}
 	
 	/**
@@ -336,7 +323,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canFinishTurn(FinishTurn_Input canFinishTurnInput) {
-		return this.movesFacade.canFinishTurn(canFinishTurnInput);
+		return this.clientFacade.canFinishTurn(canFinishTurnInput);
 	}
 	
 	/**
@@ -344,8 +331,8 @@ public class SessionManager {
 	 * @param finishTurnInput
 	 * @return
 	 */
-	public FinishTurn_Output finishTurn(FinishTurn_Input finishTurnInput) {
-		return this.movesFacade.finishTurn(finishTurnInput);
+	public boolean finishTurn(FinishTurn_Input finishTurnInput) {
+		return this.clientFacade.finishTurn(finishTurnInput);
 	}
 
 	/**
@@ -354,7 +341,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canBuyDevCard(BuyDevCard_Input canBuyDevCardInput) {
-		return this.movesFacade.canBuyDevCard(canBuyDevCardInput);
+		return this.clientFacade.canBuyDevCard(canBuyDevCardInput);
 	}
 	
 	/**
@@ -362,8 +349,8 @@ public class SessionManager {
 	 * @param buyDevCardInput
 	 * @return
 	 */
-	public BuyDevCard_Output buyDevCard(BuyDevCard_Input buyDevCardInput) {
-		return this.movesFacade.buyDevCard(buyDevCardInput);
+	public boolean buyDevCard(BuyDevCard_Input buyDevCardInput) {
+		return this.clientFacade.buyDevCard(buyDevCardInput);
 	}
 	
 	/**
@@ -372,7 +359,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canYearOfPlenty(YearOfPlenty_Input canYearOfPlentyInput) {
-		return this.movesFacade.canYearOfPlenty(canYearOfPlentyInput);
+		return this.clientFacade.canYearOfPlenty(canYearOfPlentyInput);
 	}
 
 	/**
@@ -380,8 +367,8 @@ public class SessionManager {
 	 * @param yearOfPlentyInput
 	 * @return
 	 */
-	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input yearOfPlentyInput) {
-		return this.movesFacade.yearOfPlenty(yearOfPlentyInput);
+	public boolean yearOfPlenty(YearOfPlenty_Input yearOfPlentyInput) {
+		return this.clientFacade.yearOfPlenty(yearOfPlentyInput);
 	}
 
 	/**
@@ -390,7 +377,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canRoadBuilding(RoadBuilding_Input canRoadBuildingInput) {
-		return this.movesFacade.canRoadBuilding(canRoadBuildingInput);
+		return this.clientFacade.canRoadBuilding(canRoadBuildingInput);
 	}
 	
 	/**
@@ -398,8 +385,8 @@ public class SessionManager {
 	 * @param roadBuildingInput
 	 * @return
 	 */
-	public RoadBuilding_Output roadBuilding(RoadBuilding_Input roadBuildingInput) {
-		return this.movesFacade.roadBuilding(roadBuildingInput);
+	public boolean roadBuilding(RoadBuilding_Input roadBuildingInput) {
+		return this.clientFacade.roadBuilding(roadBuildingInput);
 	}
 	
 	/**
@@ -408,7 +395,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canSoldier(Soldier_Input canSoldierInput) {
-		return this.movesFacade.canSoldier(canSoldierInput);
+		return this.clientFacade.canSoldier(canSoldierInput);
 	}
 
 	
@@ -417,8 +404,8 @@ public class SessionManager {
 	 * @param soldierInput
 	 * @return
 	 */
-	public Soldier_Output soldier(Soldier_Input soldierInput) {
-		return this.movesFacade.soldier(soldierInput);
+	public boolean soldier(Soldier_Input soldierInput) {
+		return this.clientFacade.soldier(soldierInput);
 	}
 	
 	/**
@@ -427,7 +414,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canMonopoly(Monopoly_Input canMonopolyInput)	{
-		return this.movesFacade.canMonopoly(canMonopolyInput);
+		return this.clientFacade.canMonopoly(canMonopolyInput);
 	}
 
 	/**
@@ -435,8 +422,8 @@ public class SessionManager {
 	 * @param monopolyInput
 	 * @return
 	 */
-	public Monopoly_Output monopoly(Monopoly_Input monopolyInput) {
-		return this.movesFacade.monopoly(monopolyInput);
+	public boolean monopoly(Monopoly_Input monopolyInput) {
+		return this.clientFacade.monopoly(monopolyInput);
 	}
 	
 	/**
@@ -445,7 +432,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canMonument(Monument_Input canMonumentInput)	{
-		return this.movesFacade.canMonument(canMonumentInput);
+		return this.clientFacade.canMonument(canMonumentInput);
 	}
 	
 	/**
@@ -453,8 +440,8 @@ public class SessionManager {
 	 * @param monumentInput
 	 * @return
 	 */
-	public Monument_Output monument(Monument_Input monumentInput) {
-		return this.movesFacade.monument(monumentInput);
+	public boolean monument(Monument_Input monumentInput) {
+		return this.clientFacade.monument(monumentInput);
 	}
 	
 	/**
@@ -463,7 +450,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canBuildRoad(BuildRoad_Input canBuildRoadInput) {
-		return this.movesFacade.canBuildRoad(canBuildRoadInput);
+		return this.clientFacade.canBuildRoad(canBuildRoadInput);
 	}
 	
 	/**
@@ -471,8 +458,8 @@ public class SessionManager {
 	 * @param buildRoadInput
 	 * @return
 	 */
-	public BuildRoad_Output buildRoad(BuildRoad_Input buildRoadInput) {
-		return this.movesFacade.buildRoad(buildRoadInput);
+	public boolean buildRoad(BuildRoad_Input buildRoadInput) {
+		return this.clientFacade.buildRoad(buildRoadInput);
 	}
 	
 	/**
@@ -481,7 +468,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canBuildSettlement(BuildSettlement_Input canBuildSettlementInput) {
-		return this.movesFacade.canBuildSettlement(canBuildSettlementInput);
+		return this.clientFacade.canBuildSettlement(canBuildSettlementInput);
 	}
 	
 	/**
@@ -489,8 +476,8 @@ public class SessionManager {
 	 * @param buildSettlementInput
 	 * @return
 	 */
-	public BuildSettlement_Output buildSettlement(BuildSettlement_Input buildSettlementInput) {
-		return this.movesFacade.buildSettlement(buildSettlementInput);
+	public boolean buildSettlement(BuildSettlement_Input buildSettlementInput) {
+		return this.clientFacade.buildSettlement(buildSettlementInput);
 	}
 	
 	/**
@@ -499,7 +486,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canBuildCity(BuildCity_Input canBuildCityInput) {
-		return this.movesFacade.canBuildCity(canBuildCityInput);
+		return this.clientFacade.canBuildCity(canBuildCityInput);
 	}
 	
 	/**
@@ -507,8 +494,8 @@ public class SessionManager {
 	 * @param buildCityInput
 	 * @return
 	 */
-	public BuildCity_Output buildCity(BuildCity_Input buildCityInput) {
-		return this.movesFacade.buildCity(buildCityInput);
+	public boolean buildCity(BuildCity_Input buildCityInput) {
+		return this.clientFacade.buildCity(buildCityInput);
 	}
 	
 	/**
@@ -517,7 +504,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canOfferTrade(OfferTrade_Input canOfferTradeInput) {
-		return this.movesFacade.canOfferTrade(canOfferTradeInput);
+		return this.clientFacade.canOfferTrade(canOfferTradeInput);
 	}
 	
 	/**
@@ -525,8 +512,8 @@ public class SessionManager {
 	 * @param offerTradeInput
 	 * @return
 	 */
-	public OfferTrade_Output offerTrade(OfferTrade_Input offerTradeInput) {
-		return this.movesFacade.offerTrade(offerTradeInput);
+	public boolean offerTrade(OfferTrade_Input offerTradeInput) {
+		return this.clientFacade.offerTrade(offerTradeInput);
 	}
 	
 	/**
@@ -535,7 +522,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canAcceptTrade(AcceptTrade_Input canAcceptTradeInput) {
-		return this.movesFacade.canAcceptTrade(canAcceptTradeInput);
+		return this.clientFacade.canAcceptTrade(canAcceptTradeInput);
 	}
 	
 	/**
@@ -543,8 +530,8 @@ public class SessionManager {
 	 * @param acceptTradeInput
 	 * @return
 	 */
-	public AcceptTrade_Output acceptTrade(AcceptTrade_Input acceptTradeInput) {
-		return this.movesFacade.acceptTrade(acceptTradeInput);
+	public boolean acceptTrade(AcceptTrade_Input acceptTradeInput) {
+		return this.clientFacade.acceptTrade(acceptTradeInput);
 	}
 	
 	/**
@@ -553,7 +540,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canMaritimeTrade(MaritimeTrade_Input canMaritimeTradeInput) {
-		return this.movesFacade.canMaritimeTrade(canMaritimeTradeInput);
+		return this.clientFacade.canMaritimeTrade(canMaritimeTradeInput);
 	}
 	
 	/**
@@ -561,8 +548,8 @@ public class SessionManager {
 	 * @param maritimeTradeInput
 	 * @return
 	 */
-	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input maritimeTradeInput) {
-		return this.movesFacade.maritimeTrade(maritimeTradeInput);
+	public boolean maritimeTrade(MaritimeTrade_Input maritimeTradeInput) {
+		return this.clientFacade.maritimeTrade(maritimeTradeInput);
 	}
 	
 	/**
@@ -571,7 +558,7 @@ public class SessionManager {
 	 * @return
 	 */
 	public boolean canDiscardCards(DiscardCards_Input canDiscardCardsInput) {
-		return this.movesFacade.canDiscardCards(canDiscardCardsInput);
+		return this.clientFacade.canDiscardCards(canDiscardCardsInput);
 	}
 
 	
@@ -580,7 +567,7 @@ public class SessionManager {
 	 * @param discardCardsInput
 	 * @return
 	 */
-	public DiscardCards_Output discardCards(DiscardCards_Input discardCardsInput) {
-		return this.movesFacade.discardCards(discardCardsInput);
+	public boolean discardCards(DiscardCards_Input discardCardsInput) {
+		return this.clientFacade.discardCards(discardCardsInput);
 	}
 }
