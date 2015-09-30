@@ -34,6 +34,20 @@ public class DevCards {
 		
 	}
 	
+	
+	
+	
+	
+	@Override
+	public String toString() {
+		return "DevCards [" 
+				+ "\n\tsoldier      = " + soldier 
+				+ "\n\tmonopoly     = " + monopoly 
+				+ "\n\troadBuilding = " + roadBuilding
+				+ "\n\tyearOfPlenty = " + yearOfPlenty 
+				+ "\n\tmonument     = " + monument + "  ]";
+	}
+
 	public int getSoldier() {
 		return soldier;
 	}
