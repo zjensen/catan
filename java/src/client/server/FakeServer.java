@@ -98,21 +98,26 @@ public class FakeServer implements IServer {
 	@Override
 	public SaveGame_Output saveGame(SaveGame_Input save_game_input) 
 	{
-		// TODO Auto-generated method stub
+		// NOT NEEDED FOR PHASE 1
 		return null;
 	}
 
 	@Override
 	public LoadGame_Output loadGame(LoadGame_Input load_game_input) 
 	{
-		// TODO Auto-generated method stub
+		// NOT NEEDED FOR PHASE 1
 		return null;
 	}
 
 	@Override
-	public GameModel_Output getModel(GameModel_Input game_model_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public GameModel_Output getModel(GameModel_Input game_model_input) 
+	{
+		String response;
+		if(game_model_input.getVersion() == 10)
+			response = this.exampleModel;
+		else
+			response = "true";
+		return new GameModel_Output(response);
 	}
 
 	@Override
@@ -170,105 +175,105 @@ public class FakeServer implements IServer {
 	}
 
 	@Override
-	public SendChat_Output sendChat(SendChat_Input send_chat_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public SendChat_Output sendChat(SendChat_Input send_chat_input)
+	{
+		return new SendChat_Output(this.exampleModel);
 	}
 
 	@Override
-	public RollNumber_Output rollNumber(RollNumber_Input roll_number_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public RollNumber_Output rollNumber(RollNumber_Input roll_number_input) 
+	{
+		return new RollNumber_Output(this.exampleModel);
 	}
 
 	@Override
-	public RobPlayer_Output robPlayer(RobPlayer_Input rob_player_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public RobPlayer_Output robPlayer(RobPlayer_Input rob_player_input)
+	{
+		return new RobPlayer_Output(this.exampleModel);
 	}
 
 	@Override
-	public FinishTurn_Output finishTurn(FinishTurn_Input finish_turn_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public FinishTurn_Output finishTurn(FinishTurn_Input finish_turn_input) 
+	{
+		return new FinishTurn_Output(this.exampleModel);
 	}
 
 	@Override
-	public BuyDevCard_Output buyDevCard(BuyDevCard_Input buy_dev_card_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public BuyDevCard_Output buyDevCard(BuyDevCard_Input buy_dev_card_input) 
+	{
+		return new BuyDevCard_Output(this.exampleModel);
 	}
 
 	@Override
-	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input year_of_plenty_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input year_of_plenty_input) 
+	{
+		return new YearOfPlenty_Output(this.exampleModel);
 	}
 
 	@Override
-	public RoadBuilding_Output roadBuilding(RoadBuilding_Input road_building_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public RoadBuilding_Output roadBuilding(RoadBuilding_Input road_building_input) 
+	{
+		return new RoadBuilding_Output(this.exampleModel);
 	}
 
 	@Override
-	public Soldier_Output soldier(Soldier_Input soldier_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public Soldier_Output soldier(Soldier_Input soldier_input) 
+	{
+		return new Soldier_Output(this.exampleModel);
 	}
 
 	@Override
-	public Monopoly_Output monopoly(Monopoly_Input monopoly_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public Monopoly_Output monopoly(Monopoly_Input monopoly_input) 
+	{
+		return new Monopoly_Output(this.exampleModel);
 	}
 
 	@Override
-	public Monument_Output monument(Monument_Input monument_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public Monument_Output monument(Monument_Input monument_input) 
+	{
+		return new Monument_Output(this.exampleModel);
 	}
 
 	@Override
-	public BuildRoad_Output buildRoad(BuildRoad_Input build_road_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public BuildRoad_Output buildRoad(BuildRoad_Input build_road_input) 
+	{
+		return new BuildRoad_Output(this.exampleModel);
 	}
 
 	@Override
-	public BuildSettlement_Output buildSettlement(BuildSettlement_Input build_settlement_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public BuildSettlement_Output buildSettlement(BuildSettlement_Input build_settlement_input) 
+	{
+		return new BuildSettlement_Output(this.exampleModel);
 	}
 
 	@Override
-	public BuildCity_Output buildCity(BuildCity_Input build_city_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public BuildCity_Output buildCity(BuildCity_Input build_city_input) 
+	{
+		return new BuildCity_Output(this.exampleModel);
 	}
 
 	@Override
-	public OfferTrade_Output offerTrade(OfferTrade_Input offer_trade_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public OfferTrade_Output offerTrade(OfferTrade_Input offer_trade_input) 
+	{
+		return new OfferTrade_Output(this.exampleModel);
 	}
 
 	@Override
-	public AcceptTrade_Output acceptTrade(AcceptTrade_Input accept_trade_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public AcceptTrade_Output acceptTrade(AcceptTrade_Input accept_trade_input) 
+	{
+		return new AcceptTrade_Output(this.exampleModel);
 	}
 
 	@Override
-	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input maritime_trade_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input maritime_trade_input) 
+	{
+		return new MaritimeTrade_Output(this.exampleModel);
 	}
 
 	@Override
-	public DiscardCards_Output discardCards(DiscardCards_Input discard_cards_input) {
-		// TODO Auto-generated method stub
-		return null;
+	public DiscardCards_Output discardCards(DiscardCards_Input discard_cards_input) 
+	{
+		return new DiscardCards_Output(this.exampleModel);
 	}
 
 }
