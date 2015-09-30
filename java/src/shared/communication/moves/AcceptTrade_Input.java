@@ -1,5 +1,7 @@
 package shared.communication.moves;
 
+import com.google.gson.Gson;
+
 public class AcceptTrade_Input 
 {
 	private final String type = "acceptTrade";
@@ -53,6 +55,9 @@ public class AcceptTrade_Input
 		return type;
 	}
 	
-	
-	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 }
