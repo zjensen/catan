@@ -1,4 +1,4 @@
-package server.facade;
+package client.facade;
 
 import client.server.IServer;
 import shared.communication.moves.*;
@@ -7,7 +7,7 @@ import shared.communication.games.*;
 import shared.communication.user.*;
 import shared.models.ClientModel;
 
-public class ServerFacade {
+public class ClientFacade {
 	
 	private ClientModel clientModel;
 	private IServer server;
@@ -16,7 +16,7 @@ public class ServerFacade {
 	 * Constructs a moves facade
 	 * @param clientModel
 	 */
-	public ServerFacade(ClientModel clientModel) {
+	public ClientFacade(ClientModel clientModel) {
 		this.clientModel = clientModel;
 	}
 	
