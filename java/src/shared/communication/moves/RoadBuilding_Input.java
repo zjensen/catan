@@ -1,5 +1,7 @@
 package shared.communication.moves;
 
+import com.google.gson.Gson;
+
 import shared.locations.EdgeLocation;
 
 public class RoadBuilding_Input 
@@ -73,6 +75,9 @@ public class RoadBuilding_Input
 		return type;
 	}
 	
-	
-	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 }

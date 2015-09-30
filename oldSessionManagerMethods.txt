@@ -1,0 +1,446 @@
+	//--------------------------------------------------------------------------------------------------
+	//Server Calls - Login Controller
+	
+	/**
+	 * Sends the login info to the user facade
+	 * @param loginInput
+	 * @return
+	 */
+	public Login_Output loginIntoServer(Login_Input loginInput) {
+		return this.server.login(loginInput);//clientFacade.login(loginInput);
+	}
+	
+	/**
+	 * Sends the registration info to the user facade
+	 * @param registerInput
+	 * @return
+	 */
+	public Register_Output registerNewUser(Register_Input registerInput) {
+		return this.server.register(registerInput);//clientFacade.register(registerInput);
+	}
+	
+	//--------------------------------------------------------------------------------------------------
+	//Server Calls - Pre-Game Controllers
+	
+	/**
+	 * Sends the games list info to the games facade
+	 * @param listGamesInput
+	 * @return
+	 */
+	public ListGames_Output list(ListGames_Input listGamesInput){
+		return this.server.listGames(listGamesInput);//clientFacade.list(listGamesInput);
+	}
+	
+	/**
+	 * Sends the create game info to the games facade
+	 * @param createGamesInput
+	 * @return
+	 */
+	public CreateGame_Output create(CreateGame_Input createGameInput){
+		return this.server.createGame(createGameInput);//clientFacade.create(createGameInput);
+	}
+	
+	/**
+	 * Sends join game info to the games facade
+	 * @param joinGamesInput
+	 * @return
+	 */
+	public JoinGame_Output join(JoinGame_Input joinGameInput){
+		return this.server.joinGame(joinGameInput);//clientFacade.join(joinGameInput);
+	}
+	
+	/**
+	 * Sends save game info to games facade
+	 * @param saveGameInput
+	 * @return
+	 */
+	public SaveGame_Output save(SaveGame_Input saveGameInput){
+		return this.server.saveGame(saveGameInput);//clientFacade.save(saveGameInput);
+	}
+	
+	/**
+	 * Sends load game info to the games facade
+	 * @param loadGameInput
+	 * @return
+	 */
+	public LoadGame_Output load(LoadGame_Input loadGameInput){
+		return this.server.loadGame(loadGameInput);//clientFacade.load(loadGameInput);
+	}
+	
+	//--------------------------------------------------------------------------------------------------
+	//Server Calls - Game setup
+	
+	/**
+	 * Sends game model info to game facade
+	 * @param gameModelInput
+	 * @return
+	 */
+	public GameModel_Output model(GameModel_Input gameModelInput){
+		return this.server.getModel(gameModelInput);//clientFacade.model(gameModelInput);
+	}
+	
+	/**
+	 * Sends game reset info to game facade
+	 * @param resetGameInput
+	 * @return
+	 */
+	public ResetGame_Output reset(ResetGame_Input resetGameInput){
+		return this.server.resetGame(resetGameInput);//clientFacade.reset(resetGameInput);
+	}
+	
+	/**
+	 * Sends game get commands info to game facade
+	 * @param getCommandsInput
+	 * @return
+	 */
+	public GETCommands_Output getCommands(GetCommands_Input getCommandsInput){
+		return this.server.getCommands(getCommandsInput);//clientFacade.getCommands(getCommandsInput);
+	}
+	
+	/**
+	 * Sends game post commands info to game facade
+	 * @param postCommandsInput
+	 * @return
+	 */
+	public POSTCommands_Output postCommands(POSTCommands_Input postCommandsInput){
+		return this.server.postCommands(postCommandsInput);//clientFacade.postCommands(postCommandsInput);
+	}
+	
+	/**
+	 * Sends add AI info to game facade
+	 * @param addAIInput
+	 * @return
+	 */
+	public AddAI_Output addAI(AddAI_Input addAIInput){
+		return this.server.addAI(addAIInput);//clientFacade.addAI(addAIInput);
+	}
+	
+	/**
+	 * Sends list AI info to game facade
+	 * @param listAIInput
+	 * @return
+	 */
+	public ListAI_Output listAI(ListAI_Input listAIInput){
+		return this.server.listAI(listAIInput);//clientFacade.listAI(listAIInput);
+	}
+
+	//--------------------------------------------------------------------------------------------------
+	//Server Calls - In game
+	
+	/**
+	 * Sends send chat info to moves facade
+	 * @param sendChatInput
+	 * @return
+	 */
+	public SendChat_Output sendChat(SendChat_Input sendChatInput) {
+		return this.server.sendChat(sendChatInput);//clientFacade.sendChat(sendChatInput);
+	}
+	
+	/**
+	 * Sends roll number info to moves facade
+	 * @param rollNumberInput
+	 * @return
+	 */
+	public RollNumber_Output rollNumber(RollNumber_Input rollNumberInput) {
+		return this.server.rollNumber(rollNumberInput);//clientFacade.rollNumber(rollNumberInput);
+	}
+	
+	/**
+	 * Sends rob player info to moves facade
+	 * @param robPlayerInput
+	 * @return
+	 */
+	public RobPlayer_Output robPlayer(RobPlayer_Input robPlayerInput) {
+		return this.server.robPlayer(robPlayerInput);//clientFacade.robPlayer(robPlayerInput);
+	}
+	
+	/**
+	 * Sends finish turn info to moves facade
+	 * @param finishTurnInput
+	 * @return
+	 */
+	public FinishTurn_Output finishTurn(FinishTurn_Input finishTurnInput) {
+		return this.server.finishTurn(finishTurnInput);//clientFacade.finishTurn(finishTurnInput);
+	}
+	
+	/**
+	 * Sends buy development card info to moves facade
+	 * @param buyDevCardInput
+	 * @return
+	 */
+	public BuyDevCard_Output buyDevCard(BuyDevCard_Input buyDevCardInput) {
+		return this.server.buyDevCard(buyDevCardInput);//clientFacade.buyDevCard(buyDevCardInput);
+	}
+
+	/**
+	 * Sends year of plenty info to moves facade
+	 * @param yearOfPlentyInput
+	 * @return
+	 */
+	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input yearOfPlentyInput) {
+		return this.server.yearOfPlenty(yearOfPlentyInput);//clientFacade.yearOfPlenty(yearOfPlentyInput);
+	}
+	
+	/**
+	 * Sends road building info to moves facade
+	 * @param roadBuildingInput
+	 * @return
+	 */
+	public RoadBuilding_Output roadBuilding(RoadBuilding_Input roadBuildingInput) {
+		return this.server.roadBuilding(roadBuildingInput);//clientFacade.roadBuilding(roadBuildingInput);
+	}
+	
+	/**
+	 * Sends soldier info to moves facade
+	 * @param soldierInput
+	 * @return
+	 */
+	public Soldier_Output soldier(Soldier_Input soldierInput) {
+		return this.server.soldier(soldierInput);//clientFacade.soldier(soldierInput);
+	}
+
+	/**
+	 * Sends monopoly info to moves facade
+	 * @param monopolyInput
+	 * @return
+	 */
+	public Monopoly_Output monopoly(Monopoly_Input monopolyInput) {
+		return this.server.monopoly(monopolyInput);//clientFacade.monopoly(monopolyInput);
+	}
+	
+	/**
+	 * Sends monument info to moves facade
+	 * @param monumentInput
+	 * @return
+	 */
+	public Monument_Output monument(Monument_Input monumentInput) {
+		return this.server.monument(monumentInput);//clientFacade.monument(monumentInput);
+	}
+	
+	/**
+	 * Sends build road info to moves facade
+	 * @param buildRoadInput
+	 * @return
+	 */
+	public BuildRoad_Output buildRoad(BuildRoad_Input buildRoadInput) {
+		return this.server.buildRoad(buildRoadInput);//clientFacade.buildRoad(buildRoadInput);
+	}
+	
+	/**
+	 * Sends build settlement info to moves facade
+	 * @param buildSettlementInput
+	 * @return
+	 */
+	public BuildSettlement_Output buildSettlement(BuildSettlement_Input buildSettlementInput) {
+		return this.server.buildSettlement(buildSettlementInput);//clientFacade.buildSettlement(buildSettlementInput);
+	}
+	
+	/**
+	 * Sends build city info to moves facade
+	 * @param buildCityInput
+	 * @return
+	 */
+	public BuildCity_Output buildCity(BuildCity_Input buildCityInput) {
+		return this.server.buildCity(buildCityInput);//clientFacade.buildCity(buildCityInput);
+	}
+	
+	/**
+	 * Sends offer trade info to moves facade
+	 * @param offerTradeInput
+	 * @return
+	 */
+	public OfferTrade_Output offerTrade(OfferTrade_Input offerTradeInput) {
+		return this.server.offerTrade(offerTradeInput);//clientFacade.offerTrade(offerTradeInput);
+	}
+	
+	/**
+	 * Sends accept trade info to moves facade
+	 * @param acceptTradeInput
+	 * @return
+	 */
+	public AcceptTrade_Output acceptTrade(AcceptTrade_Input acceptTradeInput) {
+		return this.server.acceptTrade(acceptTradeInput);//clientFacade.acceptTrade(acceptTradeInput);
+	}
+
+	/**
+	 * Sends maritime trade info to moves facade
+	 * @param maritimeTradeInput
+	 * @return
+	 */
+	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input maritimeTradeInput) {
+		return this.server.maritimeTrade(maritimeTradeInput);//clientFacade.maritimeTrade(maritimeTradeInput);
+	}
+	
+	/**
+	 * Sends discard cards info to moves facade
+	 * @param discardCardsInput
+	 * @return
+	 */
+	public DiscardCards_Output discardCards(DiscardCards_Input discardCardsInput) {
+		return this.server.discardCards(discardCardsInput);//clientFacade.discardCards(discardCardsInput);
+	}
+	
+	//--------------------------------------------------------------------------------------------------
+	//Facade Calls - In game
+	/**
+	 * Sends player index to moves facade
+	 * @param playerIndex
+	 * @return
+	 */
+	public boolean isPlayersTurn(int playerIndex) {
+		return this.clientFacade.isPlayersTurn(playerIndex);
+	}
+	
+	/**
+	 * Sends can send chat info to moves facade
+	 * @param sendChatInput
+	 * @return
+	 */
+	public boolean canSendChat(SendChat_Input canSendChatInput) {
+		return this.clientFacade.canSendChat(canSendChatInput);
+	}
+	
+	/**
+	 * Sends can roll number info to moves facade
+	 * @param canRollNumberInput
+	 * @return
+	 */
+	public boolean canRollNumber(RollNumber_Input canRollNumberInput) {
+		return this.clientFacade.canRollNumber(canRollNumberInput);
+	}
+	
+	/**
+	 * Sends can rob player info to moves facade
+	 * @param canRobPlayerInput
+	 * @return
+	 */
+	public boolean canRobPlayer(RobPlayer_Input canRobPlayerInput) {
+		return this.clientFacade.canRobPlayer(canRobPlayerInput);
+	}
+	
+	/**
+	 * Sends can finish turn info to moves facade
+	 * @param canFinishTurnInput
+	 * @return
+	 */
+	public boolean canFinishTurn(FinishTurn_Input canFinishTurnInput) {
+		return this.clientFacade.canFinishTurn(canFinishTurnInput);
+	}
+
+	/**
+	 * Sends can buy development card info to moves facade
+	 * @param canBuyDevCardInput
+	 * @return
+	 */
+	public boolean canBuyDevCard(BuyDevCard_Input canBuyDevCardInput) {
+		return this.clientFacade.canBuyDevCard(canBuyDevCardInput);
+	}
+		
+	/**
+	 * Sends can year of plenty info to moves facade
+	 * @param canYearOfPlentyInput
+	 * @return
+	 */
+	public boolean canYearOfPlenty(YearOfPlenty_Input canYearOfPlentyInput) {
+		return this.clientFacade.canYearOfPlenty(canYearOfPlentyInput);
+	}
+
+	/**
+	 * Sends can road building info to moves facade
+	 * @param canRoadBuildingInput
+	 * @return
+	 */
+	public boolean canRoadBuilding(RoadBuilding_Input canRoadBuildingInput) {
+		return this.clientFacade.canRoadBuilding(canRoadBuildingInput);
+	}
+	
+	/**
+	 * Sends can soldier info to moves facade
+	 * @param canSoldierInput
+	 * @return
+	 */
+	public boolean canSoldier(Soldier_Input canSoldierInput) {
+		return this.clientFacade.canSoldier(canSoldierInput);
+	}
+
+	/**
+	 * Sends can monopoly info to moves facade
+	 * @param canMonopolyInput
+	 * @return
+	 */
+	public boolean canMonopoly(Monopoly_Input canMonopolyInput)	{
+		return this.clientFacade.canMonopoly(canMonopolyInput);
+	}
+
+	/**
+	 * Sends can monument info to moves facade
+	 * @param canMonumentInput
+	 * @return
+	 */
+	public boolean canMonument(Monument_Input canMonumentInput)	{
+		return this.clientFacade.canMonument(canMonumentInput);
+	}
+	
+	/**
+	 * Sends can build road info to moves facade
+	 * @param canBuildRoadInput
+	 * @return
+	 */
+	public boolean canBuildRoad(BuildRoad_Input canBuildRoadInput) {
+		return this.clientFacade.canBuildRoad(canBuildRoadInput);
+	}
+	
+	/**
+	 * Sends can build settlement info to moves facade
+	 * @param canBuildSettlementInput
+	 * @return
+	 */
+	public boolean canBuildSettlement(BuildSettlement_Input canBuildSettlementInput) {
+		return this.clientFacade.canBuildSettlement(canBuildSettlementInput);
+	}
+	
+	/**
+	 * Sends can build city info to moves facade
+	 * @param canBuildCityInput
+	 * @return
+	 */
+	public boolean canBuildCity(BuildCity_Input canBuildCityInput) {
+		return this.clientFacade.canBuildCity(canBuildCityInput);
+	}
+		
+	/**
+	 * Sends can offer trade info to moves facade
+	 * @param canOfferTradeInput
+	 * @return
+	 */
+	public boolean canOfferTrade(OfferTrade_Input canOfferTradeInput) {
+		return this.clientFacade.canOfferTrade(canOfferTradeInput);
+	}
+	
+	/**
+	 * Sends can accept trade info to moves facade
+	 * @param canAcceptTradeInput
+	 * @return
+	 */
+	public boolean canAcceptTrade(AcceptTrade_Input canAcceptTradeInput) {
+		return this.clientFacade.canAcceptTrade(canAcceptTradeInput);
+	}
+	
+	/**
+	 * Sends can maritime trade info to moves facade
+	 * @param canMaritimeTradeInput
+	 * @return
+	 */
+	public boolean canMaritimeTrade(MaritimeTrade_Input canMaritimeTradeInput) {
+		return this.clientFacade.canMaritimeTrade(canMaritimeTradeInput);
+	}
+	
+	/**
+	 * Sends can discard cards info to moves facade
+	 * @param canDiscardCardsInput
+	 * @return
+	 */
+	public boolean canDiscardCards(DiscardCards_Input canDiscardCardsInput) {
+		return this.clientFacade.canDiscardCards(canDiscardCardsInput);
+	}
+

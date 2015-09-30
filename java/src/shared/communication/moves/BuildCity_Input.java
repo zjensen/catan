@@ -1,5 +1,7 @@
 package shared.communication.moves;
 
+import com.google.gson.Gson;
+
 import shared.locations.VertexLocation;
 
 public class BuildCity_Input 
@@ -55,6 +57,9 @@ public class BuildCity_Input
 		return type;
 	}
 	
-	
-	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 }

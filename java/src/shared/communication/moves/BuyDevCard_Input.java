@@ -1,5 +1,7 @@
 package shared.communication.moves;
 
+import com.google.gson.Gson;
+
 public class BuyDevCard_Input 
 {
 	private final String type = "buyDevCard";
@@ -31,5 +33,9 @@ public class BuyDevCard_Input
 		return type;
 	}
 	
-	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 }

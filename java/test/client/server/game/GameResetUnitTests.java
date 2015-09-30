@@ -64,6 +64,5 @@ public class GameResetUnitTests
 		// create regex to make sure our result contains the message
 		Matcher m = Pattern.compile("\"deck\"").matcher(reset_game_result.getResponse());
 		assertTrue(m.find());
-		System.out.println("Reset game test complete");
 	}
 }
