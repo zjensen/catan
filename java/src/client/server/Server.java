@@ -433,8 +433,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			BuildRoad_Output build_road_result = (BuildRoad_Output) doPost(
-					"/moves/buildRoad", build_road_input);
+			String result = (String) doPost("/moves/buildRoad", build_road_input.toJSON());
+			BuildRoad_Output build_road_result = new BuildRoad_Output(result);
 			return build_road_result;
 		}
 		catch (ClientException e)
@@ -449,8 +449,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			BuildSettlement_Output build_settlement_result = (BuildSettlement_Output) doPost(
-					"/moves/buildSettlement", build_settlement_input);
+			String result = (String) doPost("/moves/buildSettlement", build_settlement_input.toJSON());
+			BuildSettlement_Output build_settlement_result = new BuildSettlement_Output(result);
 			return build_settlement_result;
 		}
 		catch (ClientException e)
@@ -465,8 +465,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			BuildCity_Output build_city_result = (BuildCity_Output) doPost(
-					"/moves/buildCity", build_city_input);
+			String result = (String) doPost("/moves/buildCity", build_city_input.toJSON());
+			BuildCity_Output build_city_result = new BuildCity_Output(result);
 			return build_city_result;
 		}
 		catch (ClientException e)
@@ -481,8 +481,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			OfferTrade_Output offer_trade_result = (OfferTrade_Output) doPost(
-					"/moves/offerTrade", offer_trade_input);
+			String result = (String) doPost("/moves/offerTrade", offer_trade_input.toJSON());
+			OfferTrade_Output offer_trade_result = new OfferTrade_Output(result);
 			return offer_trade_result;
 		}
 		catch (ClientException e)
@@ -497,8 +497,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			AcceptTrade_Output accept_trade_result = (AcceptTrade_Output) doPost(
-					"/moves/acceptTrade", accept_trade_input);
+			String result = (String) doPost("/moves/acceptTrade", accept_trade_input.toJSON());
+			AcceptTrade_Output accept_trade_result = new AcceptTrade_Output(result);
 			return accept_trade_result;
 		}
 		catch (ClientException e)
@@ -513,8 +513,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			MaritimeTrade_Output maritime_trade_result = (MaritimeTrade_Output) doPost(
-					"/moves/maritimeTrade", maritime_trade_input);
+			String result = (String) doPost("/moves/maritimeTrade", maritime_trade_input.toJSON());
+			MaritimeTrade_Output maritime_trade_result = new MaritimeTrade_Output(result);
 			return maritime_trade_result;
 		}
 		catch (ClientException e)
@@ -529,8 +529,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			DiscardCards_Output discard_cards_result = (DiscardCards_Output) doPost(
-					"/moves/discardCards", discard_cards_input);
+			String result = (String) doPost("/moves/discardCards", discard_cards_input.toJSON());
+			DiscardCards_Output discard_cards_result = new DiscardCards_Output(result);
 			return discard_cards_result;
 		}
 		catch (ClientException e)
