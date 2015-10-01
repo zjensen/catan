@@ -5,9 +5,8 @@ import shared.models.ClientModel;
 
 public class ClientFacade {
 	
-	
 	private ClientModel clientModel;
-
+	
 	/**
 	 * Constructs a moves facade
 	 * @param clientModel
@@ -55,7 +54,7 @@ public class ClientFacade {
 	 * @param params
 	 * @return true if client can make this move, else false
 	 */
-	public boolean canRobPlayer(RobPlayer_Input params)
+	public boolean canRobPlayer(RobPlayer_Input params) //todo
 	{
 		//if player is not victim, and it is the players turn
 		if(params.getPlayerIndex()!=params.getVictimIndex() && isPlayersTurn(params.getPlayerIndex()))
@@ -110,9 +109,9 @@ public class ClientFacade {
 	 * @param params
 	 * @return true if we can soldier with these params, else false
 	 */
-	public boolean canSoldier(Soldier_Input params)
+	public boolean canSoldier(Soldier_Input params) //todo
 	{
-		return( clientModel.canSoldier(params) && isPlayersTurn(params.getPlayerIndex()) && params.getPlayerIndex()!=params.getVictimIndex());
+		return( clientModel.canSoldier(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
 	
 	/**
@@ -140,7 +139,7 @@ public class ClientFacade {
 	 * @param params
 	 * @return true if we can buildRoad with these params, else false
 	 */
-	public boolean canBuildRoad(BuildRoad_Input params)
+	public boolean canBuildRoad(BuildRoad_Input params) //todo
 	{
 		return (clientModel.canBuildRoad(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
