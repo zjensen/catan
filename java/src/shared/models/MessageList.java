@@ -1,5 +1,7 @@
 package shared.models;
 
+import java.util.Arrays;
+
 public class MessageList {
 	
 	private MessageLine[] lines;
@@ -13,6 +15,7 @@ public class MessageList {
 	{
 		
 	}
+
 
 	public MessageLine[] getLines() {
 		return lines;
