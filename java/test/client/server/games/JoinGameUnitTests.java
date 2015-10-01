@@ -58,6 +58,5 @@ public class JoinGameUnitTests
 		JoinGame_Input join_game_input = new JoinGame_Input(2, "blue");
 		JoinGame_Output join_game_result = server.joinGame(join_game_input);
 		assertEquals(join_game_result.getResponse(), "Success");
-		System.out.println("Join game test complete");
 	}
 }

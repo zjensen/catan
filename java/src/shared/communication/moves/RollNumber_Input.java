@@ -1,5 +1,7 @@
 package shared.communication.moves;
 
+import com.google.gson.Gson;
+
 public class RollNumber_Input 
 {
 	private int playerIndex;
@@ -46,5 +48,11 @@ public class RollNumber_Input
 	 */
 	public String getType() {
 		return type;
-	}	
+	}
+	
+	public String toJSON()
+	{
+		Gson gson = new Gson();
+		return gson.toJson(this);
+	}
 }

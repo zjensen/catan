@@ -48,6 +48,5 @@ public class LoginUnitTests
 		Login_Input bad_input = new Login_Input("bad_input", "bad_input");
 		Login_Output bad_result = server.login(bad_input);
 		assertEquals(bad_result.getResponse(), "Failed to login - bad username or password.");
-		System.out.println("Login test complete");
 	}
 }

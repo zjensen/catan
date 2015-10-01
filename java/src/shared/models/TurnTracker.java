@@ -2,10 +2,10 @@ package shared.models;
 
 public class TurnTracker {
 
-	private int currentTurn;
+	private int currentTurn; // index (0-3) of player whose turn it is
 	private String status; // what's happening now
-	private int longestRoad; 
-	private int largestArmy;
+	private int longestRoad; // index of player currently holding longest road card
+	private int largestArmy; // index of player currently holding largest army card
 	
 	public TurnTracker() {
 		

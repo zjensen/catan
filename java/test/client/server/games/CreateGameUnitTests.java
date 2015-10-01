@@ -52,6 +52,5 @@ public class CreateGameUnitTests
 		// create regex to make sure our result contains the title
 		Matcher m = Pattern.compile("\"title\":\"My new game\"").matcher(create_game_result.getResponse());
 		assertTrue(m.find());
-		System.out.println("Create game test complete");
 	}
 }

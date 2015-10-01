@@ -1,21 +1,19 @@
-package server.facade.moves;
+package client.facade;
 
-import client.server.IServer;
 import shared.communication.moves.*;
 import shared.models.ClientModel;
 
-public class MovesFacade {
+public class ClientFacade {
+	
 	
 	private ClientModel clientModel;
-	private IServer server;
-	
+
 	/**
 	 * Constructs a moves facade
 	 * @param clientModel
 	 */
-	public MovesFacade(ClientModel clientModel, IServer server) {
+	public ClientFacade(ClientModel clientModel) {
 		this.clientModel = clientModel;
-		this.server = server;
 	}
 	
 	/**
@@ -34,28 +32,9 @@ public class MovesFacade {
 	 */
 	public boolean canSendChat(SendChat_Input params)
 	{
-		if(params.getContent() != null && !params.getContent().isEmpty())
-		{
-			return true;
-		}
-		return false;
+		 return(params.getContent() != null && !params.getContent().isEmpty());
 	}
 
-	/**
-	 * sends a chat message
-	 * 
-	 * @param params
-	 * @return SendChat_Output
-	 */
-	public SendChat_Output sendChat(SendChat_Input params)
-	{
-		if(canSendChat(params))
-		{
-			
-		}
-		return null;
-	}
-	
 	/**
 	 * @param params
 	 * @return true if client can make this move, else false
@@ -73,21 +52,6 @@ public class MovesFacade {
 	}
 	
 	/**
-	 * Used to roll a number at the beginning of your turn
-	 * 
-	 * @param params
-	 * @return SendChat_Output
-	 */
-	public RollNumber_Output rollNumber(RollNumber_Input params)
-	{
-		if(canRollNumber(params))
-		{
-			
-		}
-		return null;
-	}
-	
-	/**
 	 * @param params
 	 * @return true if client can make this move, else false
 	 */
@@ -102,21 +66,6 @@ public class MovesFacade {
 	}
 	
 	/**
-	 * Moves the Robber, selecting the new robber position and the player to rob
-	 * 
-	 * @param params
-	 * @return RobPlayer_Output
-	 */
-	public RobPlayer_Output robPlayer(RobPlayer_Input params)
-	{
-		if(canRobPlayer(params))
-		{
-			
-		}
-		return null;
-	}
-	
-	/**
 	 * 
 	 * @param params
 	 * @return true if we can buyDevCard with these params, else false
@@ -124,21 +73,6 @@ public class MovesFacade {
 	public boolean canFinishTurn(FinishTurn_Input params)
 	{
 		return isPlayersTurn(params.getPlayerIndex());
-	}
-	
-	/**
-	 * Used to finish your turn
-	 * 
-	 * @param params
-	 * @return FinishTurn_Output
-	 */
-	public FinishTurn_Output finishTurn(FinishTurn_Input params)
-	{
-		if(canFinishTurn(params))
-		{
-			
-		}
-		return null;
 	}
 
 	/**
@@ -152,22 +86,6 @@ public class MovesFacade {
 	}
 	
 	/**
-	 * Used to buy a development card
-	 * 
-	 * @param params
-	 * @return BuyDevCard_Output
-	 */
-	public BuyDevCard_Output buyDevCard(BuyDevCard_Input params)
-	{
-		if(canBuyDevCard(params))
-		{
-			
-		}
-		
-		return null;
-	}
-	
-	/**
 	 * 
 	 * @param params
 	 * @return true if we can yearOfPlenty with these params, else false
@@ -175,22 +93,6 @@ public class MovesFacade {
 	public boolean canYearOfPlenty(YearOfPlenty_Input params)
 	{
 		return( clientModel.canYearOfPlenty(params) && isPlayersTurn(params.getPlayerIndex()));
-	}
-
-	/**
-	 * Plays a "Year of Plenty" card from your hand to gain 
-	 * the two specified resources
-	 * 
-	 * @param params
-	 * @return YearOfPlenty_Output
-	 */
-	public YearOfPlenty_Output yearOfPlenty(YearOfPlenty_Input params)
-	{
-		if(canYearOfPlenty(params))
-		{
-			
-		}
-		return null;
 	}
 
 	/**
@@ -204,22 +106,6 @@ public class MovesFacade {
 	}
 	
 	/**
-	 * Plays a "Road Building" card from your hand to build 
-	 * two roads at the specified locations
-	 * 
-	 * @param params
-	 * @return RoadBuilding_Output
-	 */
-	public RoadBuilding_Output roadBuilding(RoadBuilding_Input params)
-	{
-		if(canRoadBuilding(params))
-		{
-			
-		}
-		return null;
-	}
-	
-	/**
 	 * 
 	 * @param params
 	 * @return true if we can soldier with these params, else false
@@ -227,23 +113,6 @@ public class MovesFacade {
 	public boolean canSoldier(Soldier_Input params)
 	{
 		return( clientModel.canSoldier(params) && isPlayersTurn(params.getPlayerIndex()) && params.getPlayerIndex()!=params.getVictimIndex());
-	}
-
-	
-	/**
-	 * Plays a 'Soldier' from your hand, selecting the 
-	 * new robber position and player to rob.
-	 * 
-	 * @param params
-	 * @return Soldier_Output
-	 */
-	public Soldier_Output soldier(Soldier_Input params)
-	{
-		if(canSoldier(params))
-		{
-			
-		}
-		return null;
 	}
 	
 	/**
@@ -254,21 +123,6 @@ public class MovesFacade {
 	public boolean canMonopoly(Monopoly_Input params)
 	{
 		return( clientModel.canMonopoly(params) && isPlayersTurn(params.getPlayerIndex()));
-	}
-
-	/**
-	 * Plays a 'Monopoly' card from your hand to monopolize the specified resource
-	 * 
-	 * @param params
-	 * @return Monopoly_Output
-	 */
-	public Monopoly_Output monopoly(Monopoly_Input params)
-	{
-		if(canMonopoly(params))
-		{
-			
-		}
-		return null;
 	}
 	
 	/**
@@ -282,21 +136,6 @@ public class MovesFacade {
 	}
 	
 	/**
-	 * Plays a 'Monument' card from your hand to give you a victory point
-	 * 
-	 * @param params
-	 * @return Monument_Output
-	 */
-	public Monument_Output monument(Monument_Input params)
-	{
-		if(canMonument(params))
-		{
-			
-		}
-		return null;
-	}
-	
-	/**
 	 * 
 	 * @param params
 	 * @return true if we can buildRoad with these params, else false
@@ -304,22 +143,6 @@ public class MovesFacade {
 	public boolean canBuildRoad(BuildRoad_Input params)
 	{
 		return (clientModel.canBuildRoad(params) && isPlayersTurn(params.getPlayerIndex()));
-	}
-	
-	/**
-	 * Builds a road at the specified location. 
-	 * (Set 'free' to true during initial setup.)
-	 * 
-	 * @param params
-	 * @return BuildRoad_Output
-	 */
-	public BuildRoad_Output buildRoad(BuildRoad_Input params)
-	{
-		if(canBuildRoad(params))
-		{
-			
-		}
-		return null;
 	}
 	
 	/**
@@ -333,22 +156,6 @@ public class MovesFacade {
 	}
 	
 	/**
-	 * Builds a settlement at the specified location. 
-	 * (Set 'free' to true during initial setup.)
-	 * 
-	 * @param params
-	 * @return BuildSettlement_Output
-	 */
-	public BuildSettlement_Output buildSettlement(BuildSettlement_Input params)
-	{
-		if(canBuildSettlement(params))
-		{
-			
-		}
-		return null;
-	}
-	
-	/**
 	 * 
 	 * @param params
 	 * @return true if we can buildCity with these params, else false
@@ -356,21 +163,6 @@ public class MovesFacade {
 	public boolean canBuildCity(BuildCity_Input params)
 	{
 		return (clientModel.canBuildCity(params) && isPlayersTurn(params.getPlayerIndex()));
-	}
-	
-	/**
-	 * Builds a city at the specified location.
-	 * 
-	 * @param params
-	 * @return BuildCity_Output
-	 */
-	public BuildCity_Output buildCity(BuildCity_Input params)
-	{
-		if(canBuildCity(params))
-		{
-			
-		}
-		return null;
 	}
 	
 	/**
@@ -382,22 +174,7 @@ public class MovesFacade {
 	{
 		return(clientModel.canOfferTrade(params) && isPlayersTurn(params.getPlayerIndex()) && params.getPlayerIndex()!=params.getReceiver());
 	}
-	
-	/**
-	 * Offers a domestic trade to another player
-	 * 
-	 * @param params
-	 * @return OfferTrade_Output
-	 */
-	public OfferTrade_Output offerTrade(OfferTrade_Input params) 
-	{
-		if(canOfferTrade(params))
-		{
-			
-		}
-		return null;
-	}
-	
+
 	/**
 	 * 
 	 * @param params
@@ -406,21 +183,6 @@ public class MovesFacade {
 	public boolean canAcceptTrade(AcceptTrade_Input params) //todo
 	{
 		return( clientModel.canAcceptTrade(params));
-	}
-	
-	/**
-	 * Used to accept or reject a trade offered to you
-	 * 
-	 * @param params
-	 * @return AcceptTrade_Output
-	 */
-	public AcceptTrade_Output acceptTrade(AcceptTrade_Input params)
-	{
-		if(canAcceptTrade(params))
-		{
-			
-		}
-		return null;
 	}
 	
 	/**
@@ -434,21 +196,6 @@ public class MovesFacade {
 	}
 	
 	/**
-	 * Used to execute a maritime trade
-	 * 
-	 * @param params
-	 * @return MaritimeTrade_Output
-	 */
-	public MaritimeTrade_Output maritimeTrade(MaritimeTrade_Input params)
-	{
-		if(canMaritimeTrade(params))
-		{
-			
-		}
-		return null;
-	}
-	
-	/**
 	 * 
 	 * @param params
 	 * @return true if we can discardCards with these params, else false
@@ -458,22 +205,6 @@ public class MovesFacade {
 		return (clientModel.canDiscardCards(params));
 	}
 
-	
-	/**
-	 * Discards the specified resource cards.
-	 * 
-	 * @param params
-	 * @return DiscardCards_Output
-	 */
-	public DiscardCards_Output discardCards(DiscardCards_Input params)
-	{
-		if(canDiscardCards(params))
-		{
-			
-		}
-		return null;
-	}
-
 	public ClientModel getClientModel() {
 		return clientModel;
 	}
@@ -481,12 +212,6 @@ public class MovesFacade {
 	public void setClientModel(ClientModel clientModel) {
 		this.clientModel = clientModel;
 	}
-
-	public IServer getServer() {
-		return server;
-	}
-
-	public void setServer(IServer server) {
-		this.server = server;
-	}
+	
+	
 }
