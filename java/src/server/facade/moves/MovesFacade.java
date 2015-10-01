@@ -13,8 +13,9 @@ public class MovesFacade {
 	 * Constructs a moves facade
 	 * @param clientModel
 	 */
-	public MovesFacade(ClientModel clientModel) {
+	public MovesFacade(ClientModel clientModel, IServer server) {
 		this.clientModel = clientModel;
+		this.server = server;
 	}
 	
 	/**
@@ -90,7 +91,7 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if client can make this move, else false
 	 */
-	public boolean canRobPlayer(RobPlayer_Input params) //todo
+	public boolean canRobPlayer(RobPlayer_Input params)
 	{
 		//if player is not victim, and it is the players turn
 		if(params.getPlayerIndex()!=params.getVictimIndex() && isPlayersTurn(params.getPlayerIndex()))
@@ -223,9 +224,9 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can soldier with these params, else false
 	 */
-	public boolean canSoldier(Soldier_Input params) //todo
+	public boolean canSoldier(Soldier_Input params)
 	{
-		return( clientModel.canSoldier(params) && isPlayersTurn(params.getPlayerIndex()));
+		return( clientModel.canSoldier(params) && isPlayersTurn(params.getPlayerIndex()) && params.getPlayerIndex()!=params.getVictimIndex());
 	}
 
 	
@@ -300,7 +301,7 @@ public class MovesFacade {
 	 * @param params
 	 * @return true if we can buildRoad with these params, else false
 	 */
-	public boolean canBuildRoad(BuildRoad_Input params) //todo
+	public boolean canBuildRoad(BuildRoad_Input params)
 	{
 		return (clientModel.canBuildRoad(params) && isPlayersTurn(params.getPlayerIndex()));
 	}

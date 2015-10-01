@@ -67,7 +67,7 @@ public class ClientModel {
 		return false;
 	}
 	
-	public boolean canSoldier(Soldier_Input params) //todo
+	public boolean canSoldier(Soldier_Input params)
 	{
 		boolean can = true;
 		int playerIndex = params.getPlayerIndex();
@@ -87,9 +87,9 @@ public class ClientModel {
 		return getPlayerByIndex(params.getPlayerIndex()).canBuyDevCard();
 	}
 	
-	public boolean canRobPlayer(RobPlayer_Input params) //todo
+	public boolean canRobPlayer(RobPlayer_Input params)
 	{
-		return false;
+		return map.canRobPlayer(params);
 	}
 	
 	public boolean canYearOfPlenty(YearOfPlenty_Input params)
@@ -117,18 +117,30 @@ public class ClientModel {
 	 * @param params
 	 * @return
 	 */
-	public boolean canBuildRoad(BuildRoad_Input params) //todo
+	public boolean canBuildRoad(BuildRoad_Input params)
 	{
 		boolean can = true;
 		int playerIndex = params.getPlayerIndex();
-		if(!getPlayerByIndex(playerIndex).canBuildRoad()) //the player is able to build the road
+		
+		if(params.isFree()) //no resources require, roads don't have to be neighbors
 		{
-			can = false;
+			if(!map.canBuildFreeRoad(params))
+			{
+				can = false;
+			}
 		}
-		else if(!map.canBuildRoad(params)) //todo
+		else
 		{
-			can = false;
+			if(!getPlayerByIndex(playerIndex).canBuildRoad()) //the player is able to build the road
+			{
+				can = false;
+			}
+			else if(!map.canBuildRoad(params))
+			{
+				can = false;
+			}
 		}
+		
 		return can;
 	}
 	
