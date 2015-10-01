@@ -30,6 +30,84 @@ public class Map {
 	}
 	
 	/**
+	 * check if vertex is a valid location on the map
+	 * @param v
+	 * @return
+	 */
+	public boolean vertexIsOnMap(VertexLocation v)
+	{
+		v = v.getNormalizedLocation();
+		HexLocation h = v.getHexLoc();
+		int max = radius+1;
+		int x = h.getX();
+		int y = h.getY();
+		
+		if(isOceanHex(h))
+		{
+			if(v.getDir() == VertexDirection.NorthWest)
+			{
+				return((x == max && y > -max) || (y == max && x > -max) || x + y == max);
+			}
+			else// if(e.getDir() == VertexDirection.NorthEast)
+			{
+				return((x == -max && y > 0) || y == max || (x + y == max && y > 0));
+			}
+		}
+		else
+		{
+			return(Math.abs(x) < max && Math.abs(y) < max); //it is on a suitable hex
+		}
+	}
+
+	/**
+	 * ensures the road location is on the map
+	 * @param e
+	 * @return
+	 */
+	public boolean roadIsOnMap(EdgeLocation e)
+	{
+		e = e.getNormalizedLocation();
+		HexLocation h = e.getHexLoc();
+		int x = h.getX();
+		int y = h.getY();
+		int max = radius+1;
+		
+		if(isOceanHex(h))
+		{
+			if(e.getDir() == EdgeDirection.NorthWest)
+			{
+				return((x == max && y > -max) || x + y == max);
+			}
+			else if(e.getDir() == EdgeDirection.North) 
+			{
+				return((y == max && x > -max) || x + y == max);
+			}
+			else// if(e.getDir() == EdgeDirection.NorthEast)
+			{
+				return((x == -max && y > 0) || (y == max && x < 0));
+			}
+		}
+		else
+		{
+			return(Math.abs(x) < max && Math.abs(y) < max); //it is on a suitable hex
+		}
+	}
+	
+	public boolean isOceanHex(HexLocation h)
+	{
+		int max = radius+1;
+		if(Math.abs(h.getX()) == max || Math.abs(h.getY()) == max)
+		{
+			return true;
+		}
+		else if(Math.abs(h.getX() + h.getY()) == max)
+		{
+			return true;
+		}
+		return false;
+	}
+	
+	/**
 	 * checks if the specified location on the map is available for that person to build on
 	 * @param params
 	 * @return
@@ -95,21 +173,27 @@ public class Map {
 	 */
 	public boolean canBuildRoad(BuildRoad_Input params)
 	{
+		boolean can = false;
 		if(roads.containsKey(params.getRoadLocation())) //already a road here man
 		{
 			return false;
 		}
+		else if(!roadIsOnMap(params.getRoadLocation()))
+		{
+			return false;
+		}
+		
 		for (Entry<EdgeLocation, Player> entry : roads.entrySet()) //loop through the roads
 		{
 			if(entry.getValue().getIndex() == params.getPlayerIndex()) //this road belongs to the player
 		    {
 		    	if(params.getRoadLocation().areNeighbors(entry.getKey())) //is this road connected to the road the player wants to build?
 		    	{
-		    		return true;
+		    		can = true;
 		    	}
 		    }
 		}
-		return false;
+		return can;
 	}
 	
 	/**
@@ -119,6 +203,10 @@ public class Map {
 	 */
 	public boolean canBuildFreeRoad(BuildRoad_Input params)
 	{
+		if(!roadIsOnMap(params.getRoadLocation()))
+		{
+			return false;
+		}
 		return !roads.containsKey(params.getRoadLocation()); //is there already a road built here?
 	}
 	
@@ -135,6 +223,10 @@ public class Map {
 			return false;
 		}
 		else if(cities.containsKey(v.getNormalizedLocation())) //already a city here
+		{
+			return false;
+		}
+		else if(!vertexIsOnMap(v))
 		{
 			return false;
 		}
