@@ -172,9 +172,8 @@ public class Server implements IServer {
 	{
 		try
 		{
-			// TODO Switch this method call to doGet?
-			GameModel_Output game_model_result = (GameModel_Output) doPost(
-					"/game/model", game_model_input);
+			String result = (String) doGet("/game/model", game_model_input.getVersion());
+			GameModel_Output game_model_result = new GameModel_Output(result);
 			return game_model_result;
 		}
 		catch (ClientException e)
@@ -534,6 +533,43 @@ public class Server implements IServer {
 			return discard_cards_result;
 		}
 		catch (ClientException e)
+		{
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	private Object doGet(String commandName, int getData) throws ClientException
+	{
+		URL url;
+		try
+		{
+			url = new URL(URL_PREFIX + commandName + "?version=" + getData);
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestMethod("GET");
+			if(catan_user != null && catan_game != null)
+				connection.setRequestProperty("Cookie", "catan.user=" + catan_user + "; catan.game=" + catan_game);
+			else if(catan_user != null)
+				connection.setRequestProperty("Cookie", "catan.user=" + catan_user);
+			
+			if (connection.getResponseCode() == HttpURLConnection.HTTP_OK) 
+			{			
+				InputStream input = connection.getInputStream();
+				return extractResponseBody(input);
+			}
+			else if (connection.getResponseCode() == HttpURLConnection.HTTP_BAD_REQUEST)
+			{
+				InputStream input = connection.getErrorStream();
+				return extractResponseBody(input);
+			}
+			else 
+			{
+				throw new ClientException(String.format(
+						"doGet failed: %s (http code %d)", commandName,
+						connection.getResponseCode()));
+			}
+		}
+		catch (Exception e)
 		{
 			e.printStackTrace();
 		}
