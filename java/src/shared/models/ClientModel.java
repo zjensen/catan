@@ -88,7 +88,7 @@ public class ClientModel {
 		{
 			return false;
 		}
-		else if(map.canMaritimeTrade(params))
+		else if(map.canMaritimeTrade(params)) //todo
 		{
 			return false;
 		}

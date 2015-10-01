@@ -1,21 +1,36 @@
 package shared.models;
 
+import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 
 public class Port {
 
-	private String resourceType;
+	private ResourceType resourceType;
 	private HexLocation location;
-	private String direction;
+	private EdgeDirection direction;
 	private int ratio;
 	
-	public Port() {
-		this.resourceType = ""; // If it is omitted then it means it is for any resource
-		this.location = new HexLocation(0, 0);
-		this.direction = "N";
-		this.ratio = 2; // ie 2:1		
+	
+	
+	public Port(ResourceType resourceType, HexLocation location, EdgeDirection direction)
+	{
+		super();
+		this.resourceType = resourceType;
+		this.location = location;
+		this.direction = direction;
+		this.ratio = 2;
 	}
 	
+	public Port(HexLocation location, EdgeDirection direction)
+	{
+		super();
+		this.resourceType = null;
+		this.location = location;
+		this.direction = direction;
+		this.ratio = 3;
+	}
+
 	/**
 	 * check to see what ratio the player's port has
 	 * @return ratio
@@ -35,36 +50,70 @@ public class Port {
 		return 0;
 	}
 
-	public String getResourceType() {
+	/**
+	 * @return the resourceType
+	 */
+	public ResourceType getResourceType()
+	{
 		return resourceType;
 	}
 
-	public void setResourceType(String resourceType) {
+	/**
+	 * @param resourceType the resourceType to set
+	 */
+	public void setResourceType(ResourceType resourceType)
+	{
 		this.resourceType = resourceType;
 	}
 
-	public HexLocation getLocation() {
+	/**
+	 * @return the location
+	 */
+	public HexLocation getLocation()
+	{
 		return location;
 	}
 
-	public void setLocation(HexLocation location) {
+	/**
+	 * @param location the location to set
+	 */
+	public void setLocation(HexLocation location)
+	{
 		this.location = location;
 	}
 
-	public String getDirection() {
+	/**
+	 * @return the direction
+	 */
+	public EdgeDirection getDirection()
+	{
 		return direction;
 	}
 
-	public void setDirection(String direction) {
+	/**
+	 * @param direction the direction to set
+	 */
+	public void setDirection(EdgeDirection direction)
+	{
 		this.direction = direction;
 	}
 
-	public int getRatio() {
+	/**
+	 * @return the ratio
+	 */
+	public int getRatio()
+	{
 		return ratio;
 	}
 
-	public void setRatio(int ratio) {
+	/**
+	 * @param ratio the ratio to set
+	 */
+	public void setRatio(int ratio)
+	{
 		this.ratio = ratio;
 	}
+
+	
 	
 }

@@ -84,10 +84,28 @@ public class Player {
 		return resources.canOfferCards(offer);
 	}
 	
+	/**
+	 * verifies player has enough resources to trade
+	 * @param params
+	 * @return
+	 */
 	public boolean canMaritimeTrade(MaritimeTrade_Input params)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		switch(params.getInputResource())
+		{
+			case BRICK:
+				return resources.getBrick() > params.getRatio();
+			case ORE:
+				return resources.getOre() > params.getRatio();
+			case SHEEP:
+				return resources.getSheep() > params.getRatio();
+			case WHEAT:
+				return resources.getWheat() > params.getRatio();
+			case WOOD:
+				return resources.getWood() > params.getRatio();
+			default:
+				return false;
+		}
 	}
 	
 	/**

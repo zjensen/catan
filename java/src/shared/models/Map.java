@@ -93,6 +93,17 @@ public class Map {
 		}
 	}
 	
+	/**
+	 * check if player has a building at a port with these parameters
+	 * @param params
+	 * @return
+	 */
+	public boolean canMaritimeTrade(MaritimeTrade_Input params)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
+	
 	public boolean isOceanHex(HexLocation h)
 	{
 		int max = radius+1;
@@ -446,11 +457,5 @@ public class Map {
 	 */
 	public void setRobber(HexLocation robber) {
 		this.robber = robber;
-	}
-
-	public boolean canMaritimeTrade(MaritimeTrade_Input params)
-	{
-		// TODO Auto-generated method stub
-		return false;
 	}
 }
