@@ -175,6 +175,22 @@ public class Player {
 		return !playedDevCard;
 	}
 	
+	
+	
+	
+	
+	
+	@Override
+	public String toString() {
+		return "Player [" 
+				+ "\n\tname=" + name + ", color=" + color + ", playerID=" + playerID 
+				+ "\n\tindex=" + index + ", discarded=" + discarded + ", playedDevCard=" + playedDevCard 
+				+ "\n\tnewDevCards=" + newDevCards + "\n\toldDevCards=" + oldDevCards + "\n\tresources=" + resources 
+				+ "\n\troads=" + roads + ", settlements=" + settlements + ", cities=" + cities
+				+ "\n\tsoldiers=" + soldiers + ", monuments=" + monuments + ", longestRoad=" + longestRoad 
+				+ "\n\tvictoryPoints=" + victoryPoints + "   ]";
+	}
+
 	public String getName() {
 		return name;
 	}

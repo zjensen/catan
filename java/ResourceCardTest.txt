@@ -371,6 +371,270 @@
           "y": -1
         }
       }
-    ]
+    ],
+    "robber": {
+      "x": 0,
+      "y": -2
     }
+  },
+  "players": [
+    {
+      "resources": {
+        "brick": 0,
+        "wood": 1,
+        "sheep": 1,
+        "wheat": 1,
+        "ore": 0
+      },
+      "oldDevCards": {
+        "yearOfPlenty": 0,
+        "monopoly": 0,
+        "soldier": 0,
+        "roadBuilding": 0,
+        "monument": 0
+      },
+      "newDevCards": {
+        "yearOfPlenty": 0,
+        "monopoly": 0,
+        "soldier": 0,
+        "roadBuilding": 0,
+        "monument": 0
+      },
+      "roads": 13,
+      "cities": 4,
+      "settlements": 3,
+      "soldiers": 0,
+      "victoryPoints": 2,
+      "monuments": 0,
+      "playedDevCard": false,
+      "discarded": false,
+      "playerID": 0,
+      "playerIndex": 0,
+      "name": "Sam",
+      "color": "green"
+    },
+    {
+      "resources": {
+        "brick": 1,
+        "wood": 0,
+        "sheep": 1,
+        "wheat": 0,
+        "ore": 1
+      },
+      "oldDevCards": {
+        "yearOfPlenty": 0,
+        "monopoly": 0,
+        "soldier": 0,
+        "roadBuilding": 0,
+        "monument": 0
+      },
+      "newDevCards": {
+        "yearOfPlenty": 0,
+        "monopoly": 0,
+        "soldier": 0,
+        "roadBuilding": 0,
+        "monument": 0
+      },
+      "roads": 13,
+      "cities": 4,
+      "settlements": 3,
+      "soldiers": 0,
+      "victoryPoints": 2,
+      "monuments": 0,
+      "playedDevCard": false,
+      "discarded": false,
+      "playerID": 1,
+      "playerIndex": 1,
+      "name": "Brooke",
+      "color": "blue"
+    },
+    {
+      "resources": {
+        "brick": 0,
+        "wood": 1,
+        "sheep": 1,
+        "wheat": 1,
+        "ore": 0
+      },
+      "oldDevCards": {
+        "yearOfPlenty": 0,
+        "monopoly": 0,
+        "soldier": 0,
+        "roadBuilding": 0,
+        "monument": 0
+      },
+      "newDevCards": {
+        "yearOfPlenty": 0,
+        "monopoly": 0,
+        "soldier": 0,
+        "roadBuilding": 0,
+        "monument": 0
+      },
+      "roads": 13,
+      "cities": 4,
+      "settlements": 3,
+      "soldiers": 0,
+      "victoryPoints": 2,
+      "monuments": 0,
+      "playedDevCard": false,
+      "discarded": false,
+      "playerID": 10,
+      "playerIndex": 2,
+      "name": "Pete",
+      "color": "red"
+    },
+    {
+      "resources": {
+        "brick": 0,
+        "wood": 1,
+        "sheep": 1,
+        "wheat": 0,
+        "ore": 1
+      },
+      "oldDevCards": {
+        "yearOfPlenty": 0,
+        "monopoly": 0,
+        "soldier": 0,
+        "roadBuilding": 0,
+        "monument": 0
+      },
+      "newDevCards": {
+        "yearOfPlenty": 0,
+        "monopoly": 0,
+        "soldier": 0,
+        "roadBuilding": 0,
+        "monument": 0
+      },
+      "roads": 13,
+      "cities": 4,
+      "settlements": 3,
+      "soldiers": 0,
+      "victoryPoints": 2,
+      "monuments": 0,
+      "playedDevCard": false,
+      "discarded": false,
+      "playerID": 11,
+      "playerIndex": 3,
+      "name": "Mark",
+      "color": "green"
+    }
+  ],
+  "log": {
+    "lines": [
+      {
+        "source": "Sam",
+        "message": "Sam built a road"
+      },
+      {
+        "source": "Sam",
+        "message": "Sam built a settlement"
+      },
+      {
+        "source": "Sam",
+        "message": "Sam's turn just ended"
+      },
+      {
+        "source": "Brooke",
+        "message": "Brooke built a road"
+      },
+      {
+        "source": "Brooke",
+        "message": "Brooke built a settlement"
+      },
+      {
+        "source": "Brooke",
+        "message": "Brooke's turn just ended"
+      },
+      {
+        "source": "Pete",
+        "message": "Pete built a road"
+      },
+      {
+        "source": "Pete",
+        "message": "Pete built a settlement"
+      },
+      {
+        "source": "Pete",
+        "message": "Pete's turn just ended"
+      },
+      {
+        "source": "Mark",
+        "message": "Mark built a road"
+      },
+      {
+        "source": "Mark",
+        "message": "Mark built a settlement"
+      },
+      {
+        "source": "Mark",
+        "message": "Mark's turn just ended"
+      },
+      {
+        "source": "Mark",
+        "message": "Mark built a road"
+      },
+      {
+        "source": "Mark",
+        "message": "Mark built a settlement"
+      },
+      {
+        "source": "Mark",
+        "message": "Mark's turn just ended"
+      },
+      {
+        "source": "Pete",
+        "message": "Pete built a road"
+      },
+      {
+        "source": "Pete",
+        "message": "Pete built a settlement"
+      },
+      {
+        "source": "Pete",
+        "message": "Pete's turn just ended"
+      },
+      {
+        "source": "Brooke",
+        "message": "Brooke built a road"
+      },
+      {
+        "source": "Brooke",
+        "message": "Brooke built a settlement"
+      },
+      {
+        "source": "Brooke",
+        "message": "Brooke's turn just ended"
+      },
+      {
+        "source": "Sam",
+        "message": "Sam built a road"
+      },
+      {
+        "source": "Sam",
+        "message": "Sam built a settlement"
+      },
+      {
+        "source": "Sam",
+        "message": "Sam's turn just ended"
+      }
+    ]
+  },
+  "chat": {
+    "lines": []
+  },
+  "bank": {
+    "brick": 23,
+    "wood": 21,
+    "sheep": 20,
+    "wheat": 22,
+    "ore": 22
+  },
+  "turnTracker": {
+    "status": "Rolling",
+    "currentTurn": 0,
+    "longestRoad": -1,
+    "largestArmy": -1
+  },
+  "winner": -1,
+  "version": 0
 }

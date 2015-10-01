@@ -16,6 +16,21 @@ public class TurnTracker {
 		
 	}
 
+	
+	
+	
+	@Override
+	public String toString() {
+		return "TurnTracker [" 
+				+ "\n\tcurrentTurn = " + currentTurn 
+				+ "\n\tstatus      = " + status 
+				+ "\n\tlongestRoad = " + longestRoad
+				+ "\n\tlargestArmy = " + largestArmy + "   ]";
+	}
+
+
+
+
 	public int getCurrentTurn() {
 		return currentTurn;
 	}
