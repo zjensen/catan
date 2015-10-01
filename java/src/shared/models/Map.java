@@ -447,4 +447,10 @@ public class Map {
 	public void setRobber(HexLocation robber) {
 		this.robber = robber;
 	}
+
+	public boolean canMaritimeTrade(MaritimeTrade_Input params)
+	{
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

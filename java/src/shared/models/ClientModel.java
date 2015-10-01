@@ -83,8 +83,16 @@ public class ClientModel {
 
 	public boolean canMaritimeTrade(MaritimeTrade_Input params) //todo
 	{
-		// TODO Auto-generated method stub
-		return false;
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		if(!p.canMaritimeTrade(params))
+		{
+			return false;
+		}
+		else if(map.canMaritimeTrade(params))
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean canSoldier(Soldier_Input params)
