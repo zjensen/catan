@@ -39,6 +39,7 @@ public class ServerUnitTests
 				"client.server.games.CreateGameUnitTests",
 				"client.server.games.JoinGameUnitTests",
 				"client.server.game.GameResetUnitTests",    // game tests
+				"client.server.game.GetModelUnitTests",
 				"client.server.game.ListAIUnitTests",
 				"client.server.game.AddAIUnitTests",
 				"client.server.moves.SendChatUnitTests",	// moves tests
