@@ -106,5 +106,72 @@ public class EdgeLocation
 				return null;
 		}
 	}
+	
+	
+	/**
+	 * determines whether or not the given edgelocation is connected to this edge location
+	 * @param e2
+	 * @return true if the edges are connected
+	 */
+	public boolean areNeighbors(EdgeLocation e2) //checks if e2 is connected to this edge location
+	{
+		EdgeLocation e1 = this.getNormalizedLocation();
+		e2 = e2.getNormalizedLocation();
+		
+		if(e1.getDir() == EdgeDirection.NorthWest)
+		{
+			if(e2.getHexLoc()==e1.getHexLoc() && e2.getDir() == EdgeDirection.North) //1
+			{
+				return true; //yeet yah!
+			}
+			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest) && e2.getDir() == EdgeDirection.NorthEast) //1
+			{
+				return true; //yeet yah!
+			}
+			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest)) //2
+			{
+				if(e2.getDir() == EdgeDirection.North || e2.getDir() == EdgeDirection.NorthEast)
+				{
+					return true; //yeet yah!
+				}
+			}
+		}
+		else if(e1.getDir() == EdgeDirection.North)
+		{
+			if(e2.getHexLoc()==e1.getHexLoc() && (e2.getDir() == EdgeDirection.NorthEast || e2.getDir() == EdgeDirection.NorthWest)) //2
+			{
+				return true; //yeet yah!
+			}
+			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest) && e2.getDir() == EdgeDirection.NorthEast) //1
+			{
+				return true; //yeet yah!
+			}
+			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast) && e2.getDir() == EdgeDirection.NorthEast) //1
+			{
+				return true; //yeet yah!
+			}
+			
+		}
+		else if(e1.getDir() == EdgeDirection.NorthEast)
+		{
+			if(e2.getHexLoc()==e1.getHexLoc() && e2.getDir() == EdgeDirection.North) //1
+			{
+				return true; //yeet yah!
+			}
+			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast) && e2.getDir() == EdgeDirection.NorthWest) //1
+			{
+				return true; //yeet yah!
+			}
+			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast)) //2
+			{
+				if(e2.getDir() == EdgeDirection.North || e2.getDir() == EdgeDirection.NorthWest)
+				{
+					return true; //yeet yah!
+				}
+			}
+		}
+
+		return false; //nahhhhhhh
+	}
 }
 
