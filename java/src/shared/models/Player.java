@@ -106,7 +106,8 @@ public class Player {
 		return (oldDevCards.getSoldier() > 0 && canPlayDevCard());
 	}
 	
-	public boolean canRoadBuilding() {
+	public boolean canRoadBuilding() 
+	{
 		return (oldDevCards.getRoadBuilding() > 0 && canPlayDevCard());
 	}
 
