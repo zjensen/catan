@@ -54,7 +54,7 @@ public class ClientFacade {
 	 * @param params
 	 * @return true if client can make this move, else false
 	 */
-	public boolean canRobPlayer(RobPlayer_Input params) //todo
+	public boolean canRobPlayer(RobPlayer_Input params)
 	{
 		//if player is not victim, and it is the players turn
 		if(params.getPlayerIndex()!=params.getVictimIndex() && isPlayersTurn(params.getPlayerIndex()))
@@ -109,7 +109,7 @@ public class ClientFacade {
 	 * @param params
 	 * @return true if we can soldier with these params, else false
 	 */
-	public boolean canSoldier(Soldier_Input params) //todo
+	public boolean canSoldier(Soldier_Input params)
 	{
 		return( clientModel.canSoldier(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
@@ -139,7 +139,7 @@ public class ClientFacade {
 	 * @param params
 	 * @return true if we can buildRoad with these params, else false
 	 */
-	public boolean canBuildRoad(BuildRoad_Input params) //todo
+	public boolean canBuildRoad(BuildRoad_Input params)
 	{
 		return (clientModel.canBuildRoad(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
@@ -149,7 +149,7 @@ public class ClientFacade {
 	 * @param params
 	 * @return true if we can buildSettlement with these params, else false
 	 */
-	public boolean canBuildSettlement(BuildSettlement_Input params) //todo
+	public boolean canBuildSettlement(BuildSettlement_Input params)
 	{
 		return (clientModel.canBuildSettlement(params) && isPlayersTurn(params.getPlayerIndex()));
 	}
@@ -179,7 +179,7 @@ public class ClientFacade {
 	 * @param params
 	 * @return true if we can acceptTrade with these params, else false
 	 */
-	public boolean canAcceptTrade(AcceptTrade_Input params) //todo
+	public boolean canAcceptTrade(AcceptTrade_Input params)
 	{
 		return( clientModel.canAcceptTrade(params));
 	}

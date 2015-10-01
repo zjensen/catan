@@ -123,6 +123,44 @@ public class Map {
 	}
 	
 	/**
+	 * 
+	 * checks whether a city or settlement is on the given location
+	 * @param v
+	 * @return true if location is unused, else false
+	 */
+	public boolean isVertexLocationAvailable(VertexLocation v)
+	{
+		if(settlements.containsKey(v.getNormalizedLocation())) //already a settlement here
+		{
+			return false;
+		}
+		else if(cities.containsKey(v.getNormalizedLocation())) //already a city here
+		{
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+	
+	/**
+	 * 
+	 * checks whether a city or settlement is on the given location
+	 * @param v
+	 * @return true if location is unused, else false
+	 */
+	public boolean hasRoadAtLocation(EdgeLocation e, int playerIndex)
+	{
+		e = e.getNormalizedLocation();
+		if(roads.containsKey(e)) //does this road exist?
+		{
+			return (roads.get(e).getIndex() == playerIndex); //does this player own this road?
+		}
+		return false;
+	}
+	
+	/**
 	 * checks if the specified location on the map is available for that person to build a settlement on
 	 * @param params 
 	 * @param params
@@ -130,7 +168,83 @@ public class Map {
 	 */
 	public boolean canBuildSettlement(BuildSettlement_Input params) //todo
 	{
-		return false;
+		if(!isVertexLocationAvailable(params.getVertexLocation())) //make sure this location is free
+		{
+			return false;
+		}
+		
+		HexLocation h = params.getVertexLocation().getNormalizedLocation().getHexLoc(); //hex location where we want to build
+		VertexDirection d = params.getVertexLocation().getNormalizedLocation().getDir(); //vertex direction where we want to build
+		int i = params.getPlayerIndex(); //index of player that wants to build
+		
+		if(d == VertexDirection.NorthWest)
+		{
+			//make sure no other buildings are too close
+			if(!isVertexLocationAvailable(new VertexLocation(h,VertexDirection.NorthEast))) //location to east is free
+			{
+				return false;
+			}
+			else if(!isVertexLocationAvailable(new VertexLocation(h.getNeighborLoc(EdgeDirection.NorthWest),VertexDirection.NorthEast))) //location to northwest is free
+			{
+				return false;
+			}
+			else if(!isVertexLocationAvailable(new VertexLocation(h.getNeighborLoc(EdgeDirection.SouthWest),VertexDirection.NorthEast))) //location to southwest is free
+			{
+				return false;
+			}
+			
+			//check if user has a road connecting to this location
+			if(hasRoadAtLocation(new EdgeLocation(h, EdgeDirection.North), i))
+			{
+				return true;
+			}
+			else if(hasRoadAtLocation(new EdgeLocation(h, EdgeDirection.NorthWest), i))
+			{
+				return true;
+			}
+			else if(hasRoadAtLocation(new EdgeLocation(h.getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast), i))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		else //if(d == VertexDirection.NorthEast)
+		{
+			//make sure no other buildings are too close
+			if(!isVertexLocationAvailable(new VertexLocation(h,VertexDirection.NorthWest))) //location to west is free
+			{
+				return false;
+			}
+			else if(!isVertexLocationAvailable(new VertexLocation(h.getNeighborLoc(EdgeDirection.NorthEast),VertexDirection.NorthWest))) //location to northeast is free
+			{
+				return false;
+			}
+			else if(!isVertexLocationAvailable(new VertexLocation(h.getNeighborLoc(EdgeDirection.SouthEast),VertexDirection.NorthWest))) //location to southeast is free
+			{
+				return false;
+			}
+			
+			//check if user has a road connecting to this location
+			if(hasRoadAtLocation(new EdgeLocation(h, EdgeDirection.North), i))
+			{
+				return true;
+			}
+			else if(hasRoadAtLocation(new EdgeLocation(h, EdgeDirection.NorthEast), i))
+			{
+				return true;
+			}
+			else if(hasRoadAtLocation(new EdgeLocation(h.getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest), i))
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
 	}
 
 	/**
