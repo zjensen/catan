@@ -25,6 +25,13 @@
 	<property name="demo.dir" value="demo"/>
     <property name="server.jar.file" value="${demo.dir}/server.jar"/>
     <property name="client.jar.file" value="${demo.dir}/client.jar"/>
+    <property name="java.dir" location="java"/>
+	<property name="java.src" location="${java.dir}/src"/>
+	<property name="java.images" location="${java.dir}/images"/>
+	<property name="java.build" location="${java.dir}/build"/>
+	<property name="java.dist" location="${java.dir}/dist"/>
+	<property name="java.lib" location="${java.dir}/lib"/>
+	<property name="java.test" location="${java.dir}/test"/>
   
 	<!-- CLASSPATHS -->
 	<!-- ********** -->
@@ -33,6 +40,11 @@
 		<fileset dir="${java.lib.dir}">
 			<include name="**/*.jar" />
 		</fileset>
+	</path>
+
+	<path id="all-classpath">
+		<path refid="java.lib.classpath"/>
+		<pathelement location="${java.build}"/>
 	</path>
 
 	<!-- TARGETS -->
@@ -80,12 +92,13 @@
 	</target>
     -->
 
-  	<property name="java.dir" location="java"/>
+<!--   	<property name="java.dir" location="java"/>
 	<property name="java.src" location="${java.dir}/src"/>
 	<property name="java.images" location="${java.dir}/images"/>
 	<property name="java.build" location="${java.dir}/build"/>
 	<property name="java.dist" location="${java.dir}/dist"/>
 	<property name="java.lib" location="${java.dir}/lib"/>
+	<property name="java.test" location="${java.dir}/test"/> -->
  
 	<target name="init" description="create build directories">
 		<tstamp/>
@@ -100,6 +113,12 @@
     
 	<target name="compile" depends="init" description="compile the source " >
 		<javac srcdir="${java.src}" destdir="${java.build}" debug="true" includeantruntime="true">
+			<classpath refid="java.lib.classpath" />
+		</javac>
+	</target>
+
+	<target name="compile-test" depends="init" description="compile the test dir" >
+		<javac srcdir="${java.test}" destdir="${java.build}" debug="true" includeantruntime="true">
 			<classpath refid="java.lib.classpath" />
 		</javac>
 	</target>
@@ -154,6 +173,17 @@
     <target name="make-tester-zip" depends="package" description="makes a zip file for your testing team">
         <zip destfile="./tester.zip" basedir="${java.dist}" />
     </target>
+
+    <target name="test" depends="compile, compile-test" description="compiles, packages, and runs the JUnit tests for the project">
+		<java classname="client.server.ServerUnitTests" fork="yes">
+			<classpath>
+				<path refid="all-classpath"/>
+			</classpath>
+			<assertions>
+				<enable/>
+			</assertions>
+		</java>
+	</target>
   
 </project>
 
