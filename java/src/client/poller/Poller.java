@@ -48,6 +48,7 @@ public class Poller
 	private void updateClientModel()
 	{
 		clientModel.updateClient("Temp");
+		//
 	}
 
 	private Timer getTimer() {
