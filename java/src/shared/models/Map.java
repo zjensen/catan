@@ -1,5 +1,6 @@
 package shared.models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 
@@ -100,10 +101,84 @@ public class Map {
 	 */
 	public boolean canMaritimeTrade(MaritimeTrade_Input params)
 	{
-		// TODO Auto-generated method stub
+		ArrayList<VertexLocation> buildings = new ArrayList<VertexLocation>(); //list of this player's buildings
+		
+		for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //find this person's settlements
+		{
+		    if(entry.getValue().getIndex() == params.getPlayerIndex()) //settlement belongs to player
+		    {
+		    	buildings.add(entry.getKey().getNormalizedLocation());
+		    }
+		}
+		for (Entry<VertexLocation, Player> entry : cities.entrySet()) //find this person's cities
+		{
+		    if(entry.getValue().getIndex() == params.getPlayerIndex()) //city belongs to player
+		    {
+		    	buildings.add(entry.getKey().getNormalizedLocation());
+		    }
+		}
+		
+		if(buildings.isEmpty()) //should never occur
+		{
+			return false;
+		}
+		
+		return onPort(params, buildings);
+	}
+	
+	/**
+	 * Determines if a player has a building on the type of port they are trying to make a trade through
+	 * @param params
+	 * @param buildings - all of a users buildings
+	 * @return
+	 */
+	public boolean onPort(MaritimeTrade_Input params, ArrayList<VertexLocation> buildings)
+	{
+		//get list of all edges this user has buildings on
+		ArrayList<EdgeLocation> edges = new ArrayList<EdgeLocation>();
+		for(VertexLocation v : buildings)
+		{
+			VertexDirection d = v.getDir();
+			HexLocation h = v.getHexLoc();
+			
+			if(d == VertexDirection.NorthWest)
+			{	
+				edges.add(new EdgeLocation(h, EdgeDirection.North));
+				edges.add(new EdgeLocation(h, EdgeDirection.NorthWest));
+				edges.add(new EdgeLocation(h.getNeighborLoc(EdgeDirection.NorthWest), EdgeDirection.NorthEast));
+			}
+			else //if(d == VertexDirection.NorthEast)
+			{			
+				edges.add(new EdgeLocation(h, EdgeDirection.North));
+				edges.add(new EdgeLocation(h, EdgeDirection.NorthEast));
+				edges.add(new EdgeLocation(h.getNeighborLoc(EdgeDirection.NorthEast), EdgeDirection.NorthWest));
+			}
+		}
+
+		for(Port p : ports)
+		{
+			EdgeLocation pe = new EdgeLocation(p.getLocation(), p.getDirection()); //the ports edge
+			for(EdgeLocation e : edges)
+			{
+				if(e.equals(pe)) //one of the edges the player has a building on IS A PORT
+				{
+					if(p.getRatio() == params.getRatio() && p.getResourceType() == params.getInputResource())
+					{
+						//this is the type of port the player is attempting to use
+						return true;
+					}
+				}
+			}
+		}
+		
 		return false;
 	}
 	
+	/**
+	 * determines if hex is an ocean hex or not
+	 * @param h
+	 * @return
+	 */
 	public boolean isOceanHex(HexLocation h)
 	{
 		int max = radius+1;

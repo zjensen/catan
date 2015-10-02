@@ -2,7 +2,6 @@ package shared.models;
 
 import shared.communication.moves.DiscardCards_Input;
 import shared.communication.moves.MaritimeTrade_Input;
-import shared.definitions.ResourceType;
 
 public class Player {
 	
