@@ -1,5 +1,6 @@
 package client.interpreter;
 import shared.definitions.HexType;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 import shared.models.*;
 import static org.junit.Assert.*;
@@ -25,16 +26,13 @@ public class InterpreterTest {
 		
 		// Loads json file into memory to use for testing
 		StringBuilder result = new StringBuilder("");
-	    File file = new File("ResourceCardTest.txt");
+	    File file = new File("java/ResourceCardTest.txt");
 		
 		try (Scanner scanner = new Scanner(file)) {
-
 			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				result.append(line).append("\n");
+				result.append(scanner.nextLine()).append("\n");
 			}
 			scanner.close();
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -96,7 +94,7 @@ public class InterpreterTest {
 		
 			HexLocation hexLoc3 = new HexLocation(-3, 2);
 			assertEquals(hexLoc3, testPorts[4].getLocation());
-			assertEquals(HexType.WOOD, testPorts[4].getResourceType());
+			assertEquals(ResourceType.WOOD, testPorts[4].getResourceType());
 			assertEquals(EdgeDirection.NorthEast, testPorts[4].getDirection());
 			assertEquals(2, testPorts[4].getRatio());
 		
@@ -104,7 +102,7 @@ public class InterpreterTest {
 			HashMap<EdgeLocation, Player> testRoads = resultingClientModel.getMap().getRoads();
 
 			HexLocation hexLoc4 = new HexLocation(2, -2);
-			EdgeLocation testEdgeLoc = new EdgeLocation(hexLoc4, EdgeDirection.SouthWest);
+			EdgeLocation testEdgeLoc = new EdgeLocation(hexLoc4, EdgeDirection.SouthWest).getNormalizedLocation();
 			assertEquals("Mark", testRoads.get(testEdgeLoc).getName());
 			assertEquals(11, testRoads.get(testEdgeLoc).getPlayerID());
 			
@@ -112,7 +110,7 @@ public class InterpreterTest {
 			HashMap<VertexLocation, Player> testSettlements = resultingClientModel.getMap().getSettlements();
 			
 			HexLocation hexLoc5 = new HexLocation(0, 0);
-			VertexLocation testVertexLoc = new VertexLocation(hexLoc5, VertexDirection.SouthWest);
+			VertexLocation testVertexLoc = new VertexLocation(hexLoc5, VertexDirection.SouthWest).getNormalizedLocation();
 			assertEquals("Pete", testSettlements.get(testVertexLoc).getName());
 			assertEquals(10, testSettlements.get(testVertexLoc).getPlayerID());
 			
