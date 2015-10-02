@@ -2,6 +2,7 @@ package shared.models;
 
 import shared.communication.moves.DiscardCards_Input;
 import shared.communication.moves.MaritimeTrade_Input;
+import shared.communication.moves.RoadBuilding_Input;
 
 public class Player {
 	
@@ -137,9 +138,23 @@ public class Player {
 		return (oldDevCards.getSoldier() > 0 && canPlayDevCard());
 	}
 	
-	public boolean canRoadBuilding() 
+	public boolean canRoadBuilding(RoadBuilding_Input params) 
 	{
-		return (oldDevCards.getRoadBuilding() > 0 && canPlayDevCard());
+		if(oldDevCards.getRoadBuilding() < 0 && !canPlayDevCard())
+		{
+			return false;
+		}
+		
+		if(params.getSpot1() != null && params.getSpot2() !=null)
+		{
+			return roads >= 2; //does this player have 2 roads to play
+		}
+		else if(params.getSpot1() == null || params.getSpot2() == null) //only trying to build one road
+		{
+			return roads >= 1; //does this player have 1 road to play
+		}
+		
+		return false;
 	}
 
 	public boolean canDiscardCards(DiscardCards_Input params)

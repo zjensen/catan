@@ -44,8 +44,8 @@ public class ClientModel {
 	
 	public boolean canRoadBuilding(RoadBuilding_Input params) //todo
 	{
-		// TODO Auto-generated method stub
-		return false;
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		return p.canRoadBuilding(params) && map.canRoadBuilding(params);
 	}
 
 	/**

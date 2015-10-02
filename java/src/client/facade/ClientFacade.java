@@ -189,7 +189,7 @@ public class ClientFacade {
 	 * @param params
 	 * @return true if we can maritimeTrade with these params, else false
 	 */
-	public boolean canMaritimeTrade(MaritimeTrade_Input params) //todo
+	public boolean canMaritimeTrade(MaritimeTrade_Input params)
 	{
 		return( clientModel.canMaritimeTrade(params) && isPlayersTurn(params.getPlayerIndex()));
 	}

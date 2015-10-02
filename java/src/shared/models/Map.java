@@ -225,6 +225,29 @@ public class Map {
 		return false;
 	}
 	
+	public boolean canRoadBuilding(RoadBuilding_Input params)
+	{
+		EdgeLocation r1 = params.getSpot1().getNormalizedLocation();
+		if(r1 != null)
+		{
+			if(!canBuildRoad(new BuildRoad_Input(params.getPlayerIndex(), r1, false)))
+			{
+				return false;
+			}
+		}
+		
+		EdgeLocation r2 = params.getSpot2().getNormalizedLocation();
+		if(r2 != null)
+		{
+			if(!canBuildRoad(new BuildRoad_Input(params.getPlayerIndex(), r2, false)))
+			{
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	public boolean canSoldier(Soldier_Input params)
 	{
 		if(params.getLocation() == robber) //the location is not the same as the previous
