@@ -96,7 +96,7 @@ public class InterpreterTest {
 		
 			HexLocation hexLoc3 = new HexLocation(-3, 2);
 			assertEquals(hexLoc3, testPorts[4].getLocation());
-			assertEquals(HexType.WOOD, testPorts[4].getResource());
+			assertEquals(HexType.WOOD, testPorts[4].getResourceType());
 			assertEquals(EdgeDirection.NorthEast, testPorts[4].getDirection());
 			assertEquals(2, testPorts[4].getRatio());
 		
