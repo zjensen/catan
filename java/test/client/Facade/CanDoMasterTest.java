@@ -1,4 +1,4 @@
-package client.Facade;
+package client.facade;
 
 import static org.junit.Assert.*;
 
@@ -186,7 +186,28 @@ public class CanDoMasterTest
 	@Test
 	public void canMonument_Test()
 	{
+		Monument_Input params1 = new Monument_Input(0); //good
+		assertTrue(cf.canMonument(params1));
 		
+		Monument_Input params2 = new Monument_Input(1); //wrong turn
+		assertFalse(cf.canMonument(params2));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turns
+		
+		Monument_Input params3 = new Monument_Input(1); //no old cards to play
+		assertFalse(cf.canMonument(params3));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(2); //switch turns
+		
+		Monument_Input params4 = new Monument_Input(2); //already played this turn
+		assertFalse(cf.canMonument(params4));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(3); //switch turns
+		
+		Monument_Input params5 = new Monument_Input(3); //doesnt have card
+		assertFalse(cf.canMonument(params5));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
 	}
 	
 	@Test
