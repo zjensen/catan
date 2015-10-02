@@ -21,10 +21,74 @@ public class Interpreter
 
 	}
 	
+	public HexType determineHexType(String resourceType)
+	{
+		HexType result = null;
+		switch (resourceType) {
+		case "wood":
+			return result = HexType.WOOD;
+		case "brick":
+			return result = HexType.BRICK;
+		case "sheep":
+			return result = HexType.SHEEP;
+		case "wheat":
+			return result = HexType.WHEAT;
+		case "ore":
+			return result = HexType.ORE;
+		case "desert":
+			return result = HexType.DESERT;
+		case "water":
+			return result = HexType.WATER;
+		}
+		return result;
+	}
+
+	public EdgeDirection determineEdgeDirection (String edgeDirection)
+	{
+		EdgeDirection result = null;
+		switch (edgeDirection) {
+			case "N":
+				return result = EdgeDirection.North;
+			case "NE":
+				return result = EdgeDirection.NorthEast;
+			case "NW":
+				return result = EdgeDirection.NorthWest;
+			case "S":
+				return result = EdgeDirection.South;
+			case "SE":
+				return result = EdgeDirection.SouthEast;
+			case "SW":
+				return result = EdgeDirection.SouthWest;
+		}
+		return result;
+	}	
+	
+	public VertexDirection determineVertexDirection (String vertexDirection)
+	{
+		VertexDirection result = null;
+		switch (vertexDirection) {
+			case "W":
+				return result = VertexDirection.West;
+			case "NW":
+				return result = VertexDirection.NorthWest;
+			case "NE":
+				return result = VertexDirection.NorthEast;
+			case "E":
+				return result = VertexDirection.East;
+			case "SE":
+				return result = VertexDirection.SouthEast;
+			case "SW":
+				return result = VertexDirection.SouthWest;
+		}
+		return result;
+	}
+	
 	public ClientModel deserialize(JsonElement arg0) throws JsonParseException
 	{	
 		
 		JsonObject json1 = (JsonObject) arg0;
+		
+	// Get Deck
 		JsonObject json2 = json1.getAsJsonObject("deck");
 		DevCards deck = new DevCards();
 		
@@ -34,10 +98,14 @@ public class Interpreter
 		deck.setRoadBuilding(json2.get("roadBuilding").getAsInt());
 		deck.setMonument(json2.get("monument").getAsInt());
 		
+		
+	// Get Map	
 		JsonObject json3 = json1.getAsJsonObject("map");
+		
+		
+	//Get Hexes
 		JsonArray array3_1 = json3.getAsJsonArray("hexes");
 		Hex[] hexes = new Hex[19];
-		
 		
 		for(int a = 0; a < 19; a++)
 		{
@@ -54,40 +122,18 @@ public class Interpreter
 			{
 				JsonObject json3_1_1 = array3_1.get(a).getAsJsonObject();
 				JsonElement resource = json3_1_1.get("resource");
-				HexType result = null;
-				switch (resource.getAsString()) {
-					case "wood":
-						result = HexType.WOOD;
-						break;
-					case "brick":
-						result = HexType.BRICK;
-						break;
-					case "sheep":
-						result = HexType.SHEEP;
-						break;
-					case "wheat":
-						result = HexType.WHEAT;
-						break;
-					case "ore":
-						result = HexType.ORE;
-						break;
-					case "desert":
-						result = HexType.DESERT;
-						break;
-					case "water":
-						result = HexType.WATER;
-						break;
-				}
 
 				JsonObject json3_1_3 = json3_1_1.getAsJsonObject("location");
 				int x = json3_1_3.get("x").getAsInt();
 				int y = json3_1_3.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 				int number = json3_1_1.get("number").getAsInt();
-				hexes[a] = new Hex(hexLocation, result, number);
+				hexes[a] = new Hex(hexLocation, determineHexType(resource.getAsString()), number);
 			}
 		}
 		
+		
+	// Get Roads
 		JsonArray array4_1 = json3.getAsJsonArray("roads");
 		ArrayList<EdgeLocation> tempEdgeLocationRoads = new ArrayList<>();
 		ArrayList<Integer> ownerListRoads = new ArrayList<>();
@@ -103,32 +149,12 @@ public class Interpreter
 				int x = json4_1_3.get("x").getAsInt();
 				int y = json4_1_3.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
-						
-				EdgeDirection result = null;
-				switch (direction.getAsString()) {
-					case "N":
-						result = EdgeDirection.North;
-						break;
-					case "NE":
-						result = EdgeDirection.NorthEast;
-						break;
-					case "NW":
-						result = EdgeDirection.NorthWest;
-						break;
-					case "S":
-						result = EdgeDirection.South;
-						break;
-					case "SE":
-						result = EdgeDirection.SouthEast;
-						break;
-					case "SW":
-						result = EdgeDirection.SouthWest;
-						break;
-				}
 
-				tempEdgeLocationRoads.add(new EdgeLocation(hexLocation, result));
+				tempEdgeLocationRoads.add(new EdgeLocation(hexLocation, determineEdgeDirection(direction.getAsString())));
 		}
 		
+		
+	// Get Cities
 		JsonArray array5_1 = json3.getAsJsonArray("cities");
 		ArrayList<VertexLocation> tempVertexLocationCities = new ArrayList<>();
 		ArrayList<Integer> ownerListCities = new ArrayList<>();
@@ -144,32 +170,12 @@ public class Interpreter
 				int x = json5_1_3.get("x").getAsInt();
 				int y = json5_1_3.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
-						
-				VertexDirection result = null;
-				switch (direction.getAsString()) {
-					case "W":
-						result = VertexDirection.West;
-						break;
-					case "NW":
-						result = VertexDirection.NorthWest;
-						break;
-					case "NE":
-						result = VertexDirection.NorthEast;
-						break;
-					case "E":
-						result = VertexDirection.East;
-						break;
-					case "SE":
-						result = VertexDirection.SouthEast;
-						break;
-					case "SW":
-						result = VertexDirection.SouthWest;
-						break;
-				}
 
-				tempVertexLocationCities.add(new VertexLocation(hexLocation, result));
+				tempVertexLocationCities.add(new VertexLocation(hexLocation, determineVertexDirection(direction.getAsString())));
 		}
 		
+		
+	// Get Settlements
 		JsonArray array6_1 = json3.getAsJsonArray("settlements");
 		ArrayList<VertexLocation> tempVertexLocationSettlements = new ArrayList<>();
 		ArrayList<Integer> ownerListSettlements = new ArrayList<>();
@@ -186,33 +192,14 @@ public class Interpreter
 				int y = json6_1_3.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 						
-				VertexDirection result = null;
-				switch (direction.getAsString()) {
-					case "W":
-						result = VertexDirection.West;
-						break;
-					case "NW":
-						result = VertexDirection.NorthWest;
-						break;
-					case "NE":
-						result = VertexDirection.NorthEast;
-						break;
-					case "E":
-						result = VertexDirection.East;
-						break;
-					case "SE":
-						result = VertexDirection.SouthEast;
-						break;
-					case "SW":
-						result = VertexDirection.SouthWest;
-						break;
-				}
-
-				tempVertexLocationSettlements.add(new VertexLocation(hexLocation, result));
+				tempVertexLocationSettlements.add(new VertexLocation(hexLocation, determineVertexDirection(direction.getAsString())));
 		}
 		
+	// Get Radius
 		int radius = json3.get("radius").getAsInt();
 		
+		
+	// Get Ports
 		JsonArray array7_1 = json3.getAsJsonArray("ports");
 		Port[] ports = new Port[9];
 		
@@ -227,31 +214,8 @@ public class Interpreter
 				
 				if (resource != null)
 				{
-					switch (resource.getAsString()) {
-					case "wood":
-						resourceResult = HexType.WOOD;
-						break;
-					case "brick":
-						resourceResult = HexType.BRICK;
-						break;
-					case "sheep":
-						resourceResult = HexType.SHEEP;
-						break;
-					case "wheat":
-						resourceResult = HexType.WHEAT;
-						break;
-					case "ore":
-						resourceResult = HexType.ORE;
-						break;
-					case "desert":
-						resourceResult = HexType.DESERT;
-						break;
-					case "water":
-						resourceResult = HexType.WATER;
-						break;
-					}
+					resourceResult = determineHexType(resource.getAsString());
 				}
-				
 				
 				JsonElement direction = json7_1_1.get("direction");
 
@@ -259,49 +223,28 @@ public class Interpreter
 				int x = json7_1_3.get("x").getAsInt();
 				int y = json7_1_3.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
-				
-				EdgeDirection result = null;
-				switch (direction.getAsString()) {
-					case "N":
-						result = EdgeDirection.North;
-						break;
-					case "NE":
-						result = EdgeDirection.NorthEast;
-						break;
-					case "NW":
-						result = EdgeDirection.NorthWest;
-						break;
-					case "S":
-						result = EdgeDirection.South;
-						break;
-					case "SE":
-						result = EdgeDirection.SouthEast;
-						break;
-					case "SW":
-						result = EdgeDirection.SouthWest;
-						break;
-				}
 
 				if (resourceResult == null)
 				{
-					ports[b] = new Port(hexLocation, result, ratio);
+					ports[b] = new Port(hexLocation, determineEdgeDirection(direction.getAsString()), ratio);
 				}
 				else
 				{
-					ports[b] = new Port(resourceResult, hexLocation, result, ratio);
+					ports[b] = new Port(resourceResult, hexLocation, determineEdgeDirection(direction.getAsString()), ratio);
 				}	
 		}
 		
 		
+	// Get Robber
 		JsonObject json8 = json3.getAsJsonObject("robber");
 		int x = json8.get("x").getAsInt();
 		int y = json8.get("y").getAsInt();
 		HexLocation robber = new HexLocation(x, y);
 		
 		
+	// Get Players
 		JsonArray array8 = json1.getAsJsonArray("players");
 		Player[] players = new Player[array8.size()];
-		
 		
 		for(int b = 0; b < array8.size(); b++)
 		{
@@ -368,6 +311,8 @@ public class Interpreter
 			players[b] = addPlayer;
 		}
 		
+		
+	// Get Log
 		JsonObject json9 = json1.getAsJsonObject("log");
 		JsonArray array9_1 = json9.getAsJsonArray("lines");
 
@@ -392,6 +337,7 @@ public class Interpreter
 		log.setLines(logLines);
 		
 		
+	// Get Chat
 		JsonObject json10 = json1.getAsJsonObject("chat");
 		JsonArray array10_1 = json10.getAsJsonArray("lines");
 		
@@ -415,6 +361,7 @@ public class Interpreter
 		chat.setLines(chatLines);
 		
 		
+	// Get Bank
 		ResourceCards bank = new ResourceCards();
 		JsonObject json11 = json1.getAsJsonObject("bank");
 		bank.setBrick(json11.get("brick").getAsInt());
@@ -424,6 +371,7 @@ public class Interpreter
 		bank.setOre(json11.get("ore").getAsInt());
 		
 		
+	// Get TurnTracker
 		JsonObject json12 = json1.getAsJsonObject("turnTracker");
 		TurnTracker turnTracker = new TurnTracker();
 		
@@ -432,12 +380,15 @@ public class Interpreter
 		turnTracker.setLongestRoad(json12.get("longestRoad").getAsInt());
 		turnTracker.setLargestArmy(json12.get("largestArmy").getAsInt());
 		
-		
+	// Get Winner
 		int winner = json1.get("winner").getAsInt();
+		
+		
+	// Get Version
 		int version = json1.get("version").getAsInt();
 		
 
-//=================== Create ClientModel ========================================			
+//=================== Create ClientModel From Pieces ========================================			
 		
 		HashMap<VertexLocation, Player> settlements = new HashMap<>();
 		HashMap<VertexLocation, Player> cities = new HashMap<>();
@@ -469,88 +420,13 @@ public class Interpreter
 		newClientModel.setLog(log);
 		newClientModel.setMap(map);
 		newClientModel.setPlayers(players);
-		//newClientModel.setTradeOffer(tradeOffer);
 		newClientModel.setTurnTracker(turnTracker);
 		newClientModel.setVersion(version);
 		newClientModel.setWinner(winner);
 
-		
-//================= Testing the code for accuracy ===============================			
-		
-		System.out.println("----AFTER PARSING----\n");
-		
-		System.out.println("----Deck----");
-		System.out.println(deck.toString());
-		
-		System.out.println("----Hexes----");
-		for (int b = 0; b < hexes.length; b++)
-		{
-			System.out.println(b + " " + hexes[b].toString());
-		}
-		
-		System.out.println("----Roads----");
-		for (int b = 0; b < tempEdgeLocationRoads.size(); b++)
-		{
-			System.out.println(b + " " + tempEdgeLocationRoads.get(b).toString());
-		}
-		
-		System.out.println("----Cities----");
-		for (int b = 0; b < tempVertexLocationCities.size(); b++)
-		{
-			System.out.println(b + " " + tempVertexLocationCities.get(b).toString());
-		}
-		
-		System.out.println("----Settlements----");
-		for (int b = 0; b < tempVertexLocationSettlements.size(); b++)
-		{
-			System.out.println(b + " " + tempVertexLocationSettlements.get(b).toString());
-		}
-		
-		System.out.println("----Ports----");
-		for (int b = 0; b < ports.length; b++)
-		{
-			System.out.println(b + " " + ports[b].toString());
-		}
-		
-		System.out.println("----Robber----");
-		System.out.println(robber.toString());
-	
-		System.out.println("----Players----");
-		for (int b = 0; b < players.length; b++)
-		{
-			System.out.println(b + " " + players[b].toString());
-		}
-		
-		System.out.println("----Log----");
-		for (int b = 0; b < logLines.length; b++)
-		{
-			System.out.println(b + " " + logLines[b].toString());
-		}
-		
-		System.out.println("----Chat----");
-		for (int b = 0; b < chatLines.length; b++)
-		{
-			System.out.println(b + " " + chatLines[b].toString());
-		}
-		
-		System.out.println("----Bank----");
-		System.out.println(bank.toString());
-		
-		System.out.println("----TurnTracker");
-		System.out.println(turnTracker.toString());
-		
-		System.out.println("----Winner----");
-		System.out.println(winner);
-		
-		System.out.println("----Version----");
-		System.out.println(version);
-		
-	
-		
 		return newClientModel;
 	}
 	
 }
 	
 	
-
