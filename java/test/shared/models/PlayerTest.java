@@ -19,10 +19,13 @@ public class PlayerTest {
 		
 		ResourceCards myCards = new ResourceCards();
 		
-		myCards.setBrick(2);
-		myCards.setSheep(4);
+		myCards.setBrick(-2);
+		myCards.setSheep(-4);
 		
 		assertFalse(ian.canOfferCards(myCards));
+		
+		myCards.setBrick(2);
+		myCards.setSheep(4);
 		
 		ian.setResources(myCards);
 		
