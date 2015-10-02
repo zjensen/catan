@@ -14,6 +14,14 @@ public class Port {
 	private EdgeDirection direction;
 	private int ratio;
 	
+	public Port(ResourceType resourceType, HexLocation location, EdgeDirection direction, int ratio)
+	{
+		super();
+		this.resourceType = resourceType;
+		this.location = location;
+		this.direction = direction;
+		this.ratio = ratio;	
+	}
 	
 	public Port(ResourceType resourceType, HexLocation location, EdgeDirection direction)
 	{
@@ -25,13 +33,13 @@ public class Port {
 	}
 	
 	
-	public Port(HexLocation location, EdgeDirection direction)
+	public Port(HexLocation location, EdgeDirection direction, int ratio)
 	{
 		super();
 		this.resourceType = null;
 		this.location = location;
 		this.direction = direction;
-		this.ratio = 3;
+		this.ratio = ratio;
 	}
 
 	/**

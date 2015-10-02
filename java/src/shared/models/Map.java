@@ -204,21 +204,24 @@ public class Map {
 		{
 			return false;
 		}
-		else
+		for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //loop through each settlement
 		{
-			for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //does the victim have a settlement at the location?
+			if(entry.getValue().getIndex() == params.getVictimIndex()) //does the victim have a settlement at the location?
 			{
-			    if(entry.getKey().getHexLoc() == params.getLocation() && entry.getValue().getIndex() == params.getVictimIndex())
-			    {
-			    	return true; //victim has a settlement at the location
-			    }
+				if(isOnHex(entry.getKey(), params.getLocation()))
+				{
+					return true; //settlement is on the location
+				}
 			}
-			for (Entry<VertexLocation, Player> entry : cities.entrySet()) //does the victim have a city at the location?
+		}
+		for (Entry<VertexLocation, Player> entry : cities.entrySet()) //loop through each city
+		{
+			if(entry.getValue().getIndex() == params.getVictimIndex()) //does the victim have a city at the location?
 			{
-				if(entry.getKey().getHexLoc() == params.getLocation() && entry.getValue().getIndex() == params.getVictimIndex())
-			    {
-			    	return true; //victim has a city at the location
-			    }
+				if(isOnHex(entry.getKey(), params.getLocation()))
+				{
+					return true; //city is on the location
+				}
 			}
 		}
 		
@@ -257,20 +260,59 @@ public class Map {
 		}
 		else
 		{
-			for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //does the victim have a settlement at the location?
+			for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //loop through each settlement
 			{
-			    if(entry.getKey().getHexLoc() == params.getLocation() && entry.getValue().getIndex() == params.getVictimIndex())
-			    {
-			    	return true; //victim has a settlement at the location
-			    }
+				if(entry.getValue().getIndex() == params.getVictimIndex()) //does the victim have a settlement at the location?
+				{
+					if(isOnHex(entry.getKey(), params.getLocation()))
+					{
+						return true; //settlement is on the location
+					}
+				}
 			}
-			for (Entry<VertexLocation, Player> entry : cities.entrySet()) //does the victim have a city at the location?
+			for (Entry<VertexLocation, Player> entry : cities.entrySet()) //loop through each city
 			{
-				if(entry.getKey().getHexLoc() == params.getLocation() && entry.getValue().getIndex() == params.getVictimIndex())
-			    {
-			    	return true; //victim has a city at the location
-			    }
+				if(entry.getValue().getIndex() == params.getVictimIndex()) //does the victim have a city at the location?
+				{
+					if(isOnHex(entry.getKey(), params.getLocation()))
+					{
+						return true; //city is on the location
+					}
+				}
 			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * Checks if a vertex location is on a hex
+	 * each vertex location touches 3 hexes
+	 * @param v
+	 * @param h
+	 * @return
+	 */
+	public boolean isOnHex(VertexLocation v,HexLocation h)
+	{
+		v = v.getNormalizedLocation();
+		HexLocation vh = v.getHexLoc();
+		VertexDirection vd= v.getDir();
+		
+		if(vh == h) //building is at top of this hex
+		{
+			return true;
+		}
+		else if(vh.getNeighborLoc(EdgeDirection.North) == h) //building is at bottom of the hex
+		{
+			return true;
+		}
+		else if(vd == VertexDirection.NorthWest) //building is on east corner of the hex
+		{
+			return (vh.getNeighborLoc(EdgeDirection.NorthWest) == h);
+		}
+		else if(vd == VertexDirection.NorthEast) //building is on west corner of the hex
+		{
+			return (vh.getNeighborLoc(EdgeDirection.NorthEast) == h);
 		}
 		
 		return false;
