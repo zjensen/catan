@@ -394,11 +394,11 @@
         "monument": 1
       },
       "newDevCards": {
-        "yearOfPlenty": 0,
+        "yearOfPlenty": 1,
         "monopoly": 1,
-        "soldier": 0,
-        "roadBuilding": 0,
-        "monument": 0
+        "soldier": 1,
+        "roadBuilding": 1,
+        "monument": 1
       },
       "roads": 13,
       "cities": 4,
@@ -429,11 +429,11 @@
         "monument": 0
       },
       "newDevCards": {
-        "yearOfPlenty": 0,
-        "monopoly": 0,
-        "soldier": 0,
-        "roadBuilding": 0,
-        "monument": 0
+        "yearOfPlenty": 1,
+        "monopoly": 1,
+        "soldier": 1,
+        "roadBuilding": 1,
+        "monument": 1
       },
       "roads": 13,
       "cities": 4,
@@ -457,11 +457,11 @@
         "ore": 0
       },
       "oldDevCards": {
-        "yearOfPlenty": 0,
-        "monopoly": 0,
-        "soldier": 0,
-        "roadBuilding": 0,
-        "monument": 0
+        "yearOfPlenty": 1,
+        "monopoly": 1,
+        "soldier": 1,
+        "roadBuilding": 1,
+        "monument": 1
       },
       "newDevCards": {
         "yearOfPlenty": 0,
@@ -476,8 +476,8 @@
       "soldiers": 0,
       "victoryPoints": 2,
       "monuments": 0,
-      "playedDevCard": false,
-      "discarded": false,
+      "playedDevCard": true,
+      "discarded": true,
       "playerID": 10,
       "playerIndex": 2,
       "name": "Pete",

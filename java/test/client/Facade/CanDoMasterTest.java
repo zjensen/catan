@@ -16,6 +16,7 @@ import com.google.gson.JsonParser;
 import client.facade.ClientFacade;
 import client.interpreter.Interpreter;
 import shared.communication.moves.*;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 import shared.models.ClientModel;
 
@@ -141,6 +142,93 @@ public class CanDoMasterTest
 		assertFalse(cf.canBuyDevCard(params3));
 		
 		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
+	}
+	
+	@Test
+	public void canYearOfPlenty_Test()
+	{
+		YearOfPlenty_Input params1 = new YearOfPlenty_Input(0, ResourceType.BRICK, ResourceType.SHEEP); //good
+		assertTrue(cf.canYearOfPlenty(params1));
+		
+		YearOfPlenty_Input params2 = new YearOfPlenty_Input(1, ResourceType.BRICK, ResourceType.SHEEP); //wrong turn
+		assertFalse(cf.canYearOfPlenty(params2));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turns
+		
+		YearOfPlenty_Input params3 = new YearOfPlenty_Input(1, ResourceType.BRICK, ResourceType.SHEEP); //no old cards to play
+		assertFalse(cf.canYearOfPlenty(params3));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(2); //switch turns
+		
+		YearOfPlenty_Input params4 = new YearOfPlenty_Input(2, ResourceType.BRICK, ResourceType.SHEEP); //already played this turn
+		assertFalse(cf.canYearOfPlenty(params4));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(3); //switch turns
+		
+		YearOfPlenty_Input params5 = new YearOfPlenty_Input(3, ResourceType.BRICK, ResourceType.SHEEP); //doesnt have card
+		assertFalse(cf.canYearOfPlenty(params5));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
+	}
+	
+	@Test
+	public void canRoadBuilding_Test()
+	{
+		
+	}
+	
+	@Test
+	public void canSoldier_Test()
+	{
+		
+	}
+	
+	@Test
+	public void canMonument_Test()
+	{
+		
+	}
+	
+	@Test
+	public void canBuildRoad_Test()
+	{
+		
+	}
+	
+	@Test
+	public void canBuildSettlement_Test()
+	{
+		
+	}
+	
+	@Test
+	public void canBuildCity_Test()
+	{
+		
+	}
+	
+	@Test
+	public void canOfferTrade_Test()
+	{
+		
+	}
+	
+	@Test
+	public void canAccepTrade_Test()
+	{
+		
+	}
+	
+	@Test
+	public void canMaritimeTrade_Test()
+	{
+		
+	}
+	
+	@Test
+	public void canDiscardCards_Test()
+	{
+		
 	}
 
 }
