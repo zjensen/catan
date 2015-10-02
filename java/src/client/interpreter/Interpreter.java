@@ -6,6 +6,7 @@ import java.util.HashMap;
 import com.google.gson.*;
 
 import shared.definitions.HexType;
+import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -39,6 +40,24 @@ public class Interpreter
 			return result = HexType.DESERT;
 		case "water":
 			return result = HexType.WATER;
+		}
+		return result;
+	}
+	
+	public ResourceType determineResourceType(String resourceType)
+	{
+		ResourceType result = null;
+		switch (resourceType) {
+		case "wood":
+			return result = ResourceType.WOOD;
+		case "brick":
+			return result = ResourceType.BRICK;
+		case "sheep":
+			return result = ResourceType.SHEEP;
+		case "wheat":
+			return result = ResourceType.WHEAT;
+		case "ore":
+			return result = ResourceType.ORE;
 		}
 		return result;
 	}
@@ -210,11 +229,11 @@ public class Interpreter
 				
 
 				JsonElement resource = json7_1_1.get("resource");
-				HexType resourceResult = null;
+				ResourceType resourceResult = null;
 				
 				if (resource != null)
 				{
-					resourceResult = determineHexType(resource.getAsString());
+					resourceResult = determineResourceType(resource.getAsString());
 				}
 				
 				JsonElement direction = json7_1_1.get("direction");
