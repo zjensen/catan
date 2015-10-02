@@ -125,7 +125,8 @@ public class Player {
 	
 	public boolean canMonument()
 	{
-		return ((oldDevCards.getMonument() > 0 || newDevCards.getMonument() > 0) && canPlayDevCard());
+		boolean gameChanger = (victoryPoints + oldDevCards.getMonument() + newDevCards.getMonument() >= 10);
+		return ((oldDevCards.getMonument() > 0 || newDevCards.getMonument() > 0) && (gameChanger || canPlayDevCard()));
 	}
 	
 	public boolean canMonopoly()
