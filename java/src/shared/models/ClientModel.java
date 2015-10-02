@@ -42,6 +42,11 @@ public class ClientModel {
 		return null;
 	}
 	
+	/**
+	 * can we play road building dev card with these params?
+	 * @param params
+	 * @return
+	 */
 	public boolean canRoadBuilding(RoadBuilding_Input params) //todo
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());

@@ -228,18 +228,19 @@ public class Map {
 	public boolean canRoadBuilding(RoadBuilding_Input params)
 	{
 		EdgeLocation r1 = params.getSpot1().getNormalizedLocation();
+		EdgeLocation r2 = params.getSpot2().getNormalizedLocation();
+		
 		if(r1 != null)
 		{
-			if(!canBuildRoad(new BuildRoad_Input(params.getPlayerIndex(), r1, false)))
+			if(!roads.containsKey(r1) || !roadIsOnMap(r1))
 			{
 				return false;
 			}
 		}
 		
-		EdgeLocation r2 = params.getSpot2().getNormalizedLocation();
 		if(r2 != null)
 		{
-			if(!canBuildRoad(new BuildRoad_Input(params.getPlayerIndex(), r2, false)))
+			if(!roads.containsKey(r2) || !roadIsOnMap(r2))
 			{
 				return false;
 			}
