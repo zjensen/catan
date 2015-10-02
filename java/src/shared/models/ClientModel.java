@@ -15,6 +15,19 @@ public class ClientModel {
 	private int version;
 	private int winner;
 	
+	public ClientModel() {
+		this.bank = null;
+		this.deck = null;
+		this.chat = null;
+		this.log = null;
+		this.map = null;
+		this.players = null;
+		this.tradeOffer = null;
+		this.turnTracker = null;
+		this.version = -1;
+		this.winner = -1;
+	}
+	
 	/**
 	 * parses json to update member variables
 	 * 
@@ -42,29 +55,62 @@ public class ClientModel {
 		return null;
 	}
 	
+	/**
+	 * can we play road building dev card with these params?
+	 * @param params
+	 * @return
+	 */
 	public boolean canRoadBuilding(RoadBuilding_Input params) //todo
 	{
-		// TODO Auto-generated method stub
-		return false;
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		return p.canRoadBuilding(params) && map.canRoadBuilding(params);
 	}
 
+	/**
+	 * make sure player has the cards they are attempting to offer
+	 * @param params
+	 * @return
+	 */
 	public boolean canOfferTrade(OfferTrade_Input params)
 	{
 		Player sender = getPlayerByIndex(params.getPlayerIndex());
-		Player receiver = getPlayerByIndex(params.getReceiver());
-		return (sender.canOfferCards(params.getOffer()) && receiver.hasResources(params.getOffer()));
+//		Player receiver = getPlayerByIndex(params.getReceiver());
+		return (sender.canOfferCards(params.getOffer())); //&& receiver.hasResources(params.getOffer()));
 	}
 
-	public boolean canAcceptTrade(AcceptTrade_Input params) //todo
+	/**
+	 * Checks if the player has the cards needed to trade
+	 * @param params
+	 * @return
+	 */
+	public boolean canAcceptTrade(AcceptTrade_Input params)
 	{
-		// TODO Auto-generated method stub
-		return false;
+		Player receiver = getPlayerByIndex(params.getPlayerIndex());
+		
+		if(params.getPlayerIndex() != this.getTradeOffer().getReceiver()) //this user is incorrect
+		{
+			return false;
+		}
+		if(!params.isWillAccept()) //user is declining, so we don't need to check if they have the cards
+		{
+			return true;
+		}
+		
+		return receiver.hasResources(this.getTradeOffer().getOffer());
 	}
 
 	public boolean canMaritimeTrade(MaritimeTrade_Input params) //todo
 	{
-		// TODO Auto-generated method stub
-		return false;
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		if(!p.canMaritimeTrade(params))
+		{
+			return false;
+		}
+		else if(map.canMaritimeTrade(params)) //todo
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean canSoldier(Soldier_Input params)
@@ -75,7 +121,7 @@ public class ClientModel {
 		{
 			can = false;
 		}
-		else if(!map.canSoldier(params)) //todo
+		else if(!map.canSoldier(params))
 		{
 			can = false;
 		}
@@ -169,15 +215,15 @@ public class ClientModel {
 	 * @param params
 	 * @return
 	 */
-	public boolean canBuildSettlement(BuildSettlement_Input params) //todo
+	public boolean canBuildSettlement(BuildSettlement_Input params)
 	{
 		boolean can = true;
 		int playerIndex = params.getPlayerIndex();
-		if(!getPlayerByIndex(playerIndex).canBuildSettlement()) //the player is able to build the road
+		if(!getPlayerByIndex(playerIndex).canBuildSettlement()) //the player has resources to build the road
 		{
 			can = false;
 		}
-		else if(!map.canBuildSettlement(params)) //todo
+		else if(!map.canBuildSettlement(params)) //check if this location is available to this user to build on
 		{
 			can = false;
 		}

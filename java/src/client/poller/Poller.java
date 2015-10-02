@@ -1,9 +1,13 @@
 package client.poller;
 
+import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
-import client.server.*;
 
+import client.server.*;
+import client.session.SessionManager;
+import shared.communication.game.GameModel_Input;
+import shared.communication.game.GameModel_Output;
 import shared.models.*;
 
 /**
@@ -13,7 +17,6 @@ import shared.models.*;
  */
 public class Poller 
 {
-	private IServer server;
 	private Timer timer;
 	private ClientModel clientModel;
 	
@@ -21,9 +24,22 @@ public class Poller
 	 * 
 	 * @param server interface
 	 */
-	public Poller(IServer server)
+	public Poller()
 	{
-		this.server = server;
+		this.clientModel = new ClientModel();
+		this.timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask(){
+			@Override
+			public void run(){
+				GameModel_Input input = new GameModel_Input();
+				input.setVersion(clientModel.getVersion());
+				GameModel_Output output = SessionManager.get_instance().getServer().getModel(input);
+				if (!output.getResponse().equals("true")) {
+					//this.clientModel = SessionManager.get_instance().getInterpreter().deserialize(output.getResponse());
+					SessionManager.get_instance().updateClientModels(clientModel);
+				}
+			}
+		}, new Date(), 2*1000);
 	}
 	
 	/**
@@ -32,14 +48,6 @@ public class Poller
 	private void updateClientModel()
 	{
 		clientModel.updateClient("Temp");
-	}
-
-	public IServer getServer() {
-		return server;
-	}
-
-	public void setServer(IServer server) {
-		this.server = server;
 	}
 
 	private Timer getTimer() {

@@ -1,6 +1,8 @@
 package shared.models;
 
 import shared.communication.moves.DiscardCards_Input;
+import shared.communication.moves.MaritimeTrade_Input;
+import shared.communication.moves.RoadBuilding_Input;
 
 public class Player {
 	
@@ -60,20 +62,50 @@ public class Player {
 		return this.resources.hasResources(r);
 	}
 	
-
+	/**
+	 * checks if player has cards to offer
+	 * In an offer all negative ints represent how many the player is planning to give up
+	 * @param offer
+	 * @return
+	 */
 	public boolean canOfferCards(ResourceCards offer)
 	{
-		if(offer.getBrick() > resources.getBrick())
+		//checks if the player is offering a resource and if so whether they have enough of that resource to offer
+		if(offer.getBrick() < 0 && Math.abs(offer.getBrick()) > resources.getBrick())
 			return false;
-		else if (offer.getOre() > resources.getOre())
+		else if (offer.getOre() < 0 && Math.abs(offer.getOre()) > resources.getOre())
 			return false;
-		else if (offer.getSheep() > resources.getSheep())
+		else if (offer.getSheep() < 0 && Math.abs(offer.getSheep()) > resources.getSheep())
 			return false;
-		else if (offer.getWheat() > resources.getWheat())
+		else if (offer.getWheat() < 0 && Math.abs(offer.getWheat()) > resources.getWheat())
 			return false;
-		else if (offer.getWood() > resources.getWood())
+		else if (offer.getWood() < 0 && Math.abs(offer.getWood()) > resources.getWood())
 			return false;
 		return resources.canOfferCards(offer);
+	}
+	
+	/**
+	 * verifies player has enough resources to trade
+	 * @param params
+	 * @return
+	 */
+	public boolean canMaritimeTrade(MaritimeTrade_Input params)
+	{
+		switch(params.getInputResource())
+		{
+			case BRICK:
+				return resources.getBrick() > params.getRatio();
+			case ORE:
+				return resources.getOre() > params.getRatio();
+			case SHEEP:
+				return resources.getSheep() > params.getRatio();
+			case WHEAT:
+				return resources.getWheat() > params.getRatio();
+			case WOOD:
+				return resources.getWood() > params.getRatio();
+			default:
+				return false;
+		}
 	}
 	
 	/**
@@ -106,9 +138,23 @@ public class Player {
 		return (oldDevCards.getSoldier() > 0 && canPlayDevCard());
 	}
 	
-	public boolean canRoadBuilding() 
+	public boolean canRoadBuilding(RoadBuilding_Input params) 
 	{
-		return (oldDevCards.getRoadBuilding() > 0 && canPlayDevCard());
+		if(oldDevCards.getRoadBuilding() < 0 && !canPlayDevCard())
+		{
+			return false;
+		}
+		
+		if(params.getSpot1() != null && params.getSpot2() !=null)
+		{
+			return roads >= 2; //does this player have 2 roads to play
+		}
+		else if(params.getSpot1() == null || params.getSpot2() == null) //only trying to build one road
+		{
+			return roads >= 1; //does this player have 1 road to play
+		}
+		
+		return false;
 	}
 
 	public boolean canDiscardCards(DiscardCards_Input params)

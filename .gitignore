@@ -5,3 +5,11 @@ bin/
 java/doc/
 .recommenders/
 
+
+*.class
+
+*.class
+
+*.class
+
+*.class
