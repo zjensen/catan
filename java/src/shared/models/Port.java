@@ -1,19 +1,27 @@
 package shared.models;
 
+import shared.definitions.HexType;
+import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 
 public class Port {
 
-	private String resourceType;
+	private HexType resource;
 	private HexLocation location;
-	private String direction;
+	private EdgeDirection direction;
 	private int ratio;
 	
-	public Port() {
-		this.resourceType = ""; // If it is omitted then it means it is for any resource
-		this.location = new HexLocation(0, 0);
-		this.direction = "N";
-		this.ratio = 2; // ie 2:1		
+	public Port(HexType hexType, HexLocation hexLoc, EdgeDirection dir, int ratio) {
+		setResource(hexType);
+		setLocation(hexLoc);
+		setDirection(dir);
+		setRatio(ratio);		
+	}
+	
+	public Port(HexLocation hexLoc, EdgeDirection dir, int ratio) {
+		setLocation(hexLoc);
+		setDirection(dir);
+		setRatio(ratio);
 	}
 	
 	/**
@@ -35,27 +43,36 @@ public class Port {
 		return 0;
 	}
 
-	public String getResourceType() {
-		return resourceType;
+
+	@Override
+	public String toString() {
+		return "Port [resource=" + resource 
+				+ ", location=" + location 
+				+ ", direction=" + direction 
+				+ ", ratio=" + ratio + "   ]";
 	}
 
-	public void setResourceType(String resourceType) {
-		this.resourceType = resourceType;
+	public HexType getResource() {
+		return resource;
+	}
+
+	public void setResource(HexType resource) {
+		this.resource = resource;
 	}
 
 	public HexLocation getLocation() {
 		return location;
 	}
-
+ 
 	public void setLocation(HexLocation location) {
 		this.location = location;
 	}
 
-	public String getDirection() {
+	public EdgeDirection getDirection() {
 		return direction;
 	}
 
-	public void setDirection(String direction) {
+	public void setDirection(EdgeDirection direction) {
 		this.direction = direction;
 	}
 
@@ -66,5 +83,7 @@ public class Port {
 	public void setRatio(int ratio) {
 		this.ratio = ratio;
 	}
+
+	
 	
 }
