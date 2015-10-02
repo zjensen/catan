@@ -169,7 +169,7 @@ public class Interpreter
 				int y = json4_1_3.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 
-				tempEdgeLocationRoads.add(new EdgeLocation(hexLocation, determineEdgeDirection(direction.getAsString())));
+				tempEdgeLocationRoads.add(new EdgeLocation(hexLocation, determineEdgeDirection(direction.getAsString())).getNormalizedLocation());
 		}
 		
 		
@@ -190,7 +190,7 @@ public class Interpreter
 				int y = json5_1_3.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 
-				tempVertexLocationCities.add(new VertexLocation(hexLocation, determineVertexDirection(direction.getAsString())));
+				tempVertexLocationCities.add(new VertexLocation(hexLocation, determineVertexDirection(direction.getAsString())).getNormalizedLocation());
 		}
 		
 		
@@ -211,7 +211,7 @@ public class Interpreter
 				int y = json6_1_3.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 						
-				tempVertexLocationSettlements.add(new VertexLocation(hexLocation, determineVertexDirection(direction.getAsString())));
+				tempVertexLocationSettlements.add(new VertexLocation(hexLocation, determineVertexDirection(direction.getAsString())).getNormalizedLocation());
 		}
 		
 	// Get Radius

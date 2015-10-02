@@ -1,9 +1,6 @@
-package shared.models
+package shared.models;
 
 import shared.definitions.ResourceType;
-=======
-import shared.definitions.HexType;
->>>>>>> master
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 
