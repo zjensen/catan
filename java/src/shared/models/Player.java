@@ -71,15 +71,15 @@ public class Player {
 	public boolean canOfferCards(ResourceCards offer)
 	{
 		//checks if the player is offering a resource and if so whether they have enough of that resource to offer
-		if(offer.getBrick() < 0 && Math.abs(offer.getBrick()) > resources.getBrick())
+		if(offer.getBrick() < 0 && Math.abs(offer.getBrick()) >= resources.getBrick())
 			return false;
-		else if (offer.getOre() < 0 && Math.abs(offer.getOre()) > resources.getOre())
+		else if (offer.getOre() < 0 && Math.abs(offer.getOre()) >= resources.getOre())
 			return false;
-		else if (offer.getSheep() < 0 && Math.abs(offer.getSheep()) > resources.getSheep())
+		else if (offer.getSheep() < 0 && Math.abs(offer.getSheep()) >= resources.getSheep())
 			return false;
-		else if (offer.getWheat() < 0 && Math.abs(offer.getWheat()) > resources.getWheat())
+		else if (offer.getWheat() < 0 && Math.abs(offer.getWheat()) >= resources.getWheat())
 			return false;
-		else if (offer.getWood() < 0 && Math.abs(offer.getWood()) > resources.getWood())
+		else if (offer.getWood() < 0 && Math.abs(offer.getWood()) >= resources.getWood())
 			return false;
 		return resources.canOfferCards(offer);
 	}
