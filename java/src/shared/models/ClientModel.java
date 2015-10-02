@@ -15,6 +15,19 @@ public class ClientModel {
 	private int version;
 	private int winner;
 	
+	public ClientModel() {
+		this.bank = null;
+		this.deck = null;
+		this.chat = null;
+		this.log = null;
+		this.map = null;
+		this.players = null;
+		this.tradeOffer = null;
+		this.turnTracker = null;
+		this.version = -1;
+		this.winner = -1;
+	}
+	
 	/**
 	 * parses json to update member variables
 	 * 
