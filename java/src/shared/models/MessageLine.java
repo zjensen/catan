@@ -2,9 +2,14 @@ package shared.models;
 
 public class MessageLine {
 	
-	private String message;
 	private String source;
+	private String message;
 	
+	@Override
+	public String toString() {
+		return "MessageLine  [source=" + source 
+							+ "\n\t\tmessage=" + message + "   ]";
+	}
 	public String getMessage() {
 		return message;
 	}

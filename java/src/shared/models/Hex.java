@@ -36,6 +36,18 @@ public class Hex
 		number = -1;
 	}
 	
+	
+	
+	
+	
+	@Override
+	public String toString() {
+		return "Hex [" 
+				+ "location = " + location 
+				+ "  resource = " + resource 
+				+ "  number = " + number + "\t]";
+	}
+
 	/**
 	 * checks if this hex is a desert
 	 * @return true if the hex is a desert, else false

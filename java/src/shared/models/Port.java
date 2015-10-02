@@ -1,6 +1,9 @@
-package shared.models;
+package shared.models
 
 import shared.definitions.ResourceType;
+=======
+import shared.definitions.HexType;
+>>>>>>> master
 import shared.locations.EdgeDirection;
 import shared.locations.HexLocation;
 
@@ -12,15 +15,15 @@ public class Port {
 	private int ratio;
 	
 	
-	
 	public Port(ResourceType resourceType, HexLocation location, EdgeDirection direction)
 	{
 		super();
 		this.resourceType = resourceType;
 		this.location = location;
 		this.direction = direction;
-		this.ratio = 2;
+		this.ratio = 2;	
 	}
+	
 	
 	public Port(HexLocation location, EdgeDirection direction)
 	{
@@ -66,6 +69,15 @@ public class Port {
 		this.resourceType = resourceType;
 	}
 
+	@Override
+	public String toString() {
+		return "Port [resource=" + resourceType 
+				+ ", location=" + location 
+				+ ", direction=" + direction 
+				+ ", ratio=" + ratio + "   ]";
+	}
+
+
 	/**
 	 * @return the location
 	 */
@@ -73,14 +85,12 @@ public class Port {
 	{
 		return location;
 	}
-
-	/**
-	 * @param location the location to set
-	 */
-	public void setLocation(HexLocation location)
+	
+	public void SetLocation(HexLocation location)
 	{
 		this.location = location;
 	}
+
 
 	/**
 	 * @return the direction
@@ -113,7 +123,4 @@ public class Port {
 	{
 		this.ratio = ratio;
 	}
-
-	
-	
 }

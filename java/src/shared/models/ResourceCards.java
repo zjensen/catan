@@ -101,6 +101,17 @@ public class ResourceCards {
 		return hasCards;
 	}
 
+
+	@Override
+	public String toString() {
+		return "ResourceCards [" 
+				+ "\n\tsheep = " + sheep 
+				+ "\n\twheat = " + wheat 
+				+ "\n\twood  = " + wood 
+				+ "\n\tbrick = " + brick 
+				+ "\n\tore   = " + ore + "   ]";
+	}
+
 	public int getSheep() {
 		return sheep;
 	}
