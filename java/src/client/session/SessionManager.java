@@ -1,6 +1,7 @@
 package client.session;
 
 import client.facade.ClientFacade;
+import client.interpreter.Interpreter;
 import client.poller.Poller;
 import client.server.*;
 import shared.models.ClientModel;
@@ -11,6 +12,7 @@ public class SessionManager {
 	private ClientFacade clientFacade = new ClientFacade(this.clientModel);
 	private ClientModel clientModel = new ClientModel();
 	private Poller poller;
+	private Interpreter interpreter = new Interpreter();
 	private IServer server;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
@@ -36,7 +38,7 @@ public class SessionManager {
 	 */
 	public void setServer() {
 		this.server = new FakeServer();
-		this.poller = new Poller(this.server);
+		this.poller = new Poller();
 	}
 	
 	/**
@@ -46,7 +48,7 @@ public class SessionManager {
 	 */
 	public void setServer(String host, String port) {
 		this.server = new Server();//This will eventually pass in both the host and port
-		this.poller = new Poller(this.server);
+		this.poller = new Poller();
 	}
 	
 	/**
@@ -59,6 +61,7 @@ public class SessionManager {
 	public void updateClientModels(ClientModel newClientModel) {
 		this.clientModel = newClientModel;
 		this.clientFacade.setClientModel(newClientModel);
+		this.poller.setClientModel(newClientModel);
 	}
 	
 	//--------------------------------------------------------------------------------------------------
@@ -76,7 +79,13 @@ public class SessionManager {
 		return server;
 	}
 
+	public Interpreter getInterpreter() {
+		return interpreter;
+	}
+	
 	public static SessionManager get_instance() {
 		return _instance;
 	}
+	
+	
 }

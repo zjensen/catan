@@ -182,30 +182,23 @@ public class ResourceBarView extends PanelView implements IResourceBarView
 		resourceElementList.add(ResourceBarElement.SHEEP);
 		resourceElementList.add(ResourceBarElement.WHEAT);
 		resourceElementList.add(ResourceBarElement.ORE);
-		
 		resourceElementList.add(ResourceBarElement.ROAD);
 		resourceElementList.add(ResourceBarElement.SETTLEMENT);
 		resourceElementList.add(ResourceBarElement.CITY);
 		resourceElementList.add(ResourceBarElement.BUY_CARD);
-		
 		resourceElementList.add(ResourceBarElement.PLAY_CARD);
-		
 		resourceElementList.add(ResourceBarElement.SOLDIERS);
-		
 		
 		resources.put(ResourceBarElement.WOOD, wood);
 		resources.put(ResourceBarElement.BRICK, brick);
 		resources.put(ResourceBarElement.SHEEP, sheep);
 		resources.put(ResourceBarElement.WHEAT, wheat);
 		resources.put(ResourceBarElement.ORE, ore);
-		
 		resources.put(ResourceBarElement.ROAD, road);
 		resources.put(ResourceBarElement.SETTLEMENT, settlement);
 		resources.put(ResourceBarElement.CITY, city);
 		resources.put(ResourceBarElement.BUY_CARD, buyDevCard);
-		
 		resources.put(ResourceBarElement.PLAY_CARD, playDevCard);
-		
 		resources.put(ResourceBarElement.SOLDIERS, soldier);
 	}
 	
