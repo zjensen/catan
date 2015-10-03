@@ -37,7 +37,8 @@ public class RunAllTests
 				"shared.models.TurnTrackerTest",
 				"shared.models.UserTest",
 				"shared.models.VertexObjectTest",
-				"client.interpreter.InterpreterTest"		// interpreter tests
+				"client.interpreter.InterpreterTest",		// interpreter tests
+				"client.facade.CanDoMasterTest"
 		};
 
 		org.junit.runner.JUnitCore.main(testClasses);
