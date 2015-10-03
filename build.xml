@@ -175,7 +175,7 @@
     </target>
 
     <target name="test" depends="compile, compile-test" description="compiles, packages, and runs the JUnit tests for the project">
-		<java classname="client.server.ServerUnitTests" fork="yes">
+		<java classname="phase_one.RunAllTests" fork="yes">
 			<classpath>
 				<path refid="all-classpath"/>
 			</classpath>

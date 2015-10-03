@@ -67,7 +67,7 @@ public class ClientFacade {
 	/**
 	 * 
 	 * @param params
-	 * @return true if we can buyDevCard with these params, else false
+	 * @return true if we can end turn with these params, else false
 	 */
 	public boolean canFinishTurn(FinishTurn_Input params)
 	{
