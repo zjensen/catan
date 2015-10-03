@@ -78,23 +78,23 @@ public class ResourceCards {
 	public boolean canOfferCards(ResourceCards offer)
 	{
 		boolean hasCards = true;
-		if((offer.sheep < 0) && (this.sheep >= Math.abs(offer.sheep)))
+		if((offer.sheep < 0) && (this.sheep < Math.abs(offer.sheep)))
 		{
 			hasCards = false;
 		}
-		if((offer.wheat < 0) && (this.wheat >= Math.abs(offer.wheat)))
+		else if((offer.wheat < 0) && (this.wheat < Math.abs(offer.wheat)))
 		{
 			hasCards = false;
 		}
-		if((offer.wood < 0) && (this.wood >= Math.abs(offer.wood)))
+		else if((offer.wood < 0) && (this.wood < Math.abs(offer.wood)))
 		{
 			hasCards = false;
 		}
-		if((offer.brick < 0) && (this.brick >= Math.abs(offer.brick)))
+		else if((offer.brick < 0) && (this.brick < Math.abs(offer.brick)))
 		{
 			hasCards = false;
 		}
-		if((offer.ore < 0) && (this.ore >= Math.abs(offer.ore)))
+		else if((offer.ore < 0) && (this.ore < Math.abs(offer.ore)))
 		{
 			hasCards = false;
 		}

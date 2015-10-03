@@ -71,17 +71,17 @@ public class Player {
 	public boolean canOfferCards(ResourceCards offer)
 	{
 		//checks if the player is offering a resource and if so whether they have enough of that resource to offer
-		if(offer.getBrick() < 0 && Math.abs(offer.getBrick()) >= resources.getBrick())
+		if(offer.getBrick() < 0 && Math.abs(offer.getBrick()) > resources.getBrick())
 			return false;
-		else if (offer.getOre() < 0 && Math.abs(offer.getOre()) >= resources.getOre())
+		else if (offer.getOre() < 0 && Math.abs(offer.getOre()) > resources.getOre())
 			return false;
-		else if (offer.getSheep() < 0 && Math.abs(offer.getSheep()) >= resources.getSheep())
+		else if (offer.getSheep() < 0 && Math.abs(offer.getSheep()) > resources.getSheep())
 			return false;
-		else if (offer.getWheat() < 0 && Math.abs(offer.getWheat()) >= resources.getWheat())
+		else if (offer.getWheat() < 0 && Math.abs(offer.getWheat()) > resources.getWheat())
 			return false;
-		else if (offer.getWood() < 0 && Math.abs(offer.getWood()) >= resources.getWood())
+		else if (offer.getWood() < 0 && Math.abs(offer.getWood()) > resources.getWood())
 			return false;
-		return resources.canOfferCards(offer);
+		return true;
 	}
 	
 	/**
@@ -94,15 +94,15 @@ public class Player {
 		switch(params.getInputResource())
 		{
 			case BRICK:
-				return resources.getBrick() > params.getRatio();
+				return resources.getBrick() >= params.getRatio();
 			case ORE:
-				return resources.getOre() > params.getRatio();
+				return resources.getOre() >= params.getRatio();
 			case SHEEP:
-				return resources.getSheep() > params.getRatio();
+				return resources.getSheep() >= params.getRatio();
 			case WHEAT:
-				return resources.getWheat() > params.getRatio();
+				return resources.getWheat() >= params.getRatio();
 			case WOOD:
-				return resources.getWood() > params.getRatio();
+				return resources.getWood() >= params.getRatio();
 			default:
 				return false;
 		}

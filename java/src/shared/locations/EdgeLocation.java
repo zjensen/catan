@@ -120,15 +120,15 @@ public class EdgeLocation
 		
 		if(e1.getDir() == EdgeDirection.NorthWest)
 		{
-			if(e2.getHexLoc()==e1.getHexLoc() && e2.getDir() == EdgeDirection.North) //1
+			if(e2.getHexLoc().equals(e1.getHexLoc()) && e2.getDir() == EdgeDirection.North) //1
 			{
 				return true; //yeet yah!
 			}
-			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest) && e2.getDir() == EdgeDirection.NorthEast) //1
+			else if(e2.getHexLoc().equals(e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest)) && e2.getDir() == EdgeDirection.NorthEast) //1
 			{
 				return true; //yeet yah!
 			}
-			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest)) //2
+			else if(e2.getHexLoc().equals(e1.getHexLoc().getNeighborLoc(EdgeDirection.SouthWest))) //2
 			{
 				if(e2.getDir() == EdgeDirection.North || e2.getDir() == EdgeDirection.NorthEast)
 				{
@@ -138,15 +138,15 @@ public class EdgeLocation
 		}
 		else if(e1.getDir() == EdgeDirection.North)
 		{
-			if(e2.getHexLoc()==e1.getHexLoc() && (e2.getDir() == EdgeDirection.NorthEast || e2.getDir() == EdgeDirection.NorthWest)) //2
+			if(e2.getHexLoc().equals(e1.getHexLoc()) && (e2.getDir() == EdgeDirection.NorthEast || e2.getDir() == EdgeDirection.NorthWest)) //2
 			{
 				return true; //yeet yah!
 			}
-			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest) && e2.getDir() == EdgeDirection.NorthEast) //1
+			else if(e2.getHexLoc().equals(e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthWest)) && e2.getDir() == EdgeDirection.NorthEast) //1
 			{
 				return true; //yeet yah!
 			}
-			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast) && e2.getDir() == EdgeDirection.NorthEast) //1
+			else if(e2.getHexLoc().equals(e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast)) && e2.getDir() == EdgeDirection.NorthEast) //1
 			{
 				return true; //yeet yah!
 			}
@@ -154,15 +154,15 @@ public class EdgeLocation
 		}
 		else if(e1.getDir() == EdgeDirection.NorthEast)
 		{
-			if(e2.getHexLoc()==e1.getHexLoc() && e2.getDir() == EdgeDirection.North) //1
+			if(e2.getHexLoc().equals(e1.getHexLoc()) && e2.getDir() == EdgeDirection.North) //1
 			{
 				return true; //yeet yah!
 			}
-			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast) && e2.getDir() == EdgeDirection.NorthWest) //1
+			else if(e2.getHexLoc().equals(e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast)) && e2.getDir() == EdgeDirection.NorthWest) //1
 			{
 				return true; //yeet yah!
 			}
-			else if(e2.getHexLoc() == e1.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast)) //2
+			else if(e2.getHexLoc().equals(e1.getHexLoc().getNeighborLoc(EdgeDirection.SouthEast))) //2
 			{
 				if(e2.getDir() == EdgeDirection.North || e2.getDir() == EdgeDirection.NorthWest)
 				{

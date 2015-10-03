@@ -39,7 +39,7 @@ public class Map {
 	{
 		v = v.getNormalizedLocation();
 		HexLocation h = v.getHexLoc();
-		int max = radius+1;
+		int max = radius;
 		int x = h.getX();
 		int y = h.getY();
 		
@@ -71,7 +71,7 @@ public class Map {
 		HexLocation h = e.getHexLoc();
 		int x = h.getX();
 		int y = h.getY();
-		int max = radius+1;
+		int max = radius;
 		
 		if(isOceanHex(h))
 		{
@@ -101,6 +101,10 @@ public class Map {
 	 */
 	public boolean canMaritimeTrade(MaritimeTrade_Input params)
 	{
+		if(params.getRatio() == 4) //anyone can trade 4 of anything at anytime
+		{
+			return true;
+		}
 		ArrayList<VertexLocation> buildings = new ArrayList<VertexLocation>(); //list of this player's buildings
 		
 		for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //find this person's settlements
@@ -162,10 +166,16 @@ public class Map {
 			{
 				if(e.equals(pe)) //one of the edges the player has a building on IS A PORT
 				{
-					if(p.getRatio() == params.getRatio() && p.getResourceType() == params.getInputResource())
+					if(p.getRatio() == params.getRatio())
 					{
-						//this is the type of port the player is attempting to use
-						return true;
+						if(params.getRatio() == 3)
+						{
+							return true;
+						}
+						else if(p.getResourceType() == params.getInputResource())
+						{
+							return true;
+						}
 					}
 				}
 			}
@@ -181,7 +191,7 @@ public class Map {
 	 */
 	public boolean isOceanHex(HexLocation h)
 	{
-		int max = radius+1;
+		int max = radius;
 		if(Math.abs(h.getX()) == max || Math.abs(h.getY()) == max)
 		{
 			return true;
@@ -200,7 +210,7 @@ public class Map {
 	 */
 	public boolean canRobPlayer(RobPlayer_Input params)
 	{
-		if(params.getLocation() == robber) //the location is not the same as the previous
+		if(params.getLocation().equals(robber)) //the location is not the same as the previous
 		{
 			return false;
 		}
@@ -254,7 +264,7 @@ public class Map {
 	
 	public boolean canSoldier(Soldier_Input params)
 	{
-		if(params.getLocation() == robber) //the location is not the same as the previous
+		if(params.getLocation().equals(robber)) //the location is not the same as the previous
 		{
 			return false;
 		}
@@ -302,17 +312,17 @@ public class Map {
 		{
 			return true;
 		}
-		else if(vh.getNeighborLoc(EdgeDirection.North) == h) //building is at bottom of the hex
+		else if(vh.getNeighborLoc(EdgeDirection.North).equals(h)) //building is at bottom of the hex
 		{
 			return true;
 		}
 		else if(vd == VertexDirection.NorthWest) //building is on east corner of the hex
 		{
-			return (vh.getNeighborLoc(EdgeDirection.NorthWest) == h);
+			return (vh.getNeighborLoc(EdgeDirection.NorthWest).equals(h));
 		}
 		else if(vd == VertexDirection.NorthEast) //building is on west corner of the hex
 		{
-			return (vh.getNeighborLoc(EdgeDirection.NorthEast) == h);
+			return (vh.getNeighborLoc(EdgeDirection.NorthEast).equals(h));
 		}
 		
 		return false;

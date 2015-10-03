@@ -171,6 +171,10 @@ public class ClientFacade {
 	 */
 	public boolean canOfferTrade(OfferTrade_Input params)
 	{
+		if(clientModel.getTradeOffer() != null) //can't already have trade going
+		{
+			return false;
+		}
 		return(clientModel.canOfferTrade(params) && isPlayersTurn(params.getPlayerIndex()) && params.getPlayerIndex()!=params.getReceiver());
 	}
 
@@ -181,6 +185,10 @@ public class ClientFacade {
 	 */
 	public boolean canAcceptTrade(AcceptTrade_Input params)
 	{
+		if(clientModel.getTradeOffer() == null) //must have trade going on
+		{
+			return false;
+		}
 		return( clientModel.canAcceptTrade(params));
 	}
 	

@@ -106,7 +106,7 @@ public class ClientModel {
 		{
 			return false;
 		}
-		else if(map.canMaritimeTrade(params)) //todo
+		else if(!map.canMaritimeTrade(params)) //todo
 		{
 			return false;
 		}
@@ -219,11 +219,15 @@ public class ClientModel {
 	{
 		boolean can = true;
 		int playerIndex = params.getPlayerIndex();
-		if(!getPlayerByIndex(playerIndex).canBuildSettlement()) //the player has resources to build the road
+		if(!params.isFree()) //player needs resources
 		{
-			can = false;
+			if(!getPlayerByIndex(playerIndex).canBuildSettlement()) //the player has resources to build the road
+			{
+				can = false;
+			}
 		}
-		else if(!map.canBuildSettlement(params)) //check if this location is available to this user to build on
+		
+		if(!map.canBuildSettlement(params)) //check if this location is available to this user to build on
 		{
 			can = false;
 		}
