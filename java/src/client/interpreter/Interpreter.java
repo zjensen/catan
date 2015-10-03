@@ -104,69 +104,67 @@ public class Interpreter
 	
 	public ClientModel deserialize(JsonElement arg0) throws JsonParseException
 	{	
-		
-		JsonObject json1 = (JsonObject) arg0;
+		JsonObject mainJson = (JsonObject) arg0;
 		
 	// Get Deck
-		JsonObject json2 = json1.getAsJsonObject("deck");
+		JsonObject deckJson = mainJson.getAsJsonObject("deck");
 		DevCards deck = new DevCards();
 		
-		deck.setYearOfPlenty(json2.get("yearOfPlenty").getAsInt());
-		deck.setMonopoly(json2.get("monopoly").getAsInt());
-		deck.setSoldier(json2.get("soldier").getAsInt());
-		deck.setRoadBuilding(json2.get("roadBuilding").getAsInt());
-		deck.setMonument(json2.get("monument").getAsInt());
+		deck.setYearOfPlenty(deckJson.get("yearOfPlenty").getAsInt());
+		deck.setMonopoly(deckJson.get("monopoly").getAsInt());
+		deck.setSoldier(deckJson.get("soldier").getAsInt());
+		deck.setRoadBuilding(deckJson.get("roadBuilding").getAsInt());
+		deck.setMonument(deckJson.get("monument").getAsInt());
 		
 		
 	// Get Map	
-		JsonObject json3 = json1.getAsJsonObject("map");
+		JsonObject mapJson = mainJson.getAsJsonObject("map");
 		
 		
 	//Get Hexes
-		JsonArray array3_1 = json3.getAsJsonArray("hexes");
+		JsonArray hexesJson = mapJson.getAsJsonArray("hexes");
 		Hex[] hexes = new Hex[19];
 		
 		for(int a = 0; a < 19; a++)
 		{
 			if (a == 0)
 			{
-				JsonObject json3_1_1 = array3_1.get(a).getAsJsonObject();
-				JsonObject json3_1_2 = json3_1_1.getAsJsonObject("location");
-				int x = json3_1_2.get("x").getAsInt();
-				int y = json3_1_2.get("y").getAsInt();
+				JsonObject hexJson = hexesJson.get(a).getAsJsonObject();
+				JsonObject locationJson = hexJson.getAsJsonObject("location");
+				int x = locationJson.get("x").getAsInt();
+				int y = locationJson.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 				hexes[a] = new Hex(hexLocation);
 			}
 			else
 			{
-				JsonObject json3_1_1 = array3_1.get(a).getAsJsonObject();
-				JsonElement resource = json3_1_1.get("resource");
+				JsonObject hexJson = hexesJson.get(a).getAsJsonObject();
+				JsonElement resource = hexJson.get("resource");
 
-				JsonObject json3_1_3 = json3_1_1.getAsJsonObject("location");
-				int x = json3_1_3.get("x").getAsInt();
-				int y = json3_1_3.get("y").getAsInt();
+				JsonObject locationJson = hexJson.getAsJsonObject("location");
+				int x = locationJson.get("x").getAsInt();
+				int y = locationJson.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
-				int number = json3_1_1.get("number").getAsInt();
+				int number = hexJson.get("number").getAsInt();
 				hexes[a] = new Hex(hexLocation, determineHexType(resource.getAsString()), number);
 			}
 		}
 		
 		
 	// Get Roads
-		JsonArray array4_1 = json3.getAsJsonArray("roads");
+		JsonArray roadsJson = mapJson.getAsJsonArray("roads");
 		ArrayList<EdgeLocation> tempEdgeLocationRoads = new ArrayList<>();
 		ArrayList<Integer> ownerListRoads = new ArrayList<>();
 
-		for(int b = 0; b < array4_1.size(); b++)
+		for(int b = 0; b < roadsJson.size(); b++)
 		{
-			
-				JsonObject json4_1_1 = array4_1.get(b).getAsJsonObject();
-				int owner = json4_1_1.get("owner").getAsInt();
+				JsonObject roadJson = roadsJson.get(b).getAsJsonObject();
+				int owner = roadJson.get("owner").getAsInt();
 				ownerListRoads.add(owner);
-				JsonObject json4_1_3 = json4_1_1.getAsJsonObject("location");
-				JsonElement direction = json4_1_3.get("direction");
-				int x = json4_1_3.get("x").getAsInt();
-				int y = json4_1_3.get("y").getAsInt();
+				JsonObject locationJson = roadJson.getAsJsonObject("location");
+				JsonElement direction = locationJson.get("direction");
+				int x = locationJson.get("x").getAsInt();
+				int y = locationJson.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 
 				tempEdgeLocationRoads.add(new EdgeLocation(hexLocation, determineEdgeDirection(direction.getAsString())).getNormalizedLocation());
@@ -174,20 +172,19 @@ public class Interpreter
 		
 		
 	// Get Cities
-		JsonArray array5_1 = json3.getAsJsonArray("cities");
+		JsonArray citiesJson = mapJson.getAsJsonArray("cities");
 		ArrayList<VertexLocation> tempVertexLocationCities = new ArrayList<>();
 		ArrayList<Integer> ownerListCities = new ArrayList<>();
 		
-		for(int b = 0; b < array5_1.size(); b++)
+		for(int b = 0; b < citiesJson.size(); b++)
 		{
-			
-				JsonObject json5_1_1 = array5_1.get(b).getAsJsonObject();
-				int owner = json5_1_1.get("owner").getAsInt();
+				JsonObject cityJson = citiesJson.get(b).getAsJsonObject();
+				int owner = cityJson.get("owner").getAsInt();
 				ownerListCities.add(owner);
-				JsonObject json5_1_3 = json5_1_1.getAsJsonObject("location");
-				JsonElement direction = json5_1_3.get("direction");
-				int x = json5_1_3.get("x").getAsInt();
-				int y = json5_1_3.get("y").getAsInt();
+				JsonObject locationJson = cityJson.getAsJsonObject("location");
+				JsonElement direction = locationJson.get("direction");
+				int x = locationJson.get("x").getAsInt();
+				int y = locationJson.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 
 				tempVertexLocationCities.add(new VertexLocation(hexLocation, determineVertexDirection(direction.getAsString())).getNormalizedLocation());
@@ -195,40 +192,38 @@ public class Interpreter
 		
 		
 	// Get Settlements
-		JsonArray array6_1 = json3.getAsJsonArray("settlements");
+		JsonArray settlementsJson = mapJson.getAsJsonArray("settlements");
 		ArrayList<VertexLocation> tempVertexLocationSettlements = new ArrayList<>();
 		ArrayList<Integer> ownerListSettlements = new ArrayList<>();
 		
-		for(int b = 0; b < array6_1.size(); b++)
+		for(int b = 0; b < settlementsJson.size(); b++)
 		{
-			
-				JsonObject json6_1_1 = array6_1.get(b).getAsJsonObject();
-				int owner = json6_1_1.get("owner").getAsInt();
+				JsonObject settlementJson = settlementsJson.get(b).getAsJsonObject();
+				int owner = settlementJson.get("owner").getAsInt();
 				ownerListSettlements.add(owner);
-				JsonObject json6_1_3 = json6_1_1.getAsJsonObject("location");
-				JsonElement direction = json6_1_3.get("direction");
-				int x = json6_1_3.get("x").getAsInt();
-				int y = json6_1_3.get("y").getAsInt();
+				JsonObject locationJson = settlementJson.getAsJsonObject("location");
+				JsonElement direction = locationJson.get("direction");
+				int x = locationJson.get("x").getAsInt();
+				int y = locationJson.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 						
 				tempVertexLocationSettlements.add(new VertexLocation(hexLocation, determineVertexDirection(direction.getAsString())).getNormalizedLocation());
 		}
 		
 	// Get Radius
-		int radius = json3.get("radius").getAsInt();
+		int radius = mapJson.get("radius").getAsInt();
 		
 		
 	// Get Ports
-		JsonArray array7_1 = json3.getAsJsonArray("ports");
+		JsonArray portsJson = mapJson.getAsJsonArray("ports");
 		Port[] ports = new Port[9];
 		
-		for(int b = 0; b < array7_1.size(); b++)
+		for(int b = 0; b < portsJson.size(); b++)
 		{
-				JsonObject json7_1_1 = array7_1.get(b).getAsJsonObject();
-				int ratio = json7_1_1.get("ratio").getAsInt();
-				
+				JsonObject portJson = portsJson.get(b).getAsJsonObject();
+				int ratio = portJson.get("ratio").getAsInt();
 
-				JsonElement resource = json7_1_1.get("resource");
+				JsonElement resource = portJson.get("resource");
 				ResourceType resourceResult = null;
 				
 				if (resource != null)
@@ -236,11 +231,11 @@ public class Interpreter
 					resourceResult = determineResourceType(resource.getAsString());
 				}
 				
-				JsonElement direction = json7_1_1.get("direction");
+				JsonElement direction = portJson.get("direction");
 
-				JsonObject json7_1_3 = json7_1_1.getAsJsonObject("location");
-				int x = json7_1_3.get("x").getAsInt();
-				int y = json7_1_3.get("y").getAsInt();
+				JsonObject locationJson = portJson.getAsJsonObject("location");
+				int x = locationJson.get("x").getAsInt();
+				int y = locationJson.get("y").getAsInt();
 				HexLocation hexLocation = new HexLocation(x, y);
 
 				if (resourceResult == null)
@@ -255,17 +250,17 @@ public class Interpreter
 		
 		
 	// Get Robber
-		JsonObject json8 = json3.getAsJsonObject("robber");
-		int x = json8.get("x").getAsInt();
-		int y = json8.get("y").getAsInt();
+		JsonObject robberJson = mapJson.getAsJsonObject("robber");
+		int x = robberJson.get("x").getAsInt();
+		int y = robberJson.get("y").getAsInt();
 		HexLocation robber = new HexLocation(x, y);
 		
 		
 	// Get Players
-		JsonArray array8 = json1.getAsJsonArray("players");
-		Player[] players = new Player[array8.size()];
+		JsonArray playersJson = mainJson.getAsJsonArray("players");
+		Player[] players = new Player[playersJson.size()];
 		
-		for(int b = 0; b < array8.size(); b++)
+		for(int b = 0; b < playersJson.size(); b++)
 		{
 			ResourceCards resources = new ResourceCards();
 			DevCards oldDevCards = new DevCards();
@@ -273,42 +268,42 @@ public class Interpreter
 			Player addPlayer = new Player();
 			
 			
-			JsonObject json8_1 = array8.get(b).getAsJsonObject();
+			JsonObject playerItemsJson = playersJson.get(b).getAsJsonObject();
 			
 			
-			JsonObject json8_1_1 = json8_1.getAsJsonObject("resources");
-			resources.setBrick(json8_1_1.get("brick").getAsInt());
-			resources.setWood(json8_1_1.get("wood").getAsInt());
-			resources.setSheep(json8_1_1.get("sheep").getAsInt());
-			resources.setWheat(json8_1_1.get("wheat").getAsInt());
-			resources.setOre(json8_1_1.get("ore").getAsInt());
+			JsonObject resourcesJson = playerItemsJson.getAsJsonObject("resources");
+			resources.setBrick(resourcesJson.get("brick").getAsInt());
+			resources.setWood(resourcesJson.get("wood").getAsInt());
+			resources.setSheep(resourcesJson.get("sheep").getAsInt());
+			resources.setWheat(resourcesJson.get("wheat").getAsInt());
+			resources.setOre(resourcesJson.get("ore").getAsInt());
 			
-			JsonObject json8_1_2 = json8_1.getAsJsonObject("oldDevCards");
-			oldDevCards.setYearOfPlenty(json8_1_2.get("yearOfPlenty").getAsInt());
-			oldDevCards.setMonopoly(json8_1_2.get("monopoly").getAsInt());
-			oldDevCards.setSoldier(json8_1_2.get("soldier").getAsInt());
-			oldDevCards.setRoadBuilding(json8_1_2.get("roadBuilding").getAsInt());
-			oldDevCards.setMonument(json8_1_2.get("monument").getAsInt());
+			JsonObject oldDevCardsJson = playerItemsJson.getAsJsonObject("oldDevCards");
+			oldDevCards.setYearOfPlenty(oldDevCardsJson.get("yearOfPlenty").getAsInt());
+			oldDevCards.setMonopoly(oldDevCardsJson.get("monopoly").getAsInt());
+			oldDevCards.setSoldier(oldDevCardsJson.get("soldier").getAsInt());
+			oldDevCards.setRoadBuilding(oldDevCardsJson.get("roadBuilding").getAsInt());
+			oldDevCards.setMonument(oldDevCardsJson.get("monument").getAsInt());
 			
-			JsonObject json8_1_3 = json8_1.getAsJsonObject("newDevCards");
-			newDevCards.setYearOfPlenty(json8_1_3.get("yearOfPlenty").getAsInt());
-			newDevCards.setMonopoly(json8_1_3.get("monopoly").getAsInt());
-			newDevCards.setSoldier(json8_1_3.get("soldier").getAsInt());
-			newDevCards.setRoadBuilding(json8_1_3.get("roadBuilding").getAsInt());
-			newDevCards.setMonument(json8_1_3.get("monument").getAsInt());
+			JsonObject newDevCardsJson = playerItemsJson.getAsJsonObject("newDevCards");
+			newDevCards.setYearOfPlenty(newDevCardsJson.get("yearOfPlenty").getAsInt());
+			newDevCards.setMonopoly(newDevCardsJson.get("monopoly").getAsInt());
+			newDevCards.setSoldier(newDevCardsJson.get("soldier").getAsInt());
+			newDevCards.setRoadBuilding(newDevCardsJson.get("roadBuilding").getAsInt());
+			newDevCards.setMonument(newDevCardsJson.get("monument").getAsInt());
 			
-			int playerRoads = json8_1.get("roads").getAsInt();
-			int playerCities = json8_1.get("cities").getAsInt();
-			int playerSettlements = json8_1.get("settlements").getAsInt();
-			int playerSoldiers = json8_1.get("soldiers").getAsInt();
-			int playerVictoryPoints = json8_1.get("victoryPoints").getAsInt();
-			int playerMonuments = json8_1.get("monuments").getAsInt();
-			boolean playerPlayedDevCard = json8_1.get("playedDevCard").getAsBoolean();
-			boolean playerDiscarded = json8_1.get("discarded").getAsBoolean();
-			int playerId = json8_1.get("playerID").getAsInt();
-			int playerIndex = json8_1.get("playerIndex").getAsInt();
-			String playerName = json8_1.get("name").getAsString();
-			String playerColor = json8_1.get("color").getAsString();
+			int playerRoads = playerItemsJson.get("roads").getAsInt();
+			int playerCities = playerItemsJson.get("cities").getAsInt();
+			int playerSettlements = playerItemsJson.get("settlements").getAsInt();
+			int playerSoldiers = playerItemsJson.get("soldiers").getAsInt();
+			int playerVictoryPoints = playerItemsJson.get("victoryPoints").getAsInt();
+			int playerMonuments = playerItemsJson.get("monuments").getAsInt();
+			boolean playerPlayedDevCard = playerItemsJson.get("playedDevCard").getAsBoolean();
+			boolean playerDiscarded = playerItemsJson.get("discarded").getAsBoolean();
+			int playerId = playerItemsJson.get("playerID").getAsInt();
+			int playerIndex = playerItemsJson.get("playerIndex").getAsInt();
+			String playerName = playerItemsJson.get("name").getAsString();
+			String playerColor = playerItemsJson.get("color").getAsString();
 			
 			
 			addPlayer.setResources(resources);
@@ -332,20 +327,20 @@ public class Interpreter
 		
 		
 	// Get Log
-		JsonObject json9 = json1.getAsJsonObject("log");
-		JsonArray array9_1 = json9.getAsJsonArray("lines");
+		JsonObject logJson = mainJson.getAsJsonObject("log");
+		JsonArray logLinesJson = logJson.getAsJsonArray("lines");
 
 		MessageList log = new MessageList();
-		MessageLine[] logLines = new MessageLine[array9_1.size()];
+		MessageLine[] logLines = new MessageLine[logLinesJson.size()];
 		
-		for(int a = 0; a < array9_1.size(); a++)
+		for(int a = 0; a < logLinesJson.size(); a++)
 		{
 			MessageLine newLine = new MessageLine();
 			
-			JsonObject json9_1_1 = array9_1.get(a).getAsJsonObject();
+			JsonObject lineJson = logLinesJson.get(a).getAsJsonObject();
 			
-			String source = json9_1_1.get("source").getAsString();
-			String message = json9_1_1.get("message").getAsString();	
+			String source = lineJson.get("source").getAsString();
+			String message = lineJson.get("message").getAsString();	
 			
 			newLine.setSource(source);
 			newLine.setMessage(message);
@@ -357,20 +352,20 @@ public class Interpreter
 		
 		
 	// Get Chat
-		JsonObject json10 = json1.getAsJsonObject("chat");
-		JsonArray array10_1 = json10.getAsJsonArray("lines");
+		JsonObject chatJson = mainJson.getAsJsonObject("chat");
+		JsonArray chatLinesJson = chatJson.getAsJsonArray("lines");
 		
 		MessageList chat = new MessageList();
-		MessageLine[] chatLines = new MessageLine[array10_1.size()];
+		MessageLine[] chatLines = new MessageLine[chatLinesJson.size()];
 		
-		for(int a = 0; a < array10_1.size(); a++)
+		for(int a = 0; a < chatLinesJson.size(); a++)
 		{
 			MessageLine newLine = new MessageLine();
 			
-			JsonObject json10_1_1 = array10_1.get(a).getAsJsonObject();
+			JsonObject lineJson = chatLinesJson.get(a).getAsJsonObject();
 			
-			String source = json10_1_1.get("source").getAsString();
-			String message = json10_1_1.get("message").getAsString();	
+			String source = lineJson.get("source").getAsString();
+			String message = lineJson.get("message").getAsString();	
 			
 			newLine.setSource(source);
 			newLine.setMessage(message);
@@ -382,29 +377,29 @@ public class Interpreter
 		
 	// Get Bank
 		ResourceCards bank = new ResourceCards();
-		JsonObject json11 = json1.getAsJsonObject("bank");
-		bank.setBrick(json11.get("brick").getAsInt());
-		bank.setWood(json11.get("wood").getAsInt());
-		bank.setSheep(json11.get("sheep").getAsInt());
-		bank.setWheat(json11.get("wheat").getAsInt());
-		bank.setOre(json11.get("ore").getAsInt());
+		JsonObject bankJson = mainJson.getAsJsonObject("bank");
+		bank.setBrick(bankJson.get("brick").getAsInt());
+		bank.setWood(bankJson.get("wood").getAsInt());
+		bank.setSheep(bankJson.get("sheep").getAsInt());
+		bank.setWheat(bankJson.get("wheat").getAsInt());
+		bank.setOre(bankJson.get("ore").getAsInt());
 		
 		
 	// Get TurnTracker
-		JsonObject json12 = json1.getAsJsonObject("turnTracker");
+		JsonObject turnTrackerJson = mainJson.getAsJsonObject("turnTracker");
 		TurnTracker turnTracker = new TurnTracker();
 		
-		turnTracker.setStatus(json12.get("status").getAsString());
-		turnTracker.setCurrentTurn(json12.get("currentTurn").getAsInt());
-		turnTracker.setLongestRoad(json12.get("longestRoad").getAsInt());
-		turnTracker.setLargestArmy(json12.get("largestArmy").getAsInt());
+		turnTracker.setStatus(turnTrackerJson.get("status").getAsString());
+		turnTracker.setCurrentTurn(turnTrackerJson.get("currentTurn").getAsInt());
+		turnTracker.setLongestRoad(turnTrackerJson.get("longestRoad").getAsInt());
+		turnTracker.setLargestArmy(turnTrackerJson.get("largestArmy").getAsInt());
 		
 	// Get Winner
-		int winner = json1.get("winner").getAsInt();
+		int winner = mainJson.get("winner").getAsInt();
 		
 		
 	// Get Version
-		int version = json1.get("version").getAsInt();
+		int version = mainJson.get("version").getAsInt();
 		
 
 //=================== Create ClientModel From Pieces ========================================			
