@@ -33,7 +33,7 @@ public class CanDoMasterTest
 		Interpreter interpreter = new Interpreter();
 				
 		StringBuilder result = new StringBuilder("");
-	    File file = new File("CanDoTestJSON.txt");
+	    File file = new File("java/CanDoTestJSON.txt");
 		
 		try (Scanner scanner = new Scanner(file)) {
 
