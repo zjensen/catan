@@ -38,7 +38,8 @@ public class RunAllTests
 				"shared.models.UserTest",
 				"shared.models.VertexObjectTest",
 				"client.interpreter.InterpreterTest",		// interpreter tests
-				"client.facade.CanDoMasterTest"
+				"client.facade.CanDoMasterTest",
+				"client.server.FakeServerTests"
 		};
 
 		org.junit.runner.JUnitCore.main(testClasses);
