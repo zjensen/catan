@@ -13,4 +13,9 @@ public class RoadBuilding_Output
 	{
 		this.response = response;
 	}
+
+	public Object getResponse() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
