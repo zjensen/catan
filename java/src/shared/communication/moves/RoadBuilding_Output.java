@@ -11,11 +11,14 @@ public class RoadBuilding_Output
 	
 	public RoadBuilding_Output(String response)
 	{
-		this.response = response;
+		this.setResponse(response);
 	}
 
-	public Object getResponse() {
-		// TODO Auto-generated method stub
-		return null;
+	public String getResponse() {
+		return response;
+	}
+
+	public void setResponse(String response) {
+		this.response = response;
 	}
 }
