@@ -63,6 +63,14 @@ public class ClientModel {
 	public boolean canRoadBuilding(RoadBuilding_Input params) //todo
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
+		if(params.getSpot1()!=null && params.getSpot2()!=null)
+		{
+			if(params.getSpot1().equals(params.getSpot2()))
+			{
+				return false;
+			}
+		}
+		
 		return p.canRoadBuilding(params) && map.canRoadBuilding(params);
 	}
 

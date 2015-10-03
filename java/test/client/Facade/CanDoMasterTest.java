@@ -176,7 +176,40 @@ public class CanDoMasterTest
 	@Test
 	public void canRoadBuilding_Test()
 	{
+		Player p = clientModel.getPlayerByIndex(0);
+		EdgeLocation e1 = new EdgeLocation(new HexLocation(0,0), EdgeDirection.North); //free
+		EdgeLocation e2 = new EdgeLocation(new HexLocation(0,0), EdgeDirection.NorthWest); //free
+		EdgeLocation e3 = new EdgeLocation(new HexLocation(0,2), EdgeDirection.North); //taken
+		EdgeLocation e4 = new EdgeLocation(new HexLocation(0,3), EdgeDirection.NorthEast); //off map
 		
+		p.setRoads(1);
+		
+		RoadBuilding_Input params1 = new RoadBuilding_Input(0, null, e1); //yes
+		RoadBuilding_Input params2 = new RoadBuilding_Input(0, e1, null); //yes
+		RoadBuilding_Input params3 = new RoadBuilding_Input(0, e1, e2); //no
+		RoadBuilding_Input params4 = new RoadBuilding_Input(0, e3, null); //no
+		RoadBuilding_Input params5 = new RoadBuilding_Input(0, null, e3); //no
+		assertTrue(cf.canRoadBuilding(params1));
+		assertTrue(cf.canRoadBuilding(params2));
+		assertFalse(cf.canRoadBuilding(params3));
+		assertFalse(cf.canRoadBuilding(params4));
+		assertFalse(cf.canRoadBuilding(params5));
+		
+		p.setRoads(13);
+		
+		RoadBuilding_Input params6 = new RoadBuilding_Input(0, e1, e2); //yes
+		RoadBuilding_Input params7 = new RoadBuilding_Input(2, e1, e2); //false
+		RoadBuilding_Input params8 = new RoadBuilding_Input(0, e1, e4); //false
+		assertTrue(cf.canRoadBuilding(params6));
+		assertFalse(cf.canRoadBuilding(params7));
+		assertFalse(cf.canRoadBuilding(params8));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn
+		
+		RoadBuilding_Input params9 = new RoadBuilding_Input(1, e1, e2); //no
+		assertFalse(cf.canRoadBuilding(params9));
+		
+		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn bacc
 	}
 	
 	@Test
@@ -194,7 +227,7 @@ public class CanDoMasterTest
 		assertFalse(cf.canSoldier(params4));
 		assertFalse(cf.canSoldier(params5));
 		
-		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn back
+		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn
 		
 		Soldier_Input params6 = new Soldier_Input(1, 2, new HexLocation(1, -1)); //no dev card
 		assertFalse(cf.canSoldier(params6));

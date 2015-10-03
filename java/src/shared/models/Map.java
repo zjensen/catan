@@ -240,12 +240,21 @@ public class Map {
 	
 	public boolean canRoadBuilding(RoadBuilding_Input params)
 	{
-		EdgeLocation r1 = params.getSpot1().getNormalizedLocation();
-		EdgeLocation r2 = params.getSpot2().getNormalizedLocation();
+		EdgeLocation r1 = null;
+		if(params.getSpot1()!=null)
+		{
+			r1 = params.getSpot1().getNormalizedLocation();
+		}
+		
+		EdgeLocation r2 = null;
+		if(params.getSpot2()!=null)
+		{
+			r2 = params.getSpot2().getNormalizedLocation();
+		}
 		
 		if(r1 != null)
 		{
-			if(!roads.containsKey(r1) || !roadIsOnMap(r1))
+			if(roads.containsKey(r1) || !roadIsOnMap(r1))
 			{
 				return false;
 			}
@@ -253,7 +262,7 @@ public class Map {
 		
 		if(r2 != null)
 		{
-			if(!roads.containsKey(r2) || !roadIsOnMap(r2))
+			if(roads.containsKey(r2) || !roadIsOnMap(r2))
 			{
 				return false;
 			}
