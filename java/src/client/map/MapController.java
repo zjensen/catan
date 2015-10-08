@@ -6,12 +6,13 @@ import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
 import client.data.*;
+import client.session.SessionManager;
 
 
 /**
  * Implementation for the map controller
  */
-public class MapController extends Controller implements IMapController {
+public class MapController extends Controller implements IMapController, Observer {
 	
 	private IRobView robView;
 	
@@ -22,6 +23,14 @@ public class MapController extends Controller implements IMapController {
 		setRobView(robView);
 		
 		initFromModel();
+		
+		SessionManager.instance().addObserver(this);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		// TODO Auto-generated method stub
 	}
 	
 	public IMapView getView() {

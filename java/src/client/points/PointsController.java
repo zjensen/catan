@@ -1,12 +1,16 @@
 package client.points;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import client.base.*;
+import client.session.SessionManager;
 
 
 /**
  * Implementation for the points controller
  */
-public class PointsController extends Controller implements IPointsController {
+public class PointsController extends Controller implements IPointsController, Observer {
 
 	private IGameFinishedView finishedView;
 	
@@ -23,6 +27,14 @@ public class PointsController extends Controller implements IPointsController {
 		setFinishedView(finishedView);
 		
 		initFromModel();
+		
+		SessionManager.instance().addObserver(this);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		// TODO Auto-generated method stub
 	}
 	
 	public IPointsView getPointsView() {

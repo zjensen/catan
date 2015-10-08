@@ -1,14 +1,18 @@
 package client.domestic;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
+import client.session.SessionManager;
 
 
 /**
  * Domestic trade controller implementation
  */
-public class DomesticTradeController extends Controller implements IDomesticTradeController {
+public class DomesticTradeController extends Controller implements IDomesticTradeController, Observer {
 
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
@@ -30,6 +34,14 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		setTradeOverlay(tradeOverlay);
 		setWaitOverlay(waitOverlay);
 		setAcceptOverlay(acceptOverlay);
+		
+		SessionManager.instance().addObserver(this);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		// TODO Auto-generated method stub
 	}
 	
 	public IDomesticTradeView getTradeView() {

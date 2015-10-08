@@ -1,13 +1,17 @@
 package client.devcards;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import shared.definitions.ResourceType;
 import client.base.*;
+import client.session.SessionManager;
 
 
 /**
  * "Dev card" controller implementation
  */
-public class DevCardController extends Controller implements IDevCardController {
+public class DevCardController extends Controller implements IDevCardController, Observer {
 
 	private IBuyDevCardView buyCardView;
 	private IAction soldierAction;
@@ -29,7 +33,17 @@ public class DevCardController extends Controller implements IDevCardController 
 		this.buyCardView = buyCardView;
 		this.soldierAction = soldierAction;
 		this.roadAction = roadAction;
+		
+		SessionManager.instance().addObserver(this);
 	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		// TODO Auto-generated method stub
+	}
+	
+	
 
 	public IPlayDevCardView getPlayCardView() {
 		return (IPlayDevCardView)super.getView();

@@ -1,16 +1,18 @@
 package client.session;
 
+import java.util.Observable;
+
 import client.facade.ClientFacade;
 import client.interpreter.Interpreter;
 import client.poller.Poller;
 import client.server.*;
 import shared.models.ClientModel;
 
-public class SessionManager {
+public class SessionManager extends Observable{
 	
 	//Private Data Members
 	private ClientFacade clientFacade = new ClientFacade(this.clientModel);
-	private ClientModel clientModel = new ClientModel();
+	public ClientModel clientModel = new ClientModel();
 	private Poller poller;
 	private Interpreter interpreter = new Interpreter();
 	private IServer server;
@@ -62,6 +64,8 @@ public class SessionManager {
 		this.clientModel = newClientModel;
 		this.clientFacade.setClientModel(newClientModel);
 		this.poller.setClientModel(newClientModel);
+		this.setChanged();
+		this.notifyObservers();
 	}
 	
 	//--------------------------------------------------------------------------------------------------
@@ -85,6 +89,11 @@ public class SessionManager {
 	
 	public static SessionManager get_instance() {
 		return _instance;
+	}
+	
+	public ClientModel getClientModel()
+	{
+		return clientModel;
 	}
 	
 	

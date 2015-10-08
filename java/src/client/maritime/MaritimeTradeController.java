@@ -1,13 +1,17 @@
 package client.maritime;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import shared.definitions.*;
 import client.base.*;
+import client.session.SessionManager;
 
 
 /**
  * Implementation for the maritime trade controller
  */
-public class MaritimeTradeController extends Controller implements IMaritimeTradeController {
+public class MaritimeTradeController extends Controller implements IMaritimeTradeController, Observer {
 
 	private IMaritimeTradeOverlay tradeOverlay;
 	
@@ -16,6 +20,14 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		super(tradeView);
 
 		setTradeOverlay(tradeOverlay);
+		
+		SessionManager.instance().addObserver(this);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		// TODO Auto-generated method stub
 	}
 	
 	public IMaritimeTradeView getTradeView() {

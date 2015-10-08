@@ -1,14 +1,18 @@
 package client.discard;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import shared.definitions.*;
 import client.base.*;
 import client.misc.*;
+import client.session.SessionManager;
 
 
 /**
  * Discard controller implementation
  */
-public class DiscardController extends Controller implements IDiscardController {
+public class DiscardController extends Controller implements IDiscardController, Observer {
 
 	private IWaitView waitView;
 	
@@ -23,6 +27,14 @@ public class DiscardController extends Controller implements IDiscardController 
 		super(view);
 		
 		this.waitView = waitView;
+		
+		SessionManager.instance().addObserver(this);
+	}
+	
+	@Override
+	public void update(Observable o, Object arg)
+	{
+		// TODO Auto-generated method stub
 	}
 
 	public IDiscardView getDiscardView() {
