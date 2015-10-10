@@ -5,6 +5,9 @@ import java.util.*;
 import client.base.*;
 import client.session.SessionManager;
 import shared.definitions.*;
+import shared.models.MessageLine;
+import shared.models.MessageList;
+import shared.models.Player;
 
 
 /**
@@ -22,11 +25,29 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 	}
 	
 	@Override
-	public void update(Observable o, Object arg)
-	{
-		// TODO Auto-generated method stub
+	public void update(Observable o, Object arg) {
+		MessageList log = SessionManager.instance().clientModel.getLog();
+
+		ArrayList<LogEntry> entries = new ArrayList<>();
+		if (log != null) {
+			for (MessageLine logMember : log.getLines()) {
+				String messageString = logMember.getMessage();
+				String messageSource = logMember.getSource();
+
+				CatanColor messageColor = null;
+				for (Player player : SessionManager.instance()
+						.getClientFacade().getClientModel().getPlayers()) {
+					if (player.getName().equals(messageSource)) {
+						messageColor = player.getCatanColor();
+					}
+				}
+
+				entries.add(new LogEntry(messageColor, messageString));
+			}
+		}
+		getView().setEntries(entries);
 	}
-	
+
 	@Override
 	public IGameHistoryView getView() {
 		
@@ -38,14 +59,11 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 		//<temp>
 		
 		List<LogEntry> entries = new ArrayList<LogEntry>();
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
-		entries.add(new LogEntry(CatanColor.BROWN, "This is a brown message"));
-		entries.add(new LogEntry(CatanColor.ORANGE, "This is an orange message ss x y z w.  This is an orange message.  This is an orange message.  This is an orange message."));
+		entries.add(new LogEntry(CatanColor.BROWN, "Davis sucks"));
+		entries.add(new LogEntry(CatanColor.RED, "Zack sucks"));
+		entries.add(new LogEntry(CatanColor.ORANGE, "Trevor sucks"));
+		entries.add(new LogEntry(CatanColor.PUCE, "Anthony sucks"));
+		entries.add(new LogEntry(CatanColor.GREEN, "Ian sucks"));
 		
 		getView().setEntries(entries);
 	
