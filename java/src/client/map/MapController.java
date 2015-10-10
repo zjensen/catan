@@ -2,6 +2,7 @@ package client.map;
 
 import java.util.*;
 
+import shared.communication.moves.BuildCity_Input;
 import shared.definitions.*;
 import shared.locations.*;
 import client.base.*;
@@ -123,8 +124,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		
-		return true;
+		return SessionManager.instance().getClientFacade().canBuildCity(new BuildCity_Input(SessionManager.instance().getPlayer().getPlayerIndex(), vertLoc));
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {

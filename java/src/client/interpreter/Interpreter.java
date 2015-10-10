@@ -102,6 +102,11 @@ public class Interpreter
 		return result;
 	}
 	
+	public ClientModel deserialize(String jsonString) throws JsonParseException
+	{
+		return deserialize(new JsonParser().parse(jsonString).getAsJsonObject());
+	}
+	
 	public ClientModel deserialize(JsonElement arg0) throws JsonParseException
 	{	
 		JsonObject mainJson = (JsonObject) arg0;

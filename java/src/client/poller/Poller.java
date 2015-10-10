@@ -35,7 +35,7 @@ public class Poller
 				input.setVersion(clientModel.getVersion());
 				GameModel_Output output = SessionManager.get_instance().getServer().getModel(input);
 				if (!output.getResponse().equals("true")) {
-					//this.clientModel = SessionManager.get_instance().getInterpreter().deserialize(output.getResponse());
+					clientModel = SessionManager.get_instance().getInterpreter().deserialize(output.getResponse());
 					SessionManager.get_instance().updateClientModels(clientModel);
 				}
 			}

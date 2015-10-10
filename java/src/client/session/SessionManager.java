@@ -2,6 +2,7 @@ package client.session;
 
 import java.util.Observable;
 
+import client.data.PlayerInfo;
 import client.facade.ClientFacade;
 import client.interpreter.Interpreter;
 import client.poller.Poller;
@@ -16,6 +17,7 @@ public class SessionManager extends Observable{
 	private Poller poller;
 	private Interpreter interpreter = new Interpreter();
 	private IServer server;
+	private PlayerInfo player;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
 	
@@ -94,6 +96,16 @@ public class SessionManager extends Observable{
 	public ClientModel getClientModel()
 	{
 		return clientModel;
+	}
+
+	public PlayerInfo getPlayer()
+	{
+		return player;
+	}
+
+	public void setPlayer(PlayerInfo player)
+	{
+		this.player = player;
 	}
 	
 	
