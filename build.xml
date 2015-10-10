@@ -32,6 +32,10 @@
 	<property name="java.dist" location="${java.dir}/dist"/>
 	<property name="java.lib" location="${java.dir}/lib"/>
 	<property name="java.test" location="${java.dir}/test"/>
+
+	<!-- Default command line arguments -->
+	<property name="host" value="localhost"/>
+	<property name="port" value="8081"/>
   
 	<!-- CLASSPATHS -->
 	<!-- ********** -->
@@ -158,6 +162,8 @@
 			<assertions>
 				<enable/>
 			</assertions>
+			<arg value="${host}"/>
+			<arg value="${port}"/>
 		</java>
 	</target>
  	
