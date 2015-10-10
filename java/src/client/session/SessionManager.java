@@ -51,8 +51,24 @@ public class SessionManager extends Observable{
 	 * @param port
 	 */
 	public void setServer(String host, String port) {
-		this.server = new Server();//This will eventually pass in both the host and port
+		this.server = new Server(host, port);//This will eventually pass in both the host and port
+	}
+	
+	/**
+	 * Starts the poller when a user joins a game
+	 */
+	public void startPoller()
+	{
 		this.poller = new Poller();
+	}
+	
+	/**
+	 * Starts the poller when a user joins a game
+	 */
+	public void stopPoller()
+	{
+		this.poller.stopTimer();
+		this.poller = null;
 	}
 	
 	/**

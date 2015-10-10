@@ -9,6 +9,11 @@ import java.io.*;
 import java.util.*;
 import java.lang.reflect.*;
 
+import shared.communication.user.Login_Input;
+import shared.communication.user.Login_Output;
+import shared.communication.user.Register_Input;
+import shared.communication.user.Register_Output;
+
 import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 
@@ -79,24 +84,39 @@ public class LoginController extends Controller implements ILoginController, Obs
 	}
 
 	@Override
-	public void signIn() {
+	public void signIn() 
+	{
+		String username = getLoginView().getLoginUsername();
+		String password = getLoginView().getLoginPassword();
 		
-		// TODO: log in user
-		
+		Login_Output result = SessionManager.instance().getServer().login(new Login_Input(username, password));
 
-		// If log in succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+		if(result.getResponse().toUpperCase().equals("SUCCESS")) //todo warn on fail
+		{
+			// If log in succeeded
+			getLoginView().closeModal();
+			loginAction.execute();
+		}
 	}
 
 	@Override
-	public void register() {
+	public void register() 
+	{
+		String username = getLoginView().getRegisterUsername();
+		String password = getLoginView().getRegisterPassword();
+		String passwordRepeat = getLoginView().getRegisterPasswordRepeat();
 		
-		// TODO: register new user (which, if successful, also logs them in)
-		
-		// If register succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+		if(password.equals(passwordRepeat)) //todo warn on fail
+		{
+			Register_Output result = SessionManager.instance().getServer().register(new Register_Input(username, password));
+
+			if(result.getResponse().toUpperCase() == "SUCCESS")
+			{
+				// If register succeeded
+				getLoginView().closeModal();
+				loginAction.execute();
+			}
+		}
 	}
 
 }
