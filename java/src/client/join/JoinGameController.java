@@ -3,6 +3,8 @@ package client.join;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.communication.games.ListGames_Input;
+import shared.communication.games.ListGames_Output;
 import shared.definitions.CatanColor;
 import client.base.*;
 import client.data.*;
@@ -100,7 +102,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	}
 
 	@Override
-	public void start() {
+	public void start() 
+	{
+		ListGames_Output result = SessionManager.instance().getServer().listGames(new ListGames_Input());
+		if(result.getGames() != null)
+		{
+			getJoinGameView().setGames(result.getGames(), SessionManager.instance().getPlayerInfo());
+		}
+		
 		
 		getJoinGameView().showModal();
 	}

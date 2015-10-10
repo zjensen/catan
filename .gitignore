@@ -13,3 +13,7 @@ java/doc/
 *.class
 
 *.class
+
+java/dist/*
+
+java/bin/*

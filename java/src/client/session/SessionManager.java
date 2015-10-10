@@ -2,6 +2,7 @@ package client.session;
 
 import java.util.Observable;
 
+import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.facade.ClientFacade;
 import client.interpreter.Interpreter;
@@ -18,6 +19,7 @@ public class SessionManager extends Observable{
 	private Interpreter interpreter = new Interpreter();
 	private IServer server;
 	private PlayerInfo playerInfo;
+	private GameInfo gameInfo;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
 	
@@ -124,8 +126,18 @@ public class SessionManager extends Observable{
 		this.playerInfo = player;
 	}
 	
-	/////////////////////////////////////////////////////////////////////
+	public GameInfo getGameInfo()
+	{
+		return gameInfo;
+	}
+
+	public void setGameInfo(GameInfo gameInfo)
+	{
+		this.gameInfo = gameInfo;
+	}
 	
+	///////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * 
 	 * @return playerIndex of CURRENT PLAYER IN SESSION
@@ -133,5 +145,15 @@ public class SessionManager extends Observable{
 	public int getPlayerIndex()
 	{
 		return playerInfo.getPlayerIndex();
+	}
+
+	public void setPlayerInfo(String jsonString)
+	{
+		this.playerInfo = interpreter.deserializePlayerInfo(jsonString);
+	}
+	
+	public void setGameInfo(String jsonString)
+	{
+		this.gameInfo = interpreter.deserializeGameInfo(jsonString);
 	}
 }
