@@ -4,7 +4,7 @@ java/bin/
 bin/
 java/doc/
 .recommenders/
-
+java/dist/
 
 *.class
 

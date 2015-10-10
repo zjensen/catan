@@ -158,12 +158,12 @@
 	
 	<target name="our-client" depends="package" description="compiles, packages, and runs the student client">
 		<java jar="${java.dist}/catan-client.jar" dir="${java.dist}" fork="yes">
+			<arg value="${host}"/>
+			<arg value="${port}"/>
 			<sysproperty key="com.sun.management.jmxremote" value=""/>
 			<assertions>
 				<enable/>
 			</assertions>
-			<arg value="${host}"/>
-			<arg value="${port}"/>
 		</java>
 	</target>
  	
