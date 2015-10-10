@@ -124,7 +124,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		return SessionManager.instance().getClientFacade().canBuildCity(new BuildCity_Input(SessionManager.instance().getPlayer().getPlayerIndex(), vertLoc));
+		return SessionManager.instance().getClientFacade().canBuildCity(new BuildCity_Input(SessionManager.instance().getPlayerIndex(), vertLoc));
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {

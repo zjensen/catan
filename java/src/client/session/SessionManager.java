@@ -17,7 +17,7 @@ public class SessionManager extends Observable{
 	private Poller poller;
 	private Interpreter interpreter = new Interpreter();
 	private IServer server;
-	private PlayerInfo player;
+	private PlayerInfo playerInfo;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
 	
@@ -98,15 +98,24 @@ public class SessionManager extends Observable{
 		return clientModel;
 	}
 
-	public PlayerInfo getPlayer()
+	public PlayerInfo getPlayerInfo()
 	{
-		return player;
+		return playerInfo;
 	}
 
-	public void setPlayer(PlayerInfo player)
+	public void setPlayerInfo(PlayerInfo player)
 	{
-		this.player = player;
+		this.playerInfo = player;
 	}
 	
+	/////////////////////////////////////////////////////////////////////
 	
+	/**
+	 * 
+	 * @return playerIndex of CURRENT PLAYER IN SESSION
+	 */
+	public int getPlayerIndex()
+	{
+		return playerInfo.getPlayerIndex();
+	}
 }

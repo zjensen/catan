@@ -13,6 +13,7 @@ import client.session.SessionManager;
 public class PointsController extends Controller implements IPointsController, Observer {
 
 	private IGameFinishedView finishedView;
+	private int points;
 	
 	/**
 	 * PointsController constructor
@@ -26,15 +27,25 @@ public class PointsController extends Controller implements IPointsController, O
 		
 		setFinishedView(finishedView);
 		
-		initFromModel();
+		this.points = 0;
+		
+		getPointsView().setPoints(this.points);
 		
 		SessionManager.instance().addObserver(this);
+		
 	}
 	
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		// TODO Auto-generated method stub
+		int index = SessionManager.get_instance().getPlayerIndex();
+		int pointsToCompare = SessionManager.get_instance().getClientFacade().getPoints(index);
+		
+		if(pointsToCompare != this.points)
+		{
+			this.points = pointsToCompare;
+			getPointsView().setPoints(this.points);
+		}
 	}
 	
 	public IPointsView getPointsView() {
@@ -47,12 +58,6 @@ public class PointsController extends Controller implements IPointsController, O
 	}
 	public void setFinishedView(IGameFinishedView finishedView) {
 		this.finishedView = finishedView;
-	}
-
-	private void initFromModel() {
-		//<temp>		
-		getPointsView().setPoints(5);
-		//</temp>
 	}
 	
 }

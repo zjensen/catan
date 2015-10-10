@@ -381,5 +381,14 @@ public class ClientFacade {
 		this.clientModel = clientModel;
 	}
 	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////
+	//Extra Methods
+	
+	public int getPoints(int playerIndex)
+	{
+		return clientModel.getPlayerByIndex(playerIndex).getVictoryPoints();
+	}
+	
+	
 	
 }
