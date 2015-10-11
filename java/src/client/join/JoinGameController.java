@@ -3,6 +3,8 @@ package client.join;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.communication.games.JoinGame_Input;
+import shared.communication.games.JoinGame_Output;
 import shared.communication.games.ListGames_Input;
 import shared.communication.games.ListGames_Output;
 import shared.definitions.CatanColor;
@@ -21,6 +23,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private ISelectColorView selectColorView;
 	private IMessageView messageView;
 	private IAction joinAction;
+	private GameInfo game;
 	
 	/**
 	 * JoinGameController constructor
@@ -134,7 +137,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 
 	@Override
 	public void startJoinGame(GameInfo game) {
-
+		this.game = game;
 		getSelectColorView().showModal();
 	}
 
@@ -145,12 +148,24 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	}
 
 	@Override
-	public void joinGame(CatanColor color) {
+	public void joinGame(CatanColor color) 
+	{
 		
-		// If join succeeded
-		getSelectColorView().closeModal();
-		getJoinGameView().closeModal();
-		joinAction.execute();
+		if(this.game==null)
+		{
+			//we got an issue mate
+			return;
+		}
+		JoinGame_Output result = SessionManager.instance().getServer().joinGame(new JoinGame_Input(this.game.getId(), color.toString().toLowerCase()));
+		if(result.getResponse().toUpperCase().equals("SUCCESS")) //todo warn on fail
+		{
+			// If join succeeded
+			SessionManager.instance().getPlayerInfo().setColor(color);
+			SessionManager.instance().setGameInfo(this.game);
+			getSelectColorView().closeModal();
+			getJoinGameView().closeModal();
+			joinAction.execute();
+		}
 	}
 
 }

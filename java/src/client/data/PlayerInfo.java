@@ -16,8 +16,6 @@ import shared.definitions.*;
  */
 public class PlayerInfo
 {
-	
-	private int playerID;
 	private int id;
 	private int playerIndex;
 	private String name;
@@ -48,12 +46,11 @@ public class PlayerInfo
 	
 	public int getId()
 	{
-		return playerID;
+		return id;
 	}
 	
 	public void setId(int ID)
 	{
-		this.playerID = ID;
 		this.id = ID;
 	}
 	
@@ -95,7 +92,7 @@ public class PlayerInfo
 	@Override
 	public int hashCode()
 	{
-		return 31 * this.playerID;
+		return 31 * this.id;
 	}
 
 	@Override
@@ -111,7 +108,7 @@ public class PlayerInfo
 		}
 		final PlayerInfo other = (PlayerInfo) obj;
 		
-		return this.playerID == other.playerID;
+		return this.id == other.id;
 	}
 }
 

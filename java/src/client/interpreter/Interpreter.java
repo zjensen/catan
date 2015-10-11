@@ -114,14 +114,38 @@ public class Interpreter
 	
 	public PlayerInfo deserializePlayerInfo(String jsonString)
 	{
-		Gson gson = new Gson();
-		return gson.fromJson(jsonString, PlayerInfo.class);
+		JsonObject player = (JsonObject) new JsonParser().parse(jsonString).getAsJsonObject();
+		
+		String name = player.get("name").getAsString();
+		int playerID = player.get("playerID").getAsInt();
+		PlayerInfo p = new PlayerInfo(name,playerID);
+		
+		return p;
 	}
 	
 	public GameInfo deserializeGameInfo(String jsonString)
 	{
-		JsonObject mainJson = (JsonObject) new JsonParser().parse(jsonString).getAsJsonObject();
-		return new GameInfo();
+		JsonObject game = (JsonObject) new JsonParser().parse(jsonString).getAsJsonObject();
+		
+		String title = game.get("title").getAsString();
+		int gameID = game.get("id").getAsInt();
+		GameInfo g = new GameInfo(title,gameID);
+		JsonArray players = game.get("players").getAsJsonArray();
+		for (int j = 0; j < players.size(); j++) 
+		{
+			JsonObject player = (JsonObject) players.get(j);
+			if(!player.toString().equals("{}"))
+			{
+				String color = player.get("color").getAsString();
+				CatanColor cc = determineCatanColor(color);
+				String name = player.get("name").getAsString();
+				int playerID = player.get("id").getAsInt();
+				PlayerInfo p = new PlayerInfo(name,playerID,cc);
+				g.addPlayer(p);
+			}
+		}
+		
+		return g;
 	}
 	
 	public GameInfo[] deserializeGameInfoList(String jsonString)

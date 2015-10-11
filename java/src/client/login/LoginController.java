@@ -127,6 +127,13 @@ public class LoginController extends Controller implements ILoginController, Obs
 			getLoginView().closeModal();
 			loginAction.execute();
 		}
+		else if(result.getResponse().toUpperCase().substring(0, 6).equals("FAILED"))
+		{
+			messageView.setTitle("Registration Error");
+			messageView.setMessage("That username is already in use. Please try a different username.");
+			messageView.setController(this);
+			messageView.showModal();
+		}
 		else
 		{
 			messageView.setTitle("Registration Error");
@@ -134,6 +141,7 @@ public class LoginController extends Controller implements ILoginController, Obs
 			messageView.setController(this);
 			messageView.showModal();
 		}
+		
 		
 	}
 	

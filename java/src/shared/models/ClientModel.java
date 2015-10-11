@@ -56,6 +56,23 @@ public class ClientModel {
 	}
 	
 	/**
+	 * Gets a player's index in this model
+	 * @param playerID
+	 * @return
+	 */
+	public int getPlayerIndexByID(int playerID)
+	{
+		for(Player p : players)
+		{
+			if(p.getPlayerID()==playerID)
+			{
+				return p.getIndex();
+			}
+		}
+		return -1;
+	}
+	
+	/**
 	 * can we play road building dev card with these params?
 	 * @param params
 	 * @return

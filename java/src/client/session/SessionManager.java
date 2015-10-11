@@ -62,6 +62,7 @@ public class SessionManager extends Observable{
 	public void startPoller()
 	{
 		this.poller = new Poller();
+		this.poller.setClientModel(this.clientModel);
 	}
 	
 	/**
@@ -80,7 +81,8 @@ public class SessionManager extends Observable{
 	 * </pre>
 	 * @param newClientModel
 	 */
-	public void updateClientModels(ClientModel newClientModel) {
+	public void updateClientModels(ClientModel newClientModel) 
+	{
 		this.clientModel = newClientModel;
 		this.clientFacade.setClientModel(newClientModel);
 		this.poller.setClientModel(newClientModel);
@@ -155,5 +157,17 @@ public class SessionManager extends Observable{
 	public void setGameInfo(String jsonString)
 	{
 		this.gameInfo = interpreter.deserializeGameInfo(jsonString);
+	}
+
+	/** 
+	 * called after user joins a game, to load model, start poller, notify controllers
+	 */
+	public void setupGame()
+	{
+		ClientModel initialClientModel = this.clientFacade.getInitialModel(); //loads client model
+		int index = initialClientModel.getPlayerIndexByID(this.playerInfo.getId());
+		this.playerInfo.setPlayerIndex(index);
+		this.poller = new Poller();
+		this.updateClientModels(initialClientModel);
 	}
 }

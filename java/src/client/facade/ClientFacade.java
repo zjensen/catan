@@ -1,6 +1,8 @@
 package client.facade;
 
 import client.session.SessionManager;
+import shared.communication.game.GameModel_Input;
+import shared.communication.game.GameModel_Output;
 import shared.communication.moves.*;
 import shared.models.ClientModel;
 
@@ -18,6 +20,10 @@ public class ClientFacade {
 	
 	public void handleResponse(String response)
 	{
+		if(response.equals("\"true\"")) //model has not changed
+		{
+			return;
+		}
 		ClientModel newClientModel = SessionManager.instance().getInterpreter().deserialize(response);
 		SessionManager.instance().updateClientModels(newClientModel);
 	}
@@ -389,6 +395,13 @@ public class ClientFacade {
 		return clientModel.getPlayerByIndex(playerIndex).getVictoryPoints();
 	}
 	
-	
+	public ClientModel getInitialModel()
+	{
+		GameModel_Output output = SessionManager.instance().getServer().getModel(new GameModel_Input());
+		
+		ClientModel initialClientModel = SessionManager.instance().getInterpreter().deserialize(output.getResponse());
+		
+		return initialClientModel;
+	}
 	
 }
