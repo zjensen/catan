@@ -33,6 +33,18 @@ public class GameInfo
 		players = new ArrayList<PlayerInfo>();
 	}
 	
+	public boolean hasPlayer(int playerID)
+	{
+		for(PlayerInfo p : players)
+		{
+			if(p.getId() == playerID)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public int getId()
 	{
 		return id;
@@ -61,6 +73,16 @@ public class GameInfo
 	public List<PlayerInfo> getPlayers()
 	{
 		return Collections.unmodifiableList(players);
+	}
+	
+	public PlayerInfo[] getPlayersArray()
+	{
+		PlayerInfo[] playersArray = new PlayerInfo[players.size()];
+		for(int i=0;i<players.size();i++)
+		{
+			playersArray[i] = players.get(i);
+		}
+		return playersArray;
 	}
 }
 

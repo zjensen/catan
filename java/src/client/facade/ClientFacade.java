@@ -24,8 +24,15 @@ public class ClientFacade {
 		{
 			return;
 		}
-		ClientModel newClientModel = SessionManager.instance().getInterpreter().deserialize(response);
-		SessionManager.instance().updateClientModels(newClientModel);
+		try
+		{
+			ClientModel newClientModel = SessionManager.instance().getInterpreter().deserialize(response);
+			SessionManager.instance().updateClientModels(newClientModel);
+		}
+		catch(Exception e)
+		{
+			//oops
+		}
 	}
 	
 	
@@ -402,6 +409,19 @@ public class ClientFacade {
 		ClientModel initialClientModel = SessionManager.instance().getInterpreter().deserialize(output.getResponse());
 		
 		return initialClientModel;
+	}
+	
+	public boolean canRoll(int index)
+	{
+		if(index != clientModel.getTurnTracker().getCurrentTurn())
+		{
+			return false;
+		}
+		else if(!clientModel.getTurnTracker().getStatus().toUpperCase().equalsIgnoreCase("ROLLING"))
+		{
+			return false;
+		}
+		return true;
 	}
 	
 }

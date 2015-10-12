@@ -9,6 +9,7 @@ import client.interpreter.Interpreter;
 import client.poller.Poller;
 import client.server.*;
 import shared.models.ClientModel;
+import shared.models.Player;
 
 public class SessionManager extends Observable{
 	
@@ -84,10 +85,29 @@ public class SessionManager extends Observable{
 	public void updateClientModels(ClientModel newClientModel) 
 	{
 		this.clientModel = newClientModel;
+//		this.updateGameInfo();
 		this.clientFacade.setClientModel(newClientModel);
 		this.poller.setClientModel(newClientModel);
 		this.setChanged();
 		this.notifyObservers();
+	}
+	
+	//make sure this is updated when games are created and players are still being added
+	public void updateGameInfo()
+	{
+		if(gameInfo.getPlayers().size() == clientModel.getPlayers().length && gameInfo.getPlayers().get(0).getPlayerIndex() >= 0)
+		{
+			
+		}
+		for(Player p : this.clientModel.getPlayers())
+		{
+			int id = p.getPlayerID();
+			if(!this.gameInfo.hasPlayer(id))
+			{
+				PlayerInfo pi = new PlayerInfo(p.getName(),id,p.getCatanColor(),p.getIndex());
+				gameInfo.addPlayer(pi);
+			}
+		}
 	}
 	
 	//--------------------------------------------------------------------------------------------------
