@@ -21,6 +21,7 @@ public class SessionManager extends Observable{
 	private IServer server;
 	private PlayerInfo playerInfo;
 	private GameInfo gameInfo;
+	private boolean gameSet = false;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
 	
@@ -95,10 +96,6 @@ public class SessionManager extends Observable{
 	//make sure this is updated when games are created and players are still being added
 	public void updateGameInfo()
 	{
-		if(gameInfo.getPlayers().size() == clientModel.getPlayers().length && gameInfo.getPlayers().get(0).getPlayerIndex() >= 0)
-		{
-			
-		}
 		for(Player p : this.clientModel.getPlayers())
 		{
 			int id = p.getPlayerID();

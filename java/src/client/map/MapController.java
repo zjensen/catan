@@ -1,10 +1,15 @@
 package client.map;
 
 import java.util.*;
+import java.util.Map.Entry;
 
 import shared.communication.moves.BuildCity_Input;
 import shared.definitions.*;
 import shared.locations.*;
+import shared.models.ClientModel;
+import shared.models.Hex;
+import shared.models.Player;
+import shared.models.Port;
 import client.base.*;
 import client.data.*;
 import client.session.SessionManager;
@@ -16,6 +21,7 @@ import client.session.SessionManager;
 public class MapController extends Controller implements IMapController, Observer {
 	
 	private IRobView robView;
+	private boolean initiated = false;
 	
 	public MapController(IMapView view, IRobView robView) {
 		
@@ -23,15 +29,20 @@ public class MapController extends Controller implements IMapController, Observe
 		
 		setRobView(robView);
 		
-		initFromModel();
+		makeItRain();
 		
 		SessionManager.instance().addObserver(this);
 	}
 	
 	@Override
 	public void update(Observable o, Object arg)
-	{
-		// TODO Auto-generated method stub
+	{ 	
+		if(!initiated)
+		{
+			initiated=true;
+			initFromModel();
+		}
+		updateFromModel();
 	}
 	
 	public IMapView getView() {
@@ -46,71 +57,93 @@ public class MapController extends Controller implements IMapController, Observe
 		this.robView = robView;
 	}
 	
-	protected void initFromModel() {
+	//update the map to reflect the model's cities, settlements, roads, and robber
+	private void updateFromModel()
+	{
+		ClientModel model = SessionManager.instance().getClientModel();
 		
-		//<temp>
+		//place cities
+		HashMap<VertexLocation,Player> cities = model.getMap().getCities();
+		for (Entry<VertexLocation, Player> entry : cities.entrySet())
+		{
+			getView().placeCity(entry.getKey(), entry.getValue().getCatanColor());
+		}
 		
-		Random rand = new Random();
-
-		for (int x = 0; x <= 3; ++x) {
+		//place settlements
+		HashMap<VertexLocation,Player> settlements = model.getMap().getSettlements();
+		for (Entry<VertexLocation, Player> entry : settlements.entrySet())
+		{
+			getView().placeSettlement(entry.getKey(), entry.getValue().getCatanColor());
+		}
+		
+		//place roads
+		HashMap<EdgeLocation,Player> roads = model.getMap().getRoads();
+		for (Entry<EdgeLocation, Player> entry : roads.entrySet())
+		{
+			getView().placeRoad(entry.getKey(), entry.getValue().getCatanColor());
+		}
+		
+		//place robber
+		getView().placeRobber(model.getMap().getRobber());
+	}
+	
+	private void initFromModel()
+	{
+		ClientModel model = SessionManager.instance().getClientModel();
+		
+		Hex[] hexes = model.getMap().getHexes();
+		for(Hex hex : hexes)
+		{
+			if(hex.getResource()==null)
+			{
+				getView().addHex(hex.getLocation(), HexType.DESERT);
+			}
+			else
+			{
+				getView().addHex(hex.getLocation(), hex.getResource());
+				getView().addNumber(hex.getLocation(), hex.getNumber());
+			}
+		}
+		
+		Port[] ports = model.getMap().getPorts();
+		for(Port port : ports)
+		{
+			getView().addHex(port.getLocation(), HexType.WATER);
+			if(port.getResourceType() == null)
+			{
+				getView().addPort(new EdgeLocation(port.getLocation(),port.getDirection()), PortType.THREE);
+			}
+			else
+			{
+				getView().addPort(new EdgeLocation(port.getLocation(),port.getDirection()), PortType.valueOf(port.getResourceType().toString()));
+			}
+		}
+		
+	}
+	
+	//cover it in water. all of it.
+	protected void makeItRain() 
+	{
+		for (int x = 0; x <= 3; ++x) 
+		{
 			
 			int maxY = 3 - x;			
 			for (int y = -3; y <= maxY; ++y) {				
-				int r = rand.nextInt(HexType.values().length);
-				HexType hexType = HexType.values()[r];
+				HexType hexType = HexType.WATER;
 				HexLocation hexLoc = new HexLocation(x, y);
 				getView().addHex(hexLoc, hexType);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-						CatanColor.RED);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-						CatanColor.BLUE);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-						CatanColor.ORANGE);
-				getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-				getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
+				
 			}
 			
 			if (x != 0) {
 				int minY = x - 3;
 				for (int y = minY; y <= 3; ++y) {
-					int r = rand.nextInt(HexType.values().length);
-					HexType hexType = HexType.values()[r];
+					HexType hexType = HexType.WATER;
 					HexLocation hexLoc = new HexLocation(-x, y);
 					getView().addHex(hexLoc, hexType);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-							CatanColor.RED);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-							CatanColor.BLUE);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-							CatanColor.ORANGE);
-					getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-					getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
 				}
 			}
 		}
-		
-		PortType portType = PortType.BRICK;
-		getView().addPort(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest), portType);
-		
-		getView().placeRobber(new HexLocation(0, 0));
-		
-		getView().addNumber(new HexLocation(-2, 0), 2);
-		getView().addNumber(new HexLocation(-2, 1), 3);
-		getView().addNumber(new HexLocation(-2, 2), 4);
-		getView().addNumber(new HexLocation(-1, 0), 5);
-		getView().addNumber(new HexLocation(-1, 1), 6);
-		getView().addNumber(new HexLocation(1, -1), 8);
-		getView().addNumber(new HexLocation(1, 0), 9);
-		getView().addNumber(new HexLocation(2, -2), 10);
-		getView().addNumber(new HexLocation(2, -1), 11);
-		getView().addNumber(new HexLocation(2, 0), 12);
-		
-		//</temp>
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {

@@ -417,7 +417,7 @@ public class ClientFacade {
 		{
 			return false;
 		}
-		else if(!clientModel.getTurnTracker().getStatus().toUpperCase().equalsIgnoreCase("ROLLING"))
+		else if(!clientModel.getTurnTracker().getStatus().equalsIgnoreCase("rolling"))
 		{
 			return false;
 		}
