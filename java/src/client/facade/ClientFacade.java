@@ -4,6 +4,7 @@ import client.session.SessionManager;
 import shared.communication.game.GameModel_Input;
 import shared.communication.game.GameModel_Output;
 import shared.communication.moves.*;
+import shared.locations.HexLocation;
 import shared.models.ClientModel;
 
 public class ClientFacade {
@@ -257,11 +258,8 @@ public class ClientFacade {
 	
 	public void buildRoad(BuildRoad_Input params)
 	{
-		if(canBuildRoad(params))
-		{
-			BuildRoad_Output output = SessionManager.instance().getServer().buildRoad(params);
-			handleResponse(output.getResponse());
-		}
+		BuildRoad_Output output = SessionManager.instance().getServer().buildRoad(params);
+		handleResponse(output.getResponse());
 	}
 	
 	/**
@@ -422,6 +420,51 @@ public class ClientFacade {
 			return false;
 		}
 		return true;
+	}
+	
+	public boolean canBuildSecondRoad(BuildRoad_Input params)
+	{
+		return clientModel.canBuildSecondRoad(params);
+	}
+	
+	/** for second round, when roads don't need to be buy eachother
+	 * 
+	 * @return
+	 */
+	public void buildSecondRoad(BuildRoad_Input params)
+	{
+		if(canBuildSecondRoad(params))
+		{
+			BuildRoad_Output output = SessionManager.instance().getServer().buildRoad(params);
+			handleResponse(output.getResponse());
+		}
+	}
+	
+	public boolean canBuildFirstRoad(BuildRoad_Input params)
+	{
+		return clientModel.canBuildFirstRoad(params);
+	}
+	
+	/** for first second round, when roads don't need to be buy eachother
+	 * 
+	 * @return
+	 */
+	public void buildFirstRoad(BuildRoad_Input params)
+	{
+		if(canBuildFirstRoad(params))
+		{
+			BuildRoad_Output output = SessionManager.instance().getServer().buildRoad(params);
+			handleResponse(output.getResponse());
+		}
+	}
+
+	public boolean canPlaceRobber(int playerIndex, HexLocation h)
+	{
+		if(isPlayersTurn(playerIndex))
+		{
+			return !clientModel.getMap().getRobber().equals(h);
+		}
+		return false;
 	}
 	
 }

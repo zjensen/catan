@@ -12,6 +12,7 @@ import shared.models.Player;
 import shared.models.Port;
 import client.base.*;
 import client.data.*;
+import client.map.states.*;
 import client.session.SessionManager;
 
 
@@ -22,6 +23,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	private IRobView robView;
 	private boolean initiated = false;
+	private IMapState state;
 	
 	public MapController(IMapView view, IRobView robView) {
 		
@@ -32,6 +34,8 @@ public class MapController extends Controller implements IMapController, Observe
 		makeItRain();
 		
 		SessionManager.instance().addObserver(this);
+		
+		state = new Nothing_State();
 	}
 	
 	@Override
@@ -43,8 +47,54 @@ public class MapController extends Controller implements IMapController, Observe
 			initFromModel();
 		}
 		updateFromModel();
+		
+		if(SessionManager.instance().getClientModel().getPlayers().length == 4) //are all the players here??
+		{
+			setupState();
+		}
 	}
 	
+	private void setupState()
+	{
+		switch(SessionManager.instance().clientModel.getTurnTracker().getStatus().toLowerCase())
+		{
+			case "firstround":
+				if(!state.getStateName().equals("first"))
+				{
+					state = new FirstRound_State();
+				}
+				break;
+			case "secondround":
+				if(!state.getStateName().equals("second"))
+				{
+					state = new SecondRound_State();
+				}
+				break;
+			case "robbing":
+				if(!state.getStateName().equals("robbing"))
+				{
+					state = new Robbing_State();
+				}
+				break;
+			case "playing":
+				if(!state.getStateName().equals("playing"))
+				{
+					state = new Playing_State();
+				}
+				break;
+			case "rolling":
+			case "discarding":
+			default:
+				if(!state.getStateName().equals("nothing"))
+				{
+					state = new Nothing_State();
+				}
+				break;
+				
+		}
+		
+	}
+
 	public IMapView getView() {
 		
 		return (IMapView)super.getView();

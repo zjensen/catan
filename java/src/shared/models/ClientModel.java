@@ -319,4 +319,16 @@ public class ClientModel {
 	public void setDeck(DevCards deck) {
 		this.deck = deck;
 	}
+
+	public boolean canBuildFirstRoad(BuildRoad_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		return map.canBuildInitialRoad(params) && p.getRoads() == 0;
+	}
+	
+	public boolean canBuildSecondRoad(BuildRoad_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		return map.canBuildInitialRoad(params) && p.getRoads() == 1;
+	}
 }

@@ -618,4 +618,9 @@ public class Map {
 	public void setRobber(HexLocation robber) {
 		this.robber = robber;
 	}
+
+	public boolean canBuildInitialRoad(BuildRoad_Input params)
+	{
+		return !roads.containsKey(params.getRoadLocation().getNormalizedLocation());
+	}
 }
