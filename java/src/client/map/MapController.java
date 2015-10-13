@@ -197,37 +197,34 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		
-		return true;
+		return state.canBuildRoad(edgeLoc.getNormalizedLocation());
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
-		
-		return true;
+		return state.canBuildSettlement(vertLoc.getNormalizedLocation());
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		return SessionManager.instance().getClientFacade().canBuildCity(new BuildCity_Input(SessionManager.instance().getPlayerIndex(), vertLoc));
+		return state.canPlaceCity(vertLoc.getNormalizedLocation());
 	}
 
 	public boolean canPlaceRobber(HexLocation hexLoc) {
-		
-		return true;
+		return state.canPlaceRobber(hexLoc);
 	}
 
 	public void placeRoad(EdgeLocation edgeLoc) {
 		
-		getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+		getView().placeRoad(edgeLoc, SessionManager.instance().getPlayerInfo().getColor());
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
 		
-		getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+		getView().placeSettlement(vertLoc, SessionManager.instance().getPlayerInfo().getColor());
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
 		
-		getView().placeCity(vertLoc, CatanColor.ORANGE);
+		getView().placeCity(vertLoc, SessionManager.instance().getPlayerInfo().getColor());
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
@@ -239,7 +236,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
 		
-		getView().startDrop(pieceType, CatanColor.ORANGE, true);
+		getView().startDrop(pieceType, SessionManager.instance().getPlayerInfo().getColor(), true);
 	}
 	
 	public void cancelMove() {

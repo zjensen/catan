@@ -13,14 +13,14 @@ public class Playing_State implements IMapState
 	@Override
 	public boolean canBuildRoad(EdgeLocation e)
 	{
-		BuildRoad_Input params = new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), e, true);
+		BuildRoad_Input params = new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), e, false);
 		return SessionManager.instance().getClientFacade().canBuildRoad(params);
 	}
 
 	@Override
 	public boolean canBuildSettlement(VertexLocation v)
 	{
-		BuildSettlement_Input params = new BuildSettlement_Input(SessionManager.instance().getPlayerIndex(), v, true);
+		BuildSettlement_Input params = new BuildSettlement_Input(SessionManager.instance().getPlayerIndex(), v, false);
 		return SessionManager.instance().getClientFacade().canBuildSettlement(params);
 	}
 

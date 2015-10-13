@@ -518,7 +518,11 @@ public class Map {
 	 */
 	public boolean canBuildCity(BuildCity_Input params)
 	{
-		return (settlements.get(params.getVertexLocation()).getIndex() == params.getPlayerIndex());
+		if(settlements.containsKey(params.getVertexLocation()))
+		{
+			return (settlements.get(params.getVertexLocation()).getIndex() == params.getPlayerIndex());
+		}
+		return false;
 	}
 	
 	/**
