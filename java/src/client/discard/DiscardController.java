@@ -17,7 +17,6 @@ import client.session.SessionManager;
 public class DiscardController extends Controller implements IDiscardController, Observer {
 
 	private IWaitView waitView;
-	private boolean showing = false;
 	private ResourceCards cards;
 	private ResourceCards playersCards;
 	private int minimum;
@@ -45,13 +44,12 @@ public class DiscardController extends Controller implements IDiscardController,
 		{
 			if(SessionManager.instance().getClientFacade().needsToDiscard(SessionManager.instance().getPlayerIndex()))
 			{
-				if(!showing)
+				if(!getDiscardView().isModalShowing())
 				{
 					minimum = SessionManager.instance().getClientFacade().cardsToDiscard(SessionManager.instance().getPlayerIndex());
 					discarded = 0;
 					playersCards = SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getResources();
 					getDiscardView().showModal();
-					showing = true;
 					cards = new ResourceCards();
 					
 					this.updateDiscardView();
@@ -59,19 +57,20 @@ public class DiscardController extends Controller implements IDiscardController,
 			}
 			else
 			{
-				if(showing)
+				if(getDiscardView().isModalShowing())
 				{
 					getDiscardView().closeModal();
 				}
 				getWaitView().showModal();
-				showing = true;
 			}
 		}
-		else if(showing)
+		else if(getWaitView().isModalShowing())
+		{
+			getWaitView().closeModal();
+		}
+		else if(getDiscardView().isModalShowing())
 		{
 			getDiscardView().closeModal();
-			getWaitView().closeModal();
-			showing = false;
 		}
 	}
 
@@ -159,12 +158,14 @@ public class DiscardController extends Controller implements IDiscardController,
 	}
 
 	@Override
-	public void discard() {
-		if(cards.getTotal() > minimum)
+	public void discard() 
+	{
+		if(cards.getTotal() >= minimum)
 		{
 			getDiscardView().closeModal();
+			DiscardCards_Input params = new DiscardCards_Input(SessionManager.instance().getPlayerIndex(), cards);
+			SessionManager.instance().getClientFacade().discardCards(params);
 		}
-		
 	}
 
 }
