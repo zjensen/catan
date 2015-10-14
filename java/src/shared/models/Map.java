@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import shared.communication.moves.*;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 
 public class Map {
@@ -182,6 +183,18 @@ public class Map {
 		}
 		
 		return false;
+	}
+	
+	public boolean has3Port(int playerIndex)
+	{
+		MaritimeTrade_Input params = new MaritimeTrade_Input(playerIndex, 3, null, null);
+		return canMaritimeTrade(params);
+	}
+	
+	public boolean has2Port(int playerIndex, ResourceType r)
+	{
+		MaritimeTrade_Input params = new MaritimeTrade_Input(playerIndex, 2, r, null);
+		return canMaritimeTrade(params);
 	}
 	
 	/**

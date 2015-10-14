@@ -206,4 +206,13 @@ public class SessionManager extends Observable{
 	{
 		return clientModel.getTurnTracker().getCurrentTurn() == playerInfo.getPlayerIndex();
 	}
+	
+	public boolean canPlay()
+	{
+		if(clientModel.getTurnTracker().getCurrentTurn() == playerInfo.getPlayerIndex())
+		{
+			return clientModel.getTurnTracker().getStatus().equalsIgnoreCase("playing");
+		}
+		return false;
+	}
 }

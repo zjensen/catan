@@ -5,6 +5,7 @@ import client.session.SessionManager;
 import shared.communication.game.GameModel_Input;
 import shared.communication.game.GameModel_Output;
 import shared.communication.moves.*;
+import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
 import shared.models.ClientModel;
 import shared.models.Player;
@@ -515,5 +516,62 @@ public class ClientFacade {
 	public int getRemainingRoads(int index)
 	{
 		return clientModel.getPlayerByIndex(index).getAvailableRoads();
+	}
+	
+	public boolean canMaritimeTradeResource(ResourceType r,int playerIndex)
+	{
+		int available = getResourceAmount(playerIndex, r);
+		
+		if(available < 2) //not enough to trade
+		{
+			return false;
+		}
+		else if (available == 2)
+		{
+			return can2Trade(playerIndex, r);
+		}
+		else if (available == 3)
+		{
+			return can3Trade(playerIndex, r);
+		}
+		return true;
+	}
+	
+	/**
+	 * does player have port that allows trades with a ratio of 3
+	 * @param playerIndex
+	 * @return
+	 */
+	public boolean can3Trade(int playerIndex, ResourceType r)
+	{
+		return clientModel.getMap().has3Port(playerIndex) && getResourceAmount(playerIndex, r) >= 3;
+	}
+	
+	public boolean can2Trade(int playerIndex, ResourceType r)
+	{
+		return clientModel.getMap().has2Port(playerIndex, r) && getResourceAmount(playerIndex, r) >= 2;
+	}
+	
+	public boolean can4Trade(int playerIndex, ResourceType r)
+	{
+		return getResourceAmount(playerIndex, r) >= 4;
+	}
+	
+	public int getResourceAmount(int playerIndex, ResourceType r)
+	{
+		switch(r)
+		{
+			case WHEAT:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getWheat();
+			case WOOD:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getWood();
+			case SHEEP:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getSheep();
+			case ORE:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getOre();
+			case BRICK:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getBrick();
+		}
+		return 0;
 	}
 }
