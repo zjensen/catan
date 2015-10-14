@@ -3,6 +3,7 @@ package client.map;
 import java.util.*;
 import java.util.Map.Entry;
 
+import shared.communication.moves.RobPlayer_Input;
 import shared.definitions.*;
 import shared.locations.*;
 import shared.models.ClientModel;
@@ -23,6 +24,9 @@ public class MapController extends Controller implements IMapController, Observe
 	private IRobView robView;
 	private boolean initiated = false;
 	private IMapState state;
+	private boolean robStarted = false;
+	private boolean playingSoldierCard = false;
+	HexLocation robberLocation;
 	
 	public MapController(IMapView view, IRobView robView) {
 		
@@ -78,6 +82,11 @@ public class MapController extends Controller implements IMapController, Observe
 				}
 				break;
 			case "robbing":
+				if(!robStarted)
+				{
+					robStarted = true;
+					getView().startDrop(PieceType.ROBBER, SessionManager.instance().getPlayerInfo().getColor(), false);
+				}
 				if(!state.getStateName().equals("robbing"))
 				{
 					state = new Robbing_State();
@@ -235,10 +244,29 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
-		
 		getView().placeRobber(hexLoc);
-		
 		getRobView().showModal();
+		ArrayList<RobPlayerInfo> robPlayerArrayList = new ArrayList<RobPlayerInfo>();
+		int index = SessionManager.instance().getPlayerIndex();
+		
+		for(int i=0;i<4;i++)
+		{
+			if(i!=index)
+			{
+				int q = 3;
+				RobPlayer_Input params = new RobPlayer_Input(index, i, hexLoc);
+				if(SessionManager.instance().getClientFacade().canRobPlayer(params))
+				{
+					RobPlayerInfo r = SessionManager.instance().getClientFacade().getRobPlayerInfo(i);
+					robPlayerArrayList.add(r);
+				}
+			}
+		}
+		
+		RobPlayerInfo[] robPlayerArray = new RobPlayerInfo[robPlayerArrayList.size()];
+		robPlayerArrayList.toArray(robPlayerArray);
+		getRobView().setPlayers(robPlayerArray);
+		robberLocation = hexLoc;
 	}
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
@@ -247,11 +275,12 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void cancelMove() {
-		
+		int r = 2;
+		r++;
 	}
 	
 	public void playSoldierCard() {	
-		
+		playingSoldierCard = true;
 	}
 	
 	public void playRoadBuildingCard() {	
@@ -259,7 +288,10 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void robPlayer(RobPlayerInfo victim) {	
-		
+		RobPlayer_Input params = new RobPlayer_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+		SessionManager.instance().getClientFacade().robPlayer(params);
+		robStarted = false;
+		playingSoldierCard = false;
 	}
 	
 }

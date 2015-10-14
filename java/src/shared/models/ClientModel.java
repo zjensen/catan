@@ -343,4 +343,16 @@ public class ClientModel {
 		Player p = getPlayerByIndex(playerIndex);
 		return (p.getRoads() == 2) && (p.getSettlements() == 2);
 	}
+
+	public boolean needsToDiscard(int index)
+	{
+		Player p = getPlayerByIndex(index);
+		return (p.getNumberOfCards() > 7) && !p.isDiscarded();
+	}
+	
+	public int cardsToDiscard(int index)
+	{
+		Player p = getPlayerByIndex(index);
+		return (p.getNumberOfCards() / 2);
+	}
 }

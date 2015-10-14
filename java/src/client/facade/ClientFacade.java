@@ -1,16 +1,13 @@
 package client.facade;
 
-import client.map.states.FirstRound_State;
-import client.map.states.Nothing_State;
-import client.map.states.Playing_State;
-import client.map.states.Robbing_State;
-import client.map.states.SecondRound_State;
+import client.data.RobPlayerInfo;
 import client.session.SessionManager;
 import shared.communication.game.GameModel_Input;
 import shared.communication.game.GameModel_Output;
 import shared.communication.moves.*;
 import shared.locations.HexLocation;
 import shared.models.ClientModel;
+import shared.models.Player;
 
 public class ClientFacade {
 	
@@ -489,6 +486,30 @@ public class ClientFacade {
 			return !clientModel.getMap().getRobber().equals(h);
 		}
 		return false;
+	}
+	
+	public boolean needsToDiscard(int index)
+	{
+		return clientModel.needsToDiscard(index);
+	}
+	
+	public int cardsToDiscard(int index)
+	{
+		return clientModel.cardsToDiscard(index);
+	}
+
+	public RobPlayerInfo getRobPlayerInfo(int i)
+	{
+		RobPlayerInfo r = new RobPlayerInfo();
+		Player p = clientModel.getPlayerByIndex(i);
+		
+		r.setColor(p.getCatanColor());
+		r.setId(p.getPlayerID());
+		r.setName(p.getName());
+		r.setNumCards(p.getResources().getTotal());
+		r.setPlayerIndex(p.getIndex());
+		
+		return r;
 	}
 	
 }

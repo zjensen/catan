@@ -411,5 +411,10 @@ public class Player {
 		this.victoryPoints = victoryPoints;
 	}
 
+	public int getNumberOfCards()
+	{
+		return resources.getTotal();
+	}
+
 	
 }

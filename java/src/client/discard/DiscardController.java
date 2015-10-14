@@ -15,6 +15,7 @@ import client.session.SessionManager;
 public class DiscardController extends Controller implements IDiscardController, Observer {
 
 	private IWaitView waitView;
+	private boolean showing = false;
 	
 	/**
 	 * DiscardController constructor
@@ -34,7 +35,29 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		// TODO Auto-generated method stub
+		if(SessionManager.instance().getClientModel().getTurnTracker().getStatus().equalsIgnoreCase("discarding"))
+		{
+			if(SessionManager.instance().getClientFacade().needsToDiscard(SessionManager.instance().getPlayerIndex()))
+			{
+				getDiscardView().showModal();
+				showing = true;
+			}
+			else
+			{
+				if(showing)
+				{
+					getDiscardView().closeModal();
+				}
+				getWaitView().showModal();
+				showing = true;
+			}
+		}
+		else if(showing)
+		{
+			getDiscardView().closeModal();
+			getWaitView().closeModal();
+			showing = false;
+		}
 	}
 
 	public IDiscardView getDiscardView() {

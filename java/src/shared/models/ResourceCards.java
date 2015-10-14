@@ -151,5 +151,10 @@ public class ResourceCards {
 	public void setOre(int ore) {
 		this.ore = ore;
 	}
+
+	public int getTotal()
+	{
+		return brick + ore + wheat + wood + sheep;
+	}
 	
 }

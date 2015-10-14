@@ -317,7 +317,7 @@ public class Map {
 		HexLocation vh = v.getHexLoc();
 		VertexDirection vd= v.getDir();
 		
-		if(vh == h) //building is at top of this hex
+		if(vh.equals(h)) //building is at top of this hex
 		{
 			return true;
 		}
