@@ -512,4 +512,8 @@ public class ClientFacade {
 		return r;
 	}
 	
+	public int getRemainingRoads(int index)
+	{
+		return clientModel.getPlayerByIndex(index).getAvailableRoads();
+	}
 }

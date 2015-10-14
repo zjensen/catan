@@ -199,6 +199,10 @@ public class ClientModel {
 			{
 				can = false;
 			}
+			else if(getPlayerByIndex(playerIndex).getAvailableRoads() == 0)
+			{
+				can = false;
+			}
 		}
 		else
 		{
