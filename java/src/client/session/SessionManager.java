@@ -21,7 +21,7 @@ public class SessionManager extends Observable{
 	private IServer server;
 	private PlayerInfo playerInfo;
 	private GameInfo gameInfo;
-	private boolean gameSet = false;
+	private boolean started = false;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
 	
@@ -86,11 +86,21 @@ public class SessionManager extends Observable{
 	public void updateClientModels(ClientModel newClientModel) 
 	{
 		this.clientModel = newClientModel;
-//		this.updateGameInfo();
 		this.clientFacade.setClientModel(newClientModel);
 		this.poller.setClientModel(newClientModel);
+		
+		if(newClientModel.getPlayers().length != 4)
+		{
+			started = false;
+		}
+		else if(!started)
+		{
+			this.updateGameInfo();
+			started = true;
+		}
+		
 		this.setChanged();
-		this.notifyObservers();
+		this.notifyObservers(started);
 	}
 	
 	//make sure this is updated when games are created and players are still being added
@@ -99,10 +109,14 @@ public class SessionManager extends Observable{
 		for(Player p : this.clientModel.getPlayers())
 		{
 			int id = p.getPlayerID();
+			PlayerInfo pi = new PlayerInfo(p.getName(),id,p.getCatanColor(),p.getIndex());
 			if(!this.gameInfo.hasPlayer(id))
 			{
-				PlayerInfo pi = new PlayerInfo(p.getName(),id,p.getCatanColor(),p.getIndex());
 				gameInfo.addPlayer(pi);
+			}
+			else
+			{
+				gameInfo.updatePlayer(pi);
 			}
 		}
 	}

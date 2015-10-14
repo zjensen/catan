@@ -53,7 +53,7 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 		updateFromModel();
 		
-		if(SessionManager.instance().getClientModel().getPlayers().length == 4) //are all the players here??
+		if(arg.equals(true)) //are all the players here??
 		{
 			setupState();
 		}
@@ -266,15 +266,28 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 		else if(roadBuilding)
 		{
-			if(firstRoadBuilding==null) //first of 2 roads
+			if(firstRoadBuilding==null) //first road yet to be placed
 			{
-				firstRoadBuilding = edgeLoc;
+				if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) == 1)
+				{
+					//can only place 1 road
+					RoadBuilding_Input params = new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, null);
+					SessionManager.instance().getClientFacade().roadBuilding(params);
+					roadBuilding = false;
+				}
+				else
+				{
+					//1 more road to place
+					firstRoadBuilding = edgeLoc;
+					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
+				}
 			}
-			else
+			else //placing second road
 			{
 				RoadBuilding_Input params = new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), firstRoadBuilding, edgeLoc);
 				SessionManager.instance().getClientFacade().roadBuilding(params);
 				firstRoadBuilding = null;
+				roadBuilding = false;
 			}
 		}
 		else
@@ -358,14 +371,16 @@ public class MapController extends Controller implements IMapController, Observe
 			//alert no roads left to build
 			return;
 		}
-		
 		roadBuilding = true;
+		getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
 	}
 	
 	public void robPlayer(RobPlayerInfo victim) {	
 		if(playingSoldierCard)
 		{
 			playingSoldierCard = false;
+			Soldier_Input params = new Soldier_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			SessionManager.instance().getClientFacade().soldier(params);
 		}
 		else
 		{

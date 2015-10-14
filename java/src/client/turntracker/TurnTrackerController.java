@@ -32,6 +32,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			initFromModel();
 			initiated = true;
 		}
+		
 		Player[] players = SessionManager.instance().getClientModel().getPlayers();
 		int largestArmy = SessionManager.instance().getClientModel().getTurnTracker().getLargestArmy();
 		int longestRoad = SessionManager.instance().getClientModel().getTurnTracker().getLongestRoad();
