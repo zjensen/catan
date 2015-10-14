@@ -56,11 +56,11 @@ public class RollController extends Controller implements IRollController, Obser
 		int die1 = (int)(Math.random()*6) + 1;
         int die2 = (int)(Math.random()*6) + 1;
         int rollValue = die1+die2;
-        RollNumber_Input params = new RollNumber_Input(SessionManager.instance().getPlayerIndex(), 7);
+        RollNumber_Input params = new RollNumber_Input(SessionManager.instance().getPlayerIndex(), rollValue);
         if(SessionManager.instance().getClientFacade().canRollNumber(params))
         {
         	SessionManager.instance().getClientFacade().rollNumber(params);
-        	getResultView().setRollValue(7);
+        	getResultView().setRollValue(rollValue);
     		getResultView().showModal();
         }
 	}
