@@ -331,4 +331,16 @@ public class ClientModel {
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		return map.canBuildInitialRoad(params) && p.getRoads() == 1;
 	}
+
+	public boolean canFinishTurnFirstRound(int playerIndex)
+	{
+		Player p = getPlayerByIndex(playerIndex);
+		return (p.getRoads() == 1) && (p.getSettlements() == 1);
+	}
+	
+	public boolean canFinishTurnSecondRound(int playerIndex)
+	{
+		Player p = getPlayerByIndex(playerIndex);
+		return (p.getRoads() == 2) && (p.getSettlements() == 2);
+	}
 }

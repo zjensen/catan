@@ -3,7 +3,6 @@ package client.map;
 import java.util.*;
 import java.util.Map.Entry;
 
-import shared.communication.moves.BuildCity_Input;
 import shared.definitions.*;
 import shared.locations.*;
 import shared.models.ClientModel;
@@ -56,6 +55,14 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	private void setupState()
 	{
+		if(!SessionManager.instance().isOurTurn())
+		{
+			if(!state.getStateName().equals("nothing"))
+			{
+				state = new Nothing_State();
+			}
+			return;
+		}
 		switch(SessionManager.instance().clientModel.getTurnTracker().getStatus().toLowerCase())
 		{
 			case "firstround":

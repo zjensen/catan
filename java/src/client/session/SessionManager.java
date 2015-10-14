@@ -187,4 +187,9 @@ public class SessionManager extends Observable{
 		this.poller = new Poller();
 		this.updateClientModels(initialClientModel);
 	}
+	
+	public boolean isOurTurn()
+	{
+		return clientModel.getTurnTracker().getCurrentTurn() == playerInfo.getPlayerIndex();
+	}
 }

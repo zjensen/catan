@@ -1,5 +1,10 @@
 package client.facade;
 
+import client.map.states.FirstRound_State;
+import client.map.states.Nothing_State;
+import client.map.states.Playing_State;
+import client.map.states.Robbing_State;
+import client.map.states.SecondRound_State;
 import client.session.SessionManager;
 import shared.communication.game.GameModel_Input;
 import shared.communication.game.GameModel_Output;
@@ -120,7 +125,26 @@ public class ClientFacade {
 	 */
 	public boolean canFinishTurn(FinishTurn_Input params)
 	{
-		return isPlayersTurn(params.getPlayerIndex());
+		String s = clientModel.getTurnTracker().getStatus().toLowerCase();
+		if(!isPlayersTurn(params.getPlayerIndex()))
+		{
+			return false;
+		}
+		switch(s)
+		{
+			case "firstround":
+				return clientModel.canFinishTurnFirstRound(params.getPlayerIndex());
+			case "secondround":
+				return clientModel.canFinishTurnFirstRound(params.getPlayerIndex());
+			case "playing":
+				return true;
+			case "robbing":
+			case "rolling":
+			case "discarding":
+			default:
+				return false;
+				
+		}
 	}
 	
 	public void finishTurn(FinishTurn_Input params)
