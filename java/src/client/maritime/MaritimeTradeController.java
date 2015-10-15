@@ -18,6 +18,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	private IMaritimeTradeOverlay tradeOverlay;
 	private ResourceType[] resources = {ResourceType.BRICK,ResourceType.ORE,ResourceType.WHEAT,ResourceType.SHEEP,ResourceType.WOOD};
 	private ResourceType[] available;
+	private ResourceType[] empty = {};
 	private ResourceType give;
 	private ResourceType receive;
 	private int ratio;
@@ -34,7 +35,11 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		getTradeView().enableMaritimeTrade(SessionManager.instance().canPlay());
+		if(SessionManager.instance().canPlay()) //is it our turn?
+		{
+			updateAvailability(); //see what resources player can maritime trade
+			getTradeView().enableMaritimeTrade(available.length>0); //allow maritime trade if player has resources they can trade
+		}
 	}
 	
 	public IMaritimeTradeView getTradeView() {
@@ -49,14 +54,12 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void setTradeOverlay(IMaritimeTradeOverlay tradeOverlay) {
 		this.tradeOverlay = tradeOverlay;
 	}
-
-	@Override
-	public void startTrade() {
-		
-		getTradeOverlay().showModal();
-		getTradeOverlay().setCancelEnabled(true);
-		getTradeOverlay().setTradeEnabled(false);
-		
+	
+	/**
+	 * update what resources user can maritime trade
+	 */
+	private void updateAvailability()
+	{
 		int playerIndex = SessionManager.instance().getPlayerIndex();
 		
 		ArrayList<ResourceType> toGive = new ArrayList<ResourceType>();
@@ -89,19 +92,32 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 		}
 		
 		available = toGiveArray;
-		getTradeOverlay().showGiveOptions(toGiveArray);
+	}
+
+	@Override
+	public void startTrade() {
+		
+		getTradeOverlay().showModal();
+		getTradeOverlay().setCancelEnabled(true);
+		getTradeOverlay().setTradeEnabled(false);
+		
+		getTradeOverlay().showGiveOptions(available);
+		
 	}
 
 	@Override
 	public void makeTrade() {
 		MaritimeTrade_Input params = new MaritimeTrade_Input(SessionManager.instance().getPlayerIndex(), ratio, give,receive);
 		SessionManager.instance().getClientFacade().maritimeTrade(params);
+		getTradeOverlay().hideGetOptions();
 		getTradeOverlay().closeModal();
 	}
 
 	@Override
 	public void cancelTrade() {
-
+		getTradeOverlay().showGetOptions(empty);
+		getTradeOverlay().showGiveOptions(empty);
+		getTradeOverlay().hideGetOptions();
 		getTradeOverlay().closeModal();
 	}
 
@@ -109,6 +125,7 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	public void setGetResource(ResourceType r) {
 		receive = r;
 		getTradeOverlay().selectGetOption(r, 1);
+		getTradeOverlay().setTradeEnabled(true);
 	}
 
 	@Override
@@ -130,16 +147,21 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			ratio = 4;
 			getTradeOverlay().selectGiveOption(r, 4);
 		}
+		getTradeOverlay().showGetOptions(resources);
 	}
 
 	@Override
 	public void unsetGetValue() {
-		getTradeOverlay().hideGetOptions();
+		getTradeOverlay().setTradeEnabled(false);
+//		getTradeOverlay().hideGiveOptions();
+		getTradeOverlay().showGetOptions(resources);
 	}
 
 	@Override
 	public void unsetGiveValue() {
-		getTradeOverlay().hideGiveOptions();
+		getTradeOverlay().setTradeEnabled(false);
+//		getTradeOverlay().hideGetOptions();
+		getTradeOverlay().showGiveOptions(available);
 	}
 
 }
