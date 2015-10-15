@@ -157,4 +157,9 @@ public class ResourceCards {
 		return brick + ore + wheat + wood + sheep;
 	}
 	
+	public String toJsonString()
+	{
+		return "{\"brick\":"+brick+",\"ore\":"+ore+",\"sheep\":"+sheep+",\"wheat\":"+wheat+",\"wood\":"+wood+"}";
+	}
+	
 }

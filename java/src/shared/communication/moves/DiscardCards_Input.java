@@ -1,7 +1,5 @@
 package shared.communication.moves;
 
-import com.google.gson.Gson;
-
 import shared.models.ResourceCards;
 
 public class DiscardCards_Input 
@@ -59,7 +57,6 @@ public class DiscardCards_Input
 	
 	public String toJSON()
 	{
-		Gson gson = new Gson();
-		return gson.toJson(this);
+		return "{\"type\":\"discardCards\",\"playerIndex\":"+playerIndex+",\"discardedCards\":"+discardedCards.toJsonString()+"}";
 	}
 }
