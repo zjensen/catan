@@ -126,7 +126,13 @@ public class CanDoMasterTest
 		
 		assertFalse(cf.canFinishTurn(params1));
 		
+		assertFalse(cf.canFinishTurn(params2)); //not correct part of turn
+		
+		clientModel.getTurnTracker().setStatus("playing");
+		
 		assertTrue(cf.canFinishTurn(params2));
+		
+		clientModel.getTurnTracker().setStatus("rolling");
 	}
 	
 	@Test
@@ -218,7 +224,7 @@ public class CanDoMasterTest
 		Soldier_Input params1 = new Soldier_Input(0, 3, new HexLocation(2, -2)); //robber already here
 		Soldier_Input params2 = new Soldier_Input(0, 2, new HexLocation(1, -1)); //good
 		Soldier_Input params3 = new Soldier_Input(0, 0, new HexLocation(1, -1)); //cant rob self
-		Soldier_Input params4 = new Soldier_Input(0, 3, new HexLocation(1, -1)); //not at location
+		Soldier_Input params4 = new Soldier_Input(0, 3, new HexLocation(0, 0)); //not at location
 		Soldier_Input params5 = new Soldier_Input(0, 3, new HexLocation(-3, 1)); //not a land location
 		
 		assertFalse(cf.canSoldier(params1));
