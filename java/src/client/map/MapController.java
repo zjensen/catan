@@ -83,12 +83,14 @@ public class MapController extends Controller implements IMapController, Observe
 				if(!state.getStateName().equals("first"))
 				{
 					state = new FirstRound_State();
+					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
 				}
 				break;
 			case "secondround":
 				if(!state.getStateName().equals("second"))
 				{
 					state = new SecondRound_State();
+					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
 				}
 				break;
 			case "robbing":
@@ -263,6 +265,7 @@ public class MapController extends Controller implements IMapController, Observe
 		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
 		{
 			SessionManager.instance().getClientFacade().buildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
+			getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
 		}
 		else if(roadBuilding)
 		{

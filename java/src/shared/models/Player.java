@@ -358,6 +358,10 @@ public class Player {
 	public int getRoads() {
 		return roads;
 	}
+	
+	public int getRoadsPlayed() {
+		return 15 - roads;
+	}
 
 	public void setRoads(int roads) {
 		this.roads = roads;
@@ -414,6 +418,11 @@ public class Player {
 	public int getNumberOfCards()
 	{
 		return resources.getTotal();
+	}
+
+	public int getSettlementsPlayed()
+	{
+		return 5-settlements;
 	}
 
 	

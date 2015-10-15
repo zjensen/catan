@@ -327,25 +327,25 @@ public class ClientModel {
 	public boolean canBuildFirstRoad(BuildRoad_Input params)
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
-		return map.canBuildInitialRoad(params) && p.getRoads() == 0;
+		return map.canBuildInitialRoad(params) && p.getRoadsPlayed() == 0;
 	}
 	
 	public boolean canBuildSecondRoad(BuildRoad_Input params)
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
-		return map.canBuildInitialRoad(params) && p.getRoads() == 1;
+		return map.canBuildInitialRoad(params) && p.getRoadsPlayed() == 1;
 	}
 
 	public boolean canFinishTurnFirstRound(int playerIndex)
 	{
 		Player p = getPlayerByIndex(playerIndex);
-		return (p.getRoads() == 1) && (p.getSettlements() == 1);
+		return (p.getRoadsPlayed() == 1) && (p.getSettlementsPlayed() == 1);
 	}
 	
 	public boolean canFinishTurnSecondRound(int playerIndex)
 	{
 		Player p = getPlayerByIndex(playerIndex);
-		return (p.getRoads() == 2) && (p.getSettlements() == 2);
+		return (p.getRoadsPlayed() == 2) && (p.getSettlementsPlayed() == 2);
 	}
 
 	public boolean needsToDiscard(int index)
