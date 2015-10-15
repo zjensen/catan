@@ -60,7 +60,7 @@ public class BuildCity_Input
 		int x = vertexLocation.getNormalizedLocation().getHexLoc().getX();
 		int y = vertexLocation.getNormalizedLocation().getHexLoc().getY();
 		String dir = vertexLocation.getNormalizedLocation().toServerFormattedString();
-		String s = "{\"type\":\"buildCity\",\"playerIndex\":"+playerIndex+",\"vertexLocation\":{\"hexLoc\":{\"x\":"+x+",\"y\":"+y+"},\"direction\":\""+dir+"\"}}";
+		String s = "{\"type\":\"buildCity\",\"playerIndex\":"+playerIndex+",\"vertexLocation\":{\"x\":"+x+",\"y\":"+y+",\"direction\":\""+dir+"\"}}";
 		return s;
 	}
 }

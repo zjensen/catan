@@ -97,6 +97,7 @@ public class MapController extends Controller implements IMapController, Observe
 				if(!state.getStateName().equals("second"))
 				{
 					state = new SecondRound_State();
+					int i = SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed();
 					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
 					{
 						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);

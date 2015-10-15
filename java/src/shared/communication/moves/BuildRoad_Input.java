@@ -81,7 +81,7 @@ public class BuildRoad_Input
 		int x = roadLocation.getHexLoc().getX();
 		int y = roadLocation.getHexLoc().getY();
 		String dir = roadLocation.toServerFormattedString();
-		String s = "{\"type\":\"buildRoad\",\"playerIndex\":"+playerIndex+",\"roadLocation\":{\"hexLoc\":{\"x\":"+x+",\"y\":"+y+"},\"direction\":\""+dir+"\"},\"free\":"+free+"}";
+		String s = "{\"type\":\"buildRoad\",\"playerIndex\":"+playerIndex+",\"roadLocation\":{\"x\":"+x+",\"y\":"+y+",\"direction\":\""+dir+"\"},\"free\":"+free+"}";
 		return s;
 	}
 }

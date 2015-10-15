@@ -133,7 +133,7 @@ public class ClientFacade {
 			case "firstround":
 				return clientModel.canFinishTurnFirstRound(params.getPlayerIndex());
 			case "secondround":
-				return clientModel.canFinishTurnFirstRound(params.getPlayerIndex());
+				return clientModel.canFinishTurnSecondRound(params.getPlayerIndex());
 			case "playing":
 				return true;
 			case "robbing":

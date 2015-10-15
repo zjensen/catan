@@ -78,7 +78,7 @@ public class BuildSettlement_Input
 		int x = vertexLocation.getNormalizedLocation().getHexLoc().getX();
 		int y = vertexLocation.getNormalizedLocation().getHexLoc().getY();
 		String dir = vertexLocation.getNormalizedLocation().toServerFormattedString();
-		String s = "{\"type\":\"buildSettlement\",\"playerIndex\":"+playerIndex+",\"vertexLocation\":{\"hexLoc\":{\"x\":"+x+",\"y\":"+y+"},\"direction\":\""+dir+"\"},\"free\":"+free+"}";
+		String s = "{\"type\":\"buildSettlement\",\"playerIndex\":"+playerIndex+",\"vertexLocation\":{\"x\":"+x+",\"y\":"+y+",\"direction\":\""+dir+"\"},\"free\":"+free+"}";
 		return s;
 	}
 }
