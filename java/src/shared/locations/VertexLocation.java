@@ -116,5 +116,25 @@ public class VertexLocation
 				return null;
 		}
 	}
+
+	public String toServerFormattedString()
+	{
+		switch (dir)
+		{
+			case NorthWest:
+				return "NW";
+			case West:
+				return "Q";
+			case NorthEast:
+				return "NE";
+			case SouthWest:
+				return "SW";
+			case East:
+				return "E";
+			case SouthEast:
+				return "SE";
+		}
+		return null;
+	}
 }
 

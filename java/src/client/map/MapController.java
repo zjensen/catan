@@ -83,14 +83,28 @@ public class MapController extends Controller implements IMapController, Observe
 				if(!state.getStateName().equals("first"))
 				{
 					state = new FirstRound_State();
-					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 0)
+					{
+						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
+					else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 0)
+					{
+						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
 				}
 				break;
 			case "secondround":
 				if(!state.getStateName().equals("second"))
 				{
 					state = new SecondRound_State();
-					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
+					{
+						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
+					else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 1)
+					{
+						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
 				}
 				break;
 			case "robbing":
@@ -137,7 +151,7 @@ public class MapController extends Controller implements IMapController, Observe
 	
 	//update the map to reflect the model's cities, settlements, roads, and robber
 	private void updateFromModel()
-	{
+	{	
 		ClientModel model = SessionManager.instance().getClientModel();
 		
 		//place cities
