@@ -252,7 +252,7 @@ public class MapController extends Controller implements IMapController, Observe
 			{
 				return SessionManager.instance().getClientFacade().canBuildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
 			}
-			else if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) < 2)
+			else if(SessionManager.instance().getClientFacade().getRoads(SessionManager.instance().getPlayerIndex()) < 2)
 			{
 				//alert not enough roads left to build, and we should send this request on it's way
 				return false;
@@ -292,7 +292,7 @@ public class MapController extends Controller implements IMapController, Observe
 		{
 			if(firstRoadBuilding==null) //first road yet to be placed
 			{
-				if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) == 1)
+				if(SessionManager.instance().getClientFacade().getRoads(SessionManager.instance().getPlayerIndex()) == 1)
 				{
 					//can only place 1 road
 					RoadBuilding_Input params = new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, null);
@@ -391,7 +391,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void playRoadBuildingCard() {
-		if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) == 0)
+		if(SessionManager.instance().getClientFacade().getRoads(SessionManager.instance().getPlayerIndex()) == 0)
 		{
 			//alert no roads left to build
 			return;
