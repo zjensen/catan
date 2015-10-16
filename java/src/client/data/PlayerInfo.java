@@ -16,7 +16,6 @@ import shared.definitions.*;
  */
 public class PlayerInfo
 {
-	
 	private int id;
 	private int playerIndex;
 	private String name;
@@ -30,14 +29,37 @@ public class PlayerInfo
 		setColor(CatanColor.WHITE);
 	}
 	
+	public PlayerInfo(String name, int id)
+	{
+		setId(id);
+		setPlayerIndex(-1);
+		setName(name);
+		setColor(CatanColor.WHITE);
+	}
+	public PlayerInfo(String name, int id, CatanColor color)
+	{
+		setId(id);
+		setPlayerIndex(-1);
+		setName(name);
+		setColor(color);
+	}
+	
+	public PlayerInfo(String name, int id, CatanColor color, int index)
+	{
+		setId(id);
+		setPlayerIndex(index);
+		setName(name);
+		setColor(color);
+	}
+	
 	public int getId()
 	{
 		return id;
 	}
 	
-	public void setId(int id)
+	public void setId(int ID)
 	{
-		this.id = id;
+		this.id = ID;
 	}
 	
 	public int getPlayerIndex()
@@ -68,6 +90,11 @@ public class PlayerInfo
 	public void setColor(CatanColor color)
 	{
 		this.color = color;
+	}
+	
+	public void setColor(String color)
+	{
+		this.color = CatanColor.BLUE;
 	}
 
 	@Override

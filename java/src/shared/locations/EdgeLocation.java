@@ -173,5 +173,25 @@ public class EdgeLocation
 
 		return false; //nahhhhhhh
 	}
+	
+	public String toServerFormattedString()
+	{
+		switch (dir)
+		{
+			case NorthWest:
+				return "NW";
+			case North:
+				return "N";
+			case NorthEast:
+				return "NE";
+			case SouthWest:
+				return "SW";
+			case South:
+				return "S";
+			case SouthEast:
+				return "SE";
+		}
+		return null;
+	}
 }
 

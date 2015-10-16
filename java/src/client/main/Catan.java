@@ -78,6 +78,7 @@ public class Catan extends JFrame
 					@Override
 					public void execute()
 					{
+						SessionManager.instance().setupGame();
 						playerWaitingController.start();
 					}
 				});

@@ -3,6 +3,7 @@ package shared.models;
 import shared.communication.moves.DiscardCards_Input;
 import shared.communication.moves.MaritimeTrade_Input;
 import shared.communication.moves.RoadBuilding_Input;
+import shared.definitions.CatanColor;
 
 public class Player {
 	
@@ -250,6 +251,49 @@ public class Player {
 	public String getColor() {
 		return color;
 	}
+	
+	/**
+	 * converts a color string to CatanColor enum
+	 * @return
+	 */
+	public CatanColor getCatanColor() {
+		
+		CatanColor catanColor;
+		switch (color) {
+		case "red":
+			catanColor = CatanColor.RED;
+			break;
+		case "orange":
+			catanColor = CatanColor.ORANGE;
+			break;
+		case "yellow":
+			catanColor = CatanColor.YELLOW;
+			break;
+		case "blue":
+			catanColor = CatanColor.BLUE;
+			break;
+		case "green":
+			catanColor = CatanColor.GREEN;
+			break;
+		case "purple":
+			catanColor = CatanColor.PURPLE;
+			break;
+		case "puce":
+			catanColor = CatanColor.PUCE;
+			break;
+		case "white":
+			catanColor = CatanColor.WHITE;
+			break;
+		case "brown":
+			catanColor = CatanColor.BROWN;
+			break;
+		default:
+			catanColor = null;
+			break;
+		}
+
+		return catanColor;
+	}
 
 	public void setColor(String color) {
 		this.color = color;
@@ -314,6 +358,10 @@ public class Player {
 	public int getRoads() {
 		return roads;
 	}
+	
+	public int getRoadsPlayed() {
+		return 15 - roads;
+	}
 
 	public void setRoads(int roads) {
 		this.roads = roads;
@@ -365,6 +413,16 @@ public class Player {
 
 	public void setVictoryPoints(int victoryPoints) {
 		this.victoryPoints = victoryPoints;
+	}
+
+	public int getNumberOfCards()
+	{
+		return resources.getTotal();
+	}
+
+	public int getSettlementsPlayed()
+	{
+		return 5-settlements;
 	}
 
 	

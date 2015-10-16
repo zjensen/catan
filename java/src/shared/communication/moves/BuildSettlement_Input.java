@@ -1,7 +1,5 @@
 package shared.communication.moves;
 
-import com.google.gson.Gson;
-
 import shared.locations.VertexLocation;
 
 public class BuildSettlement_Input 
@@ -77,7 +75,10 @@ public class BuildSettlement_Input
 	
 	public String toJSON()
 	{
-		Gson gson = new Gson();
-		return gson.toJson(this);
+		int x = vertexLocation.getNormalizedLocation().getHexLoc().getX();
+		int y = vertexLocation.getNormalizedLocation().getHexLoc().getY();
+		String dir = vertexLocation.getNormalizedLocation().toServerFormattedString();
+		String s = "{\"type\":\"buildSettlement\",\"playerIndex\":"+playerIndex+",\"vertexLocation\":{\"x\":"+x+",\"y\":"+y+",\"direction\":\""+dir+"\"},\"free\":"+free+"}";
+		return s;
 	}
 }

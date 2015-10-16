@@ -2,12 +2,14 @@ package client.session;
 
 import java.util.Observable;
 
+import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.facade.ClientFacade;
 import client.interpreter.Interpreter;
 import client.poller.Poller;
 import client.server.*;
 import shared.models.ClientModel;
+import shared.models.Player;
 
 public class SessionManager extends Observable{
 	
@@ -18,6 +20,8 @@ public class SessionManager extends Observable{
 	private Interpreter interpreter = new Interpreter();
 	private IServer server;
 	private PlayerInfo playerInfo;
+	private GameInfo gameInfo;
+	private boolean started = false;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
 	
@@ -60,6 +64,7 @@ public class SessionManager extends Observable{
 	public void startPoller()
 	{
 		this.poller = new Poller();
+		this.poller.setClientModel(this.clientModel);
 	}
 	
 	/**
@@ -78,12 +83,42 @@ public class SessionManager extends Observable{
 	 * </pre>
 	 * @param newClientModel
 	 */
-	public void updateClientModels(ClientModel newClientModel) {
+	public void updateClientModels(ClientModel newClientModel) 
+	{
 		this.clientModel = newClientModel;
 		this.clientFacade.setClientModel(newClientModel);
 		this.poller.setClientModel(newClientModel);
+		
+		if(newClientModel.getPlayers().length != 4)
+		{
+			started = false;
+		}
+		else if(!started)
+		{
+			this.updateGameInfo();
+			started = true;
+		}
+		
 		this.setChanged();
-		this.notifyObservers();
+		this.notifyObservers(started);
+	}
+	
+	//make sure this is updated when games are created and players are still being added
+	public void updateGameInfo()
+	{
+		for(Player p : this.clientModel.getPlayers())
+		{
+			int id = p.getPlayerID();
+			PlayerInfo pi = new PlayerInfo(p.getName(),id,p.getCatanColor(),p.getIndex());
+			if(!this.gameInfo.hasPlayer(id))
+			{
+				gameInfo.addPlayer(pi);
+			}
+			else
+			{
+				gameInfo.updatePlayer(pi);
+			}
+		}
 	}
 	
 	//--------------------------------------------------------------------------------------------------
@@ -124,8 +159,18 @@ public class SessionManager extends Observable{
 		this.playerInfo = player;
 	}
 	
-	/////////////////////////////////////////////////////////////////////
+	public GameInfo getGameInfo()
+	{
+		return gameInfo;
+	}
+
+	public void setGameInfo(GameInfo gameInfo)
+	{
+		this.gameInfo = gameInfo;
+	}
 	
+	///////////////////////////////////////////////////////////////////////////////
+
 	/**
 	 * 
 	 * @return playerIndex of CURRENT PLAYER IN SESSION
@@ -133,5 +178,41 @@ public class SessionManager extends Observable{
 	public int getPlayerIndex()
 	{
 		return playerInfo.getPlayerIndex();
+	}
+
+	public void setPlayerInfo(String jsonString)
+	{
+		this.playerInfo = interpreter.deserializePlayerInfo(jsonString);
+	}
+	
+	public void setGameInfo(String jsonString)
+	{
+		this.gameInfo = interpreter.deserializeGameInfo(jsonString);
+	}
+
+	/** 
+	 * called after user joins a game, to load model, start poller, notify controllers
+	 */
+	public void setupGame()
+	{
+		ClientModel initialClientModel = this.clientFacade.getInitialModel(); //loads client model
+		int index = initialClientModel.getPlayerIndexByID(this.playerInfo.getId());
+		this.playerInfo.setPlayerIndex(index);
+		this.poller = new Poller();
+		this.updateClientModels(initialClientModel);
+	}
+	
+	public boolean isOurTurn()
+	{
+		return clientModel.getTurnTracker().getCurrentTurn() == playerInfo.getPlayerIndex();
+	}
+	
+	public boolean canPlay()
+	{
+		if(clientModel.getTurnTracker().getCurrentTurn() == playerInfo.getPlayerIndex())
+		{
+			return clientModel.getTurnTracker().getStatus().equalsIgnoreCase("playing");
+		}
+		return false;
 	}
 }

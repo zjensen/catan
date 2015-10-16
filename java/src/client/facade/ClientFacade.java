@@ -1,8 +1,14 @@
 package client.facade;
 
+import client.data.RobPlayerInfo;
 import client.session.SessionManager;
+import shared.communication.game.GameModel_Input;
+import shared.communication.game.GameModel_Output;
 import shared.communication.moves.*;
+import shared.definitions.ResourceType;
+import shared.locations.HexLocation;
 import shared.models.ClientModel;
+import shared.models.Player;
 
 public class ClientFacade {
 	
@@ -18,8 +24,19 @@ public class ClientFacade {
 	
 	public void handleResponse(String response)
 	{
-		ClientModel newClientModel = SessionManager.instance().getInterpreter().deserialize(response);
-		SessionManager.instance().updateClientModels(newClientModel);
+		if(response.equals("\"true\"")) //model has not changed
+		{
+			return;
+		}
+		try
+		{
+			ClientModel newClientModel = SessionManager.instance().getInterpreter().deserialize(response);
+			SessionManager.instance().updateClientModels(newClientModel);
+		}
+		catch(Exception e)
+		{
+			//oops
+		}
 	}
 	
 	
@@ -106,7 +123,26 @@ public class ClientFacade {
 	 */
 	public boolean canFinishTurn(FinishTurn_Input params)
 	{
-		return isPlayersTurn(params.getPlayerIndex());
+		String s = clientModel.getTurnTracker().getStatus().toLowerCase();
+		if(!isPlayersTurn(params.getPlayerIndex()))
+		{
+			return false;
+		}
+		switch(s)
+		{
+			case "firstround":
+				return clientModel.canFinishTurnFirstRound(params.getPlayerIndex());
+			case "secondround":
+				return clientModel.canFinishTurnSecondRound(params.getPlayerIndex());
+			case "playing":
+				return true;
+			case "robbing":
+			case "rolling":
+			case "discarding":
+			default:
+				return false;
+				
+		}
 	}
 	
 	public void finishTurn(FinishTurn_Input params)
@@ -244,11 +280,8 @@ public class ClientFacade {
 	
 	public void buildRoad(BuildRoad_Input params)
 	{
-		if(canBuildRoad(params))
-		{
-			BuildRoad_Output output = SessionManager.instance().getServer().buildRoad(params);
-			handleResponse(output.getResponse());
-		}
+		BuildRoad_Output output = SessionManager.instance().getServer().buildRoad(params);
+		handleResponse(output.getResponse());
 	}
 	
 	/**
@@ -389,6 +422,156 @@ public class ClientFacade {
 		return clientModel.getPlayerByIndex(playerIndex).getVictoryPoints();
 	}
 	
+	public ClientModel getInitialModel()
+	{
+		GameModel_Output output = SessionManager.instance().getServer().getModel(new GameModel_Input());
+		
+		ClientModel initialClientModel = SessionManager.instance().getInterpreter().deserialize(output.getResponse());
+		
+		return initialClientModel;
+	}
 	
+	public boolean canRoll(int index)
+	{
+		if(index != clientModel.getTurnTracker().getCurrentTurn())
+		{
+			return false;
+		}
+		else if(!clientModel.getTurnTracker().getStatus().equalsIgnoreCase("rolling"))
+		{
+			return false;
+		}
+		return true;
+	}
 	
+	public boolean canBuildSecondRoad(BuildRoad_Input params)
+	{
+		return clientModel.canBuildSecondRoad(params);
+	}
+	
+	/** for second round, when roads don't need to be buy eachother
+	 * 
+	 * @return
+	 */
+	public void buildSecondRoad(BuildRoad_Input params)
+	{
+		if(canBuildSecondRoad(params))
+		{
+			BuildRoad_Output output = SessionManager.instance().getServer().buildRoad(params);
+			handleResponse(output.getResponse());
+		}
+	}
+	
+	public boolean canBuildFirstRoad(BuildRoad_Input params)
+	{
+		return clientModel.canBuildFirstRoad(params);
+	}
+	
+	/** for first second round, when roads don't need to be buy eachother
+	 * 
+	 * @return
+	 */
+	public void buildFirstRoad(BuildRoad_Input params)
+	{
+		if(canBuildFirstRoad(params))
+		{
+			BuildRoad_Output output = SessionManager.instance().getServer().buildRoad(params);
+			handleResponse(output.getResponse());
+		}
+	}
+
+	public boolean canPlaceRobber(int playerIndex, HexLocation h)
+	{
+		if(isPlayersTurn(playerIndex))
+		{
+			return !clientModel.getMap().getRobber().equals(h);
+		}
+		return false;
+	}
+	
+	public boolean needsToDiscard(int index)
+	{
+		return clientModel.needsToDiscard(index);
+	}
+	
+	public int cardsToDiscard(int index)
+	{
+		return clientModel.cardsToDiscard(index);
+	}
+
+	public RobPlayerInfo getRobPlayerInfo(int i)
+	{
+		RobPlayerInfo r = new RobPlayerInfo();
+		Player p = clientModel.getPlayerByIndex(i);
+		
+		r.setColor(p.getCatanColor());
+		r.setId(p.getPlayerID());
+		r.setName(p.getName());
+		r.setNumCards(p.getResources().getTotal());
+		r.setPlayerIndex(p.getIndex());
+		
+		return r;
+	}
+	
+	public int getRemainingRoads(int index)
+	{
+		return clientModel.getPlayerByIndex(index).getAvailableRoads();
+	}
+	
+	public boolean canMaritimeTradeResource(ResourceType r,int playerIndex)
+	{
+		int available = getResourceAmount(playerIndex, r);
+		
+		if(available < 2) //not enough to trade
+		{
+			return false;
+		}
+		else if (available == 2)
+		{
+			return can2Trade(playerIndex, r);
+		}
+		else if (available == 3)
+		{
+			return can3Trade(playerIndex, r);
+		}
+		return true;
+	}
+	
+	/**
+	 * does player have port that allows trades with a ratio of 3
+	 * @param playerIndex
+	 * @return
+	 */
+	public boolean can3Trade(int playerIndex, ResourceType r)
+	{
+		return clientModel.getMap().has3Port(playerIndex) && getResourceAmount(playerIndex, r) >= 3;
+	}
+	
+	public boolean can2Trade(int playerIndex, ResourceType r)
+	{
+		return clientModel.getMap().has2Port(playerIndex, r) && getResourceAmount(playerIndex, r) >= 2;
+	}
+	
+	public boolean can4Trade(int playerIndex, ResourceType r)
+	{
+		return getResourceAmount(playerIndex, r) >= 4;
+	}
+	
+	public int getResourceAmount(int playerIndex, ResourceType r)
+	{
+		switch(r)
+		{
+			case WHEAT:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getWheat();
+			case WOOD:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getWood();
+			case SHEEP:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getSheep();
+			case ORE:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getOre();
+			case BRICK:
+				return clientModel.getPlayerByIndex(playerIndex).getResources().getBrick();
+		}
+		return 0;
+	}
 }

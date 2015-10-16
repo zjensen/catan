@@ -5,8 +5,11 @@ import java.io.InputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLDecoder;
 
 import client.ClientException;
+import client.data.GameInfo;
+import client.session.SessionManager;
 import shared.communication.game.*;
 import shared.communication.games.*;
 import shared.communication.moves.*;
@@ -91,7 +94,9 @@ public class Server implements IServer {
 		{
 			// TODO Switch this method call to doGet?
 			String result = (String) doPost("/games/list", list_games_input.toJSON());
+			GameInfo[] games = SessionManager.instance().getInterpreter().deserializeGameInfoList(result);
 			ListGames_Output list_games_result = new ListGames_Output(result);
+			list_games_result.setGames(games);
 			return list_games_result;
 		}
 		catch (ClientException e)
@@ -610,8 +615,11 @@ public class Server implements IServer {
 				 	if (headerName.equals("Set-cookie")) 
 				 	{                  
 				 		String cookie = connection.getHeaderField(i);
-				 		if(cookie.substring(0, 10).equals("catan.user="))
+				 		if(cookie.substring(0, 11).equals("catan.user="))
+				 		{
 				 			catan_user = cookie.substring(11, cookie.indexOf(';'));
+				 			SessionManager.instance().setPlayerInfo(URLDecoder.decode(catan_user));
+				 		}
 				 		else
 				 			catan_game = cookie.substring(11, cookie.indexOf(';'));
 				 	}

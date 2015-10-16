@@ -3,8 +3,12 @@ package client.interpreter;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import client.data.GameInfo;
+import client.data.PlayerInfo;
+
 import com.google.gson.*;
 
+import shared.definitions.CatanColor;
 import shared.definitions.HexType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
@@ -100,6 +104,81 @@ public class Interpreter
 				return result = VertexDirection.SouthWest;
 		}
 		return result;
+	}
+	
+	public CatanColor determineCatanColor (String color)
+	{
+		color = color.toUpperCase();
+		return CatanColor.valueOf(color);
+	}
+	
+	public PlayerInfo deserializePlayerInfo(String jsonString)
+	{
+		JsonObject player = (JsonObject) new JsonParser().parse(jsonString).getAsJsonObject();
+		
+		String name = player.get("name").getAsString();
+		int playerID = player.get("playerID").getAsInt();
+		PlayerInfo p = new PlayerInfo(name,playerID);
+		
+		return p;
+	}
+	
+	public GameInfo deserializeGameInfo(String jsonString)
+	{
+		JsonObject game = (JsonObject) new JsonParser().parse(jsonString).getAsJsonObject();
+		
+		String title = game.get("title").getAsString();
+		int gameID = game.get("id").getAsInt();
+		GameInfo g = new GameInfo(title,gameID);
+		JsonArray players = game.get("players").getAsJsonArray();
+		for (int j = 0; j < players.size(); j++) 
+		{
+			JsonObject player = (JsonObject) players.get(j);
+			if(!player.toString().equals("{}"))
+			{
+				String color = player.get("color").getAsString();
+				CatanColor cc = determineCatanColor(color);
+				String name = player.get("name").getAsString();
+				int playerID = player.get("id").getAsInt();
+				PlayerInfo p = new PlayerInfo(name,playerID,cc);
+				g.addPlayer(p);
+			}
+		}
+		
+		return g;
+	}
+	
+	public GameInfo[] deserializeGameInfoList(String jsonString)
+	{
+		JsonArray games = (JsonArray) new JsonParser().parse(jsonString);
+		if(games.isJsonArray())
+		{ 
+			GameInfo[] gamesArray = new GameInfo[games.size()];
+			for (int i = 0; i < games.size(); i++) 
+			{
+				  JsonObject game = (JsonObject) games.get(i);
+				  String title = game.get("title").getAsString();
+				  int gameID = game.get("id").getAsInt();
+				  GameInfo g = new GameInfo(title,gameID);
+				  JsonArray players = game.get("players").getAsJsonArray();
+				  for (int j = 0; j < players.size(); j++) 
+				  {
+					  JsonObject player = (JsonObject) players.get(j);
+					  if(!player.toString().equals("{}"))
+					  {
+						  String color = player.get("color").getAsString();
+						  CatanColor cc = determineCatanColor(color);
+						  String name = player.get("name").getAsString();
+						  int playerID = player.get("id").getAsInt();
+						  PlayerInfo p = new PlayerInfo(name,playerID,cc);
+						  g.addPlayer(p);
+					  }
+				  }
+				  gamesArray[i] = g;
+			}
+			return gamesArray;
+		}
+		return null;
 	}
 	
 	public ClientModel deserialize(String jsonString) throws JsonParseException

@@ -1,7 +1,5 @@
 package shared.communication.moves;
 
-import com.google.gson.Gson;
-
 import shared.definitions.ResourceType;
 
 public class Monopoly_Input 
@@ -59,7 +57,6 @@ public class Monopoly_Input
 	
 	public String toJSON()
 	{
-		Gson gson = new Gson();
-		return gson.toJson(this);
+		return "{\"type\":\"Monopoly\",\"resource\":\""+resource.toString().toLowerCase()+"\",\"playerIndex\":"+playerIndex+"}";
 	}
 }

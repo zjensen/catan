@@ -6,7 +6,7 @@ public class GameModel_Input
 	
 	public GameModel_Input()
 	{
-		
+		this.setVersion(-1);
 	}
 	
 	public GameModel_Input(int version)

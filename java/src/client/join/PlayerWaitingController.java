@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import client.base.*;
+import client.data.PlayerInfo;
 import client.session.SessionManager;
 
 
@@ -32,9 +33,13 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	}
 
 	@Override
-	public void start() {
-
+	public void start() 
+	{
 		getView().showModal();
+		
+		getView().setPlayers(SessionManager.instance().getGameInfo().getPlayersArray());
+		
+		getView().closeModal();
 	}
 
 	@Override

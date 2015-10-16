@@ -34,7 +34,7 @@ public class Poller
 				GameModel_Input input = new GameModel_Input();
 				input.setVersion(clientModel.getVersion());
 				GameModel_Output output = SessionManager.instance().getServer().getModel(input);
-				if (!output.getResponse().equals("true")) {
+				if (!output.getResponse().equals("\"true\"")) {
 					clientModel = SessionManager.instance().getInterpreter().deserialize(output.getResponse());
 					SessionManager.instance().updateClientModels(clientModel);
 				}

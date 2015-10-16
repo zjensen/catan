@@ -26,6 +26,25 @@ public class GameInfo
 		players = new ArrayList<PlayerInfo>();
 	}
 	
+	public GameInfo(String title,int id)
+	{
+		setId(id);
+		setTitle(title);
+		players = new ArrayList<PlayerInfo>();
+	}
+	
+	public boolean hasPlayer(int playerID)
+	{
+		for(PlayerInfo p : players)
+		{
+			if(p.getId() == playerID)
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public int getId()
 	{
 		return id;
@@ -54,6 +73,30 @@ public class GameInfo
 	public List<PlayerInfo> getPlayers()
 	{
 		return Collections.unmodifiableList(players);
+	}
+	
+	public PlayerInfo[] getPlayersArray()
+	{
+		PlayerInfo[] playersArray = new PlayerInfo[players.size()];
+		for(int i=0;i<players.size();i++)
+		{
+			playersArray[i] = players.get(i);
+		}
+		return playersArray;
+	}
+
+	public void updatePlayer(PlayerInfo pi)
+	{
+		for(PlayerInfo p : players)
+		{
+			if(p.getId() == p.getId())
+			{
+				p.setName(pi.getName());
+				p.setColor(pi.getColor());
+				p.setPlayerIndex(pi.getPlayerIndex());
+				return;
+			}
+		}
 	}
 }
 
