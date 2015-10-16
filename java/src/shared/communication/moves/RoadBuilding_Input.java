@@ -77,11 +77,17 @@ public class RoadBuilding_Input
 	{
 		int x1 = spot1.getHexLoc().getX();
 		int y1 = spot1.getHexLoc().getY();
-		String dir1 = spot1.getNormalizedLocation().toServerFormattedString();
+		String dir1 = spot1.toServerFormattedString();
 		
-		int x2 = spot1.getHexLoc().getX();
-		int y2 = spot1.getHexLoc().getY();
-		String dir2 = spot1.getNormalizedLocation().toServerFormattedString();
+		if(spot2 == null)
+		{
+			//don't know if this response will work or not....
+			return "{\"type\":\"Road_Building\",\"playerIndex\":"+playerIndex+",\"spot1\":{\"x\":"+x1+",\"y\":"+y1+",\"direction\":\""+dir1+"\"}}";
+		}
+		
+		int x2 = spot2.getHexLoc().getX();
+		int y2 = spot2.getHexLoc().getY();
+		String dir2 = spot2.toServerFormattedString();
 		
 		return "{\"type\":\"Road_Building\",\"playerIndex\":"+playerIndex+",\"spot1\":{\"x\":"+x1+",\"y\":"+y1+",\"direction\":\""+dir1+"\"},\"spot2\":{\"x\":"+x2+",\"y\":"+y2+",\"direction\":\""+dir2+"\"}}";
 	}
