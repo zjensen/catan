@@ -202,6 +202,10 @@ public class SessionManager extends Observable{
 		this.updateClientModels(initialClientModel);
 	}
 	
+	public void forceUpdate()
+	{
+		this.clientFacade.getClientModel(-1);
+	}
 	public boolean isOurTurn()
 	{
 		return clientModel.getTurnTracker().getCurrentTurn() == playerInfo.getPlayerIndex();

@@ -45,7 +45,7 @@ public class Catan extends JFrame
 	public static void main(final String[] args)
 	{
 //		SessionManager.instance().setServer("localhost", "8081");
-//		SessionManager.instance().setServer(args[0],args[1]);
+		SessionManager.instance().setServer(args[0],args[1]);
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
