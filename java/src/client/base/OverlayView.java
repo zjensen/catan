@@ -141,6 +141,18 @@ public class OverlayView extends PanelView implements IOverlayView
 		return false;
 	}
 	
+	public static void closeAllModals() 
+	{
+		
+		OverlayView view = new OverlayView();
+		
+		while (!overlayStack.isEmpty()) 
+		{
+			view.closeModal();	
+		}
+		
+	}
+	
 	private static class OverlayInfo
 	{
 		private OverlayView overlayView;

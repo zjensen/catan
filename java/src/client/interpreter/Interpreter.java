@@ -352,6 +352,8 @@ public class Interpreter
 			Player addPlayer = new Player();
 			
 			
+			if(playersJson.get(b).isJsonNull())
+				break;
 			JsonObject playerItemsJson = playersJson.get(b).getAsJsonObject();
 			
 			
