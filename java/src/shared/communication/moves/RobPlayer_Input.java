@@ -75,6 +75,6 @@ public class RobPlayer_Input
 	
 	public String toJSON()
 	{
-		return "{\"type\":\"robPlayer\",\"playerIndex\":"+playerIndex+",\"victimIndex\":"+victimIndex+",\"location\":{\"x\":"+location.getX()+",\"y\":"+location.getY()+"}";
+		return "{\"type\":\"robPlayer\",\"playerIndex\":"+playerIndex+",\"victimIndex\":"+victimIndex+",\"location\":{\"x\":"+location.getX()+",\"y\":"+location.getY()+"}}";
 	}
 }
