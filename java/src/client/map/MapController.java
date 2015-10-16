@@ -84,6 +84,9 @@ public class MapController extends Controller implements IMapController, Observe
 				if(!state.getStateName().equals("first"))
 				{
 					state = new FirstRound_State();
+				}
+				else if(state.getStateName().equals("first"))
+				{
 					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 0)
 					{
 						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
@@ -98,6 +101,9 @@ public class MapController extends Controller implements IMapController, Observe
 				if(!state.getStateName().equals("second"))
 				{
 					state = new SecondRound_State();
+				}
+				else if(state.getStateName().equals("second"))
+				{
 					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
 					{
 						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
@@ -320,6 +326,7 @@ public class MapController extends Controller implements IMapController, Observe
 		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
 		{
 			SessionManager.instance().getClientFacade().buildSettlement(new BuildSettlement_Input(SessionManager.instance().getPlayerIndex(), vertLoc, true));
+			SessionManager.instance().getClientFacade().finishTurn(new FinishTurn_Input(SessionManager.instance().getPlayerIndex()));
 		}
 		else
 		{
