@@ -1,29 +1,31 @@
 package client.communication;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Observable;
+import java.util.Observer;
 
-import client.base.*;
-import client.session.SessionManager;
-import shared.definitions.*;
+import shared.definitions.CatanColor;
 import shared.models.MessageLine;
 import shared.models.MessageList;
 import shared.models.Player;
-
+import client.base.Controller;
+import client.session.SessionManager;
 
 /**
  * Game history controller implementation
  */
-public class GameHistoryController extends Controller implements IGameHistoryController, Observer {
+public class GameHistoryController extends Controller implements
+		IGameHistoryController, Observer {
 
 	public GameHistoryController(IGameHistoryView view) {
-		
+
 		super(view);
-		
+
 		initFromModel();
-		
+
 		SessionManager.instance().addObserver(this);
 	}
-	
+
 	@Override
 	public void update(Observable o, Object arg) {
 		MessageList log = SessionManager.instance().clientModel.getLog();
@@ -50,25 +52,26 @@ public class GameHistoryController extends Controller implements IGameHistoryCon
 
 	@Override
 	public IGameHistoryView getView() {
-		
-		return (IGameHistoryView)super.getView();
-	}
-	
-	private void initFromModel() {
-		
-		//<temp>
-		
-		List<LogEntry> entries = new ArrayList<LogEntry>();
-		entries.add(new LogEntry(CatanColor.BROWN, "Davis sucks"));
-		entries.add(new LogEntry(CatanColor.RED, "Zack sucks"));
-		entries.add(new LogEntry(CatanColor.ORANGE, "Trevor sucks"));
-		entries.add(new LogEntry(CatanColor.PUCE, "Anthony sucks"));
-		entries.add(new LogEntry(CatanColor.GREEN, "Ian sucks"));
-		
-		getView().setEntries(entries);
-	
-		//</temp>
-	}
-	
-}
 
+		return (IGameHistoryView) super.getView();
+	}
+
+	private void initFromModel() {
+
+		// <temp>
+
+		// List<LogEntry> entries = new ArrayList<LogEntry>();
+		// entries.add(new LogEntry(CatanColor.BROWN, "Brown Message"));
+		// entries.add(new LogEntry(CatanColor.RED, "Red Message"));
+		// entries.add(new LogEntry(CatanColor.ORANGE, "Orange Message"));
+		// entries.add(new LogEntry(CatanColor.PUCE, "Puce Message"));
+		// entries.add(new LogEntry(CatanColor.GREEN, "Green Message"));
+		//
+		// getView().setEntries(entries);
+
+		// </temp>
+
+		update(SessionManager.instance(), null);
+	}
+
+}
