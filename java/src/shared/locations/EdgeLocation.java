@@ -146,7 +146,7 @@ public class EdgeLocation
 			{
 				return true; //yeet yah!
 			}
-			else if(e2.getHexLoc().equals(e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast)) && e2.getDir() == EdgeDirection.NorthEast) //1
+			else if(e2.getHexLoc().equals(e1.getHexLoc().getNeighborLoc(EdgeDirection.NorthEast)) && e2.getDir() == EdgeDirection.NorthWest) //1
 			{
 				return true; //yeet yah!
 			}
