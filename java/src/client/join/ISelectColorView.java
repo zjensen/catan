@@ -27,5 +27,7 @@ public interface ISelectColorView extends IOverlayView
 	 * @return The color selected by the user
 	 */
 	CatanColor getSelectedColor();
+
+	void enableAllButtons();
 }
 
