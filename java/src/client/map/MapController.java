@@ -29,6 +29,7 @@ public class MapController extends Controller implements IMapController, Observe
 	private boolean roadBuilding = false;
 	private EdgeLocation firstRoadBuilding;
 	HexLocation robberLocation;
+	RobPlayerInfo[] empty = {};
 	
 	public MapController(IMapView view, IRobView robView) {
 		
@@ -333,6 +334,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
+		getRobView().setPlayers(empty);
 		getView().placeRobber(hexLoc);
 		getRobView().showModal();
 		ArrayList<RobPlayerInfo> robPlayerArrayList = new ArrayList<RobPlayerInfo>();
@@ -350,7 +352,6 @@ public class MapController extends Controller implements IMapController, Observe
 				}
 			}
 		}
-		
 		RobPlayerInfo[] robPlayerArray = new RobPlayerInfo[robPlayerArrayList.size()];
 		robPlayerArrayList.toArray(robPlayerArray);
 		getRobView().setPlayers(robPlayerArray);
