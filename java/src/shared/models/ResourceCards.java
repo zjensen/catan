@@ -151,5 +151,15 @@ public class ResourceCards {
 	public void setOre(int ore) {
 		this.ore = ore;
 	}
+
+	public int getTotal()
+	{
+		return brick + ore + wheat + wood + sheep;
+	}
+	
+	public String toJsonString()
+	{
+		return "{\"brick\":"+brick+",\"ore\":"+ore+",\"sheep\":"+sheep+",\"wheat\":"+wheat+",\"wood\":"+wood+"}";
+	}
 	
 }

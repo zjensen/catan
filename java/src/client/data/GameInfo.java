@@ -84,5 +84,19 @@ public class GameInfo
 		}
 		return playersArray;
 	}
+
+	public void updatePlayer(PlayerInfo pi)
+	{
+		for(PlayerInfo p : players)
+		{
+			if(p.getId() == p.getId())
+			{
+				p.setName(pi.getName());
+				p.setColor(pi.getColor());
+				p.setPlayerIndex(pi.getPlayerIndex());
+				return;
+			}
+		}
+	}
 }
 

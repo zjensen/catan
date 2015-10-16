@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 
 import shared.communication.moves.*;
+import shared.definitions.ResourceType;
 import shared.locations.*;
 
 public class Map {
@@ -184,6 +185,18 @@ public class Map {
 		return false;
 	}
 	
+	public boolean has3Port(int playerIndex)
+	{
+		MaritimeTrade_Input params = new MaritimeTrade_Input(playerIndex, 3, null, null);
+		return canMaritimeTrade(params);
+	}
+	
+	public boolean has2Port(int playerIndex, ResourceType r)
+	{
+		MaritimeTrade_Input params = new MaritimeTrade_Input(playerIndex, 2, r, null);
+		return canMaritimeTrade(params);
+	}
+	
 	/**
 	 * determines if hex is an ocean hex or not
 	 * @param h
@@ -317,7 +330,7 @@ public class Map {
 		HexLocation vh = v.getHexLoc();
 		VertexDirection vd= v.getDir();
 		
-		if(vh == h) //building is at top of this hex
+		if(vh.equals(h)) //building is at top of this hex
 		{
 			return true;
 		}
@@ -518,7 +531,11 @@ public class Map {
 	 */
 	public boolean canBuildCity(BuildCity_Input params)
 	{
-		return (settlements.get(params.getVertexLocation()).getIndex() == params.getPlayerIndex());
+		if(settlements.containsKey(params.getVertexLocation()))
+		{
+			return (settlements.get(params.getVertexLocation()).getIndex() == params.getPlayerIndex());
+		}
+		return false;
 	}
 	
 	/**
