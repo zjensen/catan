@@ -1,7 +1,5 @@
 package shared.communication.moves;
 
-import com.google.gson.Gson;
-
 import shared.locations.EdgeLocation;
 
 public class BuildRoad_Input 
@@ -75,9 +73,15 @@ public class BuildRoad_Input
 		return type;
 	}
 	
+//	{"type":"buildRoad","playerIndex":0,"roadLocation":{"hexLoc":{"x":2,"y":0},"dir":"NorthWest"},"free":true}
+	
+//	{"type":"buildRoad","playerIndex":0,"roadLocation":{"x":0,"y":3,"direction":"N"},"free":true}
 	public String toJSON()
 	{
-		Gson gson = new Gson();
-		return gson.toJson(this);
+		int x = roadLocation.getHexLoc().getX();
+		int y = roadLocation.getHexLoc().getY();
+		String dir = roadLocation.toServerFormattedString();
+		String s = "{\"type\":\"buildRoad\",\"playerIndex\":"+playerIndex+",\"roadLocation\":{\"x\":"+x+",\"y\":"+y+",\"direction\":\""+dir+"\"},\"free\":"+free+"}";
+		return s;
 	}
 }

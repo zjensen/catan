@@ -33,13 +33,18 @@ public class Poller
 			public void run(){
 				GameModel_Input input = new GameModel_Input();
 				input.setVersion(clientModel.getVersion());
-				GameModel_Output output = SessionManager.get_instance().getServer().getModel(input);
-				if (!output.getResponse().equals("true")) {
-					clientModel = SessionManager.get_instance().getInterpreter().deserialize(output.getResponse());
-					SessionManager.get_instance().updateClientModels(clientModel);
+				GameModel_Output output = SessionManager.instance().getServer().getModel(input);
+				if (!output.getResponse().equals("\"true\"")) {
+					clientModel = SessionManager.instance().getInterpreter().deserialize(output.getResponse());
+					SessionManager.instance().updateClientModels(clientModel);
 				}
 			}
-		}, new Date(), 2*1000);
+		}, new Date(), 3*1000);
+	}
+	
+	public void stopTimer()
+	{
+		timer.cancel();
 	}
 	
 	/**

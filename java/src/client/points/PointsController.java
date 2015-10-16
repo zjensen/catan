@@ -38,8 +38,8 @@ public class PointsController extends Controller implements IPointsController, O
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		int index = SessionManager.get_instance().getPlayerIndex();
-		int pointsToCompare = SessionManager.get_instance().getClientFacade().getPoints(index);
+		int index = SessionManager.instance().getPlayerIndex();
+		int pointsToCompare = SessionManager.instance().getClientFacade().getPoints(index);
 		
 		if(pointsToCompare != this.points)
 		{

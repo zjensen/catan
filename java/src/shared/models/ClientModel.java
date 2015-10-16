@@ -56,6 +56,23 @@ public class ClientModel {
 	}
 	
 	/**
+	 * Gets a player's index in this model
+	 * @param playerID
+	 * @return
+	 */
+	public int getPlayerIndexByID(int playerID)
+	{
+		for(Player p : players)
+		{
+			if(p.getPlayerID()==playerID)
+			{
+				return p.getIndex();
+			}
+		}
+		return -1;
+	}
+	
+	/**
 	 * can we play road building dev card with these params?
 	 * @param params
 	 * @return
@@ -182,6 +199,10 @@ public class ClientModel {
 			{
 				can = false;
 			}
+			else if(getPlayerByIndex(playerIndex).getAvailableRoads() == 0)
+			{
+				can = false;
+			}
 		}
 		else
 		{
@@ -301,5 +322,41 @@ public class ClientModel {
 	}
 	public void setDeck(DevCards deck) {
 		this.deck = deck;
+	}
+
+	public boolean canBuildFirstRoad(BuildRoad_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		return map.canBuildInitialRoad(params) && p.getRoadsPlayed() == 0;
+	}
+	
+	public boolean canBuildSecondRoad(BuildRoad_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		return map.canBuildInitialRoad(params) && p.getRoadsPlayed() == 1;
+	}
+
+	public boolean canFinishTurnFirstRound(int playerIndex)
+	{
+		Player p = getPlayerByIndex(playerIndex);
+		return (p.getRoadsPlayed() == 1) && (p.getSettlementsPlayed() == 1);
+	}
+	
+	public boolean canFinishTurnSecondRound(int playerIndex)
+	{
+		Player p = getPlayerByIndex(playerIndex);
+		return (p.getRoadsPlayed() == 2) && (p.getSettlementsPlayed() == 2);
+	}
+
+	public boolean needsToDiscard(int index)
+	{
+		Player p = getPlayerByIndex(index);
+		return (p.getNumberOfCards() > 7) && !p.isDiscarded();
+	}
+	
+	public int cardsToDiscard(int index)
+	{
+		Player p = getPlayerByIndex(index);
+		return (p.getNumberOfCards() / 2);
 	}
 }

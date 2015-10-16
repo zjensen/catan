@@ -1,16 +1,16 @@
 package client.login;
 
 import client.base.*;
+import client.data.PlayerInfo;
 import client.misc.*;
 import client.session.SessionManager;
 
-import java.net.*;
-import java.io.*;
 import java.util.*;
-import java.lang.reflect.*;
 
-import com.google.gson.*;
-import com.google.gson.reflect.TypeToken;
+import shared.communication.user.Login_Input;
+import shared.communication.user.Login_Output;
+import shared.communication.user.Register_Input;
+import shared.communication.user.Register_Output;
 
 
 /**
@@ -79,24 +79,141 @@ public class LoginController extends Controller implements ILoginController, Obs
 	}
 
 	@Override
-	public void signIn() {
+	public void signIn() 
+	{
+		String username = getLoginView().getLoginUsername().trim();
+		String password = getLoginView().getLoginPassword().trim();
 		
-		// TODO: log in user
+		if(!canSignIn(username, password))
+		{
+			return;
+		}
 		
+		Login_Output result = SessionManager.instance().getServer().login(new Login_Input(username, password));
 
-		// If log in succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+		if(result.getResponse().toUpperCase().equals("SUCCESS")) //todo warn on fail
+		{
+			// If log in succeeded
+			getLoginView().closeModal();
+			loginAction.execute();
+		}
+		else
+		{
+			messageView.setTitle("Sign In Error");
+			messageView.setMessage("There was an error signing in. Please try again.");
+			messageView.setController(this);
+			messageView.showModal();
+		}
 	}
 
 	@Override
-	public void register() {
+	public void register() 
+	{
+		String username = getLoginView().getRegisterUsername().trim();
+		String password = getLoginView().getRegisterPassword().trim();
+		String passwordRepeat = getLoginView().getRegisterPasswordRepeat().trim();
 		
-		// TODO: register new user (which, if successful, also logs them in)
+		if(!canRegister(username,password,passwordRepeat)) //todo warn on fail
+		{
+			return;
+		}
 		
-		// If register succeeded
-		getLoginView().closeModal();
-		loginAction.execute();
+		Register_Output result = SessionManager.instance().getServer().register(new Register_Input(username, password));
+
+		if(result.getResponse().toUpperCase().equals("SUCCESS"))
+		{
+			// If register succeeded
+//			SessionManager.instance().setPlayerInfo(new PlayerInfo());
+			getLoginView().closeModal();
+			loginAction.execute();
+		}
+		else if(result.getResponse().toUpperCase().substring(0, 6).equals("FAILED"))
+		{
+			messageView.setTitle("Registration Error");
+			messageView.setMessage("That username is already in use. Please try a different username.");
+			messageView.setController(this);
+			messageView.showModal();
+		}
+		else
+		{
+			messageView.setTitle("Registration Error");
+			messageView.setMessage("There was an error with your registration. Please try again.");
+			messageView.setController(this);
+			messageView.showModal();
+		}
+		
+		
+	}
+	
+	private boolean canSignIn(String u, String p)
+	{
+		if(u==null || u.isEmpty())
+		{
+			messageView.setTitle("Sign In Error");
+			messageView.setMessage("Please enter your password.");
+			messageView.setController(this);
+			messageView.showModal();
+			return false;
+		}
+		else if(p==null || p.isEmpty())
+		{
+			messageView.setTitle("Sign In Error");
+			messageView.setMessage("Please enter your password.");
+			messageView.setController(this);
+			messageView.showModal();
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean canRegister(String u, String p, String p2)
+	{
+		if(u==null || u.isEmpty() || u.length() > 7 || u.length() < 3)
+		{
+			messageView.setTitle("Registration Error");
+			messageView.setMessage("Username must be between 3 and 7 characters long.");
+			messageView.setController(this);
+			messageView.showModal();
+			return false;
+		}
+		else if(p==null || p.isEmpty() || p.length() < 5)
+		{
+			messageView.setTitle("Registration Error");
+			messageView.setMessage("Password must at least 5 characters long.");
+			messageView.setController(this);
+			messageView.showModal();
+			return false;
+		}
+		else if(!p.equals(p2))
+		{
+			messageView.setTitle("Registration Error");
+			messageView.setMessage("Passwords must match");
+			messageView.setController(this);
+			messageView.showModal();
+			return false;
+		}
+		else if(!passwordIsAllowed(p))
+		{
+			messageView.setTitle("Registration Error");
+			messageView.setMessage("Password can only contain alphanumeric characters, underscores, or hyphens.");
+			messageView.setController(this);
+			messageView.showModal();
+			return false;
+		}
+		return true;
+	}
+	
+	private boolean passwordIsAllowed(String p)
+	{
+		for(char c : p.toCharArray())
+		{
+			int a = (int) c; //ascii code
+			if(!((a >= 47 && a <= 57) || (a >= 65 && a <= 90) || (a >= 97 && a <= 122) || (a==95) || (a==45)))
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 }

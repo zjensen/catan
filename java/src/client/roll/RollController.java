@@ -3,6 +3,7 @@ package client.roll;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.communication.moves.RollNumber_Input;
 import client.base.*;
 import client.session.SessionManager;
 
@@ -32,7 +33,11 @@ public class RollController extends Controller implements IRollController, Obser
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		// TODO Auto-generated method stub
+		int index = SessionManager.instance().getPlayerIndex();
+		if(SessionManager.instance().getClientFacade().canRoll(index))
+		{
+			getRollView().showModal();
+		}
 	}
 	
 	public IRollResultView getResultView() {
@@ -48,8 +53,16 @@ public class RollController extends Controller implements IRollController, Obser
 	
 	@Override
 	public void rollDice() {
-
-		getResultView().showModal();
+		int die1 = (int)(Math.random()*6) + 1;
+        int die2 = (int)(Math.random()*6) + 1;
+        int rollValue = die1+die2;
+        RollNumber_Input params = new RollNumber_Input(SessionManager.instance().getPlayerIndex(), rollValue);
+        if(SessionManager.instance().getClientFacade().canRollNumber(params))
+        {
+        	SessionManager.instance().getClientFacade().rollNumber(params);
+        	getResultView().setRollValue(rollValue);
+    		getResultView().showModal();
+        }
 	}
 
 }

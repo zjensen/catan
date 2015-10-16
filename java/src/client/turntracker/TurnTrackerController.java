@@ -3,7 +3,9 @@ package client.turntracker;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.communication.moves.FinishTurn_Input;
 import shared.definitions.CatanColor;
+import shared.models.Player;
 import client.base.*;
 import client.session.SessionManager;
 
@@ -12,12 +14,12 @@ import client.session.SessionManager;
  * Implementation for the turn tracker controller
  */
 public class TurnTrackerController extends Controller implements ITurnTrackerController, Observer {
+	
+	private boolean initiated = false;
 
 	public TurnTrackerController(ITurnTrackerView view) {
 		
 		super(view);
-		
-		initFromModel();
 		
 		SessionManager.instance().addObserver(this);
 	}
@@ -25,7 +27,31 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		// TODO Auto-generated method stub
+		if(!initiated)
+		{
+			initFromModel();
+			initiated = true;
+		}
+		
+		Player[] players = SessionManager.instance().getClientModel().getPlayers();
+		int largestArmy = SessionManager.instance().getClientModel().getTurnTracker().getLargestArmy();
+		int longestRoad = SessionManager.instance().getClientModel().getTurnTracker().getLongestRoad();
+		int currentTurn = SessionManager.instance().getClientModel().getTurnTracker().getCurrentTurn();
+		
+		for(Player p : players)
+		{
+			int index = p.getIndex();
+			getView().updatePlayer(index, p.getVictoryPoints(), index==currentTurn, index==largestArmy, index==longestRoad);
+		}
+		
+		if(SessionManager.instance().getClientFacade().canFinishTurn(new FinishTurn_Input(SessionManager.instance().getPlayerIndex())))
+		{
+			getView().updateGameState("Finish Turn", true);
+		}
+		else
+		{
+			getView().updateGameState("Waiting for Other Players", false);
+		}
 	}
 	
 	@Override
@@ -36,13 +62,18 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 
 	@Override
 	public void endTurn() {
+		SessionManager.instance().getClientFacade().finishTurn(new FinishTurn_Input(SessionManager.instance().getPlayerIndex()));
 
 	}
 	
 	private void initFromModel() {
-		//<temp>
-		getView().setLocalPlayerColor(CatanColor.RED);
-		//</temp>
+		getView().setLocalPlayerColor(SessionManager.instance().getPlayerInfo().getColor());
+		Player[] players = SessionManager.instance().getClientModel().getPlayers();
+		
+		for(Player p : players)
+		{
+			getView().initializePlayer(p.getIndex(), p.getName(), p.getCatanColor());
+		}
 	}
 
 }

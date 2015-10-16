@@ -1,12 +1,18 @@
 package client.map;
 
 import java.util.*;
+import java.util.Map.Entry;
 
-import shared.communication.moves.BuildCity_Input;
+import shared.communication.moves.*;
 import shared.definitions.*;
 import shared.locations.*;
+import shared.models.ClientModel;
+import shared.models.Hex;
+import shared.models.Player;
+import shared.models.Port;
 import client.base.*;
 import client.data.*;
+import client.map.states.*;
 import client.session.SessionManager;
 
 
@@ -16,6 +22,14 @@ import client.session.SessionManager;
 public class MapController extends Controller implements IMapController, Observer {
 	
 	private IRobView robView;
+	private boolean initiated = false;
+	private IMapState state;
+	private boolean robStarted = false;
+	private boolean playingSoldierCard = false;
+	private boolean roadBuilding = false;
+	private EdgeLocation firstRoadBuilding;
+	HexLocation robberLocation;
+	RobPlayerInfo[] empty = {};
 	
 	public MapController(IMapView view, IRobView robView) {
 		
@@ -23,17 +37,107 @@ public class MapController extends Controller implements IMapController, Observe
 		
 		setRobView(robView);
 		
-		initFromModel();
+		makeItRain();
 		
 		SessionManager.instance().addObserver(this);
+		
+		state = new Nothing_State();
 	}
 	
 	@Override
 	public void update(Observable o, Object arg)
-	{
-		// TODO Auto-generated method stub
+	{ 	
+		if(!initiated)
+		{
+			initiated=true;
+			initFromModel();
+		}
+		updateFromModel();
+		
+		if(arg.equals(true)) //are all the players here??
+		{
+			setupState();
+		}
 	}
 	
+	private void setupState()
+	{
+		if(!SessionManager.instance().isOurTurn()) //sit tight 
+		{
+			if(!state.getStateName().equals("nothing"))
+			{
+				state = new Nothing_State();
+			}
+			return;
+		}
+		if(playingSoldierCard) //rob them woes
+		{
+			if(!state.getStateName().equals("robbing"))
+			{
+				state = new Robbing_State();
+			}
+			return;
+		}
+		switch(SessionManager.instance().clientModel.getTurnTracker().getStatus().toLowerCase())
+		{
+			case "firstround":
+				if(!state.getStateName().equals("first"))
+				{
+					state = new FirstRound_State();
+					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 0)
+					{
+						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
+					else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 0)
+					{
+						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
+				}
+				break;
+			case "secondround":
+				if(!state.getStateName().equals("second"))
+				{
+					state = new SecondRound_State();
+					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
+					{
+						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
+					else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 1)
+					{
+						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
+				}
+				break;
+			case "robbing":
+				if(!robStarted)
+				{
+					robStarted = true;
+					getView().startDrop(PieceType.ROBBER, SessionManager.instance().getPlayerInfo().getColor(), false);
+				}
+				if(!state.getStateName().equals("robbing"))
+				{
+					state = new Robbing_State();
+				}
+				break;
+			case "playing":
+				if(!state.getStateName().equals("playing"))
+				{
+					state = new Playing_State();
+				}
+				break;
+			case "rolling":
+			case "discarding":
+			default:
+				if(!state.getStateName().equals("nothing"))
+				{
+					state = new Nothing_State();
+				}
+				break;
+				
+		}
+		
+	}
+
 	public IMapView getView() {
 		
 		return (IMapView)super.getView();
@@ -46,133 +150,262 @@ public class MapController extends Controller implements IMapController, Observe
 		this.robView = robView;
 	}
 	
-	protected void initFromModel() {
+	//update the map to reflect the model's cities, settlements, roads, and robber
+	private void updateFromModel()
+	{	
+		ClientModel model = SessionManager.instance().getClientModel();
 		
-		//<temp>
+		//place cities
+		HashMap<VertexLocation,Player> cities = model.getMap().getCities();
+		for (Entry<VertexLocation, Player> entry : cities.entrySet())
+		{
+			getView().placeCity(entry.getKey(), entry.getValue().getCatanColor());
+		}
 		
-		Random rand = new Random();
-
-		for (int x = 0; x <= 3; ++x) {
+		//place settlements
+		HashMap<VertexLocation,Player> settlements = model.getMap().getSettlements();
+		for (Entry<VertexLocation, Player> entry : settlements.entrySet())
+		{
+			getView().placeSettlement(entry.getKey(), entry.getValue().getCatanColor());
+		}
+		
+		//place roads
+		HashMap<EdgeLocation,Player> roads = model.getMap().getRoads();
+		for (Entry<EdgeLocation, Player> entry : roads.entrySet())
+		{
+			getView().placeRoad(entry.getKey(), entry.getValue().getCatanColor());
+		}
+		
+		//place robber
+		getView().placeRobber(model.getMap().getRobber());
+	}
+	
+	private void initFromModel()
+	{
+		ClientModel model = SessionManager.instance().getClientModel();
+		
+		Hex[] hexes = model.getMap().getHexes();
+		for(Hex hex : hexes)
+		{
+			if(hex.getResource()==null)
+			{
+				getView().addHex(hex.getLocation(), HexType.DESERT);
+			}
+			else
+			{
+				getView().addHex(hex.getLocation(), hex.getResource());
+				getView().addNumber(hex.getLocation(), hex.getNumber());
+			}
+		}
+		
+		Port[] ports = model.getMap().getPorts();
+		for(Port port : ports)
+		{
+			getView().addHex(port.getLocation(), HexType.WATER);
+			if(port.getResourceType() == null)
+			{
+				getView().addPort(new EdgeLocation(port.getLocation(),port.getDirection()), PortType.THREE);
+			}
+			else
+			{
+				getView().addPort(new EdgeLocation(port.getLocation(),port.getDirection()), PortType.valueOf(port.getResourceType().toString()));
+			}
+		}
+		
+	}
+	
+	//cover it in water. all of it.
+	protected void makeItRain() 
+	{
+		for (int x = 0; x <= 3; ++x) 
+		{
 			
 			int maxY = 3 - x;			
 			for (int y = -3; y <= maxY; ++y) {				
-				int r = rand.nextInt(HexType.values().length);
-				HexType hexType = HexType.values()[r];
+				HexType hexType = HexType.WATER;
 				HexLocation hexLoc = new HexLocation(x, y);
 				getView().addHex(hexLoc, hexType);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-						CatanColor.RED);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-						CatanColor.BLUE);
-				getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-						CatanColor.ORANGE);
-				getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-				getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
+				
 			}
 			
 			if (x != 0) {
 				int minY = x - 3;
 				for (int y = minY; y <= 3; ++y) {
-					int r = rand.nextInt(HexType.values().length);
-					HexType hexType = HexType.values()[r];
+					HexType hexType = HexType.WATER;
 					HexLocation hexLoc = new HexLocation(-x, y);
 					getView().addHex(hexLoc, hexType);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.NorthWest),
-							CatanColor.RED);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.SouthWest),
-							CatanColor.BLUE);
-					getView().placeRoad(new EdgeLocation(hexLoc, EdgeDirection.South),
-							CatanColor.ORANGE);
-					getView().placeSettlement(new VertexLocation(hexLoc,  VertexDirection.NorthWest), CatanColor.GREEN);
-					getView().placeCity(new VertexLocation(hexLoc,  VertexDirection.NorthEast), CatanColor.PURPLE);
 				}
 			}
 		}
-		
-		PortType portType = PortType.BRICK;
-		getView().addPort(new EdgeLocation(new HexLocation(0, 3), EdgeDirection.North), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(0, -3), EdgeDirection.South), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 3), EdgeDirection.NorthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(-3, 0), EdgeDirection.SouthEast), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, -3), EdgeDirection.SouthWest), portType);
-		getView().addPort(new EdgeLocation(new HexLocation(3, 0), EdgeDirection.NorthWest), portType);
-		
-		getView().placeRobber(new HexLocation(0, 0));
-		
-		getView().addNumber(new HexLocation(-2, 0), 2);
-		getView().addNumber(new HexLocation(-2, 1), 3);
-		getView().addNumber(new HexLocation(-2, 2), 4);
-		getView().addNumber(new HexLocation(-1, 0), 5);
-		getView().addNumber(new HexLocation(-1, 1), 6);
-		getView().addNumber(new HexLocation(1, -1), 8);
-		getView().addNumber(new HexLocation(1, 0), 9);
-		getView().addNumber(new HexLocation(2, -2), 10);
-		getView().addNumber(new HexLocation(2, -1), 11);
-		getView().addNumber(new HexLocation(2, 0), 12);
-		
-		//</temp>
 	}
 
 	public boolean canPlaceRoad(EdgeLocation edgeLoc) {
-		
-		return true;
+		if(roadBuilding)
+		{
+			if(firstRoadBuilding==null) //first of 2 roads
+			{
+				return SessionManager.instance().getClientFacade().canBuildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
+			}
+			else if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) < 2)
+			{
+				//alert not enough roads left to build, and we should send this request on it's way
+				return false;
+			}
+			else
+			{
+				return SessionManager.instance().getClientFacade().canBuildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
+			}
+		}
+		return state.canBuildRoad(edgeLoc.getNormalizedLocation());
 	}
 
 	public boolean canPlaceSettlement(VertexLocation vertLoc) {
-		
-		return true;
+		return state.canBuildSettlement(vertLoc.getNormalizedLocation());
 	}
 
 	public boolean canPlaceCity(VertexLocation vertLoc) {
-		return SessionManager.instance().getClientFacade().canBuildCity(new BuildCity_Input(SessionManager.instance().getPlayerIndex(), vertLoc));
+		return state.canPlaceCity(vertLoc.getNormalizedLocation());
 	}
 
+	//might not work when playing knight card
 	public boolean canPlaceRobber(HexLocation hexLoc) {
-		
-		return true;
+		return state.canPlaceRobber(hexLoc);
 	}
 
+	//may need some work
 	public void placeRoad(EdgeLocation edgeLoc) {
 		
-		getView().placeRoad(edgeLoc, CatanColor.ORANGE);
+		getView().placeRoad(edgeLoc, SessionManager.instance().getPlayerInfo().getColor());
+		
+		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
+		{
+			SessionManager.instance().getClientFacade().buildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
+			getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+		}
+		else if(roadBuilding)
+		{
+			if(firstRoadBuilding==null) //first road yet to be placed
+			{
+				if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) == 1)
+				{
+					//can only place 1 road
+					RoadBuilding_Input params = new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, null);
+					SessionManager.instance().getClientFacade().roadBuilding(params);
+					roadBuilding = false;
+				}
+				else
+				{
+					//1 more road to place
+					firstRoadBuilding = edgeLoc;
+					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
+				}
+			}
+			else //placing second road
+			{
+				RoadBuilding_Input params = new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), firstRoadBuilding, edgeLoc);
+				SessionManager.instance().getClientFacade().roadBuilding(params);
+				firstRoadBuilding = null;
+				roadBuilding = false;
+			}
+		}
+		else
+		{
+			SessionManager.instance().getClientFacade().buildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, false));
+		}
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
 		
-		getView().placeSettlement(vertLoc, CatanColor.ORANGE);
+		getView().placeSettlement(vertLoc, SessionManager.instance().getPlayerInfo().getColor());
+		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
+		{
+			SessionManager.instance().getClientFacade().buildSettlement(new BuildSettlement_Input(SessionManager.instance().getPlayerIndex(), vertLoc, true));
+		}
+		else
+		{
+			SessionManager.instance().getClientFacade().buildSettlement(new BuildSettlement_Input(SessionManager.instance().getPlayerIndex(), vertLoc, false));
+		}
 	}
 
 	public void placeCity(VertexLocation vertLoc) {
 		
-		getView().placeCity(vertLoc, CatanColor.ORANGE);
+		getView().placeCity(vertLoc, SessionManager.instance().getPlayerInfo().getColor());
+		SessionManager.instance().getClientFacade().buildCity(new BuildCity_Input(SessionManager.instance().getPlayerIndex(), vertLoc));
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
-		
+		getRobView().setPlayers(empty);
 		getView().placeRobber(hexLoc);
-		
 		getRobView().showModal();
+		ArrayList<RobPlayerInfo> robPlayerArrayList = new ArrayList<RobPlayerInfo>();
+		int index = SessionManager.instance().getPlayerIndex();
+		
+		for(int i=0;i<4;i++)
+		{
+			if(i!=index)
+			{
+				RobPlayer_Input params = new RobPlayer_Input(index, i, hexLoc);
+				if(SessionManager.instance().getClientFacade().canRobPlayer(params))
+				{
+					RobPlayerInfo r = SessionManager.instance().getClientFacade().getRobPlayerInfo(i);
+					robPlayerArrayList.add(r);
+				}
+			}
+		}
+		RobPlayerInfo[] robPlayerArray = new RobPlayerInfo[robPlayerArrayList.size()];
+		robPlayerArrayList.toArray(robPlayerArray);
+		getRobView().setPlayers(robPlayerArray);
+		robberLocation = hexLoc;
 	}
 	
 	public void startMove(PieceType pieceType, boolean isFree, boolean allowDisconnected) {	
 		
-		getView().startDrop(pieceType, CatanColor.ORANGE, true);
+		getView().startDrop(pieceType, SessionManager.instance().getPlayerInfo().getColor(), true);
 	}
 	
+	//guessing this is for dev cards
 	public void cancelMove() {
-		
+		playingSoldierCard = false;
+		roadBuilding = false;
+		if(!state.getStateName().equals("playing"))
+		{
+			state = new Playing_State();
+		}
+		if(firstRoadBuilding != null)
+		{
+			//remove first road placed
+		}
 	}
 	
 	public void playSoldierCard() {	
-		
+		playingSoldierCard = true;
+		state = new Robbing_State();
+		getView().startDrop(PieceType.ROBBER, SessionManager.instance().getPlayerInfo().getColor(), true);
 	}
 	
-	public void playRoadBuildingCard() {	
-		
+	public void playRoadBuildingCard() {
+		if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) == 0)
+		{
+			//alert no roads left to build
+			return;
+		}
+		roadBuilding = true;
+		getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
 	}
 	
 	public void robPlayer(RobPlayerInfo victim) {	
-		
+		if(playingSoldierCard)
+		{
+			playingSoldierCard = false;
+			Soldier_Input params = new Soldier_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			SessionManager.instance().getClientFacade().soldier(params);
+		}
+		else
+		{
+			RobPlayer_Input params = new RobPlayer_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			SessionManager.instance().getClientFacade().robPlayer(params);
+			robStarted = false;
+		}
 	}
 	
 }

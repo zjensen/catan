@@ -6,6 +6,7 @@ import client.catan.*;
 import client.login.*;
 import client.join.*;
 import client.misc.*;
+import client.session.SessionManager;
 import client.base.*;
 
 /**
@@ -43,6 +44,8 @@ public class Catan extends JFrame
 	
 	public static void main(final String[] args)
 	{
+//		SessionManager.instance().setServer("localhost", "8081");
+		SessionManager.instance().setServer(args[0],args[1]);
 		try
 		{
 			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
@@ -75,6 +78,7 @@ public class Catan extends JFrame
 					@Override
 					public void execute()
 					{
+						SessionManager.instance().setupGame();
 						playerWaitingController.start();
 					}
 				});

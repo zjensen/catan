@@ -1,7 +1,5 @@
 package shared.communication.moves;
 
-import com.google.gson.Gson;
-
 import shared.locations.HexLocation;
 
 public class RobPlayer_Input 
@@ -77,7 +75,6 @@ public class RobPlayer_Input
 	
 	public String toJSON()
 	{
-		Gson gson = new Gson();
-		return gson.toJson(this);
+		return "{\"type\":\"robPlayer\",\"playerIndex\":"+playerIndex+",\"victimIndex\":"+victimIndex+",\"location\":{\"x\":"+location.getX()+",\"y\":"+location.getY()+"}}";
 	}
 }
