@@ -39,12 +39,6 @@ public class ClientFacade {
 		}
 	}
 	
-	public void getClientModel(int version)
-	{
-		GameModel_Output output = SessionManager.instance().getServer().getModel(new GameModel_Input(version));
-		handleResponse(output.getResponse());
-	}
-	
 	
 	/**
 	 * 
