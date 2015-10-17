@@ -33,6 +33,10 @@ public class RollController extends Controller implements IRollController, Obser
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals("reset")) //are all the players here??
+		{
+			return;
+		}
 		int index = SessionManager.instance().getPlayerIndex();
 		if(SessionManager.instance().getClientFacade().canRoll(index))
 		{

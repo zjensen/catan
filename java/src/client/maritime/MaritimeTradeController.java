@@ -35,6 +35,16 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals("reset")) //are all the players here??
+		{
+			available = empty;
+			give = null;
+			receive = null;
+			ratio = 0;
+			getTradeView().enableMaritimeTrade(false);
+			return;
+		}
+		
 		if(SessionManager.instance().canPlay()) //is it our turn?
 		{
 			updateAvailability(); //see what resources player can maritime trade

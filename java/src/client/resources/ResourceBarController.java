@@ -5,7 +5,6 @@ import java.util.*;
 import client.base.*;
 import client.session.SessionManager;
 import shared.definitions.ResourceType;
-import shared.models.ResourceCards;
 
 
 /**
@@ -78,6 +77,25 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals("reset")) //are all the players here??
+		{
+			this.getView().setElementAmount(ResourceBarElement.SHEEP, 0);
+			this.getView().setElementAmount(ResourceBarElement.WOOD, 0);
+			this.getView().setElementAmount(ResourceBarElement.WHEAT, 0);
+			this.getView().setElementAmount(ResourceBarElement.BRICK, 0);
+			this.getView().setElementAmount(ResourceBarElement.ORE, 0);
+			this.getView().setElementAmount(ResourceBarElement.ROAD, 0);
+			this.getView().setElementAmount(ResourceBarElement.SETTLEMENT, 0);
+			this.getView().setElementAmount(ResourceBarElement.CITY, 0);
+			
+			this.getView().setElementEnabled(ResourceBarElement.ROAD, false);
+			this.getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
+			this.getView().setElementEnabled(ResourceBarElement.CITY, false);
+			this.getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false);
+			this.getView().setElementEnabled(ResourceBarElement.SOLDIERS, false);
+			this.getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
+			return;
+		}
 		int index = SessionManager.instance().getPlayerIndex();
 		
 		//Get the new resource counts after client model update using the players index

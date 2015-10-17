@@ -40,6 +40,10 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals("reset")) //are all the players here??
+		{
+			return;
+		}
 		if(SessionManager.instance().getClientModel().getTurnTracker().getStatus().equalsIgnoreCase("discarding"))
 		{
 			if(SessionManager.instance().getClientFacade().needsToDiscard(SessionManager.instance().getPlayerIndex()))

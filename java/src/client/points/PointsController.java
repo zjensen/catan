@@ -39,6 +39,13 @@ public class PointsController extends Controller implements IPointsController, O
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals("reset")) //are all the players here??
+		{
+			this.points = 0;
+			getPointsView().setPoints(this.points);
+			return;
+		}
+		
 		int index = SessionManager.instance().getPlayerIndex();
 		int pointsToCompare = SessionManager.instance().getClientFacade().getPoints(index);
 		
