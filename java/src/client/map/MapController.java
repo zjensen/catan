@@ -85,16 +85,13 @@ public class MapController extends Controller implements IMapController, Observe
 				{
 					state = new FirstRound_State();
 				}
-				else if(state.getStateName().equals("first"))
+				if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 0)
 				{
-					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 0)
-					{
-						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
-					}
-					else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 0)
-					{
-						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
-					}
+					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+				}
+				else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 0)
+				{
+					getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
 				}
 				break;
 			case "secondround":
@@ -102,16 +99,13 @@ public class MapController extends Controller implements IMapController, Observe
 				{
 					state = new SecondRound_State();
 				}
-				else if(state.getStateName().equals("second"))
+				if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
 				{
-					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
-					{
-						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
-					}
-					else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 1)
-					{
-						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
-					}
+					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+				}
+				else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 1)
+				{
+					getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
 				}
 				break;
 			case "robbing":
@@ -286,7 +280,7 @@ public class MapController extends Controller implements IMapController, Observe
 		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
 		{
 			SessionManager.instance().getClientFacade().buildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
-			getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+//			getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
 		}
 		else if(roadBuilding)
 		{
@@ -303,7 +297,7 @@ public class MapController extends Controller implements IMapController, Observe
 				{
 					//1 more road to place
 					firstRoadBuilding = edgeLoc;
-					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
+//					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
 				}
 			}
 			else //placing second road
