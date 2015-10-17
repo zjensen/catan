@@ -22,6 +22,7 @@ public class SessionManager extends Observable{
 	private PlayerInfo playerInfo;
 	private GameInfo gameInfo;
 	private boolean started = false;
+	private boolean ended = false;
 	private PlayerInfo winningPlayer = null;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
@@ -111,14 +112,7 @@ public class SessionManager extends Observable{
 		{
 			int id = p.getPlayerID();
 			PlayerInfo pi = new PlayerInfo(p.getName(),id,p.getCatanColor(),p.getIndex());
-			if(!this.gameInfo.hasPlayer(id))
-			{
-				gameInfo.addPlayer(pi);
-			}
-			else
-			{
-				gameInfo.updatePlayer(pi);
-			}
+			gameInfo.updatePlayer(pi);
 		}
 	}
 	
@@ -219,11 +213,32 @@ public class SessionManager extends Observable{
 
 	public void endGame(int playerIndex) //index of winner
 	{
-		winningPlayer = gameInfo.getPlayerByIndex(playerIndex);
+		if(!ended) //if they enter a game that is over, the points controller won't know it yet
+		{
+			winningPlayer = gameInfo.getPlayerByIndex(playerIndex);
+			ended = true;
+			this.setChanged();
+			this.notifyObservers(started);
+		}
 	}
 	
 	public PlayerInfo getWinner()
 	{
 		return winningPlayer;
+	}
+	
+	public void leaveGame()
+	{
+		stopPoller();
+		
+		clientModel = new ClientModel();
+		clientFacade = new ClientFacade(this.clientModel);
+		gameInfo = new GameInfo();
+		started = false;
+		ended = false;
+		winningPlayer = null;
+		
+		this.setChanged();
+		this.notifyObservers("reset");
 	}
 }

@@ -7,6 +7,7 @@ import java.awt.image.*;
 import javax.swing.*;
 
 import client.base.*;
+import client.session.SessionManager;
 import client.utils.*;
 
 
@@ -78,6 +79,7 @@ public class GameFinishedView extends OverlayView implements IGameFinishedView {
 			
 			if (e.getSource() == okButton) {
 				closeModal();
+				SessionManager.instance().leaveGame();
 			}
 		}	
 	};

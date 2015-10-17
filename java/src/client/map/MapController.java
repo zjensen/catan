@@ -47,6 +47,13 @@ public class MapController extends Controller implements IMapController, Observe
 	@Override
 	public void update(Observable o, Object arg)
 	{ 	
+		if(arg.equals("reset")) //are all the players here??
+		{
+			makeItRain();
+			state = new Nothing_State();
+			return;
+		}
+		
 		if(!initiated)
 		{
 			initiated=true;

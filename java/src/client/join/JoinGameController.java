@@ -24,6 +24,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IMessageView messageView;
 	private IAction joinAction;
 	private GameInfo game;
+	private GameInfo[] empty = {};
 	
 	/**
 	 * JoinGameController constructor
@@ -48,7 +49,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		// TODO Auto-generated method stub
+		if(arg.equals("reset"))
+		{
+			getJoinGameView().setGames(empty, SessionManager.instance().getPlayerInfo());
+			start();
+		}
 	}
 	
 	public IJoinGameView getJoinGameView() {
