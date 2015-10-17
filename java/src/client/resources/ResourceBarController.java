@@ -4,6 +4,7 @@ import java.util.*;
 
 import client.base.*;
 import client.session.SessionManager;
+import shared.communication.moves.BuildRoad_Input;
 import shared.definitions.ResourceType;
 
 
@@ -109,6 +110,8 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		int roads = SessionManager.instance().getClientFacade().getRoads(index);
 		int settlements = SessionManager.instance().getClientFacade().getSettlements(index);
 		int cities = SessionManager.instance().getClientFacade().getCities(index);
+		int devCardCount = SessionManager.instance().getClientFacade().getOldDevCardCount(index);
+		System.out.println(devCardCount);
 		
 		//Updating the view to present the most recent number counts
 		this.getView().setElementAmount(ResourceBarElement.SHEEP, sheep);
@@ -119,6 +122,27 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		this.getView().setElementAmount(ResourceBarElement.ROAD, roads);
 		this.getView().setElementAmount(ResourceBarElement.SETTLEMENT, settlements);
 		this.getView().setElementAmount(ResourceBarElement.CITY, cities);
+		
+		//Enable/Disable Buttons
+		if(SessionManager.instance().getClientFacade().isPlayersTurn(index)) {
+			if(wood > 0 && brick > 0 && roads > 0) this.getView().setElementEnabled(ResourceBarElement.ROAD, true);
+			else this.getView().setElementEnabled(ResourceBarElement.ROAD, false);
+			if(sheep > 0 && wood > 0 && wheat > 0 && brick > 0 && settlements > 0) this.getView().setElementEnabled(ResourceBarElement.SETTLEMENT, true);
+			else this.getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
+			if(wheat > 1 && ore > 2 && cities > 0) this.getView().setElementEnabled(ResourceBarElement.CITY, true);
+			else this.getView().setElementEnabled(ResourceBarElement.CITY, false);
+			if(sheep > 0 && wheat > 0 && ore > 0) this.getView().setElementEnabled(ResourceBarElement.BUY_CARD, true);
+			else this.getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
+			if(devCardCount > 0) this.getView().setElementEnabled(ResourceBarElement.PLAY_CARD, true);
+			else this.getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false);
+		}
+		else {
+			this.getView().setElementEnabled(ResourceBarElement.ROAD, false);
+			this.getView().setElementEnabled(ResourceBarElement.SETTLEMENT, false);
+			this.getView().setElementEnabled(ResourceBarElement.CITY, false);
+			this.getView().setElementEnabled(ResourceBarElement.BUY_CARD, false);
+			this.getView().setElementEnabled(ResourceBarElement.PLAY_CARD, false);
+		}
 		
 	}
 

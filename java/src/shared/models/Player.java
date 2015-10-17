@@ -430,6 +430,11 @@ public class Player {
 	{
 		return 5-settlements;
 	}
+	
+	public int getOldDevCardsCount()
+	{
+		return oldDevCards.cardCount();
+	}
 
 	
 }

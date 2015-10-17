@@ -88,4 +88,8 @@ public class DevCards {
 		this.monument = monument;
 	}
 	
+	public int cardCount() {
+		return (this.monopoly + this.monument + this.roadBuilding + this.soldier + this.yearOfPlenty);
+	}
+	
 }

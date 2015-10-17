@@ -527,7 +527,11 @@ public class ClientFacade {
 	{
 		return clientModel.getPlayerByIndex(index).getAvailableCities();
 	}
-
+	
+	public int getOldDevCardCount(int index)
+	{
+		return clientModel.getPlayerByIndex(index).getOldDevCardsCount();
+	}
 	
 	public boolean canMaritimeTradeResource(ResourceType r,int playerIndex)
 	{
