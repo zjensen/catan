@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import client.base.*;
+import client.data.PlayerInfo;
 import client.session.SessionManager;
 
 
@@ -45,6 +46,13 @@ public class PointsController extends Controller implements IPointsController, O
 		{
 			this.points = pointsToCompare;
 			getPointsView().setPoints(this.points);
+		}
+		
+		PlayerInfo p = SessionManager.instance().getWinner();
+		if(p != null)
+		{
+			getFinishedView().setWinner(p.getName(), p.getPlayerIndex() == SessionManager.instance().getPlayerIndex());
+			getFinishedView().showModal();
 		}
 	}
 	

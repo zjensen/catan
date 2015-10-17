@@ -22,6 +22,7 @@ public class SessionManager extends Observable{
 	private PlayerInfo playerInfo;
 	private GameInfo gameInfo;
 	private boolean started = false;
+	private PlayerInfo winningPlayer = null;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
 	
@@ -214,5 +215,15 @@ public class SessionManager extends Observable{
 			return clientModel.getTurnTracker().getStatus().equalsIgnoreCase("playing");
 		}
 		return false;
+	}
+
+	public void endGame(int playerIndex) //index of winner
+	{
+		winningPlayer = gameInfo.getPlayerByIndex(playerIndex);
+	}
+	
+	public PlayerInfo getWinner()
+	{
+		return winningPlayer;
 	}
 }

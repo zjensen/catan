@@ -40,6 +40,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		int largestArmy = SessionManager.instance().getClientModel().getTurnTracker().getLargestArmy();
 		int longestRoad = SessionManager.instance().getClientModel().getTurnTracker().getLongestRoad();
 		int currentTurn = SessionManager.instance().getClientModel().getTurnTracker().getCurrentTurn();
+		boolean gameOver = false;
+		int winnerIndex = -1;
 		
 		for(Player p : players)
 		{
@@ -47,11 +49,21 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			{
 				break;
 			}
+			if(p.getVictoryPoints() == 10)
+			{
+				gameOver = true;
+				winnerIndex = p.getIndex();
+			}
 			int index = p.getIndex();
 			getView().updatePlayer(index, p.getVictoryPoints(), index==currentTurn, index==largestArmy, index==longestRoad);
 		}
 		
-		if(SessionManager.instance().getClientFacade().canFinishTurn(new FinishTurn_Input(SessionManager.instance().getPlayerIndex())))
+		if(gameOver) 
+		{
+			SessionManager.instance().endGame(winnerIndex);
+			getView().updateGameState("Game Over", false);
+		}
+		else if(SessionManager.instance().getClientFacade().canFinishTurn(new FinishTurn_Input(SessionManager.instance().getPlayerIndex())))
 		{
 			getView().updateGameState("Finish Turn", true);
 		}
