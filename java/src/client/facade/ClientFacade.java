@@ -513,10 +513,21 @@ public class ClientFacade {
 		return r;
 	}
 	
-	public int getRemainingRoads(int index)
+	public int getRoads(int index)
 	{
 		return clientModel.getPlayerByIndex(index).getAvailableRoads();
 	}
+	
+	public int getSettlements(int index)
+	{
+		return clientModel.getPlayerByIndex(index).getAvailableSettlements();
+	}
+
+	public int getCities(int index)
+	{
+		return clientModel.getPlayerByIndex(index).getAvailableCities();
+	}
+
 	
 	public boolean canMaritimeTradeResource(ResourceType r,int playerIndex)
 	{
