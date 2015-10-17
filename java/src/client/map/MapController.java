@@ -398,12 +398,29 @@ public class MapController extends Controller implements IMapController, Observe
 		if(playingSoldierCard)
 		{
 			playingSoldierCard = false;
-			Soldier_Input params = new Soldier_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			Soldier_Input params;
+			if(victim == null)
+			{
+				params = new Soldier_Input(SessionManager.instance().getPlayerIndex(),-1,robberLocation);
+			}
+			else
+			{
+				params = new Soldier_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			}
+			
 			SessionManager.instance().getClientFacade().soldier(params);
 		}
 		else
 		{
-			RobPlayer_Input params = new RobPlayer_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			RobPlayer_Input params;
+			if(victim == null)
+			{
+				params = new RobPlayer_Input(SessionManager.instance().getPlayerIndex(),-1,robberLocation);
+			}
+			else
+			{
+				params = new RobPlayer_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			}
 			SessionManager.instance().getClientFacade().robPlayer(params);
 			robStarted = false;
 		}

@@ -227,6 +227,11 @@ public class Map {
 		{
 			return false;
 		}
+		else if(params.getVictimIndex() == -1) //no player at location
+		{
+			return true;
+		}
+		
 		for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //loop through each settlement
 		{
 			if(entry.getValue().getIndex() == params.getVictimIndex()) //does the victim have a settlement at the location?
