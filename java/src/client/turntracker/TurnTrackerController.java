@@ -4,7 +4,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.communication.moves.FinishTurn_Input;
-import shared.definitions.CatanColor;
 import shared.models.Player;
 import client.base.*;
 import client.session.SessionManager;
@@ -40,6 +39,10 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		
 		for(Player p : players)
 		{
+			if(p==null)
+			{
+				break;
+			}
 			int index = p.getIndex();
 			getView().updatePlayer(index, p.getVictoryPoints(), index==currentTurn, index==largestArmy, index==longestRoad);
 		}
