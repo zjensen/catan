@@ -26,6 +26,10 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals(false))
+		{
+			return;
+		}
 		if(!initiated)
 		{
 			initFromModel();
