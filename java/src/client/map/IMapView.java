@@ -30,6 +30,8 @@ public interface IMapView extends IView
 	 */
 	void addNumber(HexLocation hexLoc, int num);
 	
+	void reset();
+	
 	/**
 	 * This method adds a port to the map.
 	 * 

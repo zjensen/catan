@@ -28,6 +28,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	{
 		if(arg.equals("reset")) //are all the players here??
 		{
+			initiated = false;
+			this.getView().reset();
 			return;
 		}
 		if(arg.equals(false))

@@ -537,15 +537,19 @@ public class ClientFacade {
 		{
 			return false;
 		}
-		else if (available == 2)
+		else if(can2Trade(playerIndex, r))
 		{
-			return can2Trade(playerIndex, r);
+			return true;
 		}
-		else if (available == 3)
+		else if (can3Trade(playerIndex, r))
 		{
-			return can3Trade(playerIndex, r);
+			return true;
 		}
-		return true;
+		else if (available >= 4)
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	/**

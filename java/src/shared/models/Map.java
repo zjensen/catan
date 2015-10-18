@@ -415,10 +415,6 @@ public class Map {
 		{
 			return false;
 		}
-		else if(!vertexIsOnMap(v))
-		{
-			return false;
-		}
 		else
 		{
 			return true;

@@ -9,6 +9,7 @@ import shared.definitions.*;
  */
 public interface ITurnTrackerView extends IView
 {
+	void reset();
 	
 	/**
 	 * Sets the color to display for the local player

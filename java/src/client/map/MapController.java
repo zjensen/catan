@@ -49,8 +49,10 @@ public class MapController extends Controller implements IMapController, Observe
 	{ 	
 		if(arg.equals("reset")) //are all the players here??
 		{
+			getView().reset();
 			makeItRain();
 			state = new Nothing_State();
+			initiated = false;
 			return;
 		}
 		
