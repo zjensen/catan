@@ -18,6 +18,8 @@ public interface IJoinGameView extends IOverlayView
 	 *            Information about the local player
 	 */
 	void setGames(GameInfo[] games, PlayerInfo localPlayer);
+
+	GameInfo[] getGames();
 	
 }
 

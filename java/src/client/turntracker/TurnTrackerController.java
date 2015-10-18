@@ -27,6 +27,10 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals(false))
+		{
+			return;
+		}
 		if(!initiated)
 		{
 			initFromModel();
@@ -40,6 +44,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		
 		for(Player p : players)
 		{
+			if(p == null)
+				continue;
 			int index = p.getIndex();
 			getView().updatePlayer(index, p.getVictoryPoints(), index==currentTurn, index==largestArmy, index==longestRoad);
 		}
@@ -72,6 +78,8 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		
 		for(Player p : players)
 		{
+			if(p == null)
+				continue;
 			getView().initializePlayer(p.getIndex(), p.getName(), p.getCatanColor());
 		}
 	}
