@@ -51,7 +51,7 @@ public class PlayerInfo
 		setName(name);
 		setColor(color);
 	}
-	
+
 	public int getId()
 	{
 		return id;

@@ -62,6 +62,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		System.out.println("Starting JoinGame Update");
+		if(arg.equals(true))
+		{
+			System.out.println("Don't need to update");
+			return;
+		}
 		if(this.getNewGameView().isModalShowing())
 			this.getNewGameView().closeModal();
 		ListGames_Output result = null;
@@ -85,6 +91,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			this.getJoinGameView().setGames(updatedInfo, SessionManager.instance().getPlayerInfo());
 			this.getJoinGameView().showModal();
 		}
+		System.out.println("Ending JoinGame Update");
 	}
 	
 	public IJoinGameView getJoinGameView() {
@@ -243,14 +250,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 		if(!canChooseColor(color))
 		{
-			getSelectColorView().closeModal();
-			getSelectColorView().enableAllButtons(); //resets all the buttons
-			for(PlayerInfo pi : game.getPlayers())
-			{
-				if(pi.getId()!=SessionManager.instance().getPlayerInfo().getId())
-					getSelectColorView().setColorEnabled(pi.getColor(), false); //disables colors already taken
-			}
-			getSelectColorView().showModal();
+			getSelectColorView().setColorEnabled(color, false);
 			getMessageView().setTitle("Color already chosen");
 			getMessageView().setMessage("Somebody beat you to that color! Pick another");
 			getMessageView().showModal();

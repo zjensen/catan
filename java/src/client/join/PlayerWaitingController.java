@@ -27,6 +27,7 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		System.out.println("Starting PlayerWaiting Update");
 		boolean updated = false;
 		
 		SessionManager session = SessionManager.instance();
@@ -60,12 +61,14 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			SessionManager.instance().getPoller().getClientModel().setVersion(-1);
 		
 		if(isFull() && getView().isModalShowing()) {
-			OverlayView.closeAllModals();
+//			OverlayView.closeAllModals();
+			getView().closeModal();
 			SessionManager.instance().setupGame();
 		} else if (updated && !isFull()){
 			getView().closeModal();
 			getView().showModal();
 		}
+		System.out.println("Ending PlayerWaiting Update");
 	}
 
 	@Override
@@ -82,7 +85,8 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		
 		if (isFull()) 
 		{
-			OverlayView.closeAllModals();
+//			OverlayView.closeAllModals();
+			getView().closeModal();
 			SessionManager.instance().setupGame();
 			SessionManager.instance().forceUpdate();
 		} 
