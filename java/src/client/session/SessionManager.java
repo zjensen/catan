@@ -66,8 +66,11 @@ public class SessionManager extends Observable{
 	 */
 	public void startPoller()
 	{
-		this.poller = new Poller();
-		this.poller.setClientModel(this.clientModel);
+		if(poller == null)
+		{
+			this.poller = new Poller();
+			this.poller.setClientModel(this.clientModel);
+		}
 	}
 	
 	/**
@@ -191,15 +194,24 @@ public class SessionManager extends Observable{
 	 */
 	public void setupGame()
 	{
+//		if(this.started)
+//		{
+//			return;
+//		}
 		ClientModel initialClientModel = this.clientFacade.getInitialModel(); //loads client model
 		int index = initialClientModel.getPlayerIndexByID(this.playerInfo.getId());
 		this.playerInfo.setPlayerIndex(index);
-		this.poller = new Poller();
+		if(poller == null)
+		{
+			this.poller = new Poller();
+		}
 		this.updateClientModels(initialClientModel);
 	}
 	
 	public void forceUpdate()
 	{
+		this.clientModel = this.clientFacade.getInitialModel();
+		this.updateClientModels(this.clientModel);
 		this.getServer().getModel(new GameModel_Input(-1));
 	}
 	
