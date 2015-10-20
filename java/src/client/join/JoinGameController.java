@@ -93,9 +93,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		GameInfo[] updatedInfo = this.getGameInfo(je);
 		if(needsUpdate(updatedInfo))
 		{
-			this.getJoinGameView().closeModal();
+//			this.getJoinGameView().closeModal();
 			this.getJoinGameView().setGames(updatedInfo, SessionManager.instance().getPlayerInfo());
-			this.getJoinGameView().showModal();
+			if(!getJoinGameView().isModalShowing())
+			{
+				this.getJoinGameView().showModal();
+			}
 		}
 		System.out.println("Ending JoinGame Update");
 	}
@@ -162,7 +165,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			getJoinGameView().setGames(result.getGames(), SessionManager.instance().getPlayerInfo());
 		}
 		
-		getJoinGameView().showModal();
+		if(!getJoinGameView().isModalShowing())
+		{
+			this.getJoinGameView().showModal();
+		}
 		startTimer();
 	}
 
@@ -206,8 +212,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			Gson gson = new Gson();
 			JsonElement gameID = gson.fromJson (create_game_output.getResponse(), JsonElement.class).getAsJsonObject().get("id");
 			JoinGame_Input jg = new JoinGame_Input(gameID.getAsInt(), "red");
-			SessionManager.instance().getServer().joinGame(jg);
 			getNewGameView().closeModal();
+			SessionManager.instance().getServer().joinGame(jg);
 			this.start();
 		} 
 		catch (Exception e) 
@@ -225,14 +231,20 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		killTimer();
 		SessionManager.instance().setGameInfo(game); //sets the currentGameInfo, which we use to save the gameID
 		getSelectColorView().enableAllButtons(); //resets all the buttons
-		getSelectColorView().showModal();
+		if(!getSelectColorView().isModalShowing())
+		{
+			getSelectColorView().showModal();
+		}
 		for(PlayerInfo pi : game.getPlayers())
 		{
 			if(pi.getId()!=SessionManager.instance().getPlayerInfo().getId())
 				getSelectColorView().setColorEnabled(pi.getColor(), false); //disables colors already taken
 		}
 		this.game = game;
-		getSelectColorView().showModal();
+		if(!getSelectColorView().isModalShowing())
+		{
+			getSelectColorView().showModal();
+		}
 	}
 
 	@Override
@@ -240,7 +252,10 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	{
 		startTimer();
 		getJoinGameView().closeModal();
-		this.getJoinGameView().showModal();
+		if(!getJoinGameView().isModalShowing())
+		{
+			this.getJoinGameView().showModal();
+		}
 	}
 
 	@Override
@@ -454,9 +469,17 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 		GameInfo[] updatedInfo = this.getGameInfo(je);
 		if(needsUpdate(updatedInfo)){
-			this.getJoinGameView().closeModal();
+			if(getJoinGameView().isModalShowing())
+			{
+				getJoinGameView().closeModal();
+			}
+//			this.getJoinGameView().closeModal();
 			this.getJoinGameView().setGames(updatedInfo, SessionManager.instance().getPlayerInfo());
-			this.getJoinGameView().showModal();
+//			this.getJoinGameView().showModal();
+			if(!getJoinGameView().isModalShowing())
+			{
+				getJoinGameView().showModal();
+			}
 		}
 			
 	}

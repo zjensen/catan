@@ -383,7 +383,10 @@ public class MapController extends Controller implements IMapController, Observe
 		}
 		if(firstRoadBuilding != null)
 		{
-			//remove first road placed
+			getView().reset();
+			makeItRain();
+			initFromModel();
+			updateFromModel();
 		}
 	}
 	
