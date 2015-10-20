@@ -3,16 +3,16 @@ package client.domestic;
 import java.util.Observable;
 import java.util.Observer;
 
-import shared.definitions.*;
-import client.base.*;
-import client.misc.*;
+import shared.definitions.ResourceType;
+import client.base.Controller;
+import client.misc.IWaitView;
 import client.session.SessionManager;
-
 
 /**
  * Domestic trade controller implementation
  */
-public class DomesticTradeController extends Controller implements IDomesticTradeController, Observer {
+public class DomesticTradeController extends Controller implements
+		IDomesticTradeController, Observer {
 
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
@@ -21,32 +21,40 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	/**
 	 * DomesticTradeController constructor
 	 * 
-	 * @param tradeView Domestic trade view (i.e., view that contains the "Domestic Trade" button)
-	 * @param tradeOverlay Domestic trade overlay (i.e., view that lets the user propose a domestic trade)
-	 * @param waitOverlay Wait overlay used to notify the user they are waiting for another player to accept a trade
-	 * @param acceptOverlay Accept trade overlay which lets the user accept or reject a proposed trade
+	 * @param tradeView
+	 *            Domestic trade view (i.e., view that contains the
+	 *            "Domestic Trade" button)
+	 * @param tradeOverlay
+	 *            Domestic trade overlay (i.e., view that lets the user propose
+	 *            a domestic trade)
+	 * @param waitOverlay
+	 *            Wait overlay used to notify the user they are waiting for
+	 *            another player to accept a trade
+	 * @param acceptOverlay
+	 *            Accept trade overlay which lets the user accept or reject a
+	 *            proposed trade
 	 */
-	public DomesticTradeController(IDomesticTradeView tradeView, IDomesticTradeOverlay tradeOverlay,
-									IWaitView waitOverlay, IAcceptTradeOverlay acceptOverlay) {
+	public DomesticTradeController(IDomesticTradeView tradeView,
+			IDomesticTradeOverlay tradeOverlay, IWaitView waitOverlay,
+			IAcceptTradeOverlay acceptOverlay) {
 
 		super(tradeView);
-		
+
 		setTradeOverlay(tradeOverlay);
 		setWaitOverlay(waitOverlay);
 		setAcceptOverlay(acceptOverlay);
-		
+
 		SessionManager.instance().addObserver(this);
 	}
-	
+
 	@Override
-	public void update(Observable o, Object arg)
-	{
+	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 	}
-	
+
 	public IDomesticTradeView getTradeView() {
-		
-		return (IDomesticTradeView)super.getView();
+
+		return (IDomesticTradeView) super.getView();
 	}
 
 	public IDomesticTradeOverlay getTradeOverlay() {
@@ -93,7 +101,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	public void sendTradeOffer() {
 
 		getTradeOverlay().closeModal();
-//		getWaitOverlay().showModal();
+		// getWaitOverlay().showModal();
 	}
 
 	@Override
@@ -104,16 +112,21 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
 
+		unsetResource(resource);
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
 	}
 
 	@Override
 	public void setResourceToSend(ResourceType resource) {
 
+		unsetResource(resource);
+		getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
 	}
 
 	@Override
 	public void unsetResource(ResourceType resource) {
 
+		getTradeOverlay().setResourceAmount(resource, "0");
 	}
 
 	@Override
@@ -129,4 +142,3 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	}
 
 }
-
