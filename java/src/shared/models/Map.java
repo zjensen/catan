@@ -74,14 +74,31 @@ public class Map {
 		int y = h.getY();
 		int max = radius;
 		
+		if(Math.abs(x) > max || Math.abs(y) > max)
+		{
+			return false;
+		}
+		if(x+y > max)
+		{
+			return false;
+		}
+		
 		if(isOceanHex(h))
 		{
 			if(e.getDir() == EdgeDirection.NorthWest)
 			{
+				if(y==max)
+				{
+					return false;
+				}
 				return((x == max && y > -max) || x + y == max);
 			}
 			else if(e.getDir() == EdgeDirection.North) 
 			{
+				if(x==max)
+				{
+					return false;
+				}
 				return((y == max && x > -max) || x + y == max);
 			}
 			else// if(e.getDir() == EdgeDirection.NorthEast)
@@ -227,6 +244,11 @@ public class Map {
 		{
 			return false;
 		}
+		else if(params.getVictimIndex() == -1) //no player at location
+		{
+			return true;
+		}
+		
 		for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //loop through each settlement
 		{
 			if(entry.getValue().getIndex() == params.getVictimIndex()) //does the victim have a settlement at the location?
@@ -410,10 +432,6 @@ public class Map {
 		{
 			return false;
 		}
-		else if(!vertexIsOnMap(v))
-		{
-			return false;
-		}
 		else
 		{
 			return true;
@@ -521,6 +539,52 @@ public class Map {
 				return false;
 			}
 		}
+	}
+	
+	public boolean canBuildInitialSettlement(BuildSettlement_Input params) //todo
+	{
+		if(!isVertexLocationAvailable(params.getVertexLocation())) //make sure this location is free
+		{
+			return false;
+		}
+		
+		HexLocation h = params.getVertexLocation().getNormalizedLocation().getHexLoc(); //hex location where we want to build
+		VertexDirection d = params.getVertexLocation().getNormalizedLocation().getDir(); //vertex direction where we want to build
+		
+		if(d == VertexDirection.NorthWest)
+		{
+			//make sure no other buildings are too close
+			if(!isVertexLocationAvailable(new VertexLocation(h,VertexDirection.NorthEast))) //location to east is free
+			{
+				return false;
+			}
+			else if(!isVertexLocationAvailable(new VertexLocation(h.getNeighborLoc(EdgeDirection.NorthWest),VertexDirection.NorthEast))) //location to northwest is free
+			{
+				return false;
+			}
+			else if(!isVertexLocationAvailable(new VertexLocation(h.getNeighborLoc(EdgeDirection.SouthWest),VertexDirection.NorthEast))) //location to southwest is free
+			{
+				return false;
+			}
+		}
+		else //if(d == VertexDirection.NorthEast)
+		{
+			//make sure no other buildings are too close
+			if(!isVertexLocationAvailable(new VertexLocation(h,VertexDirection.NorthWest))) //location to west is free
+			{
+				return false;
+			}
+			else if(!isVertexLocationAvailable(new VertexLocation(h.getNeighborLoc(EdgeDirection.NorthEast),VertexDirection.NorthWest))) //location to northeast is free
+			{
+				return false;
+			}
+			else if(!isVertexLocationAvailable(new VertexLocation(h.getNeighborLoc(EdgeDirection.SouthEast),VertexDirection.NorthWest))) //location to southeast is free
+			{
+				return false;
+			}
+		}
+		
+		return true;
 	}
 
 	/**
@@ -638,6 +702,44 @@ public class Map {
 
 	public boolean canBuildInitialRoad(BuildRoad_Input params)
 	{
-		return !roads.containsKey(params.getRoadLocation().getNormalizedLocation());
+		if(roads.containsKey(params.getRoadLocation().getNormalizedLocation()))
+		{
+			return false;
+		}
+		EdgeLocation e = params.getRoadLocation().getNormalizedLocation();
+		if(!roadIsOnMap(e))
+		{
+			return false;
+		}
+		HexLocation h = e.getHexLoc();
+		BuildSettlement_Input settlementParams1 = new BuildSettlement_Input(params.getPlayerIndex(), null, true);
+		BuildSettlement_Input settlementParams2 = new BuildSettlement_Input(params.getPlayerIndex(), null, true);
+		switch(e.getDir())
+		{
+			case NorthWest:
+				settlementParams1.setVertexLocation(new VertexLocation(h, VertexDirection.NorthWest));
+				settlementParams2.setVertexLocation(new VertexLocation(h.getNeighborLoc(EdgeDirection.SouthWest), VertexDirection.NorthEast));
+				break;
+			case North:
+				settlementParams1.setVertexLocation(new VertexLocation(h, VertexDirection.NorthWest));
+				settlementParams2.setVertexLocation(new VertexLocation(h, VertexDirection.NorthEast));
+				break;
+			case NorthEast:
+				settlementParams1.setVertexLocation(new VertexLocation(h, VertexDirection.NorthEast));
+				settlementParams2.setVertexLocation(new VertexLocation(h.getNeighborLoc(EdgeDirection.SouthEast), VertexDirection.NorthWest));
+				break;
+			default:
+				break;
+		}
+		if(canBuildInitialSettlement(settlementParams1))
+		{
+			return true;
+		}
+		if(canBuildInitialSettlement(settlementParams2))
+		{
+			return true;
+		}
+		
+		return false;
 	}
 }

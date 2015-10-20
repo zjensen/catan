@@ -1,8 +1,13 @@
 package client.poller;
 
-import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.Timer;
+
+//import java.util.Date;
+//import java.util.Timer;
+//import java.util.TimerTask;
+
 
 import client.server.*;
 import client.session.SessionManager;
@@ -24,13 +29,30 @@ public class Poller
 	 * 
 	 * @param server interface
 	 */
+//	public Poller()
+//	{
+//		this.clientModel = new ClientModel();
+//		this.timer = new Timer();
+//		timer.scheduleAtFixedRate(new TimerTask(){
+//			@Override
+//			public void run(){
+//				GameModel_Input input = new GameModel_Input();
+//				input.setVersion(clientModel.getVersion());
+//				GameModel_Output output = SessionManager.instance().getServer().getModel(input);
+//				if (!output.getResponse().equals("\"true\"")) {
+//					clientModel = SessionManager.instance().getInterpreter().deserialize(output.getResponse());
+//					SessionManager.instance().updateClientModels(clientModel);
+//				}
+//			}
+//		}, new Date(), 3*1000);
+//	}
+	
 	public Poller()
 	{
 		this.clientModel = new ClientModel();
-		this.timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask(){
+		ActionListener task = new ActionListener() {
 			@Override
-			public void run(){
+			public void actionPerformed(ActionEvent arg0) {
 				GameModel_Input input = new GameModel_Input();
 				input.setVersion(clientModel.getVersion());
 				GameModel_Output output = SessionManager.instance().getServer().getModel(input);
@@ -39,12 +61,15 @@ public class Poller
 					SessionManager.instance().updateClientModels(clientModel);
 				}
 			}
-		}, new Date(), 3*1000);
+		};
+		this.timer = new Timer(3*1000, task);
+		this.timer.start();
 	}
 	
 	public void stopTimer()
 	{
-		timer.cancel();
+		timer.stop();
+		//timer.cancel();
 	}
 	
 	/**

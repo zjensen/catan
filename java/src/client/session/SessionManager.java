@@ -8,6 +8,7 @@ import client.facade.ClientFacade;
 import client.interpreter.Interpreter;
 import client.poller.Poller;
 import client.server.*;
+import shared.communication.game.GameModel_Input;
 import shared.models.ClientModel;
 import shared.models.Player;
 
@@ -22,6 +23,8 @@ public class SessionManager extends Observable{
 	private PlayerInfo playerInfo;
 	private GameInfo gameInfo;
 	private boolean started = false;
+	private boolean ended = false;
+	private PlayerInfo winningPlayer = null;
 	//--------------------------------------------------------------------------------------------------
 	//Singleton Setup
 	
@@ -110,14 +113,7 @@ public class SessionManager extends Observable{
 		{
 			int id = p.getPlayerID();
 			PlayerInfo pi = new PlayerInfo(p.getName(),id,p.getCatanColor(),p.getIndex());
-			if(!this.gameInfo.hasPlayer(id))
-			{
-				gameInfo.addPlayer(pi);
-			}
-			else
-			{
-				gameInfo.updatePlayer(pi);
-			}
+			gameInfo.updatePlayer(pi);
 		}
 	}
 	
@@ -204,7 +200,7 @@ public class SessionManager extends Observable{
 	
 	public void forceUpdate()
 	{
-		this.clientFacade.getClientModel(-1);
+		this.getServer().getModel(new GameModel_Input(-1));
 	}
 	
 	public boolean isOurTurn()
@@ -219,5 +215,36 @@ public class SessionManager extends Observable{
 			return clientModel.getTurnTracker().getStatus().equalsIgnoreCase("playing");
 		}
 		return false;
+	}
+
+	public void endGame(int playerIndex) //index of winner
+	{
+		if(!ended) //if they enter a game that is over, the points controller won't know it yet
+		{
+			winningPlayer = gameInfo.getPlayerByIndex(playerIndex);
+			ended = true;
+			this.setChanged();
+			this.notifyObservers(started);
+		}
+	}
+	
+	public PlayerInfo getWinner()
+	{
+		return winningPlayer;
+	}
+	
+	public void leaveGame()
+	{
+		stopPoller();
+		
+		clientModel = new ClientModel();
+		clientFacade = new ClientFacade(this.clientModel);
+		gameInfo = new GameInfo();
+		started = false;
+		ended = false;
+		winningPlayer = null;
+		
+		this.setChanged();
+		this.notifyObservers("reset");
 	}
 }

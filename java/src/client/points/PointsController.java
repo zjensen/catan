@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import client.base.*;
+import client.data.PlayerInfo;
 import client.session.SessionManager;
 
 
@@ -38,6 +39,13 @@ public class PointsController extends Controller implements IPointsController, O
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals("reset")) //are all the players here??
+		{
+			this.points = 0;
+			getPointsView().setPoints(this.points);
+			return;
+		}
+		
 		int index = SessionManager.instance().getPlayerIndex();
 		int pointsToCompare = SessionManager.instance().getClientFacade().getPoints(index);
 		
@@ -45,6 +53,13 @@ public class PointsController extends Controller implements IPointsController, O
 		{
 			this.points = pointsToCompare;
 			getPointsView().setPoints(this.points);
+		}
+		
+		PlayerInfo p = SessionManager.instance().getWinner();
+		if(p != null)
+		{
+			getFinishedView().setWinner(p.getName(), p.getPlayerIndex() == SessionManager.instance().getPlayerIndex());
+			getFinishedView().showModal();
 		}
 	}
 	

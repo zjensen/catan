@@ -47,6 +47,15 @@ public class MapController extends Controller implements IMapController, Observe
 	@Override
 	public void update(Observable o, Object arg)
 	{ 	
+		if(arg.equals("reset")) //are all the players here??
+		{
+			getView().reset();
+			makeItRain();
+			state = new Nothing_State();
+			initiated = false;
+			return;
+		}
+		
 		if(!initiated)
 		{
 			initiated=true;
@@ -84,28 +93,28 @@ public class MapController extends Controller implements IMapController, Observe
 				if(!state.getStateName().equals("first"))
 				{
 					state = new FirstRound_State();
-					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 0)
-					{
-						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
-					}
-					else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 0)
-					{
-						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
-					}
+				}
+				if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 0)
+				{
+					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+				}
+				else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 0)
+				{
+					getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
 				}
 				break;
 			case "secondround":
 				if(!state.getStateName().equals("second"))
 				{
 					state = new SecondRound_State();
-					if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
-					{
-						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
-					}
-					else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 1)
-					{
-						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
-					}
+				}
+				if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
+				{
+					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+				}
+				else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 1)
+				{
+					getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
 				}
 				break;
 			case "robbing":
@@ -246,7 +255,7 @@ public class MapController extends Controller implements IMapController, Observe
 			{
 				return SessionManager.instance().getClientFacade().canBuildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
 			}
-			else if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) < 2)
+			else if(SessionManager.instance().getClientFacade().getRoads(SessionManager.instance().getPlayerIndex()) < 2)
 			{
 				//alert not enough roads left to build, and we should send this request on it's way
 				return false;
@@ -280,13 +289,13 @@ public class MapController extends Controller implements IMapController, Observe
 		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
 		{
 			SessionManager.instance().getClientFacade().buildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
-			getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+//			getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
 		}
 		else if(roadBuilding)
 		{
 			if(firstRoadBuilding==null) //first road yet to be placed
 			{
-				if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) == 1)
+				if(SessionManager.instance().getClientFacade().getRoads(SessionManager.instance().getPlayerIndex()) == 1)
 				{
 					//can only place 1 road
 					RoadBuilding_Input params = new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, null);
@@ -297,7 +306,7 @@ public class MapController extends Controller implements IMapController, Observe
 				{
 					//1 more road to place
 					firstRoadBuilding = edgeLoc;
-					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
+//					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
 				}
 			}
 			else //placing second road
@@ -320,6 +329,7 @@ public class MapController extends Controller implements IMapController, Observe
 		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
 		{
 			SessionManager.instance().getClientFacade().buildSettlement(new BuildSettlement_Input(SessionManager.instance().getPlayerIndex(), vertLoc, true));
+			SessionManager.instance().getClientFacade().finishTurn(new FinishTurn_Input(SessionManager.instance().getPlayerIndex()));
 		}
 		else
 		{
@@ -384,7 +394,7 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void playRoadBuildingCard() {
-		if(SessionManager.instance().getClientFacade().getRemainingRoads(SessionManager.instance().getPlayerIndex()) == 0)
+		if(SessionManager.instance().getClientFacade().getRoads(SessionManager.instance().getPlayerIndex()) == 0)
 		{
 			//alert no roads left to build
 			return;
@@ -397,12 +407,29 @@ public class MapController extends Controller implements IMapController, Observe
 		if(playingSoldierCard)
 		{
 			playingSoldierCard = false;
-			Soldier_Input params = new Soldier_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			Soldier_Input params;
+			if(victim == null)
+			{
+				params = new Soldier_Input(SessionManager.instance().getPlayerIndex(),-1,robberLocation);
+			}
+			else
+			{
+				params = new Soldier_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			}
+			
 			SessionManager.instance().getClientFacade().soldier(params);
 		}
 		else
 		{
-			RobPlayer_Input params = new RobPlayer_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			RobPlayer_Input params;
+			if(victim == null)
+			{
+				params = new RobPlayer_Input(SessionManager.instance().getPlayerIndex(),-1,robberLocation);
+			}
+			else
+			{
+				params = new RobPlayer_Input(SessionManager.instance().getPlayerIndex(),victim.getPlayerIndex(),robberLocation);
+			}
 			SessionManager.instance().getClientFacade().robPlayer(params);
 			robStarted = false;
 		}

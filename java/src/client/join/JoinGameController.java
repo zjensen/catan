@@ -38,6 +38,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	private IAction joinAction;
 	private GameInfo game;
 	private Timer gameTimer = new Timer(false);
+	private GameInfo[] empty = {};
 	
 	/**
 	 * JoinGameController constructor
@@ -62,6 +63,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals("reset"))
+		{
+			getJoinGameView().setGames(empty, SessionManager.instance().getPlayerInfo());
+			start();
+		}
 		System.out.println("Starting JoinGame Update");
 		if(arg.equals(true))
 		{
@@ -455,4 +461,3 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			
 	}
 }
-

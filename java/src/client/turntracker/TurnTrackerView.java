@@ -51,6 +51,20 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 		longestRoadImage = ImageUtils.loadImage("images/misc/road.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 		largestArmyImage = ImageUtils.loadImage("images/misc/army.png").getScaledInstance(30, 30, Image.SCALE_SMOOTH);
 	}
+	
+	@Override
+	public void reset()
+	{
+		for(int i = 0; i < NUM_PLAYERS; i++)
+		{
+			this.remove(playerPanel[i]);
+			playerPanel[i] = new JPanel();
+			this.add(playerPanel[i]);
+		}
+		this.repaint();
+	}
+	
+	
 
 	@Override
 	public ITurnTrackerController getController() {
@@ -132,6 +146,10 @@ public class TurnTrackerView extends PanelView implements ITurnTrackerView {
 
 		gameStatePanel.updateGameState(stateMessage, enable);
 	}
+
+
+
+	
 	
 }
 

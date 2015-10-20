@@ -4,7 +4,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.communication.moves.FinishTurn_Input;
-import shared.definitions.CatanColor;
 import shared.models.Player;
 import client.base.*;
 import client.session.SessionManager;
@@ -27,6 +26,12 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals("reset")) //are all the players here??
+		{
+			initiated = false;
+			this.getView().reset();
+			return;
+		}
 		if(arg.equals(false))
 		{
 			return;
@@ -41,16 +46,30 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 		int largestArmy = SessionManager.instance().getClientModel().getTurnTracker().getLargestArmy();
 		int longestRoad = SessionManager.instance().getClientModel().getTurnTracker().getLongestRoad();
 		int currentTurn = SessionManager.instance().getClientModel().getTurnTracker().getCurrentTurn();
+		boolean gameOver = false;
+		int winnerIndex = -1;
 		
 		for(Player p : players)
 		{
-			if(p == null)
-				continue;
+			if(p==null)
+			{
+				break;
+			}
+			if(p.getVictoryPoints() == 10)
+			{
+				gameOver = true;
+				winnerIndex = p.getIndex();
+			}
 			int index = p.getIndex();
 			getView().updatePlayer(index, p.getVictoryPoints(), index==currentTurn, index==largestArmy, index==longestRoad);
 		}
 		
-		if(SessionManager.instance().getClientFacade().canFinishTurn(new FinishTurn_Input(SessionManager.instance().getPlayerIndex())))
+		if(gameOver) 
+		{
+			SessionManager.instance().endGame(winnerIndex);
+			getView().updateGameState("Game Over", false);
+		}
+		else if(SessionManager.instance().getClientFacade().canFinishTurn(new FinishTurn_Input(SessionManager.instance().getPlayerIndex())))
 		{
 			getView().updateGameState("Finish Turn", true);
 		}

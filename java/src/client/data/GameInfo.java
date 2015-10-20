@@ -89,7 +89,7 @@ public class GameInfo
 	{
 		for(PlayerInfo p : players)
 		{
-			if(p.getId() == p.getId())
+			if(p.getId() == pi.getId())
 			{
 				p.setName(pi.getName());
 				p.setColor(pi.getColor());
@@ -97,6 +97,18 @@ public class GameInfo
 				return;
 			}
 		}
+	}
+
+	public PlayerInfo getPlayerByIndex(int playerIndex)
+	{
+		for(PlayerInfo p : players)
+		{
+			if(p.getPlayerIndex() == playerIndex)
+			{
+				return p;
+			}
+		}
+		return null;
 	}
 }
 

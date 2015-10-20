@@ -29,6 +29,19 @@ public class MapView extends PanelView implements IMapView
 		this.add(map, BorderLayout.CENTER);
 	}
 	
+	public void reset()
+	{
+		this.setLayout(new BorderLayout());
+		
+		this.remove(map);
+		
+		map = new MapComponent();
+		
+		this.add(map, BorderLayout.CENTER);
+		
+		this.repaint();
+	}
+	
 	@Override
 	public IMapController getController()
 	{

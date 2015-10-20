@@ -39,12 +39,6 @@ public class ClientFacade {
 		}
 	}
 	
-	public void getClientModel(int version)
-	{
-		GameModel_Output output = SessionManager.instance().getServer().getModel(new GameModel_Input(version));
-		handleResponse(output.getResponse());
-	}
-	
 	
 	/**
 	 * 
@@ -519,9 +513,24 @@ public class ClientFacade {
 		return r;
 	}
 	
-	public int getRemainingRoads(int index)
+	public int getRoads(int index)
 	{
 		return clientModel.getPlayerByIndex(index).getAvailableRoads();
+	}
+	
+	public int getSettlements(int index)
+	{
+		return clientModel.getPlayerByIndex(index).getAvailableSettlements();
+	}
+
+	public int getCities(int index)
+	{
+		return clientModel.getPlayerByIndex(index).getAvailableCities();
+	}
+	
+	public int getOldDevCardCount(int index)
+	{
+		return clientModel.getPlayerByIndex(index).getOldDevCardsCount();
 	}
 	
 	public boolean canMaritimeTradeResource(ResourceType r,int playerIndex)
@@ -532,15 +541,19 @@ public class ClientFacade {
 		{
 			return false;
 		}
-		else if (available == 2)
+		else if(can2Trade(playerIndex, r))
 		{
-			return can2Trade(playerIndex, r);
+			return true;
 		}
-		else if (available == 3)
+		else if (can3Trade(playerIndex, r))
 		{
-			return can3Trade(playerIndex, r);
+			return true;
 		}
-		return true;
+		else if (available >= 4)
+		{
+			return true;
+		}
+		return false;
 	}
 	
 	/**

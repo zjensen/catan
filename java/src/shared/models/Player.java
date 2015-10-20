@@ -198,6 +198,11 @@ public class Player {
 		return false;
 	}
 	
+	public int getAvailableSettlements()
+	{
+		return settlements;
+	}
+	
 	/**
 	 * Determines whether or not this player has
 	 * -enough cities remaining to build a city
@@ -214,6 +219,11 @@ public class Player {
 		return false;
 	}
 	
+	public int getAvailableCities()
+	{
+		return cities;
+	}
+	
 	/**
 	 * Determines whether or not this player has
 	 * 1) any DevCards to play
@@ -223,10 +233,6 @@ public class Player {
 	public boolean canPlayDevCard() {
 		return !playedDevCard;
 	}
-	
-	
-	
-	
 	
 	
 	@Override
@@ -423,6 +429,11 @@ public class Player {
 	public int getSettlementsPlayed()
 	{
 		return 5-settlements;
+	}
+	
+	public int getOldDevCardsCount()
+	{
+		return oldDevCards.cardCount();
 	}
 
 	

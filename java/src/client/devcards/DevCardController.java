@@ -40,6 +40,10 @@ public class DevCardController extends Controller implements IDevCardController,
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals("reset")) //are all the players here??
+		{
+			return;
+		}
 		// TODO Auto-generated method stub
 	}
 	

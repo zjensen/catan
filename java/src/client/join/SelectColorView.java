@@ -385,10 +385,9 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 			return null;
 		}
 	}
-	
+
 	@Override 
-	public void enableAllButtons()
-	{
+	public void enableAllButtons(){
 
 		btnBlue.setEnabled(true);
 		btnBrown.setEnabled(true);
@@ -400,5 +399,6 @@ public class SelectColorView extends OverlayView implements ISelectColorView {
 		btnWhite.setEnabled(true);
 		btnYellow.setEnabled(true);
 	}
+	
 }
 
