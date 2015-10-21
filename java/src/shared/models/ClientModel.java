@@ -160,6 +160,10 @@ public class ClientModel {
 	
 	public boolean canRobPlayer(RobPlayer_Input params)
 	{
+		if(getPlayerByIndex(params.getVictimIndex()).getNumberOfCards() == 0)
+		{
+			return false;
+		}
 		return map.canRobPlayer(params);
 	}
 	
