@@ -27,7 +27,6 @@ public class MapController extends Controller implements IMapController, Observe
 	private boolean robStarted = false;
 	private boolean playingSoldierCard = false;
 	private boolean roadBuilding = false;
-	private boolean placing = false;
 	private EdgeLocation firstRoadBuilding;
 	HexLocation robberLocation;
 	RobPlayerInfo[] empty = {};
@@ -97,17 +96,15 @@ public class MapController extends Controller implements IMapController, Observe
 				}
 				if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 0)
 				{
-					if(!placing)
+					if(!getView().isOverlayShowing())
 					{
-						placing = true;
 						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
 					}
 				}
 				else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 0)
 				{
-					if(!placing)
+					if(!getView().isOverlayShowing())
 					{
-						placing = true;
 						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
 					}
 				}
@@ -119,17 +116,15 @@ public class MapController extends Controller implements IMapController, Observe
 				}
 				if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
 				{
-					if(!placing)
+					if(!getView().isOverlayShowing())
 					{
-						placing = true;
 						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
 					}
 				}
 				else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 1)
 				{
-					if(!placing)
+					if(!getView().isOverlayShowing())
 					{
-						placing = true;
 						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
 					}
 				}	
@@ -300,7 +295,6 @@ public class MapController extends Controller implements IMapController, Observe
 
 	//may need some work
 	public void placeRoad(EdgeLocation edgeLoc) {
-		placing = false;
 		getView().placeRoad(edgeLoc, SessionManager.instance().getPlayerInfo().getColor());
 		
 		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
@@ -341,7 +335,6 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
-		placing = false;
 		getView().placeSettlement(vertLoc, SessionManager.instance().getPlayerInfo().getColor());
 		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
 		{

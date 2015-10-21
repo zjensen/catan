@@ -29,6 +29,14 @@ public class MapView extends PanelView implements IMapView
 		this.add(map, BorderLayout.CENTER);
 	}
 	
+	@Override
+	public boolean isOverlayShowing()
+	{
+		if(overlay == null)
+			return false;
+		return overlay.isModalShowing();
+	}
+	
 	public void reset()
 	{
 		this.setLayout(new BorderLayout());
@@ -320,6 +328,5 @@ public class MapView extends PanelView implements IMapView
 			}
 		}
 	}
-	
 }
 
