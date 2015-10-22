@@ -50,6 +50,10 @@ public class MaritimeTradeController extends Controller implements IMaritimeTrad
 			updateAvailability(); //see what resources player can maritime trade
 			getTradeView().enableMaritimeTrade(available.length>0); //allow maritime trade if player has resources they can trade
 		}
+		else
+		{
+			getTradeView().enableMaritimeTrade(false);
+		}
 	}
 	
 	public IMaritimeTradeView getTradeView() {

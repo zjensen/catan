@@ -96,11 +96,17 @@ public class MapController extends Controller implements IMapController, Observe
 				}
 				if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 0)
 				{
-					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					if(!getView().isOverlayShowing())
+					{
+						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
 				}
 				else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 0)
 				{
-					getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+					if(!getView().isOverlayShowing())
+					{
+						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
 				}
 				break;
 			case "secondround":
@@ -110,12 +116,18 @@ public class MapController extends Controller implements IMapController, Observe
 				}
 				if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getRoadsPlayed() == 1)
 				{
-					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					if(!getView().isOverlayShowing())
+					{
+						getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
 				}
 				else if(SessionManager.instance().getClientModel().getPlayerByIndex(SessionManager.instance().getPlayerIndex()).getSettlementsPlayed() == 1)
 				{
-					getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
-				}
+					if(!getView().isOverlayShowing())
+					{
+						getView().startDrop(PieceType.SETTLEMENT, SessionManager.instance().getPlayerInfo().getColor(), false);
+					}
+				}	
 				break;
 			case "robbing":
 				if(!robStarted)
@@ -283,7 +295,6 @@ public class MapController extends Controller implements IMapController, Observe
 
 	//may need some work
 	public void placeRoad(EdgeLocation edgeLoc) {
-		
 		getView().placeRoad(edgeLoc, SessionManager.instance().getPlayerInfo().getColor());
 		
 		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
@@ -324,7 +335,6 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void placeSettlement(VertexLocation vertLoc) {
-		
 		getView().placeSettlement(vertLoc, SessionManager.instance().getPlayerInfo().getColor());
 		if(state.getStateName().equalsIgnoreCase("first") || state.getStateName().equalsIgnoreCase("second"))
 		{
@@ -344,9 +354,13 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 
 	public void placeRobber(HexLocation hexLoc) {
-		getRobView().setPlayers(empty);
+		if(getRobView().isModalShowing())
+		{
+			getRobView().closeModal();
+		}
+		getRobView().setPlayers(null);
 		getView().placeRobber(hexLoc);
-		getRobView().showModal();
+		
 		ArrayList<RobPlayerInfo> robPlayerArrayList = new ArrayList<RobPlayerInfo>();
 		int index = SessionManager.instance().getPlayerIndex();
 		
@@ -362,9 +376,14 @@ public class MapController extends Controller implements IMapController, Observe
 				}
 			}
 		}
-		RobPlayerInfo[] robPlayerArray = new RobPlayerInfo[robPlayerArrayList.size()];
-		robPlayerArrayList.toArray(robPlayerArray);
-		getRobView().setPlayers(robPlayerArray);
+		if(robPlayerArrayList.size() != 0)
+		{
+			RobPlayerInfo[] robPlayerArray = new RobPlayerInfo[robPlayerArrayList.size()];
+			robPlayerArrayList.toArray(robPlayerArray);
+			getRobView().setPlayers(robPlayerArray);
+		}
+		
+		getRobView().showModal();
 		robberLocation = hexLoc;
 	}
 	
@@ -436,6 +455,7 @@ public class MapController extends Controller implements IMapController, Observe
 			SessionManager.instance().getClientFacade().robPlayer(params);
 			robStarted = false;
 		}
+		getRobView().closeModal();
 	}
 	
 }
