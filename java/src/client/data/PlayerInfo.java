@@ -52,6 +52,20 @@ public class PlayerInfo
 		setColor(color);
 	}
 
+	
+	
+	
+	
+	
+	@Override
+	public String toString() {
+		return "PlayerInfo "
+				+ "\nid=" + id 
+				+ "\nplayerIndex=" + playerIndex 
+				+ "\nname=" + name 
+				+ "\ncolor=" + color + "   ]";
+	}
+
 	public int getId()
 	{
 		return id;

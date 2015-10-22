@@ -4,7 +4,9 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.definitions.*;
+import shared.models.Player;
 import client.base.*;
+import client.data.PlayerInfo;
 import client.misc.*;
 import client.session.SessionManager;
 
@@ -17,6 +19,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	private IDomesticTradeOverlay tradeOverlay;
 	private IWaitView waitOverlay;
 	private IAcceptTradeOverlay acceptOverlay;
+	private PlayerInfo[] players = null;
 
 	/**
 	 * DomesticTradeController constructor
@@ -27,7 +30,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	 * @param acceptOverlay Accept trade overlay which lets the user accept or reject a proposed trade
 	 */
 	public DomesticTradeController(IDomesticTradeView tradeView, IDomesticTradeOverlay tradeOverlay,
-									IWaitView waitOverlay, IAcceptTradeOverlay acceptOverlay) {
+            IWaitView waitOverlay, IAcceptTradeOverlay acceptOverlay) {
 
 		super(tradeView);
 		
@@ -35,8 +38,43 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		setWaitOverlay(waitOverlay);
 		setAcceptOverlay(acceptOverlay);
 		
+		// Set the new players in the game
+		//this.tradeOverlay.setPlayers(updatePlayerInfo());
+		
 		SessionManager.instance().addObserver(this);
 	}
+		
+		
+	/**
+	* Creates PlayerInfo[] array to be used to display the players to trade with.
+	* @return
+	*/
+	public PlayerInfo[] updatePlayerInfo()
+	{
+		
+		Player[] playerList = SessionManager.instance().getClientModel().getPlayers();
+		
+		PlayerInfo[] players = new PlayerInfo[4];
+	
+		for (int a = 0; a < 4; a++)
+		{   
+			PlayerInfo addPlayer = new PlayerInfo(playerList[a].getName(), playerList[a].getPlayerID(),
+		                          playerList[a].getCatanColor(), playerList[a].getIndex());
+			
+			players[a] = addPlayer;
+		}
+		return players;
+	}
+
+	public void printPlayers() 
+	{
+		System.out.println("Current Players");
+		for (int a = 0; a < 4; a++)
+		{
+			this.players[a].toString();
+		}
+	}
+	
 	
 	@Override
 	public void update(Observable o, Object arg)
@@ -75,6 +113,20 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void startTrade() {
+		
+		if (players == null)
+		{
+			System.out.println("DomesticTradeController.startTrade: No current players");
+			players = updatePlayerInfo();
+			this.tradeOverlay.setPlayers(players);
+		}
+		else
+		{
+			System.out.println("DomesticTradeController.startTrade: Do nothing");
+			// do nothing
+		}
+		
+		getTradeOverlay().reset();
 
 		getTradeOverlay().showModal();
 	}

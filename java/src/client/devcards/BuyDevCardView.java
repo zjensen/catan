@@ -80,9 +80,11 @@ public class BuyDevCardView extends OverlayView implements IBuyDevCardView {
 		public void actionPerformed(ActionEvent e) {
 			
 			if (e.getSource() == acceptButton) {
+				//System.out.println("BuyDevCardView.listener: Pressed Accept Button");
 				getController().buyCard();
 			}
 			else if (e.getSource() == rejectButton) {
+				//System.out.println("BuyDevCardView.listener: Pressed Reject Button");
 				getController().cancelBuyCard();
 			}			
 		}	
