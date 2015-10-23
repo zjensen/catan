@@ -1,5 +1,8 @@
 package shared.models;
 
+import shared.definitions.HexType;
+import shared.definitions.ResourceType;
+
 public class ResourceCards {
 
 	private int sheep;
@@ -101,17 +104,106 @@ public class ResourceCards {
 		return hasCards;
 	}
 
+	public int getResourceValue(ResourceType resource)
+	{
+		switch (resource.toString()) {
+		case "WOOD":
+			return wood;
+		case "BRICK":
+			return brick;
+		case "SHEEP":
+			return sheep;
+		case "WHEAT":
+			return wheat;
+		case "ORE":
+			return ore;
+		}
+		return -1;
+	}
+	
+	public void addOne(ResourceType resource)
+	{
+		switch (resource.toString()) {
+		case "WOOD":
+			this.wood++;
+			return;
+		case "BRICK":
+			this.brick++;
+			return;
+		case "SHEEP":
+			this.sheep++;
+			return;
+		case "WHEAT":
+			this.wheat++;
+			return;
+		case "ORE":
+			this.ore++;
+			return;
+		}
+	}
+	
+	public void subtractOne(ResourceType resource)
+	{
+		switch (resource.toString()) {
+		case "WOOD":
+			this.wood--;
+			return;
+		case "BRICK":
+			this.brick--;
+			return;
+		case "SHEEP":
+			this.sheep--;
+			return;
+		case "WHEAT":
+			this.wheat--;
+			return;
+		case "ORE":
+			this.ore--;
+			return;
+		}
+	}
 
+	public void resetOneResourceValue(ResourceType resource)
+	{
+		switch (resource.toString()) {
+		case "WOOD":
+			this.wood = 0;
+			return;
+		case "BRICK":
+			this.brick = 0;
+			return;
+		case "SHEEP":
+			this.sheep = 0;
+			return;
+		case "WHEAT":
+			this.wheat = 0;
+			return;
+		case "ORE":
+			this.ore = 0;
+			return;
+		}
+	}
+	
+	public void resetAllResourceValues()
+	{
+		this.wood = 0;
+		this.brick = 0;
+		this.sheep = 0;
+		this.wheat = 0;
+		this.ore = 0;
+	}
+	
 	@Override
 	public String toString() {
 		return "ResourceCards [" 
-				+ "\n\tsheep = " + sheep 
-				+ "\n\twheat = " + wheat 
 				+ "\n\twood  = " + wood 
 				+ "\n\tbrick = " + brick 
+				+ "\n\tsheep = " + sheep 
+				+ "\n\twheat = " + wheat 
 				+ "\n\tore   = " + ore + "   ]";
 	}
 
+	
 	public int getSheep() {
 		return sheep;
 	}

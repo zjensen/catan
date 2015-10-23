@@ -3,7 +3,13 @@ package client.devcards;
 import java.util.Observable;
 import java.util.Observer;
 
+import shared.communication.moves.BuyDevCard_Input;
+import shared.communication.moves.Monopoly_Input;
+import shared.communication.moves.Monument_Input;
+import shared.communication.moves.YearOfPlenty_Input;
+import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
+import shared.models.Player;
 import client.base.*;
 import client.session.SessionManager;
 
@@ -59,42 +65,78 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void startBuyCard() {
-		
+		System.out.println("DevCardCont.startBuyCard: Called when buy dev card button is clicked");
 		getBuyCardView().showModal();
 	}
 
 	@Override
 	public void cancelBuyCard() {
-		
+		System.out.println("DevCardCont.cancelBuyCard: ???");
 		getBuyCardView().closeModal();
 	}
 
+	
 	@Override
 	public void buyCard() {
 		
+		System.out.println("DevCardCont.buyCard: Called from listener");
+		
+		int player_index = SessionManager.instance().getPlayerIndex();
+		
+		BuyDevCard_Input newDevCard = new BuyDevCard_Input(player_index);
+		
+		SessionManager.instance().getClientFacade().buyDevCard(newDevCard);
+		
 		getBuyCardView().closeModal();
+		System.out.println("Should have bought dev card");
 	}
 
 	@Override
 	public void startPlayCard() {
 		
+		getPlayCardView().reset();
+			
+		int player_index = SessionManager.instance().getPlayerIndex();
+		
+		Player curPlayer = SessionManager.instance().getClientModel().getPlayerByIndex(player_index);
+		
+		int soldier = curPlayer.getTotalSoldierCards();
+		int year_of_plenty = curPlayer.getTotalYearOfPlentyCards();
+		int monopoly = curPlayer.getTotalMonopolyCards();
+		int road_building = curPlayer.getTotalRoadBuildingCards();
+		int monument = curPlayer.getTotalMonumentCards();
+				
+		getPlayCardView().setCardAmount(DevCardType.SOLDIER, soldier);
+		getPlayCardView().setCardAmount(DevCardType.YEAR_OF_PLENTY, year_of_plenty);
+		getPlayCardView().setCardAmount(DevCardType.MONOPOLY, monopoly);
+		getPlayCardView().setCardAmount(DevCardType.ROAD_BUILD, road_building);
+		getPlayCardView().setCardAmount(DevCardType.MONUMENT, monument);
+
 		getPlayCardView().showModal();
 	}
 
 	@Override
 	public void cancelPlayCard() {
-
 		getPlayCardView().closeModal();
 	}
-
+	
+	
 	@Override
 	public void playMonopolyCard(ResourceType resource) {
+		int player_index = SessionManager.instance().getPlayerIndex();
 		
+		Monopoly_Input newMonopoly = new Monopoly_Input(player_index, resource);
+		
+		SessionManager.instance().getClientFacade().monopoly(newMonopoly);
 	}
 
 	@Override
 	public void playMonumentCard() {
+		int player_index = SessionManager.instance().getPlayerIndex();
 		
+		Monument_Input newMonument = new Monument_Input(player_index);
+		
+		SessionManager.instance().getClientFacade().monument(newMonument);
 	}
 
 	@Override
@@ -111,7 +153,11 @@ public class DevCardController extends Controller implements IDevCardController,
 
 	@Override
 	public void playYearOfPlentyCard(ResourceType resource1, ResourceType resource2) {
+		int player_index = SessionManager.instance().getPlayerIndex();
 		
+		YearOfPlenty_Input newYOP = new YearOfPlenty_Input(player_index, resource1, resource2);
+		
+		SessionManager.instance().getClientFacade().yearOfPlenty(newYOP);
 	}
 
 }

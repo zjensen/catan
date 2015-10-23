@@ -234,6 +234,32 @@ public class Player {
 		return !playedDevCard;
 	}
 	
+	public int getTotalSoldierCards() {
+		
+		int total = oldDevCards.getSoldier() + newDevCards.getSoldier();
+		return total;
+	}
+	
+	public int getTotalYearOfPlentyCards() {
+		int total = oldDevCards.getYearOfPlenty() + newDevCards.getYearOfPlenty();
+		return total;
+	}
+	
+	public int getTotalMonopolyCards() {
+		int total = oldDevCards.getMonopoly() + newDevCards.getMonopoly();
+		return total;
+	}
+	
+	public int getTotalRoadBuildingCards() {
+		int total = oldDevCards.getRoadBuilding() + newDevCards.getRoadBuilding();
+		return total;
+	}
+
+	public int getTotalMonumentCards() {
+		int total = oldDevCards.getMonument() + newDevCards.getMonument();
+		return total;
+	}
+	
 	
 	@Override
 	public String toString() {
