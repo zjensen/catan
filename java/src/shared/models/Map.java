@@ -248,6 +248,10 @@ public class Map {
 		{
 			return true;
 		}
+		else if(isOceanHex(params.getLocation()))
+		{
+			return false;
+		}
 		
 		for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //loop through each settlement
 		{

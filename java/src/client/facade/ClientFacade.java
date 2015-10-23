@@ -482,11 +482,19 @@ public class ClientFacade {
 
 	public boolean canPlaceRobber(int playerIndex, HexLocation h)
 	{
-		if(isPlayersTurn(playerIndex))
+		if(!isPlayersTurn(playerIndex))
 		{
-			return !clientModel.getMap().getRobber().equals(h);
+			return false;
 		}
-		return false;
+		else if(clientModel.getMap().getRobber().equals(h))
+		{
+			return false;
+		}
+		else if(clientModel.getMap().isOceanHex(h))
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean needsToDiscard(int index)

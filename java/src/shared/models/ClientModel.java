@@ -160,7 +160,7 @@ public class ClientModel {
 	
 	public boolean canRobPlayer(RobPlayer_Input params)
 	{
-		if(getPlayerByIndex(params.getVictimIndex()).getNumberOfCards() == 0)
+		if(params.getVictimIndex() != -1 && getPlayerByIndex(params.getVictimIndex()).getNumberOfCards() == 0)
 		{
 			return false;
 		}
