@@ -179,7 +179,7 @@ public class Map {
 
 		for(Port p : ports)
 		{
-			EdgeLocation pe = new EdgeLocation(p.getLocation(), p.getDirection()); //the ports edge
+			EdgeLocation pe = new EdgeLocation(p.getLocation(), p.getDirection()).getNormalizedLocation(); //the ports edge
 			for(EdgeLocation e : edges)
 			{
 				if(e.equals(pe)) //one of the edges the player has a building on IS A PORT
