@@ -206,33 +206,33 @@ public class Interpreter
 		
 		
 	//Get Hexes
-		JsonArray hexesJson = mapJson.getAsJsonArray("hexes");
-		Hex[] hexes = new Hex[19];
-		
-		for(int a = 0; a < 19; a++)
-		{
-			if (a == 0)
-			{
-				JsonObject hexJson = hexesJson.get(a).getAsJsonObject();
-				JsonObject locationJson = hexJson.getAsJsonObject("location");
-				int x = locationJson.get("x").getAsInt();
-				int y = locationJson.get("y").getAsInt();
-				HexLocation hexLocation = new HexLocation(x, y);
-				hexes[a] = new Hex(hexLocation);
-			}
-			else
-			{
-				JsonObject hexJson = hexesJson.get(a).getAsJsonObject();
-				JsonElement resource = hexJson.get("resource");
-
-				JsonObject locationJson = hexJson.getAsJsonObject("location");
-				int x = locationJson.get("x").getAsInt();
-				int y = locationJson.get("y").getAsInt();
-				HexLocation hexLocation = new HexLocation(x, y);
-				int number = hexJson.get("number").getAsInt();
-				hexes[a] = new Hex(hexLocation, determineHexType(resource.getAsString()), number);
-			}
-		}
+        JsonArray hexesJson = mapJson.getAsJsonArray("hexes");
+        Hex[] hexes = new Hex[19];
+        
+        for(int a = 0; a < 19; a++)
+        {
+            JsonObject hexJson = hexesJson.get(a).getAsJsonObject();
+            
+            if (hexJson.has("resource"))
+            {
+                JsonElement resource = hexJson.get("resource");
+                
+                JsonObject locationJson = hexJson.getAsJsonObject("location");
+                int x = locationJson.get("x").getAsInt();
+                int y = locationJson.get("y").getAsInt();
+                HexLocation hexLocation = new HexLocation(x, y);
+                int number = hexJson.get("number").getAsInt();
+                hexes[a] = new Hex(hexLocation, determineHexType(resource.getAsString()), number);
+            }
+            else
+            {
+                JsonObject locationJson = hexJson.getAsJsonObject("location");
+                int x = locationJson.get("x").getAsInt();
+                int y = locationJson.get("y").getAsInt();
+                HexLocation hexLocation = new HexLocation(x, y);
+                hexes[a] = new Hex(hexLocation);
+            }
+        }
 		
 		
 	// Get Roads
