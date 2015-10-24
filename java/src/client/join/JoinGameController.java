@@ -63,19 +63,28 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		if(arg.equals(true))
+		{
+//			System.out.println("Game already set - JoinGameController");
+			if(getJoinGameView().isModalShowing())
+			{
+//				System.out.println("Join modal closed");
+				this.getJoinGameView().closeModal();
+			}
+			return;
+		}
 		if(arg.equals("reset"))
 		{
 			getJoinGameView().setGames(empty, SessionManager.instance().getPlayerInfo());
 			start();
+			return; //might take this out
 		}
-		System.out.println("Starting JoinGame Update");
-		if(arg.equals(true))
-		{
-			System.out.println("Don't need to update");
-			return;
-		}
+//		System.out.println("Starting JoinGame Update");
 		if(this.getNewGameView().isModalShowing())
+		{
+//			System.out.println("New Game modal closed");
 			this.getNewGameView().closeModal();
+		}
 		ListGames_Output result = null;
 		try 
 		{
@@ -93,14 +102,19 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		GameInfo[] updatedInfo = this.getGameInfo(je);
 		if(needsUpdate(updatedInfo))
 		{
-//			this.getJoinGameView().closeModal();
+			if(this.getJoinGameView().isModalShowing())
+			{
+//				System.out.println("Join modal closed");
+				this.getJoinGameView().closeModal();
+			}
 			this.getJoinGameView().setGames(updatedInfo, SessionManager.instance().getPlayerInfo());
 			if(!getJoinGameView().isModalShowing())
 			{
+//				System.out.println("Join modal opened");
 				this.getJoinGameView().showModal();
 			}
 		}
-		System.out.println("Ending JoinGame Update");
+//		System.out.println("Ending JoinGame Update");
 	}
 	
 	public IJoinGameView getJoinGameView() {
@@ -167,6 +181,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		
 		if(!getJoinGameView().isModalShowing())
 		{
+//			System.out.println("Join modal opened");
 			this.getJoinGameView().showModal();
 		}
 		startTimer();
@@ -176,12 +191,14 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void startCreateNewGame() 
 	{
 		killTimer();
+//		System.out.println("New game modal opened");
 		getNewGameView().showModal();
 	}
 
 	@Override
 	public void cancelCreateNewGame() 
 	{
+//		System.out.println("New Game modal closed");
 		getNewGameView().closeModal();
 		startTimer();
 	}
@@ -212,6 +229,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			Gson gson = new Gson();
 			JsonElement gameID = gson.fromJson (create_game_output.getResponse(), JsonElement.class).getAsJsonObject().get("id");
 			JoinGame_Input jg = new JoinGame_Input(gameID.getAsInt(), "red");
+//			System.out.println("New game modal closed");
 			getNewGameView().closeModal();
 			SessionManager.instance().getServer().joinGame(jg);
 			this.start();
@@ -233,6 +251,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		getSelectColorView().enableAllButtons(); //resets all the buttons
 		if(!getSelectColorView().isModalShowing())
 		{
+//			System.out.println("Color modal opened");
 			getSelectColorView().showModal();
 		}
 		for(PlayerInfo pi : game.getPlayers())
@@ -243,6 +262,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		this.game = game;
 		if(!getSelectColorView().isModalShowing())
 		{
+//			System.out.println("Color modal opened");
 			getSelectColorView().showModal();
 		}
 	}
@@ -251,9 +271,11 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 	public void cancelJoinGame() 
 	{
 		startTimer();
+//		System.out.println("Join modal closed");
 		getJoinGameView().closeModal();
 		if(!getJoinGameView().isModalShowing())
 		{
+//			System.out.println("Join modal opened");
 			this.getJoinGameView().showModal();
 		}
 	}
@@ -283,7 +305,9 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 			// If join succeeded
 			SessionManager.instance().getPlayerInfo().setColor(color);
 			SessionManager.instance().setGameInfo(this.game);
+//			System.out.println("Color modal closed");
 			getSelectColorView().closeModal();
+//			System.out.println("Join modal closed");
 			getJoinGameView().closeModal();
 			SessionManager.instance().startPoller();
 			joinAction.execute();
@@ -394,12 +418,12 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				}
 			}
 		} 
-		catch (Exception e) { //probably won't happen unless the server goes down
+		catch (Exception e) 
+		{
 			getMessageView().setTitle("Error");
 			getMessageView().setMessage("Failure joining game, please check your connection (Error: " + e.getMessage() + ")");
 			getMessageView().showModal();
 		}
-		//only gets here if the connection succeeded and nobody in our current game already has the current color
 		return true;
 	}
 	
@@ -471,6 +495,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		if(needsUpdate(updatedInfo)){
 			if(getJoinGameView().isModalShowing())
 			{
+//				System.out.println("Join modal closed");
 				getJoinGameView().closeModal();
 			}
 //			this.getJoinGameView().closeModal();
@@ -478,6 +503,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 //			this.getJoinGameView().showModal();
 			if(!getJoinGameView().isModalShowing())
 			{
+//				System.out.println("Join modal opened");
 				getJoinGameView().showModal();
 			}
 		}

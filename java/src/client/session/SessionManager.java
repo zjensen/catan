@@ -194,10 +194,10 @@ public class SessionManager extends Observable{
 	 */
 	public void setupGame()
 	{
-//		if(this.started)
-//		{
-//			return;
-//		}
+		if(this.started)
+		{
+			return;
+		}
 		ClientModel initialClientModel = this.clientFacade.getInitialModel(); //loads client model
 		int index = initialClientModel.getPlayerIndexByID(this.playerInfo.getId());
 		this.playerInfo.setPlayerIndex(index);
