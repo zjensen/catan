@@ -106,7 +106,7 @@ public class DiscardController extends Controller implements IDiscardController,
 		getDiscardView().setResourceMaxAmount(ResourceType.SHEEP, playersCards.getSheep());
 		getDiscardView().setResourceMaxAmount(ResourceType.WOOD, playersCards.getWood());
 		
-		getDiscardView().setDiscardButtonEnabled(discarded>=minimum);
+		getDiscardView().setDiscardButtonEnabled(discarded==minimum);
 		
 		getDiscardView().setStateMessage(discarded+"/"+minimum);
 	
@@ -164,7 +164,7 @@ public class DiscardController extends Controller implements IDiscardController,
 	@Override
 	public void discard() 
 	{
-		if(cards.getTotal() >= minimum)
+		if(cards.getTotal() == minimum)
 		{
 			getDiscardView().closeModal();
 			DiscardCards_Input params = new DiscardCards_Input(SessionManager.instance().getPlayerIndex(), cards);
