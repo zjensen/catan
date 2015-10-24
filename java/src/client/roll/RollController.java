@@ -1,7 +1,11 @@
 package client.roll;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.Observable;
 import java.util.Observer;
+
+import javax.swing.Timer;
 
 import shared.communication.moves.RollNumber_Input;
 import client.base.*;
@@ -14,6 +18,7 @@ import client.session.SessionManager;
 public class RollController extends Controller implements IRollController, Observer {
 
 	private IRollResultView resultView;
+	private Timer countdown;
 
 	/**
 	 * RollController constructor
@@ -41,7 +46,35 @@ public class RollController extends Controller implements IRollController, Obser
 		if(SessionManager.instance().getClientFacade().canRoll(index))
 		{
 			getRollView().showModal();
+			countdown();
 		}
+	}
+	
+	public void countdown()
+	{
+		ActionListener task = new ActionListener() 
+		{
+			int elapsedSeconds = 5;
+			@Override
+			public void actionPerformed(ActionEvent arg0) 
+			{
+		        getRollView().setMessage("Rolling automatically in. . . " + elapsedSeconds+" seconds");
+		        elapsedSeconds--;
+		        if(elapsedSeconds < 0)
+		        {
+		        	getRollView().setMessage("");
+		            automaticRoll();
+		        }
+			}
+		};
+		countdown = new Timer(1000, task);
+		countdown.start();
+	}
+	
+	public void automaticRoll()
+	{
+		countdown.stop();
+		rollDice();
 	}
 	
 	public IRollResultView getResultView() {
@@ -57,6 +90,10 @@ public class RollController extends Controller implements IRollController, Obser
 	
 	@Override
 	public void rollDice() {
+		if(countdown.isRunning())
+		{
+			countdown.stop();
+		}
 		int die1 = (int)(Math.random()*6) + 1;
         int die2 = (int)(Math.random()*6) + 1;
         int rollValue = die1+die2;

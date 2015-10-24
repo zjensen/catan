@@ -133,6 +133,9 @@ public class MapController extends Controller implements IMapController, Observe
 				if(!robStarted)
 				{
 					robStarted = true;
+				}
+				if(!getView().isOverlayShowing())
+				{
 					getView().startDrop(PieceType.ROBBER, SessionManager.instance().getPlayerInfo().getColor(), false);
 				}
 				if(!state.getStateName().equals("robbing"))
