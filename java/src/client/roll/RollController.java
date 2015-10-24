@@ -58,15 +58,15 @@ public class RollController extends Controller implements IRollController, Obser
 			@Override
 			public void actionPerformed(ActionEvent arg0) 
 			{
+				elapsedSeconds--;
 		        getRollView().setMessage("Rolling automatically in. . . " + elapsedSeconds+" seconds");
-		        elapsedSeconds--;
-		        if(elapsedSeconds < 0)
+		        if(elapsedSeconds <= 0)
 		        {
-		        	getRollView().setMessage("");
 		            automaticRoll();
 		        }
 			}
 		};
+		getRollView().setMessage("Rolling automatically in. . . 5 seconds");
 		countdown = new Timer(1000, task);
 		countdown.start();
 	}

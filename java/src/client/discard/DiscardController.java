@@ -88,11 +88,11 @@ public class DiscardController extends Controller implements IDiscardController,
 	
 	public void updateDiscardView()
 	{
-		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, cards.getWheat()<playersCards.getWheat(), cards.getWheat()>0);
-		getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, cards.getOre()<playersCards.getOre(), cards.getOre()>0);
-		getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, cards.getBrick()<playersCards.getBrick(), cards.getBrick()>0);
-		getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, cards.getSheep()<playersCards.getSheep(), cards.getSheep()>0);
-		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, cards.getWood()<playersCards.getWood(), cards.getWood()>0);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WHEAT, (discarded<minimum && cards.getWheat()<playersCards.getWheat()), cards.getWheat()>0);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.ORE, (discarded<minimum && cards.getOre()<playersCards.getOre()), cards.getOre()>0);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.BRICK, (discarded<minimum && cards.getBrick()<playersCards.getBrick()), cards.getBrick()>0);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.SHEEP, (discarded<minimum && cards.getSheep()<playersCards.getSheep()), cards.getSheep()>0);
+		getDiscardView().setResourceAmountChangeEnabled(ResourceType.WOOD, (discarded<minimum && cards.getWood()<playersCards.getWood()), cards.getWood()>0);
 	
 		getDiscardView().setResourceDiscardAmount(ResourceType.WHEAT, cards.getWheat());
 		getDiscardView().setResourceDiscardAmount(ResourceType.ORE, cards.getOre());
