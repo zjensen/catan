@@ -75,6 +75,6 @@ public class Soldier_Input
 	
 	public String toJSON()
 	{
-		return "{\"type\":\"Soldier\",\"playerIndex\":"+playerIndex+",\"victimIndex\":"+victimIndex+",\"location\":{\"x\":"+location.getX()+",\"y\":"+location.getY()+"}";
+		return "{\"type\":\"Soldier\",\"playerIndex\":"+playerIndex+",\"victimIndex\":"+victimIndex+",\"location\":{\"x\":"+location.getX()+",\"y\":"+location.getY()+"}}";
 	}
 }
