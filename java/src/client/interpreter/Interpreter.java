@@ -189,6 +189,7 @@ public class Interpreter
 	public ClientModel deserialize(JsonElement arg0) throws JsonParseException
 	{	
 		JsonObject mainJson = (JsonObject) arg0;
+		ClientModel newClientModel = new ClientModel();
 		
 	// Get Deck
 		JsonObject deckJson = mainJson.getAsJsonObject("deck");
@@ -475,7 +476,37 @@ public class Interpreter
 		bank.setSheep(bankJson.get("sheep").getAsInt());
 		bank.setWheat(bankJson.get("wheat").getAsInt());
 		bank.setOre(bankJson.get("ore").getAsInt());
-		
+	
+	// Get TradeOffer	
+		if (mainJson.has("tradeOffer"))
+		{
+			System.out.println("Interpreter: Grabbing Trade Offer");
+			TradeOffer tradeOffer = new TradeOffer();
+			ResourceCards offer = new ResourceCards();
+			JsonObject tradeOfferJson = mainJson.getAsJsonObject("tradeOffer");
+			
+			JsonElement senderElement = tradeOfferJson.get("sender");
+			JsonElement receiverElement = tradeOfferJson.get("receiver");
+			
+			int sender = senderElement.getAsInt();
+			int receiver = receiverElement.getAsInt();
+			
+			JsonObject offerJson = tradeOfferJson.getAsJsonObject("offer");
+			offer.setBrick(offerJson.get("brick").getAsInt());
+			offer.setWood(offerJson.get("wood").getAsInt());
+			offer.setSheep(offerJson.get("sheep").getAsInt());
+			offer.setWheat(offerJson.get("wheat").getAsInt());
+			offer.setOre(offerJson.get("ore").getAsInt());
+			
+			tradeOffer.setSender(sender);
+			tradeOffer.setReceiver(receiver);
+			tradeOffer.setOffer(offer);			
+			
+			System.out.println("Interpreter: Offer currently is....");
+			System.out.println(offer.toString());
+			
+			newClientModel.setTradeOffer(tradeOffer);
+		}
 		
 	// Get TurnTracker
 		JsonObject turnTrackerJson = mainJson.getAsJsonObject("turnTracker");
@@ -518,7 +549,6 @@ public class Interpreter
 			
 		Map map = new Map(hexes, ports, roads, settlements, cities, radius, robber);
 
-		ClientModel newClientModel = new ClientModel();
 		
 		newClientModel.setBank(bank);
 		newClientModel.setDeck(deck);
