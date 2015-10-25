@@ -97,11 +97,11 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	{
 		int res_amount = receivedTrade.getOffer().getResourceValue(resource);
 		
-		if (res_amount > 0)
+		if (res_amount < 0)
 		{
-			getAcceptOverlay().addGiveResource(resource, res_amount);
+			getAcceptOverlay().addGiveResource(resource, Math.abs(res_amount));
 		}
-		else if (res_amount < 0)
+		else if (res_amount > 0)
 		{
 			getAcceptOverlay().addGetResource(resource, Math.abs(res_amount));
 		}
@@ -110,12 +110,23 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	@Override
 	public void update(Observable o, Object arg)
 	{
+		getTradeView().enableDomesticTrade(false);
+		getAcceptOverlay().setAcceptEnabled(false);
 		if(arg.equals("reset")) //are all the players here??
 		{
 			return;
 		}
 		if(SessionManager.instance().getClientModel().getTurnTracker().getStatus().equalsIgnoreCase("playing"))
 		{
+			if(SessionManager.instance().canPlay() && SessionManager.instance().getClientFacade().hasCards(SessionManager.instance().getPlayerIndex()))
+			{
+				getTradeView().enableDomesticTrade(true);
+			}
+			else
+			{
+				getTradeView().enableDomesticTrade(false);
+			}
+			
 			if (SessionManager.instance().getClientModel().getTradeOffer() == null)
 			{
 				System.out.println("NO trade to check. Returning");
@@ -168,7 +179,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				{
 					System.out.println("\tAccept Modal is showing. TURN OFF");
 				}
-				
+				if(SessionManager.instance().getClientFacade().canAcceptTrade(new AcceptTrade_Input(receiver, true)))
+				{
+					getAcceptOverlay().setAcceptEnabled(true);
+				}
 			}
 			else
 			{
@@ -241,7 +255,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void startTrade() {
-		
+		curPlayerToTradeTo = -1;
 		curOffer.resetAllResourceValues();
 		
 		if (playersSet == false)
@@ -256,6 +270,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 		
 		getTradeOverlay().reset();
+		getTradeOverlay().setTradeEnabled(false);
 		getTradeOverlay().setStateMessage("CHEAT YOUR NEIGHBOR!!");
 		getTradeOverlay().showModal();
 	}

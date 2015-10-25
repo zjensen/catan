@@ -1,6 +1,5 @@
 package shared.models;
 
-import shared.definitions.HexType;
 import shared.definitions.ResourceType;
 
 public class ResourceCards {
@@ -281,6 +280,15 @@ public class ResourceCards {
 	public String toJsonString()
 	{
 		return "{\"brick\":"+brick+",\"ore\":"+ore+",\"sheep\":"+sheep+",\"wheat\":"+wheat+",\"wood\":"+wood+"}";
+	}
+	
+	public void swapSigns()
+	{
+		this.sheep = -this.sheep;
+		this.wheat = -this.wheat;
+		this.wood = -this.wood;
+		this.brick = -this.brick;
+		this.ore = -this.ore;
 	}
 	
 }

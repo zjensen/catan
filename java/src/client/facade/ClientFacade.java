@@ -338,6 +338,7 @@ public class ClientFacade {
 	
 	public void offerTrade(OfferTrade_Input params)
 	{
+		params.getOffer().swapSigns();
 		if(canOfferTrade(params))
 		{
 			OfferTrade_Output output = SessionManager.instance().getServer().offerTrade(params);
@@ -505,6 +506,11 @@ public class ClientFacade {
 	public int cardsToDiscard(int index)
 	{
 		return clientModel.cardsToDiscard(index);
+	}
+	
+	public boolean hasCards(int index)
+	{
+		return clientModel.getPlayerByIndex(index).getResources().getTotal() > 0;
 	}
 
 	public RobPlayerInfo getRobPlayerInfo(int i)

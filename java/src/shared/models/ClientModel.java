@@ -121,7 +121,7 @@ public class ClientModel {
 			return true;
 		}
 		
-		return receiver.hasResources(this.getTradeOffer().getOffer());
+		return receiver.canReceiveCards(this.getTradeOffer().getOffer());
 	}
 
 	public boolean canMaritimeTrade(MaritimeTrade_Input params) //todo

@@ -45,13 +45,20 @@ public class RollController extends Controller implements IRollController, Obser
 		int index = SessionManager.instance().getPlayerIndex();
 		if(SessionManager.instance().getClientFacade().canRoll(index))
 		{
-			getRollView().showModal();
-			countdown();
+			if(!getRollView().isModalShowing())
+			{
+				getRollView().showModal();
+				countdown();
+			}
 		}
 	}
 	
 	public void countdown()
 	{
+		if(countdown != null && countdown.isRunning())
+		{
+			return;
+		}
 		ActionListener task = new ActionListener() 
 		{
 			int elapsedSeconds = 5;
@@ -62,7 +69,7 @@ public class RollController extends Controller implements IRollController, Obser
 		        getRollView().setMessage("Rolling automatically in. . . " + elapsedSeconds+" seconds");
 		        if(elapsedSeconds <= 0)
 		        {
-		            automaticRoll();
+		            rollDice();
 		        }
 			}
 		};
@@ -73,7 +80,10 @@ public class RollController extends Controller implements IRollController, Obser
 	
 	public void automaticRoll()
 	{
-		countdown.stop();
+		if(countdown != null)
+		{
+			countdown.stop();
+		}
 		rollDice();
 	}
 	
@@ -90,7 +100,7 @@ public class RollController extends Controller implements IRollController, Obser
 	
 	@Override
 	public void rollDice() {
-		if(countdown.isRunning())
+		if(countdown!=null && countdown.isRunning())
 		{
 			countdown.stop();
 		}
