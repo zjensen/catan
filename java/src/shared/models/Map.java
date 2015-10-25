@@ -291,6 +291,8 @@ public class Map {
 			r2 = params.getSpot2().getNormalizedLocation();
 		}
 		
+		EdgeLocation toCheck = r1;
+		
 		if(r1 != null)
 		{
 			if(roads.containsKey(r1) || !roadIsOnMap(r1))
@@ -299,15 +301,33 @@ public class Map {
 			}
 		}
 		
+		HashMap<EdgeLocation, Player> rs = new HashMap<EdgeLocation, Player>(roads);
+		
 		if(r2 != null)
 		{
+			Player p = new Player();
+			p.setIndex(params.getPlayerIndex());
+			rs.put(r2, p);
 			if(roads.containsKey(r2) || !roadIsOnMap(r2))
 			{
 				return false;
 			}
 		}
 		
-		return true;
+		
+		
+		for (Entry<EdgeLocation, Player> entry : rs.entrySet()) //loop through the roads
+		{
+			if(entry.getValue().getIndex() == params.getPlayerIndex()) //this road belongs to the player
+		    {
+		    	if(r1.areNeighbors(entry.getKey())) //is this road connected to the road the player wants to build?
+		    	{
+		    		return true;
+		    	}
+		    }
+		}
+		
+		return false;
 	}
 	
 	public boolean canSoldier(Soldier_Input params)

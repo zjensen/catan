@@ -268,7 +268,7 @@ public class MapController extends Controller implements IMapController, Observe
 		{
 			if(firstRoadBuilding==null) //first of 2 roads
 			{
-				return SessionManager.instance().getClientFacade().canBuildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
+				return SessionManager.instance().getClientFacade().canRoadBuilding(new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, null));
 			}
 			else if(SessionManager.instance().getClientFacade().getRoads(SessionManager.instance().getPlayerIndex()) < 2)
 			{
@@ -277,7 +277,7 @@ public class MapController extends Controller implements IMapController, Observe
 			}
 			else
 			{
-				return SessionManager.instance().getClientFacade().canBuildRoad(new BuildRoad_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, true));
+				return SessionManager.instance().getClientFacade().canRoadBuilding(new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, firstRoadBuilding));
 			}
 		}
 		return state.canBuildRoad(edgeLoc.getNormalizedLocation());
@@ -320,12 +320,12 @@ public class MapController extends Controller implements IMapController, Observe
 				{
 					//1 more road to place
 					firstRoadBuilding = edgeLoc;
-//					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
+					getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
 				}
 			}
 			else //placing second road
 			{
-				RoadBuilding_Input params = new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), firstRoadBuilding, edgeLoc);
+				RoadBuilding_Input params = new RoadBuilding_Input(SessionManager.instance().getPlayerIndex(), edgeLoc, firstRoadBuilding);
 				SessionManager.instance().getClientFacade().roadBuilding(params);
 				firstRoadBuilding = null;
 				roadBuilding = false;
@@ -419,11 +419,13 @@ public class MapController extends Controller implements IMapController, Observe
 	}
 	
 	public void playRoadBuildingCard() {
+		
 		if(SessionManager.instance().getClientFacade().getRoads(SessionManager.instance().getPlayerIndex()) == 0)
 		{
 			//alert no roads left to build
 			return;
 		}
+		firstRoadBuilding=null;
 		roadBuilding = true;
 		getView().startDrop(PieceType.ROAD, SessionManager.instance().getPlayerInfo().getColor(), true);
 	}
