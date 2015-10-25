@@ -17,6 +17,24 @@ public class OfferTrade_Input
 		this.receiver = receiver;
 	}
 
+	
+	
+	
+	
+	@Override
+	public String toString() {
+		return "===OfferTrade_Input==="
+				+ "\nplayerIndex = " + playerIndex 
+				+ "\nreceiver    = " + receiver 
+				+ "\nOFFER\n" 
+				+ offer.toString()
+				+ "\n======================";
+	}
+
+
+
+
+
 	/**
 	 * @return the playerIndex
 	 */

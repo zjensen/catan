@@ -162,6 +162,35 @@ public class ResourceCards {
 			return;
 		}
 	}
+	
+	public Boolean sendCheck()
+	{
+		Boolean canSend = false;
+		
+		if( (this.getWood() < 0 || 
+			 this.getBrick() < 0 ||
+			 this.getSheep() < 0 ||
+			 this.getWheat() < 0 ||
+			 this.getOre() < 0) ) 
+		{
+			canSend = true;
+		}
+		return canSend;
+	}
+	
+	public Boolean receiveCheck()
+	{
+		Boolean canSend = false;
+		if( (this.getWood() > 0 || 
+			 this.getBrick() > 0 ||
+			 this.getSheep() > 0 ||
+			 this.getWheat() > 0 ||
+			 this.getOre() > 0) )
+		{
+			canSend = true;
+		}
+		return canSend;
+	}
 
 	public void resetOneResourceValue(ResourceType resource)
 	{

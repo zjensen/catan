@@ -12,12 +12,14 @@ public class TradeOffer {
 		this.offer = new ResourceCards();	
 	}
 
-	/**
-	 * Tells them the total amount resources if they accepted the trade
-	 * @return a ResourceList 
-	 */
-	public ResourceCards benefitsOfTrade() { // what the resources would be if they accepted
-		return new ResourceCards();
+	@Override
+	public String toString() {
+		return "===Trade Offer==="
+				+ "\nSender   = " + sender 
+				+ "\nReceiver = " + receiver 
+				+ "\nOFFER\n" 
+				+ offer.toString()
+				+ "\n=================";
 	}
 
 	public int getSender() {
