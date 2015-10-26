@@ -142,7 +142,7 @@ public class Player {
 	public boolean canMonument()
 	{
 		boolean gameChanger = (victoryPoints + oldDevCards.getMonument() + newDevCards.getMonument() >= 10);
-		return ((oldDevCards.getMonument() > 0 || newDevCards.getMonument() > 0) && (gameChanger || canPlayDevCard()));
+		return ((oldDevCards.getMonument() > 0 || newDevCards.getMonument() > 0) && gameChanger);
 	}
 	
 	public boolean canMonopoly()
@@ -153,6 +153,15 @@ public class Player {
 	public boolean canSoldier()
 	{
 		return (oldDevCards.getSoldier() > 0 && canPlayDevCard());
+	}
+	
+	public boolean canRoadBuilding()
+	{
+		if(oldDevCards.getRoadBuilding() < 2 || !canPlayDevCard())
+		{
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean canRoadBuilding(RoadBuilding_Input params) 
