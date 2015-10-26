@@ -4,7 +4,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import shared.communication.moves.AcceptTrade_Input;
-import shared.communication.moves.BuyDevCard_Input;
 import shared.communication.moves.OfferTrade_Input;
 import shared.definitions.*;
 import shared.models.Player;

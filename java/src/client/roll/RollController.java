@@ -38,7 +38,7 @@ public class RollController extends Controller implements IRollController, Obser
 	@Override
 	public void update(Observable o, Object arg)
 	{
-		if(arg.equals("reset")) //are all the players here??
+		if(arg.equals("reset") || arg.equals(false)) //are all the players here??
 		{
 			return;
 		}
