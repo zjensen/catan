@@ -53,11 +53,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		curOffer = new ResourceCards();
 		receiveResources = false;
 		curPlayerToTradeTo = -1;
-		
 				
 		SessionManager.instance().addObserver(this);
 	}
-		
 		
 	/**
 	* Creates PlayerInfo[] array to be used to display the players to trade with.
@@ -129,17 +127,15 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			
 			if (SessionManager.instance().getClientModel().getTradeOffer() == null)
 			{
-				System.out.println("NO trade to check. Returning");
+				//System.out.println("NO trade to check. Returning");
 				return;
 			}
 			
 			System.out.println("YES trade to check. proceed with caution");
 			
 			int cur_player_index = SessionManager.instance().getPlayerIndex();
-			int receiver = cur_player_index;
+			int receiver = -1;
 			receiver = SessionManager.instance().getClientModel().getTradeOffer().getReceiver();
-			System.out.println("\tCurPlayer = " + cur_player_index);
-			System.out.println("\tReceiver  = " + receiver);
 			
 			if (cur_player_index == receiver)
 			{
@@ -150,13 +146,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				receivedTrade.setOffer(SessionManager.instance().getClientModel().getTradeOffer().getOffer());
 				receivedTrade.setReceiver(SessionManager.instance().getClientModel().getTradeOffer().getReceiver());
 
-
-				// FIX ACCEPT MODAL
 				getAcceptOverlay().reset();
-				
-				//getAcceptOverlay().addGetResource(resource, amount); // 4 wheat
-				
-				//getAcceptOverlay().addGiveResource(resource, amount); // 2 wood
 				
 			// Fix resources 
 				fixResource(receivedTrade, ResourceType.WOOD);
@@ -171,14 +161,9 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			
 				if (!getAcceptOverlay().isModalShowing())
 				{
-					System.out.println("\tAccept Modal isn\'t showing. TURN ON");
 					getAcceptOverlay().showModal();
+				}
 
-				}
-				else
-				{
-					System.out.println("\tAccept Modal is showing. TURN OFF");
-				}
 				if(SessionManager.instance().getClientFacade().canAcceptTrade(new AcceptTrade_Input(receiver, true)))
 				{
 					getAcceptOverlay().setAcceptEnabled(true);
@@ -190,27 +175,16 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			}
 			else
 			{
-				System.out.println("YOU sent trade");
+				//System.out.println("YOU sent trade");
 			}
-			
-
 		}
 		else
 		{
-			System.out.println("\tNot playing");
+			//System.out.println("\tNot playing");
 		}
 		
 		
 	}
-	
-	public void setupTrade() {
-		
-		System.out.println("DomTradeCon.setupTrade: ???");
-		
-		
-	}
-	
-	
 	
 	public IDomesticTradeView getTradeView() {
 		
@@ -281,8 +255,6 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void decreaseResourceAmount(ResourceType resource) { 
-//		System.out.println("\n-->Mine DomTradeCon.decreaseResourceAmount: DONE??");
-//		System.out.println("Resource param=" + resource.toString());
 		
 		// Check to see if Send or Receive Button was pressed
 		if (receiveResources == false)
@@ -294,36 +266,26 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			
 			curOffer.addOne(resource);
 			int newAmount = curOffer.getResourceValue(resource);
-			
-//			System.out.println("CurPlayerAmount = " + curPlayerAmount);
-//			System.out.println("NewAmount       = " + newAmount);
-//			System.out.println("CurOffer " + curOffer.toString());
-			
+
 			if (Math.abs(newAmount) > 0)
 			{
-//				System.out.println("D OPTION 1");
 				if (Math.abs(newAmount) < curPlayerAmount)
 				{
-					//System.out.println("\tIF 1");
 					getTradeOverlay().setResourceAmountChangeEnabled(resource, true, true);
 				}
 				else
 				{
-					//System.out.println("\tIF 2");
 					getTradeOverlay().setResourceAmountChangeEnabled(resource, false, true);
 				}
 			}
 			else if (Math.abs(newAmount) == 0)
 			{
-				//System.out.println("D OPTION 2");
 				if (Math.abs(newAmount) < curPlayerAmount)
 				{
-					//System.out.println("\tIF 1");
 					getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
 				}
 				else
 				{
-					//System.out.println("\tIF 2");
 					getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
 				}
 			}
@@ -332,19 +294,14 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		{
 			curOffer.subtractOne(resource);
 			int newAmount = curOffer.getResourceValue(resource);
-			
-//			System.out.println("NewAmount       = " + newAmount);
-//			System.out.println("CurOffer " + curOffer.toString());
 
 			if (newAmount > 0)
 			{
-				//System.out.println("RD OPTION 1");
 				getTradeOverlay().setResourceAmountChangeEnabled(resource, true, true);
 				
 			}
 			else  if (newAmount == 0)
 			{
-				//System.out.println("RD OPTION 2");
 				getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
 				
 			}
@@ -355,8 +312,6 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void increaseResourceAmount(ResourceType resource) { 
-//		System.out.println("\n-->Mine DomTradeCon.increaseResourceAmount: DONE??");
-//		System.out.println("Resource param=" + resource.toString());
 		
 		// Check to see if Send or Receive Button was pressed
 		if (receiveResources == false)
@@ -368,36 +323,26 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			
 			curOffer.subtractOne(resource);
 			int newAmount = curOffer.getResourceValue(resource);
-			
-//			System.out.println("CurPlayerAmount = " + curPlayerAmount);
-//			System.out.println("NewAmount       = " + newAmount);
-//			System.out.println("CurOffer " + curOffer.toString());
 
 			if (Math.abs(newAmount) < curPlayerAmount)
 			{
-				//System.out.println("I OPTION 1");
 				if (Math.abs(newAmount) > 0)
 				{
-					//System.out.println("\tIF 1");
 					getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);
 				}
 				else
 				{
-					//System.out.println("\tIF 2");
 					getTradeOverlay().setResourceAmountChangeEnabled(resource, true, true);
 				}
 			}
 			else  if (Math.abs(newAmount) == curPlayerAmount)
 			{
-				//System.out.println("I OPTION 2");
 				if (Math.abs(newAmount) > 0)
 				{
-					//System.out.println("\tIF 1");
 					getTradeOverlay().setResourceAmountChangeEnabled(resource, false, true);
 				}
 				else
 				{
-					//System.out.println("\tIF 2");
 					getTradeOverlay().setResourceAmountChangeEnabled(resource, false, false);
 				}
 			}
@@ -407,18 +352,12 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			curOffer.addOne(resource);
 			int newAmount = curOffer.getResourceValue(resource);
 			
-//			System.out.println("NewAmount       = " + newAmount);
-//			System.out.println("CurOffer " + curOffer.toString());
-
 			if (newAmount > 0)
 			{
-				//System.out.println("RI OPTION 1");
 				getTradeOverlay().setResourceAmountChangeEnabled(resource, true, true);
-				
 			}
 			else  if (newAmount == 0)
 			{
-				//System.out.println("RI OPTION 2");
 				getTradeOverlay().setResourceAmountChangeEnabled(resource, true, false);	
 			}
 		}
@@ -440,19 +379,15 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		getTradeOverlay().closeModal();
 		//getWaitOverlay().showModal();
 
-		
 	}
 
 	@Override
 	public void setPlayerToTradeWith(int playerIndex) {
-//		System.out.println("\n-->Mine DomTradeCon.setPlayerToTradeWith: Player's button was clicked");
-//		System.out.println("Other player index = " + playerIndex);
 
 		if (playerIndex == -1)
 		{	
-//			System.out.println("Disabling trade button");
 			curPlayerToTradeTo = -1;
-			getTradeOverlay().setStateMessage("TRADE WITH SOME YOU TOOLBAG!!!");
+			getTradeOverlay().setStateMessage("TRADE WITH SOMEONE!");
 			getTradeOverlay().setTradeEnabled(false);
 		}
 		else
@@ -464,10 +399,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void setResourceToReceive(ResourceType resource) {
-//		System.out.println("\nDomTradeCon.setResourceToReceive: DONE??");
 		receiveResources = true;
-		
-		
 		unsetResource(resource);
 		curOffer.resetOneResourceValue(resource);
 		
@@ -478,7 +410,6 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void setResourceToSend(ResourceType resource) { 
-//		System.out.println("\nDomTradeCon.setResourceToSend: DONE??");
 		receiveResources = false;
 		unsetResource(resource);
 		curOffer.resetOneResourceValue(resource);
@@ -504,8 +435,6 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void unsetResource(ResourceType resource) {
-//		System.out.println("\nDomTradeCon.unsetResource: Resets number to trade");		
-
 		curOffer.resetOneResourceValue(resource);
 		getTradeOverlay().setResourceAmount(resource, "0");
 		
@@ -514,17 +443,12 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void cancelTrade() {
-		System.out.println("\nDomTradeCon.cancelTrade: DONE??");
-		
 		getTradeOverlay().closeModal();
 	}
 
 	@Override
 	public void acceptTrade(boolean willAccept) {
-		System.out.println("DomTradeCon.acceptTrade: Working??");
-		
 		int curPlayerIndex = SessionManager.instance().getPlayerIndex();
-
 		AcceptTrade_Input newOffer = new AcceptTrade_Input(curPlayerIndex, willAccept);
 		
 		SessionManager.instance().getClientFacade().acceptTrade(newOffer);
