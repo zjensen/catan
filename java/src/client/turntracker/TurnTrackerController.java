@@ -55,7 +55,7 @@ public class TurnTrackerController extends Controller implements ITurnTrackerCon
 			{
 				break;
 			}
-			if(p.getVictoryPoints() == 10)
+			if(p.getVictoryPoints() >= 10)
 			{
 				gameOver = true;
 				winnerIndex = p.getIndex();
