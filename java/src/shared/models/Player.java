@@ -157,7 +157,7 @@ public class Player {
 	
 	public boolean canRoadBuilding()
 	{
-		if(oldDevCards.getRoadBuilding() < 2 || !canPlayDevCard())
+		if(oldDevCards.getRoadBuilding() < 1 || !canPlayDevCard() || roads < 2)
 		{
 			return false;
 		}
