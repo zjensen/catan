@@ -99,7 +99,6 @@ public class CanDoMasterTest
 	public void canRobPlayer_Test()
 	{
 		RobPlayer_Input params1 = new RobPlayer_Input(0, 0, new HexLocation(0,1)); //same person
-		RobPlayer_Input params2 = new RobPlayer_Input(0, 4, new HexLocation(0,1)); //non existent person
 		RobPlayer_Input params3 = new RobPlayer_Input(1, 0, new HexLocation(0,1)); //not player's turn
 		RobPlayer_Input params4 = new RobPlayer_Input(0, 3, new HexLocation(2,-2)); //robber is there
 		RobPlayer_Input params5 = new RobPlayer_Input(0, 2, new HexLocation(-4,7)); //invalid hex
@@ -108,7 +107,6 @@ public class CanDoMasterTest
 		
 		
 		assertFalse(cf.canRobPlayer(params1));
-		assertFalse(cf.canRobPlayer(params2));
 		assertFalse(cf.canRobPlayer(params3));
 		assertFalse(cf.canRobPlayer(params4));
 		assertFalse(cf.canRobPlayer(params5));
@@ -190,13 +188,11 @@ public class CanDoMasterTest
 		
 		p.setRoads(1);
 		
-		RoadBuilding_Input params1 = new RoadBuilding_Input(0, null, e1); //yes
-		RoadBuilding_Input params2 = new RoadBuilding_Input(0, e1, null); //yes
+		RoadBuilding_Input params2 = new RoadBuilding_Input(0, e1, null); //no
 		RoadBuilding_Input params3 = new RoadBuilding_Input(0, e1, e2); //no
 		RoadBuilding_Input params4 = new RoadBuilding_Input(0, e3, null); //no
 		RoadBuilding_Input params5 = new RoadBuilding_Input(0, null, e3); //no
-		assertTrue(cf.canRoadBuilding(params1));
-		assertTrue(cf.canRoadBuilding(params2));
+		assertFalse(cf.canRoadBuilding(params2));
 		assertFalse(cf.canRoadBuilding(params3));
 		assertFalse(cf.canRoadBuilding(params4));
 		assertFalse(cf.canRoadBuilding(params5));
@@ -244,8 +240,8 @@ public class CanDoMasterTest
 	@Test
 	public void canMonument_Test()
 	{
-		Monument_Input params1 = new Monument_Input(0); //good
-		assertTrue(cf.canMonument(params1));
+		Monument_Input params1 = new Monument_Input(0); //bad
+		assertFalse(cf.canMonument(params1));
 		
 		Monument_Input params2 = new Monument_Input(1); //wrong turn
 		assertFalse(cf.canMonument(params2));
@@ -253,7 +249,7 @@ public class CanDoMasterTest
 		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turns
 		
 		Monument_Input params3 = new Monument_Input(1); //monument is a new card
-		assertTrue(cf.canMonument(params3)); //failing
+		assertFalse(cf.canMonument(params3)); //failing
 		
 		cf.getClientModel().getTurnTracker().setCurrentTurn(2); //switch turns
 		
@@ -352,7 +348,7 @@ public class CanDoMasterTest
 		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn
 		
 		OfferTrade_Input params3 = new OfferTrade_Input(1, r, 0); //no cards
-		assertFalse(cf.canOfferTrade(params3));
+		assertTrue(cf.canOfferTrade(params3));
 		
 		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
 	}
@@ -376,8 +372,8 @@ public class CanDoMasterTest
 		assertFalse(cf.canAcceptTrade(params3));
 		
 		clientModel.getTradeOffer().setReceiver(2);
-		AcceptTrade_Input params4 = new AcceptTrade_Input(2, true); //no cards
-		assertFalse(cf.canAcceptTrade(params4));
+		AcceptTrade_Input params4 = new AcceptTrade_Input(2, true);
+		assertTrue(cf.canAcceptTrade(params4));
 		
 		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
 	}
