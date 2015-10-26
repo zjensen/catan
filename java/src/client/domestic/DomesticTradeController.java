@@ -116,7 +116,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 		if(SessionManager.instance().getClientModel().getTurnTracker().getStatus().equalsIgnoreCase("playing"))
 		{
-			if(SessionManager.instance().canPlay() && SessionManager.instance().getClientFacade().hasCards(SessionManager.instance().getPlayerIndex()))
+			if(SessionManager.instance().canPlay() && SessionManager.instance().getClientFacade().hasCards(SessionManager.instance().getPlayerIndex()) && SessionManager.instance().getClientModel().getTradeOffer() == null)
 			{
 				getTradeView().enableDomesticTrade(true);
 			}
