@@ -2,6 +2,7 @@ package client.join;
 
 import java.util.*;
 import java.awt.*;
+import java.awt.List;
 import java.awt.event.*;
 
 import javax.swing.*;
@@ -64,6 +65,9 @@ public class PlayerWaitingView extends OverlayView implements IPlayerWaitingView
 		aiTypePanel.add(Box.createRigidArea(new Dimension(5, 0)));
 		
 		aiModel = new SpinnerListModel();
+		ArrayList<String> list = new ArrayList<String>();
+		list.add("LARGEST_ARMY");
+		aiModel.setList(list);
 		aiChoices = new JSpinner(aiModel);
 		((JSpinner.DefaultEditor)aiChoices.getEditor()).getTextField().setEditable(false);
 		FontUtils.setFont(aiChoices, AI_TEXT_SIZE);

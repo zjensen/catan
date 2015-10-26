@@ -111,7 +111,8 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		int settlements = SessionManager.instance().getClientFacade().getSettlements(index);
 		int cities = SessionManager.instance().getClientFacade().getCities(index);
 		int devCardCount = SessionManager.instance().getClientFacade().getOldDevCardCount(index);
-		System.out.println(devCardCount);
+		int knightCards = SessionManager.instance().getClientModel().getPlayerByIndex(index).getSoldiers();
+//		System.out.println(devCardCount);
 		
 		//Updating the view to present the most recent number counts
 		this.getView().setElementAmount(ResourceBarElement.SHEEP, sheep);
@@ -122,6 +123,7 @@ public class ResourceBarController extends Controller implements IResourceBarCon
 		this.getView().setElementAmount(ResourceBarElement.ROAD, roads);
 		this.getView().setElementAmount(ResourceBarElement.SETTLEMENT, settlements);
 		this.getView().setElementAmount(ResourceBarElement.CITY, cities);
+		this.getView().setElementAmount(ResourceBarElement.SOLDIERS, knightCards);
 		
 		//Enable/Disable Buttons
 		if(SessionManager.instance().getClientFacade().isPlayersTurn(index)) {

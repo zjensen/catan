@@ -94,7 +94,11 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	public void fixResource(TradeOffer receivedTrade, ResourceType resource)
 	{
 		int res_amount = receivedTrade.getOffer().getResourceValue(resource);
-		
+		if(resource == null)
+		{
+			System.out.println("null resource here");
+			return;
+		}
 		if (res_amount < 0)
 		{
 			getAcceptOverlay().addGiveResource(resource, Math.abs(res_amount));
@@ -453,7 +457,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		
 		SessionManager.instance().getClientFacade().acceptTrade(newOffer);
 		
-		getAcceptOverlay().closeModal();
+		if(getAcceptOverlay().isModalShowing())
+		{
+			getAcceptOverlay().closeModal();
+		}
 	}
 
 }
