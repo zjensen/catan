@@ -84,7 +84,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	public void printPlayers() 
 	{
-		System.out.println("Current Players");
+//		System.out.println("Current Players");
 		for (int a = 0; a < this.players.length; a++)
 		{
 			this.players[a].toString();
@@ -96,7 +96,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		int res_amount = receivedTrade.getOffer().getResourceValue(resource);
 		if(resource == null)
 		{
-			System.out.println("null resource here");
+//			System.out.println("null resource here");
 			return;
 		}
 		if (res_amount < 0)
@@ -114,6 +114,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	{
 		getTradeView().enableDomesticTrade(false);
 		getAcceptOverlay().setAcceptEnabled(false);
+		if(getWaitOverlay().isModalShowing())
+		{
+			getWaitOverlay().closeModal();
+		}
 		if(arg.equals("reset")) //are all the players here??
 		{
 			return;
@@ -134,8 +138,15 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				//System.out.println("NO trade to check. Returning");
 				return;
 			}
+			else if(SessionManager.instance().getClientModel().getTradeOffer().getSender() == SessionManager.instance().getPlayerIndex())
+			{
+				if(!getWaitOverlay().isModalShowing())
+				{
+					getWaitOverlay().showModal();
+				}
+			}
 			
-			System.out.println("YES trade to check. proceed with caution");
+//			System.out.println("YES trade to check. proceed with caution");
 			
 			int cur_player_index = SessionManager.instance().getPlayerIndex();
 			int receiver = -1;
@@ -143,7 +154,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 			
 			if (cur_player_index == receiver)
 			{
-				System.out.println("This player needs to accept/deny trade");
+//				System.out.println("This player needs to accept/deny trade");
 				
 				TradeOffer receivedTrade = new TradeOffer();
 				receivedTrade.setSender(SessionManager.instance().getClientModel().getTradeOffer().getSender());
@@ -248,7 +259,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 		else
 		{
-			System.out.println("\nDomTradeCon.startTrade: Do nothing :)");
+//			System.out.println("\nDomTradeCon.startTrade: Do nothing :)");
 		}
 		
 		getTradeOverlay().reset();
@@ -371,16 +382,21 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void sendTradeOffer() {
-		System.out.println("DomTradeCon.sendTradeOffer: WORK IN PROGRESS");
+//		System.out.println("DomTradeCon.sendTradeOffer: WORK IN PROGRESS");
 		
 		int curPlayerIndex = SessionManager.instance().getPlayerIndex();
 		
 		OfferTrade_Input newTradeOffer = new OfferTrade_Input(curPlayerIndex, curOffer, curPlayerToTradeTo);
-		System.out.println("DomTradeCon.sendTradeOffer: Offer that was sent");
-		System.out.println(newTradeOffer.toString());
+//		System.out.println("DomTradeCon.sendTradeOffer: Offer that was sent");
+//		System.out.println(newTradeOffer.toString());
 		SessionManager.instance().getClientFacade().offerTrade(newTradeOffer);
 		
 		getTradeOverlay().closeModal();
+		
+		if(!getWaitOverlay().isModalShowing())
+		{
+			getWaitOverlay().showModal();
+		}
 		//getWaitOverlay().showModal();
 
 	}
@@ -431,7 +447,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		}
 		else if (playerList[curPlayerIndex].getResources().getResourceValue(resource) == -1)
 		{
-			System.out.println("DomTradeCon.setResourceToSend: ERROR: -1 problem");
+//			System.out.println("DomTradeCon.setResourceToSend: ERROR: -1 problem");
 		}
 		
 		tradeCheck();
