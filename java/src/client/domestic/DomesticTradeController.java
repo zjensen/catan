@@ -183,6 +183,10 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				{
 					getAcceptOverlay().setAcceptEnabled(true);
 				}
+				else
+				{
+					getAcceptOverlay().setAcceptEnabled(false);
+				}
 			}
 			else
 			{
