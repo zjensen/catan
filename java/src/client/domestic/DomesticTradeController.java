@@ -233,12 +233,12 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 	{
 		if (curOffer.sendCheck() && curOffer.receiveCheck() && curPlayerToTradeTo != -1)
 		{
-			getTradeOverlay().setStateMessage(curPlayerToTradeTo + " T: TRADE!");
+			getTradeOverlay().setStateMessage("TRADE!");
 			getTradeOverlay().setTradeEnabled(true);
 		}
 		else
 		{
-			getTradeOverlay().setStateMessage(curPlayerToTradeTo + " T: CAN\'T TRADE!");
+			getTradeOverlay().setStateMessage("CAN\'T TRADE.");
 			getTradeOverlay().setTradeEnabled(false);
 		}
 	}
@@ -263,7 +263,7 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		
 		getTradeOverlay().reset();
 		getTradeOverlay().setTradeEnabled(false);
-		getTradeOverlay().setStateMessage("CHEAT YOUR NEIGHBOR!!");
+		getTradeOverlay().setStateMessage("TRADE WITH SOMEONE!");
 		getTradeOverlay().showModal();
 	}
 
