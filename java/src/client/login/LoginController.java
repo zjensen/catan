@@ -90,8 +90,16 @@ public class LoginController extends Controller implements ILoginController, Obs
 		}
 		
 		Login_Output result = SessionManager.instance().getServer().login(new Login_Input(username, password));
-
-		if(result.getResponse().toUpperCase().equals("SUCCESS")) //todo warn on fail
+		
+		if(result.getResponse()==null)
+		{
+			messageView.setTitle("Sign In Error");
+			messageView.setMessage("There was an error signing in. Please try again.");
+			messageView.setController(this);
+			messageView.showModal();
+			return;
+		}
+		else if(result.getResponse().toUpperCase().equals("SUCCESS")) //todo warn on fail
 		{
 			// If log in succeeded
 			getLoginView().closeModal();
@@ -150,7 +158,7 @@ public class LoginController extends Controller implements ILoginController, Obs
 		if(u==null || u.isEmpty())
 		{
 			messageView.setTitle("Sign In Error");
-			messageView.setMessage("Please enter your password.");
+			messageView.setMessage("Please enter a username.");
 			messageView.setController(this);
 			messageView.showModal();
 			return false;
