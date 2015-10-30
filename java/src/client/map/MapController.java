@@ -58,14 +58,18 @@ public class MapController extends Controller implements IMapController, Observe
 		
 		if(!initiated)
 		{
+			getView().reset();
+			makeItRain();
+			state = new Nothing_State();
 			initiated=true;
 			initFromModel();
 		}
-		updateFromModel();
+		
 		
 		if(arg.equals(true)) //are all the players here??
 		{
 			setupState();
+			updateFromModel();
 		}
 	}
 	
@@ -460,7 +464,10 @@ public class MapController extends Controller implements IMapController, Observe
 			SessionManager.instance().getClientFacade().robPlayer(params);
 			robStarted = false;
 		}
-		getRobView().closeModal();
+		if(getRobView().isModalShowing())
+		{
+			getRobView().closeModal();
+		}
 	}
 	
 }

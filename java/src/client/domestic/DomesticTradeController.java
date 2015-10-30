@@ -95,7 +95,6 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 		int res_amount = receivedTrade.getOffer().getResourceValue(resource);
 		if(resource == null)
 		{
-//			System.out.println("null resource here");
 			return;
 		}
 		if (res_amount < 0)
@@ -143,13 +142,13 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 				{
 					getWaitOverlay().showModal();
 				}
+				return;
 			}
 			
 //			System.out.println("YES trade to check. proceed with caution");
 			
 			int cur_player_index = SessionManager.instance().getPlayerIndex();
-			int receiver = -1;
-			receiver = SessionManager.instance().getClientModel().getTradeOffer().getReceiver();
+			int receiver = SessionManager.instance().getClientModel().getTradeOffer().getReceiver();
 			
 			if (cur_player_index == receiver)
 			{
@@ -381,23 +380,19 @@ public class DomesticTradeController extends Controller implements IDomesticTrad
 
 	@Override
 	public void sendTradeOffer() {
-//		System.out.println("DomTradeCon.sendTradeOffer: WORK IN PROGRESS");
-		
-		int curPlayerIndex = SessionManager.instance().getPlayerIndex();
-		
-		OfferTrade_Input newTradeOffer = new OfferTrade_Input(curPlayerIndex, curOffer, curPlayerToTradeTo);
-//		System.out.println("DomTradeCon.sendTradeOffer: Offer that was sent");
-//		System.out.println(newTradeOffer.toString());
-		SessionManager.instance().getClientFacade().offerTrade(newTradeOffer);
-		
-		getTradeOverlay().closeModal();
+		if(getTradeOverlay().isModalShowing())
+		{
+			getTradeOverlay().closeModal();
+		}
 		
 		if(!getWaitOverlay().isModalShowing())
 		{
 			getWaitOverlay().showModal();
 		}
-		//getWaitOverlay().showModal();
-
+		
+		int curPlayerIndex = SessionManager.instance().getPlayerIndex();
+		OfferTrade_Input newTradeOffer = new OfferTrade_Input(curPlayerIndex, curOffer, curPlayerToTradeTo);
+		SessionManager.instance().getClientFacade().offerTrade(newTradeOffer);
 	}
 
 	@Override

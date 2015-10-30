@@ -30,6 +30,11 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 //		System.out.println("Starting PlayerWaiting Update");
 		boolean updated = false;
 		
+		if(arg.equals("reset"))
+		{
+			return;
+		}
+		
 		SessionManager session = SessionManager.instance();
 		for(Player player : session.getClientModel().getPlayers()){ //iterates through all players
 			if(player != null)
