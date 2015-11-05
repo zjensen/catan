@@ -1,10 +1,15 @@
-package server.command.game;
+package server.command.moves;
 
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
 
-public class AddAI_Command implements ICommand {
+public class BuyDevCard_Command implements ICommand {
+
+	public BuyDevCard_Command()
+	{
+		// TODO Auto-generated constructor stub
+	}
 
 	@Override
 	public JsonElement execute()
