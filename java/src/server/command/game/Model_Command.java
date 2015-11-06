@@ -22,7 +22,7 @@ public class Model_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return GameFacade.model(params);
+		return GameFacade.currentModel(params);
 	}
 
 }

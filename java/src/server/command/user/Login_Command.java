@@ -3,7 +3,6 @@ package server.command.user;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.MovesFacade;
 import server.facade.UserFacade;
 import shared.communication.user.Login_Input;
 
