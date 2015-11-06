@@ -3,19 +3,32 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
+import server.facade.MovesFacade;
+import shared.communication.moves.MaritimeTrade_Input;
 
 public class MaritimeTrade_Command implements ICommand {
 
-	public MaritimeTrade_Command()
+	private int playerID = -1;
+	private int gameID = -1;
+	private MaritimeTrade_Input params = null;
+	
+	/**
+	 * Command object for maritime trade
+	 * @param json
+	 * @param playerID
+	 * @param gameID
+	 */
+	public MaritimeTrade_Command(String json, int playerID, int gameID)
 	{
-		// TODO Auto-generated constructor stub
+		this.playerID = playerID;
+		this.gameID = playerID;
+		//here we will deserialize the JSON into a MaritimeTrade_Input object
 	}
 
 	@Override
 	public JsonElement execute()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return MovesFacade.maritimeTrade(params, playerID, gameID);
 	}
 
 }

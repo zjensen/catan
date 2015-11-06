@@ -3,19 +3,26 @@ package server.command.games;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
+import server.facade.GamesFacade;
+import shared.communication.games.CreateGame_Input;
 
 public class Create_Command implements ICommand {
 
-	public Create_Command()
+	private CreateGame_Input params = null;
+	
+	/**
+	 * Command object for creating a game
+	 * @param json
+	 */
+	public Create_Command(String json)
 	{
-		// TODO Auto-generated constructor stub
+		//here we will deserialize the JSON into a CreateGame_Input object
 	}
 
 	@Override
 	public JsonElement execute()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return GamesFacade.create(params);
 	}
 
 }

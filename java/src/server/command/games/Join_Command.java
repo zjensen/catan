@@ -3,19 +3,26 @@ package server.command.games;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
+import server.facade.GamesFacade;
+import shared.communication.games.JoinGame_Input;
 
 public class Join_Command implements ICommand {
 
-	public Join_Command()
+	private JoinGame_Input params = null;
+	
+	/**
+	 * Command object for joining a game
+	 * @param json
+	 */
+	public Join_Command(String json)
 	{
-		// TODO Auto-generated constructor stub
+		//here we will deserialize the JSON into a JoinGame_Input object
 	}
 
 	@Override
 	public JsonElement execute()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return GamesFacade.join(params);
 	}
 
 }

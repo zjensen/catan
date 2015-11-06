@@ -3,19 +3,26 @@ package server.command.game;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
+import server.facade.GameFacade;
+import shared.communication.game.GameModel_Input;
 
 public class Model_Command implements ICommand {
 
-	public Model_Command()
+	private GameModel_Input params = null;
+	
+	/**
+	 * Command object for getting the client model
+	 * @param version
+	 */
+	public Model_Command(int version)
 	{
-		// TODO Auto-generated constructor stub
+		//here we will deserialize the JSON into a GameModel_Input object
 	}
 
 	@Override
 	public JsonElement execute()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return GameFacade.model(params);
 	}
 
 }

@@ -65,25 +65,20 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		if(!isFull())
 			session.getPoller().getClientModel().setVersion(-1);
 		
-		if(isFull() /*&& getView().isModalShowing()*/) {
+		if(isFull()) 
+		{
 			OverlayView.closeAllModals();
 			if(getView().isModalShowing())
-			{
-//				System.out.println("Closing player wait from update");
 				getView().closeModal();
-			}
 			session.setupGame();
-		} else if (updated && !isFull()){
+		} 
+		else if (updated && !isFull())
+		{
 			if(getView().isModalShowing())
-			{
 				getView().closeModal();
-			}
 			if(!getView().isModalShowing())
-			{
 				getView().showModal();
-			}
 		}
-//		System.out.println("Ending PlayerWaiting Update");
 	}
 
 	@Override
@@ -102,18 +97,14 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 		{
 			OverlayView.closeAllModals();
 			if(getView().isModalShowing())
-			{
 				getView().closeModal();
-			}
 			SessionManager.instance().setupGame();
 			SessionManager.instance().forceUpdate();
 		} 
 		else 
 		{
 			if(!getView().isModalShowing())
-			{
 				getView().showModal();
-			}
 		}
 	}
 

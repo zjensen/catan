@@ -12,6 +12,12 @@ public class SendChat_Command implements ICommand{
 	private int gameID = -1;
 	private SendChat_Input params = null;
 
+	/**
+	 * Command object for sending a chat
+	 * @param json
+	 * @param playerID
+	 * @param gameID
+	 */
 	public SendChat_Command(String json, int playerID, int gameID)
 	{
 		this.playerID = playerID;

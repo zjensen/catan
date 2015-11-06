@@ -3,19 +3,32 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
+import server.facade.MovesFacade;
+import shared.communication.moves.RobPlayer_Input;
 
 public class RobPlayer_Command implements ICommand {
 
-	public RobPlayer_Command()
+	private int playerID = -1;
+	private int gameID = -1;
+	private RobPlayer_Input params = null;
+	
+	/**
+	 * Command object for robbing a player
+	 * @param json
+	 * @param playerID
+	 * @param gameID
+	 */
+	public RobPlayer_Command(String json, int playerID, int gameID)
 	{
-		// TODO Auto-generated constructor stub
+		this.playerID = playerID;
+		this.gameID = playerID;
+		//here we will deserialize the JSON into a RobPlayer_Input object
 	}
 
 	@Override
 	public JsonElement execute()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		return MovesFacade.robPlayer(params, playerID, gameID);
 	}
 
 }
