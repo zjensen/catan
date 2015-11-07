@@ -1,26 +1,22 @@
-package server.command.games;
+package server.command.moves;
 
 import com.google.gson.JsonElement;
 import com.sun.net.httpserver.HttpExchange;
 
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
-import server.manager.ServerManager;
 
-public class List_Command extends ServerCommand {
+public class Monopoly_Command extends ServerCommand {
 
-	/**
-	 * Command object for listing all games
-	 */
-	public List_Command(HttpExchange exchange)
-	{
+	public Monopoly_Command(HttpExchange exchange) {
 		super(exchange);
+		// TODO Auto-generated constructor stub
 	}
-	
+
 	@Override
-	public JsonElement execute()
-	{
-		return ServerManager.instance().getGamesFacade().list();
+	public JsonElement execute() throws ServerInvalidRequestException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 	@Override

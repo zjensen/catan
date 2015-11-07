@@ -1,15 +1,15 @@
 package server.command.moves;
 
 import com.google.gson.JsonElement;
+import com.sun.net.httpserver.HttpExchange;
 
-import server.command.ICommand;
+import server.command.ServerCommand;
+import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 import shared.communication.moves.OfferTrade_Input;
 
-public class OfferTrade_Command implements ICommand {
+public class OfferTrade_Command extends ServerCommand {
 
-	private int playerID = -1;
-	private int gameID = -1;
 	private OfferTrade_Input params = null;
 	
 	/**
@@ -18,17 +18,22 @@ public class OfferTrade_Command implements ICommand {
 	 * @param playerID
 	 * @param gameID
 	 */
-	public OfferTrade_Command(String json, int playerID, int gameID)
+	public OfferTrade_Command(HttpExchange exchange)
 	{
-		this.playerID = playerID;
-		this.gameID = playerID;
+		super(exchange);
 		//here we will deserialize the JSON into a OfferTrade_Input object
 	}
 
 	@Override
 	public JsonElement execute()
 	{
-		return ServerManager.instance().getMovesFacade().offerTrade(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().offerTrade(params, super.playerId, super.gameId);
+	}
+
+	@Override
+	public JsonElement execute(String json) throws ServerInvalidRequestException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

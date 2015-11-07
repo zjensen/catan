@@ -1,15 +1,15 @@
 package server.command.moves;
 
 import com.google.gson.JsonElement;
+import com.sun.net.httpserver.HttpExchange;
 
-import server.command.ICommand;
+import server.command.ServerCommand;
+import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 import shared.communication.moves.Monument_Input;
 
-public class Monument_Command implements ICommand {
+public class Monument_Command extends ServerCommand {
 
-	private int playerID = -1;
-	private int gameID = -1;
 	private Monument_Input params = null;
 	
 	/**
@@ -18,17 +18,22 @@ public class Monument_Command implements ICommand {
 	 * @param playerID
 	 * @param gameID
 	 */
-	public Monument_Command(String json, int playerID, int gameID)
+	public Monument_Command(HttpExchange exchange)
 	{
-		this.playerID = playerID;
-		this.gameID = playerID;
+		super(exchange);
 		//here we will deserialize the JSON into a Monument_Input object
 	}
 
 	@Override
 	public JsonElement execute()
 	{
-		return ServerManager.instance().getMovesFacade().monument(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().monument(params, super.playerId, super.gameId);
+	}
+
+	@Override
+	public JsonElement execute(String json) throws ServerInvalidRequestException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

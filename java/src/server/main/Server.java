@@ -83,7 +83,9 @@ private HttpServer server;
 		server.start();
 	}
 
-	private HttpHandler handler = new ServerHandler();
+	//start a server with a real command factory
+	// TODO set up a way to switch out factories
+	private HttpHandler handler = new ServerHandler(true);
 	
 	public static void main(String[] args) 
 	{
