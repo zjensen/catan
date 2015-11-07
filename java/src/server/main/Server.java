@@ -9,9 +9,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import server.handler.ServerHandler;
+import server.handler.*;
 
-import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 
 public class Server 
@@ -76,16 +75,17 @@ private HttpServer server;
 
 		server.setExecutor(null); // use the default executor
 		
-		server.createContext("/", handler);
+		
+		//start a handler with a real command factory
+		// TODO set up a way to switch out factories
+		server.createContext("/", new ServerHandler(true));
+		server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
+		server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 		
 		logger.info("Starting HTTP Server");
 
 		server.start();
 	}
-
-	//start a server with a real command factory
-	// TODO set up a way to switch out factories
-	private HttpHandler handler = new ServerHandler(true);
 	
 	public static void main(String[] args) 
 	{

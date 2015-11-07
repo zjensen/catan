@@ -31,6 +31,7 @@
 	<property name="java.build" location="${java.dir}/build"/>
 	<property name="java.dist" location="${java.dir}/dist"/>
 	<property name="java.lib" location="${java.dir}/lib"/>
+	<property name="java.docs" location="${java.dir}/docs"/>
 	<property name="java.test" location="${java.dir}/test"/>
 
 	<!-- Default command line arguments -->
@@ -140,6 +141,12 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<mkdir dir="${java.dist}/docs"/>
+		<copy todir="${java.dist}/docs">
+			<fileset dir="${java.docs}">
+				<include name="**"/>
+			</fileset>
+		</copy>
  		<jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
 			<manifest>
 				<attribute name="Main-Class" value="client.main.Catan"/>
@@ -149,7 +156,7 @@
 		</jar>
  		<jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
 			<manifest>
-				<attribute name="Main-Class" value="PUT THE NAME OF YOUR SERVER'S MAIN CLASS HERE"/>
+				<attribute name="Main-Class" value="server.main.Server"/>
 				<attribute name="Class-Path" 
 					value="lib/gson-2.2.4.jar" />
 			</manifest>
@@ -173,6 +180,7 @@
 			<assertions>
 				<enable/>
 			</assertions>
+			<arg value="${port}"/>
 		</java>
 	</target>
     
