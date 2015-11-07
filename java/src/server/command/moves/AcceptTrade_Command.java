@@ -3,7 +3,7 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.MovesFacade;
+import server.manager.ServerManager;
 import shared.communication.moves.AcceptTrade_Input;
 
 public class AcceptTrade_Command implements ICommand {
@@ -28,7 +28,7 @@ public class AcceptTrade_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return MovesFacade.acceptTrade(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().acceptTrade(params, playerID, gameID);
 	}
 
 }

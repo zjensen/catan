@@ -3,7 +3,7 @@ package server.command.games;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.GamesFacade;
+import server.manager.ServerManager;
 
 public class List_Command implements ICommand {
 
@@ -18,7 +18,7 @@ public class List_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return GamesFacade.list();
+		return ServerManager.instance().getGamesFacade().list();
 	}
 
 }

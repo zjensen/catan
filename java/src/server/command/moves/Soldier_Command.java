@@ -3,7 +3,7 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.MovesFacade;
+import server.manager.ServerManager;
 import shared.communication.moves.Soldier_Input;
 
 public class Soldier_Command implements ICommand {
@@ -28,7 +28,7 @@ public class Soldier_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return MovesFacade.soldier(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().soldier(params, playerID, gameID);
 	}
 
 }

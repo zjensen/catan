@@ -3,7 +3,7 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.MovesFacade;
+import server.manager.ServerManager;
 import shared.communication.moves.RobPlayer_Input;
 
 public class RobPlayer_Command implements ICommand {
@@ -28,7 +28,7 @@ public class RobPlayer_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return MovesFacade.robPlayer(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().robPlayer(params, playerID, gameID);
 	}
 
 }

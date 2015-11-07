@@ -5,14 +5,15 @@ import shared.communication.user.Register_Input;
 import com.google.gson.JsonElement;
 
 //make all methods static
-public class UserFacade {
+public class UserFacade implements IUserFacade{
 
 	/**
 	 * Handles a login request
 	 * @param params
 	 * @return "SUCCESS" if successful otherwise an error message in JSON
 	 */
-	public static JsonElement login(Login_Input params) {
+	@Override
+	public JsonElement login(Login_Input params) {
 		return null;
 	}
 	
@@ -21,7 +22,8 @@ public class UserFacade {
 	 * @param params
 	 * @return "SUCCESS" if successful otherwise an error message in JSON
 	 */
-	public static JsonElement register(Register_Input params) {
+	@Override
+	public JsonElement register(Register_Input params) {
 		return null;
 	}
 }

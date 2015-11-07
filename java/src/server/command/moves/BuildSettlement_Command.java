@@ -3,7 +3,7 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.MovesFacade;
+import server.manager.ServerManager;
 import shared.communication.moves.BuildSettlement_Input;
 
 public class BuildSettlement_Command implements ICommand {
@@ -22,7 +22,7 @@ public class BuildSettlement_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return MovesFacade.buildSettlement(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().buildSettlement(params, playerID, gameID);
 	}
 
 }

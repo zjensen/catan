@@ -3,7 +3,7 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.MovesFacade;
+import server.manager.ServerManager;
 import shared.communication.moves.FinishTurn_Input;
 
 public class FinishTurn_Command implements ICommand {
@@ -28,7 +28,7 @@ public class FinishTurn_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return MovesFacade.finishTurn(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().finishTurn(params, playerID, gameID);
 	}
 
 }

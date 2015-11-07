@@ -3,7 +3,7 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.MovesFacade;
+import server.manager.ServerManager;
 import shared.communication.moves.DiscardCards_Input;
 
 public class DiscardCards_Command implements ICommand {
@@ -28,7 +28,7 @@ public class DiscardCards_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return MovesFacade.discardCards(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().discardCards(params, playerID, gameID);
 	}
 
 }

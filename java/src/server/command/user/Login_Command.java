@@ -3,7 +3,7 @@ package server.command.user;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.UserFacade;
+import server.manager.ServerManager;
 import shared.communication.user.Login_Input;
 
 public class Login_Command implements ICommand{
@@ -22,6 +22,6 @@ public class Login_Command implements ICommand{
 	@Override
 	public JsonElement execute()
 	{
-		return UserFacade.login(params);
+		return ServerManager.instance().getUserFacade().login(params);
 	}
 }

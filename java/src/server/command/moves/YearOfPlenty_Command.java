@@ -3,7 +3,7 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.MovesFacade;
+import server.manager.ServerManager;
 import shared.communication.moves.YearOfPlenty_Input;
 
 public class YearOfPlenty_Command implements ICommand {
@@ -28,7 +28,7 @@ public class YearOfPlenty_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return MovesFacade.yearOfPlenty(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().yearOfPlenty(params, playerID, gameID);
 	}
 
 }

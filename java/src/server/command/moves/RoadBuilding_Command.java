@@ -3,7 +3,7 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.MovesFacade;
+import server.manager.ServerManager;
 import shared.communication.moves.RoadBuilding_Input;
 
 public class RoadBuilding_Command implements ICommand {
@@ -28,7 +28,7 @@ public class RoadBuilding_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return MovesFacade.roadBuilding(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().roadBuilding(params, playerID, gameID);
 	}
 
 }

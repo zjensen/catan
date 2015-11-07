@@ -3,7 +3,7 @@ package server.command.game;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.GameFacade;
+import server.manager.ServerManager;
 import shared.communication.game.GameModel_Input;
 
 public class Model_Command implements ICommand {
@@ -22,7 +22,7 @@ public class Model_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return GameFacade.currentModel(params);
+		return ServerManager.instance().getGameFacade().currentModel(params);
 	}
 
 }

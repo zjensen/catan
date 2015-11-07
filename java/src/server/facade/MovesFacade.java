@@ -6,14 +6,14 @@ import shared.models.ClientModel;
 import com.google.gson.JsonElement;
 
 //make all methods static
-public class MovesFacade 
+public class MovesFacade implements IMovesFacade
 {
 	/**
 	 * Converts a ClientModel to JSON for sending to client
 	 * @param model
 	 * @return clientModel serialized as a JSON object
 	 */
-	private static JsonElement serializeModel(ClientModel model)
+	private JsonElement serializeModel(ClientModel model)
 	{
 		return null;
 	}
@@ -25,7 +25,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement acceptTrade(AcceptTrade_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement acceptTrade(AcceptTrade_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -37,7 +38,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement buildCity(BuildCity_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement buildCity(BuildCity_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -49,7 +51,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement buildRoad(BuildRoad_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement buildRoad(BuildRoad_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -61,7 +64,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement buildSettlement(BuildSettlement_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement buildSettlement(BuildSettlement_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -73,7 +77,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement buyDevCard(BuyDevCard_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement buyDevCard(BuyDevCard_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -85,7 +90,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement discardCards(DiscardCards_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement discardCards(DiscardCards_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -97,7 +103,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement finishTurn(FinishTurn_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement finishTurn(FinishTurn_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -109,7 +116,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement maritimeTrade(MaritimeTrade_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement maritimeTrade(MaritimeTrade_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -121,7 +129,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement monument(Monument_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement monument(Monument_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -133,7 +142,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement offerTrade(OfferTrade_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement offerTrade(OfferTrade_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -145,7 +155,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement roadBuilding(RoadBuilding_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement roadBuilding(RoadBuilding_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -157,7 +168,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement robPlayer(RobPlayer_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement robPlayer(RobPlayer_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -169,7 +181,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement rollNumber(RollNumber_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement rollNumber(RollNumber_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -181,7 +194,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement sendChat(SendChat_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement sendChat(SendChat_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -193,7 +207,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement soldier(Soldier_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement soldier(Soldier_Input params, int playerID, int gameID)
 	{
 		return null;
 	}
@@ -205,7 +220,8 @@ public class MovesFacade
 	 * @param gameID
 	 * @return updated clientModel in JSON form if successful, else error message in JSON
 	 */
-	public static JsonElement yearOfPlenty(YearOfPlenty_Input params, int playerID, int gameID)
+	@Override
+	public JsonElement yearOfPlenty(YearOfPlenty_Input params, int playerID, int gameID)
 	{
 		return null;
 	}

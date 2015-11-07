@@ -3,7 +3,7 @@ package server.command.games;
 import com.google.gson.JsonElement;
 
 import server.command.ICommand;
-import server.facade.GamesFacade;
+import server.manager.ServerManager;
 import shared.communication.games.CreateGame_Input;
 
 public class Create_Command implements ICommand {
@@ -22,7 +22,7 @@ public class Create_Command implements ICommand {
 	@Override
 	public JsonElement execute()
 	{
-		return GamesFacade.create(params);
+		return ServerManager.instance().getGamesFacade().create(params);
 	}
 
 }
