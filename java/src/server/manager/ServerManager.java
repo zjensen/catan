@@ -1,18 +1,18 @@
 package server.manager;
 
-import java.util.HashMap;
-
 import server.facade.*;
-import shared.models.ClientModel;
+import server.model.*;
 
 public class ServerManager {
 	
-	HashMap<Integer, ClientModel> models;
 	public static ServerManager _instance;
 	private IUserFacade userFacade;
 	private IGameFacade gameFacade;
 	private IGamesFacade gamesFacade;
 	private IMovesFacade movesFacade;
+	private GamesManager gamesManager = new GamesManager();
+	private UsersManager usersManager = new UsersManager();
+	
 	
 	public static ServerManager instance() {
 		if (_instance == null)
@@ -48,5 +48,25 @@ public class ServerManager {
 
 	public IMovesFacade getMovesFacade() {
 		return movesFacade;
+	}
+	
+	public GamesManager getGamesManager()
+	{
+		return gamesManager;
+	}
+
+	public void setGamesManager(GamesManager gamesManager)
+	{
+		this.gamesManager = gamesManager;
+	}
+
+	public UsersManager getUsersManager()
+	{
+		return usersManager;
+	}
+
+	public void setUsersManager(UsersManager usersManager)
+	{
+		this.usersManager = usersManager;
 	}
 }
