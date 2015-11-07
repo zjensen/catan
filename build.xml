@@ -31,6 +31,7 @@
 	<property name="java.build" location="${java.dir}/build"/>
 	<property name="java.dist" location="${java.dir}/dist"/>
 	<property name="java.lib" location="${java.dir}/lib"/>
+	<property name="java.docs" location="${java.dir}/docs"/>
 	<property name="java.test" location="${java.dir}/test"/>
 
 	<!-- Default command line arguments -->
@@ -137,6 +138,12 @@
 		<mkdir dir="${java.dist}/images"/>
 		<copy todir="${java.dist}/images">
 			<fileset dir="${java.images}">
+				<include name="**"/>
+			</fileset>
+		</copy>
+		<mkdir dir="${java.dist}/docs"/>
+		<copy todir="${java.dist}/docs">
+			<fileset dir="${java.docs}">
 				<include name="**"/>
 			</fileset>
 		</copy>
