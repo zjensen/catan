@@ -149,7 +149,7 @@
 		</jar>
  		<jar jarfile="${java.dist}/catan-server.jar" basedir="${java.build}">
 			<manifest>
-				<attribute name="Main-Class" value="PUT THE NAME OF YOUR SERVER'S MAIN CLASS HERE"/>
+				<attribute name="Main-Class" value="server.main.Server"/>
 				<attribute name="Class-Path" 
 					value="lib/gson-2.2.4.jar" />
 			</manifest>
@@ -173,6 +173,7 @@
 			<assertions>
 				<enable/>
 			</assertions>
+			<arg value="${port}"/>
 		</java>
 	</target>
     
