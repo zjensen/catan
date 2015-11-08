@@ -1,15 +1,15 @@
 package server.command.moves;
 
 import com.google.gson.JsonElement;
+import com.sun.net.httpserver.HttpExchange;
 
-import server.command.ICommand;
+import server.command.ServerCommand;
+import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 import shared.communication.moves.YearOfPlenty_Input;
 
-public class YearOfPlenty_Command implements ICommand {
+public class YearOfPlenty_Command extends ServerCommand {
 
-	private int playerID = -1;
-	private int gameID = -1;
 	private YearOfPlenty_Input params = null;
 	
 	/**
@@ -18,17 +18,22 @@ public class YearOfPlenty_Command implements ICommand {
 	 * @param playerID
 	 * @param gameID
 	 */
-	public YearOfPlenty_Command(String json, int playerID, int gameID)
+	public YearOfPlenty_Command(HttpExchange exchange)
 	{
-		this.playerID = playerID;
-		this.gameID = playerID;
+		super(exchange);
 		//here we will deserialize the JSON into a YearOfPlenty_Input object
 	}
 
 	@Override
 	public JsonElement execute()
 	{
-		return ServerManager.instance().getMovesFacade().yearOfPlenty(params, playerID, gameID);
+		return ServerManager.instance().getMovesFacade().yearOfPlenty(params, super.playerId, super.gameId);
+	}
+
+	@Override
+	public JsonElement execute(String json) throws ServerInvalidRequestException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
