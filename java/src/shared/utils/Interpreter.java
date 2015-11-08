@@ -80,8 +80,8 @@ public class Interpreter
 			case "nw":
 			case "northwest":
 				return result = EdgeDirection.NorthWest;
-			case "w":
-			case "west":
+			case "s":
+			case "south":
 				return result = EdgeDirection.South;
 			case "se":
 			case "southeast":
