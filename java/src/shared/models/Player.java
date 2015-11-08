@@ -489,6 +489,7 @@ public class Player {
 	public void buildCity()
 	{
 		cities--;
+		victoryPoints++;
 		settlements++;
 		resources.setOre(resources.getOre()-3);
 		resources.setWheat(resources.getWheat()-2);
@@ -504,6 +505,7 @@ public class Player {
 	public void buildSettlement()
 	{
 		settlements--;
+		victoryPoints++;
 		resources.setBrick(resources.getBrick()-1);
 		resources.setWood(resources.getWood()-1);
 		resources.setSheep(resources.getSheep()-1);
@@ -513,6 +515,15 @@ public class Player {
 	public void addVictoryPoint()
 	{
 		victoryPoints++;
+	}
+	
+	public void subtract2VictoryPoints()
+	{
+		victoryPoints-=2;
+	}
+	public void add2VictoryPoints()
+	{
+		victoryPoints+=2;
 	}
 
 	public void maritimeTrade(MaritimeTrade_Input params)

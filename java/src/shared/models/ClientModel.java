@@ -373,6 +373,7 @@ public class ClientModel {
 		receiver.receiveCards(tradeOffer.getOffer());
 		Player sender = getPlayerByIndex(tradeOffer.getSender());
 		sender.sendCards(tradeOffer.getOffer());
+		tradeOffer = null;
 	}
 		
 	public void buildCity(BuildCity_Input params)
@@ -399,6 +400,8 @@ public class ClientModel {
 			}
 			if(p.getRoadsPlayed()>mostRoads)
 			{
+				getPlayerByIndex(turnTracker.getLongestRoad()).subtract2VictoryPoints();
+				p.add2VictoryPoints();
 				turnTracker.setLongestRoad(p.getIndex());
 			}
 		}
