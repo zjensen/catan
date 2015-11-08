@@ -5,7 +5,7 @@ import java.util.Observable;
 import client.data.GameInfo;
 import client.data.PlayerInfo;
 import client.facade.ClientFacade;
-import client.interpreter.Interpreter;
+import shared.utils.Interpreter;
 import client.poller.Poller;
 import client.server.*;
 import shared.communication.game.GameModel_Input;

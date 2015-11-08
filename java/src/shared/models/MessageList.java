@@ -1,7 +1,5 @@
 package shared.models;
 
-import java.util.Arrays;
-
 public class MessageList {
 	
 	private MessageLine[] lines;
@@ -23,6 +21,17 @@ public class MessageList {
 
 	public void setLines(MessageLine[] lines) {
 		this.lines = lines;
+	}
+
+
+	public void addLine(String name, String content)
+	{
+		MessageLine[] updatedLines = new MessageLine[lines.length+1];
+		for(int i=0;i<lines.length;i++)
+		{
+			updatedLines[i] = lines[i];
+		}
+		updatedLines[lines.length+1] = new MessageLine(name, content);
 	}
 
 }

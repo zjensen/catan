@@ -291,4 +291,24 @@ public class ResourceCards {
 		this.ore = -this.ore;
 	}
 	
+	public void changeSheep(int num) {
+		sheep+=num;
+	}
+
+	public void changeWheat(int num) {
+		wheat+=num;
+	}
+
+	public void changeWood(int num) {
+		wood+=num;
+	}
+
+	public void changeBrick(int num) {
+		brick+=num;
+	}
+
+	public void changeOre(int num) {
+		ore+=num;
+	}
+	
 }

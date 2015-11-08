@@ -12,6 +12,13 @@ public class TradeOffer {
 		this.offer = new ResourceCards();	
 	}
 
+	public TradeOffer(int sender, int receiver, ResourceCards offer)
+	{
+		this.sender = sender;
+		this.receiver = receiver;
+		this.offer = offer;
+	}
+
 	@Override
 	public String toString() {
 		return "===Trade Offer==="

@@ -5,6 +5,17 @@ public class MessageLine {
 	private String source;
 	private String message;
 	
+	public MessageLine(String source, String message)
+	{
+		this.source = source;
+		this.message = message;
+	}
+	
+	public MessageLine()
+	{
+		
+	}
+	
 	@Override
 	public String toString() {
 		return "MessageLine  [source=" + source 

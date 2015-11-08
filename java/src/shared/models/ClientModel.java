@@ -363,4 +363,110 @@ public class ClientModel {
 		Player p = getPlayerByIndex(index);
 		return (p.getNumberOfCards() / 2);
 	}
+	
+	public void acceptTrade(AcceptTrade_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+	}
+		
+	public void buildCity(BuildCity_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		p.buildCity();
+		map.getCities().put(params.getVertexLocation(), p);
+	}
+
+	public void buildRoad(BuildRoad_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		p.buildRoad();
+		map.getRoads().put(params.getRoadLocation(), p);
+	}
+
+	public void buildSettlement(BuildSettlement_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		p.buildSettlement();
+		map.getSettlements().put(params.getVertexLocation(), p);
+	}
+
+	public void buyDevCard(BuyDevCard_Input params)
+	{
+		getPlayerByIndex(params.getPlayerIndex()).getNewDevCards().addDevCard(deck.getRandomCard());
+	}
+
+	public void discardCards(DiscardCards_Input params)
+	{
+		
+	}
+
+	public void finishTurn(FinishTurn_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex()); //player ending turn
+		p.getOldDevCards().addCards(p.getNewDevCards()); //adds new devCards to old cards
+		p.setNewDevCards(new DevCards()); //resets new cards
+		turnTracker.endTurn();
+	}
+
+	public void maritimeTrade(MaritimeTrade_Input params)
+	{
+		getPlayerByIndex(params.getPlayerIndex()).maritimeTrade(params);
+	}
+
+	public void monopoly(Monopoly_Input params)
+	{
+		
+	}
+
+	public void monument(Monument_Input params)
+	{
+		getPlayerByIndex(params.getPlayerIndex()).addVictoryPoint();
+	}
+
+	public void offerTrade(OfferTrade_Input params)
+	{
+		tradeOffer = new TradeOffer(params.getPlayerIndex(),params.getReceiver(),params.getOffer());
+	}
+
+	public void roadBuilding(RoadBuilding_Input params)
+	{
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		p.getOldDevCards().setRoadBuilding(p.getOldDevCards().getRoadBuilding()-1);
+		map.getRoads().put(params.getSpot1().getNormalizedLocation(), p);
+		map.getRoads().put(params.getSpot2().getNormalizedLocation(), p);
+	}
+
+	public void robPlayer(RobPlayer_Input params)
+	{
+		turnTracker.setStatus("playing");
+	}
+
+	public void rollNumber(RollNumber_Input params)
+	{
+		if(params.getNumber()==7)
+		{
+			turnTracker.setStatus("discarding");
+			//todo
+		}
+		else
+		{
+			//todo
+			turnTracker.setStatus("playing");
+		}
+	}
+
+	public void sendChat(SendChat_Input params)
+	{
+		chat.addLine(getPlayerByIndex(params.getPlayerIndex()).getName(),params.getContent());
+	}
+
+	public void soldier(Soldier_Input params)
+	{
+		//todo
+	}
+
+	public void yearOfPlenty(YearOfPlenty_Input params)
+	{
+		//todo
+	}
 }

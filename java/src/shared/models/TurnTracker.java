@@ -63,4 +63,27 @@ public class TurnTracker {
 		this.largestArmy = largestArmy;
 	}
 	
+	public void endTurn()
+	{
+		currentTurn++;
+		if(currentTurn == 4)
+		{
+			currentTurn = 0;
+			if(status.equals("firstround"))
+			{
+				status = "secondround";
+			}
+			else
+			{
+				status = "rolling";
+			}
+			return;
+		}
+		
+		if(status.equals("playing"))
+		{
+			status = "rolling";
+		}
+	}
+	
 }

@@ -485,4 +485,63 @@ public class Player {
 	{
 		return oldDevCards.cardCount();
 	}
+
+	public void buildCity()
+	{
+		cities--;
+		settlements++;
+		resources.setOre(resources.getOre()-3);
+		resources.setWheat(resources.getWheat()-2);
+	}
+
+	public void buildRoad()
+	{
+		roads--;
+		resources.setBrick(resources.getBrick()-1);
+		resources.setWood(resources.getWood()-1);
+	}
+
+	public void buildSettlement()
+	{
+		settlements--;
+		resources.setBrick(resources.getBrick()-1);
+		resources.setWood(resources.getWood()-1);
+		resources.setSheep(resources.getSheep()-1);
+		resources.setWheat(resources.getWheat()-1);
+	}
+
+	public void addVictoryPoint()
+	{
+		victoryPoints++;
+	}
+
+	public void maritimeTrade(MaritimeTrade_Input params)
+	{
+		switch(params.getInputResource()) //subtract resource they're trading
+		{
+			case BRICK:
+				resources.changeBrick(-params.getRatio());
+			case ORE:
+				resources.changeOre(-params.getRatio());
+			case SHEEP:
+				resources.changeSheep(-params.getRatio());
+			case WHEAT:
+				resources.changeWheat(-params.getRatio());
+			case WOOD:
+				resources.changeWood(-params.getRatio());
+		}
+		switch(params.getOutputResource()) //add resource they're trading for
+		{
+			case BRICK:
+				resources.changeBrick(1);
+			case ORE:
+				resources.changeOre(1);
+			case SHEEP:
+				resources.changeSheep(1);
+			case WHEAT:
+				resources.changeWheat(1);
+			case WOOD:
+				resources.changeWood(1);
+		}
+	}
 }

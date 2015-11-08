@@ -13,7 +13,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
 import client.facade.ClientFacade;
-import client.interpreter.Interpreter;
+import shared.utils.Interpreter;
 import shared.communication.moves.*;
 import shared.definitions.ResourceType;
 import shared.locations.*;
