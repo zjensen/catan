@@ -2,6 +2,10 @@ package shared.models;
 
 import shared.communication.moves.*;
 import shared.definitions.DevCardType;
+import shared.definitions.ResourceType;
+import shared.locations.EdgeDirection;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 
 public class ClientModel {
 	
@@ -136,6 +140,10 @@ public class ClientModel {
 		{
 			return false;
 		}
+		else if(!bank.canChangeResource(params.getOutputResource(), 1)) //does bank have enough resources?
+		{
+			return false;
+		}
 		return true;
 	}
 	
@@ -156,6 +164,10 @@ public class ClientModel {
 	
 	public boolean canBuyDevCard(BuyDevCard_Input params)
 	{
+		if(deck.cardCount() < 1) //does deck have enough remaining cards?
+		{
+			return false;
+		}
 		return getPlayerByIndex(params.getPlayerIndex()).canBuyDevCard();
 	}
 	
@@ -170,6 +182,25 @@ public class ClientModel {
 	
 	public boolean canYearOfPlenty(YearOfPlenty_Input params)
 	{
+		if(params.getResource().equals(params.getResource1())) //both resources are same, check if bank has 2 of them
+		{
+			if(!bank.canChangeResource(params.getResource(), 2)) //does bank have enough resources?
+			{
+				return false;
+			}
+		}
+		else //asking for two different resources
+		{
+			if(!bank.canChangeResource(params.getResource(), 1)) //does bank have enough resources?
+			{
+				return false;
+			}
+			else if(!bank.canChangeResource(params.getResource1(), 1)) //does bank have enough resources?
+			{
+				return false;
+			}
+		}
+		
 		return getPlayerByIndex(params.getPlayerIndex()).canYearOfPlenty();
 	}
 	
@@ -365,32 +396,53 @@ public class ClientModel {
 		return (p.getNumberOfCards() / 2);
 	}
 	
-	///////////////////////////////////////////////////////////////////////////////////////////////
+	public boolean bankHasCards(ResourceType r, int i)
+	{
+		return false;
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+										//METHODS FOR MODIFYING MODEL//
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
 	
 	public void acceptTrade(AcceptTrade_Input params)
 	{
-		Player receiver = getPlayerByIndex(params.getPlayerIndex());
-		receiver.receiveCards(tradeOffer.getOffer());
-		Player sender = getPlayerByIndex(tradeOffer.getSender());
-		sender.sendCards(tradeOffer.getOffer());
-		tradeOffer = null;
+		Player receiver = getPlayerByIndex(params.getPlayerIndex()); //player on receiving end of trade
+		receiver.receiveCards(tradeOffer.getOffer()); //gives receiver the cards he was offered, takes away the cards he agreed to trade
+		Player sender = getPlayerByIndex(tradeOffer.getSender()); //player that sent the trade initially
+		sender.sendCards(tradeOffer.getOffer()); //gives send the cards he asked for, takes away the cards he offered
+		tradeOffer = null; //sets tradeOffer to null
+		String content = "";
+		if(params.isWillAccept())
+		{
+			content="The trade was accepted.";
+		}
+		else
+		{
+			content="The trade was not accepted.";
+		}
+		log.addLine(receiver.getName(), content);
 	}
 		
 	public void buildCity(BuildCity_Input params)
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
-		p.buildCity();
-		map.getCities().put(params.getVertexLocation(), p);
+		p.buildCity(); //remove resources from player
+		bank.cityBuilt(); //add resources to bank
+		map.getCities().put(params.getVertexLocation().getNormalizedLocation(), p); //place city on map
+		log.addLine(p.getName(), (p.getName() + " upgraded to a city."));
+		checkThenSetWinner(); //check if this move made a player win the game
 	}
 
 	public void buildRoad(BuildRoad_Input params)
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
-		p.buildRoad();
-		
-		if(p.getRoadsPlayed() >= 5)
+		p.buildRoad(); //remove resources from player
+		if(p.getRoadsPlayed() >= 5) //player could possible have longest road
 		{
-			int mostRoads = 0;
+			int mostRoads = 0; //most roads any of the other players have
 			for(Player p2 : players)
 			{
 				if(p2.getIndex() != p.getIndex() && p2.getRoadsPlayed() > mostRoads)
@@ -398,32 +450,63 @@ public class ClientModel {
 					mostRoads = p2.getRoadsPlayed();
 				}
 			}
-			if(p.getRoadsPlayed()>mostRoads)
+			if(p.getRoadsPlayed()>mostRoads) //player has more roads than any other player
 			{
-				getPlayerByIndex(turnTracker.getLongestRoad()).subtract2VictoryPoints();
-				p.add2VictoryPoints();
-				turnTracker.setLongestRoad(p.getIndex());
+				if(turnTracker.getLongestRoad()!=-1) //if someone currently has longest road
+				{
+					//remove victory points from previous longestRoad holder
+					getPlayerByIndex(turnTracker.getLongestRoad()).subtract2VictoryPoints(); 
+				}
+				p.add2VictoryPoints(); //add victory points to player
+				turnTracker.setLongestRoad(p.getIndex()); //update the turn tracker to reflect new longest road holder
 			}
 		}
-		
-		map.getRoads().put(params.getRoadLocation(), p);
+		map.getRoads().put(params.getRoadLocation().getNormalizedLocation(), p); //add road to map
+		bank.roadBuilt(); //add resources to bank
+		log.addLine(p.getName(), (p.getName() + " built a road."));
+		checkThenSetWinner(); //check if this move made a player win the game
 	}
 
 	public void buildSettlement(BuildSettlement_Input params)
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
-		p.buildSettlement();
-		map.getSettlements().put(params.getVertexLocation(), p);
+		p.buildSettlement(); //remove resources from player
+		map.getSettlements().put(params.getVertexLocation().getNormalizedLocation(), p); //add settlement to map
+		bank.settlementBuilt(); //add resources to bank
+		checkThenSetWinner(); //check if this move made a player win the game
+		log.addLine(p.getName(), (p.getName() + " built a settlement."));
 	}
 
 	public void buyDevCard(BuyDevCard_Input params)
 	{
-		getPlayerByIndex(params.getPlayerIndex()).getNewDevCards().addDevCard(deck.getRandomCard());
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		//takes random devcard from deck and adds to player's new dev card deck
+		p.getNewDevCards().addDevCard(deck.getRandomCard());
+		log.addLine(p.getName(), (p.getName() + " bought a development card."));
 	}
 
 	public void discardCards(DiscardCards_Input params)
 	{
-		//todo
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		p.sendCards(params.getDiscardedCards()); //removes all cards in list
+		bank.addCards(params.getDiscardedCards()); //add cards from player to bank
+		p.setDiscarded(true); //player has now discarded cards
+		boolean doneDiscarding = true; //has every player discarded that needs to?
+		for(Player p2 : players)
+		{
+			if(needsToDiscard(p2.getIndex()))
+			{
+				doneDiscarding = false;
+			}
+		}
+		if(doneDiscarding) //every player that needs to discard has done so
+		{
+			turnTracker.setStatus("robbing"); //let the player rob
+			for(Player p2 : players)
+			{
+				p2.setDiscarded(false); //reset every players "discarded" variable to false
+			}
+		}
 	}
 
 	public void finishTurn(FinishTurn_Input params)
@@ -431,93 +514,105 @@ public class ClientModel {
 		Player p = getPlayerByIndex(params.getPlayerIndex()); //player ending turn
 		p.getOldDevCards().addCards(p.getNewDevCards()); //adds new devCards to old cards
 		p.setNewDevCards(new DevCards()); //resets new cards
-		turnTracker.endTurn();
+		p.setPlayedDevCard(false); //reset playedDevCard variable
+		turnTracker.endTurn(); //causes turn tracker to update
+		log.addLine(p.getName(), (p.getName() + "'s turn just ended."));
 	}
 
 	public void maritimeTrade(MaritimeTrade_Input params)
 	{
-		getPlayerByIndex(params.getPlayerIndex()).maritimeTrade(params);
+		getPlayerByIndex(params.getPlayerIndex()).maritimeTrade(params); //updates player's resources
+		bank.changeResource(params.getOutputResource(), -1); //remove resource from bank that player received
+		bank.changeResource(params.getInputResource(), params.getRatio()); //adds resource to bank that player traded
 	}
 
 	public void monopoly(Monopoly_Input params)
 	{
-		Player receiver = getPlayerByIndex(params.getPlayerIndex());
-		receiver.getOldDevCards().subtractDevCard(DevCardType.MONOPOLY);
-		receiver.setPlayedDevCard(true);
+		Player receiver = getPlayerByIndex(params.getPlayerIndex()); //player that played this card
+		receiver.getOldDevCards().subtractDevCard(DevCardType.MONOPOLY); //take dev card out of this player's hand
+		receiver.setPlayedDevCard(true); //this player has played a card this round, so let it be known
 		for(Player p : players)
 		{
-			if(p.getIndex()==params.getPlayerIndex())
+			if(p.getIndex()==params.getPlayerIndex()) //current player doesnt give up his resources
 			{
 				continue;
 			}
 			int num = 0;
-			switch (params.getResource()) 
+			switch (params.getResource()) //take the requested resource from all the other players
 			{
 				case WOOD:
 					num = p.getResources().getWood();
-					if(num > 0)
+					if(num > 0)//if player has the requested resource
 					{
-						p.getResources().changeWood(-num);
-						receiver.getResources().changeWood(num);
+						p.getResources().changeWood(-num); //take resource from other player
+						receiver.getResources().changeWood(num); //give resource to player using this card
 					}
 					break;
 				case BRICK:
 					num = p.getResources().getBrick();
-					if(num > 0)
+					if(num > 0)//if player has the requested resource
 					{
-						p.getResources().changeBrick(-num);
-						receiver.getResources().changeBrick(num);
+						p.getResources().changeBrick(-num);//take resource from other player
+						receiver.getResources().changeBrick(num);//give resource to player using this card
 					}
 					break;
 				case SHEEP:
 					num = p.getResources().getSheep();
-					if(num > 0)
+					if(num > 0)//if player has the requested resource
 					{
-						p.getResources().changeSheep(-num);
-						receiver.getResources().changeSheep(num);
+						p.getResources().changeSheep(-num);//take resource from other player
+						receiver.getResources().changeSheep(num);//give resource to player using this card
 					}
 					break;
 				case WHEAT:
 					num = p.getResources().getWheat();
-					if(num > 0)
+					if(num > 0)//if player has the requested resource
 					{
-						p.getResources().changeWheat(-num);
-						receiver.getResources().changeWheat(num);
+						p.getResources().changeWheat(-num);//take resource from other player
+						receiver.getResources().changeWheat(num);//give resource to player using this card
 					}
 					break;
 				case ORE:
 					num = p.getResources().getOre();
-					if(num > 0)
+					if(num > 0) //if player has the requested resource
 					{
-						p.getResources().changeOre(-num);
-						receiver.getResources().changeOre(num);
+						p.getResources().changeOre(-num);//take resource from other player
+						receiver.getResources().changeOre(num);//give resource to player using this card
 					}
 					break;
 			}
 		}
+		log.addLine(receiver.getName(), (receiver.getName() + " is the absolute worst, and stole everyone's "+params.getResource().toString().toLowerCase()+"."));
 	}
 
 	public void monument(Monument_Input params)
 	{
-		//todo
-		getPlayerByIndex(params.getPlayerIndex()).addVictoryPoint();
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		//subtracts 1 monument card from player's hand, adds victory point, and sets playedDevCard to true
+		p.playMonumentCard();
+		log.addLine(p.getName(), (p.getName() + " played a monument card, and gained a victory point."));
+		checkThenSetWinner(); //check if this move made a player win the game
 	}
 
 	public void offerTrade(OfferTrade_Input params)
 	{
-		tradeOffer = new TradeOffer(params.getPlayerIndex(),params.getReceiver(),params.getOffer());
+		tradeOffer = new TradeOffer(params.getPlayerIndex(),params.getReceiver(),params.getOffer()); //sets trade offer
+		Player sender = getPlayerByIndex(params.getPlayerIndex());
+		Player receiver = getPlayerByIndex(params.getReceiver());
+		log.addLine(sender.getName(), (sender.getName() + " sent a trade offer to "+receiver.getName()+"."));
 	}
 
 	public void roadBuilding(RoadBuilding_Input params)
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
-		p.getOldDevCards().subtractDevCard(DevCardType.ROAD_BUILD);
-		p.setPlayedDevCard(true);
-		map.getRoads().put(params.getSpot1().getNormalizedLocation(), p);
-		map.getRoads().put(params.getSpot2().getNormalizedLocation(), p);
-		if(p.getRoadsPlayed() >= 5)
+		p.getOldDevCards().subtractDevCard(DevCardType.ROAD_BUILD); //remove card from player's hand
+		p.setPlayedDevCard(true); //let it be known in the land that this player has been playing dev cards
+		p.setRoads(p.getRoads()-2); //take away the two roads they just player
+		map.getRoads().put(params.getSpot1().getNormalizedLocation(), p); //add first road
+		map.getRoads().put(params.getSpot2().getNormalizedLocation(), p); //add second road
+		if(p.getRoadsPlayed() >= 5) //player could possible have longest road
 		{
-			int mostRoads = 0;
+			int mostRoads = 0; //most roads any of the other players have
 			for(Player p2 : players)
 			{
 				if(p2.getIndex() != p.getIndex() && p2.getRoadsPlayed() > mostRoads)
@@ -525,30 +620,157 @@ public class ClientModel {
 					mostRoads = p2.getRoadsPlayed();
 				}
 			}
-			if(p.getRoadsPlayed()>mostRoads)
+			if(p.getRoadsPlayed()>mostRoads) //player has more roads than any other player
 			{
-				turnTracker.setLongestRoad(p.getIndex());
+				if(turnTracker.getLongestRoad()!=-1) //if someone currently has longest road
+				{
+					//remove victory points from previous longestRoad holder
+					getPlayerByIndex(turnTracker.getLongestRoad()).subtract2VictoryPoints(); 
+				}
+				p.add2VictoryPoints(); //add victory points to player
+				turnTracker.setLongestRoad(p.getIndex()); //update the turn tracker to reflect new longest road holder
 			}
 		}
+		log.addLine(p.getName(), (p.getName() + " built two roads."));
+		checkThenSetWinner(); //check if this move made a player win the game
 	}
 
 	public void robPlayer(RobPlayer_Input params)
 	{
-		//todo
-		turnTracker.setStatus("playing");
+		Player player = getPlayerByIndex(params.getPlayerIndex()); //player that did the robbing
+		if(params.getVictimIndex()==-1) //no victim
+		{
+			log.addLine(player.getName(), (player.getName() + " moved the robber, but was unable to rob anyone."));
+		}
+		else
+		{
+			Player victim = getPlayerByIndex(params.getVictimIndex()); //victim of the robbing
+			player.addCard(victim.getResources().getRandomCard()); //take random card from victim, give to player
+			log.addLine(player.getName(), (player.getName() + " moved the robber, and robbed "+victim.getName()+"."));
+		}
+		map.setRobber(params.getLocation()); //set robber to new location
+		turnTracker.setStatus("playing"); //change status of game
 	}
 
 	public void rollNumber(RollNumber_Input params)
 	{
+		Player player = getPlayerByIndex(params.getPlayerIndex());
+		
 		if(params.getNumber()==7)
 		{
-			turnTracker.setStatus("discarding");
-			//todo
+			boolean needToDiscard = false; //can we skip discarding?
+			for(Player p : players)
+			{
+				if(needsToDiscard(p.getIndex()))
+				{
+					needToDiscard = true;
+				}
+			}
+			if(needToDiscard) //at least one player needs to discard
+			{
+				turnTracker.setStatus("discarding");
+			}
+			else //no player needs to discard, skip to robbing
+			{
+				turnTracker.setStatus("robbing");
+			}
 		}
 		else
 		{
-			//todo
+			for(Hex h : map.getHexes())
+			{
+				Player p = null;
+				if(h.getNumber() == params.getNumber())
+				{
+					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
+					{
+						p = map.getSettlements().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+					}
+					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
+					{
+						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+					}
+					
+					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthEast)))
+					{
+						p = map.getSettlements().get(new VertexLocation(h.getLocation(),VertexDirection.NorthEast));
+						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+					}
+					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
+					{
+						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+					}
+					
+					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthEast)))
+					{
+						p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthEast));
+						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+					}
+					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
+					{
+						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+					}
+					
+					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthWest)))
+					{
+						p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthWest));
+						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+					}
+					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
+					{
+						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+					}
+					
+					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthWest),VertexDirection.NorthEast)))
+					{
+						p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthWest),VertexDirection.NorthEast));
+						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+					}
+					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
+					{
+						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+					}
+					
+					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthEast),VertexDirection.NorthWest)))
+					{
+						p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthEast),VertexDirection.NorthWest));
+						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+					}
+					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
+					{
+						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+					}
+					
+				}
+			}
 			turnTracker.setStatus("playing");
+			if(params.getNumber()==8 || params.getNumber()==11)
+			{
+				log.addLine(player.getName(), (player.getName() + " rolled an "+params.getNumber()+"."));
+			}
+			else
+			{
+				log.addLine(player.getName(), (player.getName() + " rolled a "+params.getNumber()+"."));
+			}	
 		}
 	}
 
@@ -559,11 +781,78 @@ public class ClientModel {
 
 	public void soldier(Soldier_Input params)
 	{
-		//todo
+		Player player = getPlayerByIndex(params.getPlayerIndex()); //player that did the robbing
+		log.addLine(player.getName(), (player.getName() + " played a soldier card."));
+		
+		if(params.getVictimIndex()==-1) //no victim
+		{
+			log.addLine(player.getName(), (player.getName() + " moved the robber, but was unable to rob anyone."));
+		}
+		else
+		{
+			Player victim = getPlayerByIndex(params.getVictimIndex()); //victim of the robbing
+			player.addCard(victim.getResources().getRandomCard()); //take random card from victim, give to player
+			log.addLine(player.getName(), (player.getName() + " moved the robber, and robbed "+victim.getName()+"."));
+		}
+		
+		map.setRobber(params.getLocation()); //set robber to new location
+		player.setSoldiers(player.getSoldiers()+1);
+		if(player.getSoldiers() >= 3) //player could possible have largest army
+		{
+			int mostSoldiers = 0; //most soldiers any of the other players have
+			for(Player p : players)
+			{
+				if(p.getIndex() != player.getIndex() && p.getSoldiers() > mostSoldiers)
+				{
+					mostSoldiers = p.getSoldiers();
+				}
+			}
+			if(player.getSoldiers()>mostSoldiers) //player has more soldiers than any other player
+			{
+				if(turnTracker.getLargestArmy()!=-1) //if someone currently has largestArmy
+				{
+					//remove victory points from previous largestArmy holder
+					getPlayerByIndex(turnTracker.getLargestArmy()).subtract2VictoryPoints(); 
+				}
+				player.add2VictoryPoints(); //add victory points to player
+				turnTracker.setLargestArmy(player.getIndex()); //update the turn tracker to reflect new largest army holder
+			}
+		}
+		checkThenSetWinner(); //check if this move made a player win the game
 	}
 
 	public void yearOfPlenty(YearOfPlenty_Input params)
 	{
-		//todo
+		Player p = getPlayerByIndex(params.getPlayerIndex());
+		bank.subtractOne(params.getResource()); //remove resource 1 from bank
+		bank.subtractOne(params.getResource1()); //remove resource 2 from bank
+		p.addCard(params.getResource()); //add resource 1 to player
+		p.addCard(params.getResource1()); //add resource 2 to player
+		p.getOldDevCards().subtractDevCard(DevCardType.YEAR_OF_PLENTY); //remove dev card from player
+		p.setPlayedDevCard(true); //let it be known they have played a dev card
+		log.addLine(p.getName(), (p.getName() + " played a Year of Plenty card, and got "+
+				params.getResource().toString().toLowerCase()+" and "+params.getResource().toString().toLowerCase()+"."));
+	}
+	
+	
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+								//HELPTER METHODS FOR MODIFYING MODEL//
+	//////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	
+	/**
+	 * checks to see if the current game has a winner, if so updates the model
+	 */
+	public void checkThenSetWinner()
+	{
+		for(Player p : players)
+		{
+			if(p.getVictoryPoints()>=10)
+			{
+				log.addLine(p.getName(), (p.getName() + " won the game. Nice."));
+				setWinner(p.getIndex());
+				return;
+			}
+		}
 	}
 }

@@ -23,6 +23,10 @@ public abstract class IMovesFacade {
 		this.model = model;
 	}
 	
+	/** 
+	 * serializes the current ClientModel and returns it
+	 * @return model serialized as a JsonElement for sending back to client 
+	 */
 	public JsonElement serializeModel()
 	{
 		return interpreter.serialize(model);

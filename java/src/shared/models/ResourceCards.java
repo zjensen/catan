@@ -1,5 +1,8 @@
 package shared.models;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import shared.definitions.ResourceType;
 
 public class ResourceCards {
@@ -141,6 +144,27 @@ public class ResourceCards {
 		}
 	}
 	
+	public void addTwo(ResourceType resource)
+	{
+		switch (resource.toString()) {
+		case "WOOD":
+			this.wood+=2;
+			return;
+		case "BRICK":
+			this.brick+=2;
+			return;
+		case "SHEEP":
+			this.sheep+=2;
+			return;
+		case "WHEAT":
+			this.wheat+=2;
+			return;
+		case "ORE":
+			this.ore+=2;
+			return;
+		}
+	}
+	
 	public void subtractOne(ResourceType resource)
 	{
 		switch (resource.toString()) {
@@ -158,6 +182,27 @@ public class ResourceCards {
 			return;
 		case "ORE":
 			this.ore--;
+			return;
+		}
+	}
+	
+	public void subtractTwo(ResourceType resource)
+	{
+		switch (resource.toString()) {
+		case "WOOD":
+			this.wood-=2;
+			return;
+		case "BRICK":
+			this.brick-=2;
+			return;
+		case "SHEEP":
+			this.sheep-=2;
+			return;
+		case "WHEAT":
+			this.wheat-=2;
+			return;
+		case "ORE":
+			this.ore-=2;
 			return;
 		}
 	}
@@ -310,5 +355,136 @@ public class ResourceCards {
 	public void changeOre(int num) {
 		ore+=num;
 	}
+	
+	public boolean canBuildCity()
+	{
+		return false;
+	}
+	
+	public boolean canChangeResource(ResourceType r, int num)
+	{
+		switch (r) 
+		{
+			case WOOD:
+				return wood >= num;
+			case BRICK:
+				return brick >= num;
+			case SHEEP:
+				return sheep >= num;
+			case WHEAT:
+				return wheat >= num;
+			case ORE:
+				return ore >= num;
+			default:
+				return false;
+		}
+	}
+	
+	public void changeResource(ResourceType r, int num)
+	{
+		switch (r) 
+		{
+			case WOOD:
+				wood += num;
+				break;
+			case BRICK:
+				brick += num;
+				break;
+			case SHEEP:
+				sheep += num;
+				break;
+			case WHEAT:
+				wheat += num;
+				break;
+			case ORE:
+				ore += num;
+				break;
+			default:
+				break;
+		}
+	}
+	
+	public ResourceType getRandomCard()
+	{
+		ArrayList<ResourceType> cards = new ArrayList<ResourceType>();
+		for(int i=0;i<wood;i++)
+		{
+			cards.add(ResourceType.WOOD);
+		}
+		for(int i=0;i<brick;i++)
+		{
+			cards.add(ResourceType.BRICK);
+		}
+		for(int i=0;i<sheep;i++)
+		{
+			cards.add(ResourceType.SHEEP);
+		}
+		for(int i=0;i<wheat;i++)
+		{
+			cards.add(ResourceType.WHEAT);
+		}
+		for(int i=0;i<ore;i++)
+		{
+			cards.add(ResourceType.ORE);
+		}
+		if(cards.isEmpty())
+		{
+			return null;
+		}
+		Random rand = new Random();
+	    int randomNum = rand.nextInt(cards.size());
+	    switch(cards.get(randomNum))
+	    {
+	    	case WOOD:
+	    		wood--;
+	    		break;
+	    	case BRICK:
+	    		brick--;
+	    		break;
+	    	case WHEAT:
+	    		wheat--;
+	    		break;
+	    	case SHEEP:
+	    		sheep--;
+	    		break;
+	    	case ORE:
+	    		ore--;
+	    		break;
+	    }
+	    return cards.get(randomNum);
+	}
+
+	/////////////////////////////////ONLY FOR USE IN CLIENT MODEL BANK/////////////////////////////////////////
+	
+	public void cityBuilt()
+	{
+		this.wheat += 2;
+		this.ore += 3;
+	}
+
+	public void roadBuilt()
+	{
+		this.wood++;
+		this.brick++;
+	}
+
+	public void settlementBuilt()
+	{
+		this.wood++;
+		this.brick++;
+		this.wheat++;
+		this.sheep++;
+	}
+
+	public void addCards(ResourceCards cards)
+	{
+		this.sheep += cards.getSheep();
+		this.wheat += cards.getWheat();
+		this.wood += cards.getWood();
+		this.brick += cards.getBrick();
+		this.ore += cards.getOre();
+	}
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
 }

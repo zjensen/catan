@@ -4,6 +4,8 @@ import shared.communication.moves.DiscardCards_Input;
 import shared.communication.moves.MaritimeTrade_Input;
 import shared.communication.moves.RoadBuilding_Input;
 import shared.definitions.CatanColor;
+import shared.definitions.DevCardType;
+import shared.definitions.ResourceType;
 
 public class Player {
 	
@@ -532,27 +534,37 @@ public class Player {
 		{
 			case BRICK:
 				resources.changeBrick(-params.getRatio());
+				break;
 			case ORE:
 				resources.changeOre(-params.getRatio());
+				break;
 			case SHEEP:
 				resources.changeSheep(-params.getRatio());
+				break;
 			case WHEAT:
 				resources.changeWheat(-params.getRatio());
+				break;
 			case WOOD:
 				resources.changeWood(-params.getRatio());
+				break;
 		}
 		switch(params.getOutputResource()) //add resource they're trading for
 		{
 			case BRICK:
 				resources.changeBrick(1);
+				break;
 			case ORE:
 				resources.changeOre(1);
+				break;
 			case SHEEP:
 				resources.changeSheep(1);
+				break;
 			case WHEAT:
 				resources.changeWheat(1);
+				break;
 			case WOOD:
 				resources.changeWood(1);
+				break;
 		}
 	}
 
@@ -582,5 +594,46 @@ public class Player {
 			resources.changeWheat(-offer.getWheat());
 		else if (offer.getWood() != 0)
 			resources.changeWood(-offer.getWood());
+	}
+
+	public void playMonumentCard()
+	{
+		addVictoryPoint(); //award a victory point
+		if(oldDevCards.getMonument() > 0)
+		{
+			oldDevCards.subtractDevCard(DevCardType.MONUMENT);
+		}
+		else if(newDevCards.getMonument() > 0)
+		{
+			newDevCards.subtractDevCard(DevCardType.MONUMENT);
+		}
+		setPlayedDevCard(true);
+	}
+
+	public void addCard(ResourceType r)
+	{
+		if(r==null)
+		{
+			return;
+		}
+		
+		switch(r) //add resource they're trading for
+		{
+			case BRICK:
+				resources.changeBrick(1);
+				break;
+			case ORE:
+				resources.changeOre(1);
+				break;
+			case SHEEP:
+				resources.changeSheep(1);
+				break;
+			case WHEAT:
+				resources.changeWheat(1);
+				break;
+			case WOOD:
+				resources.changeWood(1);
+				break;
+		}
 	}
 }
