@@ -1,6 +1,7 @@
 package shared.models;
 
 import shared.communication.moves.*;
+import shared.definitions.DevCardType;
 
 public class ClientModel {
 	
@@ -364,9 +365,14 @@ public class ClientModel {
 		return (p.getNumberOfCards() / 2);
 	}
 	
+	///////////////////////////////////////////////////////////////////////////////////////////////
+	
 	public void acceptTrade(AcceptTrade_Input params)
 	{
-		Player p = getPlayerByIndex(params.getPlayerIndex());
+		Player receiver = getPlayerByIndex(params.getPlayerIndex());
+		receiver.receiveCards(tradeOffer.getOffer());
+		Player sender = getPlayerByIndex(tradeOffer.getSender());
+		sender.sendCards(tradeOffer.getOffer());
 	}
 		
 	public void buildCity(BuildCity_Input params)
@@ -380,6 +386,23 @@ public class ClientModel {
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		p.buildRoad();
+		
+		if(p.getRoadsPlayed() >= 5)
+		{
+			int mostRoads = 0;
+			for(Player p2 : players)
+			{
+				if(p2.getIndex() != p.getIndex() && p2.getRoadsPlayed() > mostRoads)
+				{
+					mostRoads = p2.getRoadsPlayed();
+				}
+			}
+			if(p.getRoadsPlayed()>mostRoads)
+			{
+				turnTracker.setLongestRoad(p.getIndex());
+			}
+		}
+		
 		map.getRoads().put(params.getRoadLocation(), p);
 	}
 
@@ -397,7 +420,7 @@ public class ClientModel {
 
 	public void discardCards(DiscardCards_Input params)
 	{
-		
+		//todo
 	}
 
 	public void finishTurn(FinishTurn_Input params)
@@ -415,7 +438,60 @@ public class ClientModel {
 
 	public void monopoly(Monopoly_Input params)
 	{
-		
+		Player receiver = getPlayerByIndex(params.getPlayerIndex());
+		receiver.getOldDevCards().subtractDevCard(DevCardType.MONOPOLY);
+		receiver.setPlayedDevCard(true);
+		for(Player p : players)
+		{
+			if(p.getIndex()==params.getPlayerIndex())
+			{
+				continue;
+			}
+			int num = 0;
+			switch (params.getResource()) 
+			{
+				case WOOD:
+					num = p.getResources().getWood();
+					if(num > 0)
+					{
+						p.getResources().changeWood(-num);
+						receiver.getResources().changeWood(num);
+					}
+					break;
+				case BRICK:
+					num = p.getResources().getBrick();
+					if(num > 0)
+					{
+						p.getResources().changeBrick(-num);
+						receiver.getResources().changeBrick(num);
+					}
+					break;
+				case SHEEP:
+					num = p.getResources().getSheep();
+					if(num > 0)
+					{
+						p.getResources().changeSheep(-num);
+						receiver.getResources().changeSheep(num);
+					}
+					break;
+				case WHEAT:
+					num = p.getResources().getWheat();
+					if(num > 0)
+					{
+						p.getResources().changeWheat(-num);
+						receiver.getResources().changeWheat(num);
+					}
+					break;
+				case ORE:
+					num = p.getResources().getOre();
+					if(num > 0)
+					{
+						p.getResources().changeOre(-num);
+						receiver.getResources().changeOre(num);
+					}
+					break;
+			}
+		}
 	}
 
 	public void monument(Monument_Input params)
@@ -431,13 +507,30 @@ public class ClientModel {
 	public void roadBuilding(RoadBuilding_Input params)
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
-		p.getOldDevCards().setRoadBuilding(p.getOldDevCards().getRoadBuilding()-1);
+		p.getOldDevCards().subtractDevCard(DevCardType.ROAD_BUILD);
+		p.setPlayedDevCard(true);
 		map.getRoads().put(params.getSpot1().getNormalizedLocation(), p);
 		map.getRoads().put(params.getSpot2().getNormalizedLocation(), p);
+		if(p.getRoadsPlayed() >= 5)
+		{
+			int mostRoads = 0;
+			for(Player p2 : players)
+			{
+				if(p2.getIndex() != p.getIndex() && p2.getRoadsPlayed() > mostRoads)
+				{
+					mostRoads = p2.getRoadsPlayed();
+				}
+			}
+			if(p.getRoadsPlayed()>mostRoads)
+			{
+				turnTracker.setLongestRoad(p.getIndex());
+			}
+		}
 	}
 
 	public void robPlayer(RobPlayer_Input params)
 	{
+		//todo
 		turnTracker.setStatus("playing");
 	}
 

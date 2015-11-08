@@ -10,7 +10,8 @@ import shared.utils.Interpreter;
 public abstract class IMovesFacade {
 	
 	private ClientModel model = null;
-	Interpreter interpreter = new Interpreter();
+	private Interpreter interpreter = new Interpreter();
+	private String errorMessage = "";
 	
 	public ClientModel getModel()
 	{
@@ -353,5 +354,15 @@ public abstract class IMovesFacade {
 			return false;
 		}
 		return true;
+	}
+
+	public String getErrorMessage()
+	{
+		return errorMessage;
+	}
+
+	public void setErrorMessage(String errorMessage)
+	{
+		this.errorMessage = errorMessage;
 	}
 }

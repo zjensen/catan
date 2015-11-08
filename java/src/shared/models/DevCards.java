@@ -173,6 +173,28 @@ public class DevCards {
 	    		break;
 	    }
 	}
+	
+	public void subtractDevCard(DevCardType card)
+	{
+		switch(card)
+	    {
+	    	case SOLDIER:
+	    		soldier--;
+	    		break;
+	    	case MONOPOLY:
+	    		monopoly--;
+	    		break;
+	    	case ROAD_BUILD:
+	    		roadBuilding--;
+	    		break;
+	    	case YEAR_OF_PLENTY:
+	    		yearOfPlenty--;
+	    		break;
+	    	case MONUMENT:
+	    		monument--;
+	    		break;
+	    }
+	}
 
 	public void addCards(DevCards newCards)
 	{

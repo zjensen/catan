@@ -3,7 +3,6 @@ package server.facade;
 import com.google.gson.JsonElement;
 
 import shared.communication.moves.*;
-import shared.models.ClientModel;
 
 //make all methods static
 public class MovesFacade extends IMovesFacade
@@ -31,6 +30,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().acceptTrade(params);
 		return super.serializeModel();
 	}
 	
@@ -52,6 +52,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().buildCity(params);
 		return super.serializeModel();
 	}
 	
@@ -73,6 +74,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().buildRoad(params);
 		return super.serializeModel();
 	}
 	
@@ -94,6 +96,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().buildSettlement(params);
 		return super.serializeModel();
 	}
 	
@@ -115,6 +118,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().buyDevCard(params);
 		return super.serializeModel();
 	}
 	
@@ -136,6 +140,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().discardCards(params);
 		return super.serializeModel();
 	}
 	
@@ -157,6 +162,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().finishTurn(params);
 		return super.serializeModel();
 	}
 	
@@ -178,6 +184,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().maritimeTrade(params);
 		return super.serializeModel();
 	}
 	
@@ -199,6 +206,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().monopoly(params);
 		return super.serializeModel();
 	}
 	
@@ -220,6 +228,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().monument(params);
 		return super.serializeModel();
 	}
 	
@@ -241,6 +250,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().offerTrade(params);
 		return super.serializeModel();
 	}
 	
@@ -262,6 +272,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().roadBuilding(params);
 		return super.serializeModel();
 	}
 	
@@ -283,6 +294,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().robPlayer(params);
 		return super.serializeModel();
 	}
 	
@@ -304,6 +316,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().rollNumber(params);
 		return super.serializeModel();
 	}
 	
@@ -325,6 +338,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().sendChat(params);
 		return super.serializeModel();
 	}
 	
@@ -346,6 +360,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().soldier(params);
 		return super.serializeModel();
 	}
 	
@@ -367,6 +382,7 @@ public class MovesFacade extends IMovesFacade
 		{
 			return null;
 		}
+		super.getModel().yearOfPlenty(params);
 		return super.serializeModel();
 	}
 }

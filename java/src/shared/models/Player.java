@@ -544,4 +544,32 @@ public class Player {
 				resources.changeWood(1);
 		}
 	}
+
+	public void receiveCards(ResourceCards offer)
+	{
+		if(offer.getBrick() != 0)
+			resources.changeBrick(offer.getBrick());
+		else if (offer.getOre() != 0)
+			resources.changeOre(offer.getOre());
+		else if (offer.getSheep() != 0)
+			resources.changeSheep(offer.getSheep());
+		else if (offer.getWheat() != 0)
+			resources.changeWheat(offer.getWheat());
+		else if (offer.getWood() != 0)
+			resources.changeWood(offer.getWood());
+	}
+
+	public void sendCards(ResourceCards offer)
+	{
+		if(offer.getBrick() != 0)
+			resources.changeBrick(-offer.getBrick());
+		else if (offer.getOre() != 0)
+			resources.changeOre(-offer.getOre());
+		else if (offer.getSheep() != 0)
+			resources.changeSheep(-offer.getSheep());
+		else if (offer.getWheat() != 0)
+			resources.changeWheat(-offer.getWheat());
+		else if (offer.getWood() != 0)
+			resources.changeWood(-offer.getWood());
+	}
 }
