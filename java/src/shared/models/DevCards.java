@@ -1,5 +1,10 @@
 package shared.models;
 
+import java.util.ArrayList;
+import java.util.Random;
+
+import shared.definitions.DevCardType;
+
 public class DevCards {
 	
 	private int soldier;
@@ -95,6 +100,87 @@ public class DevCards {
 	public String toJsonString()
 	{
 		return "{\"yearOfPlenty\":"+yearOfPlenty+",\"monopoly\":"+monopoly+",\"soldier\":"+soldier+",\"roadBuilding\":"+roadBuilding+",\"monument\":"+monument+"}";
+	}
+
+	public DevCardType getRandomCard()
+	{
+		ArrayList<DevCardType> cards = new ArrayList<DevCardType>();
+		for(int i=0;i<soldier;i++)
+		{
+			cards.add(DevCardType.SOLDIER);
+		}
+		for(int i=0;i<monopoly;i++)
+		{
+			cards.add(DevCardType.MONOPOLY);
+		}
+		for(int i=0;i<roadBuilding;i++)
+		{
+			cards.add(DevCardType.ROAD_BUILD);
+		}
+		for(int i=0;i<yearOfPlenty;i++)
+		{
+			cards.add(DevCardType.YEAR_OF_PLENTY);
+		}
+		for(int i=0;i<monument;i++)
+		{
+			cards.add(DevCardType.MONUMENT);
+		}
+		if(cards.isEmpty())
+		{
+			return null;
+		}
+		Random rand = new Random();
+	    int randomNum = rand.nextInt(cards.size());
+	    switch(cards.get(randomNum))
+	    {
+	    	case SOLDIER:
+	    		soldier--;
+	    		break;
+	    	case MONOPOLY:
+	    		monopoly--;
+	    		break;
+	    	case ROAD_BUILD:
+	    		roadBuilding--;
+	    		break;
+	    	case YEAR_OF_PLENTY:
+	    		yearOfPlenty--;
+	    		break;
+	    	case MONUMENT:
+	    		monument--;
+	    		break;
+	    }
+	    return cards.get(randomNum);
+	}
+
+	public void addDevCard(DevCardType card)
+	{
+		switch(card)
+	    {
+	    	case SOLDIER:
+	    		soldier++;
+	    		break;
+	    	case MONOPOLY:
+	    		monopoly++;
+	    		break;
+	    	case ROAD_BUILD:
+	    		roadBuilding++;
+	    		break;
+	    	case YEAR_OF_PLENTY:
+	    		yearOfPlenty++;
+	    		break;
+	    	case MONUMENT:
+	    		monument++;
+	    		break;
+	    }
+	}
+
+	public void addCards(DevCards newCards)
+	{
+		this.soldier+=newCards.getSoldier();
+		this.monopoly+=newCards.getMonopoly();
+		this.roadBuilding+=newCards.getRoadBuilding();
+		this.yearOfPlenty+=newCards.getYearOfPlenty();
+		this.monument+=newCards.getMonument();
 	}
 	
 }

@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 import java.util.Scanner;
 
 import org.junit.After;
@@ -20,36 +21,36 @@ import com.google.gson.JsonParser;
 
 public class MovesFacade_Test {
 
-	private ClientModel clientModel;
-	private ClientFacade cf;
+//	private ClientModel clientModel;
+//	private ClientFacade cf;
 	
 	@Before
 	public void setUp() throws Exception
 	{
-		Interpreter interpreter = new Interpreter();
-				
-		StringBuilder result = new StringBuilder("");
-	    File file = new File("CanDoTestJSON.txt");
-		
-		try (Scanner scanner = new Scanner(file)) {
-
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				result.append(line).append("\n");
-			}
-			scanner.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		String jsonString = result.toString();
-				
-		JsonElement jsonToParse = new JsonParser().parse(jsonString).getAsJsonObject();
-
-		clientModel = interpreter.deserialize(jsonToParse);
-		
-		cf = new ClientFacade(clientModel);
+//		Interpreter interpreter = new Interpreter();
+//				
+//		StringBuilder result = new StringBuilder("");
+//	    File file = new File("CanDoTestJSON.txt");
+//		
+//		try (Scanner scanner = new Scanner(file)) {
+//
+//			while (scanner.hasNextLine()) {
+//				String line = scanner.nextLine();
+//				result.append(line).append("\n");
+//			}
+//			scanner.close();
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		String jsonString = result.toString();
+//				
+//		JsonElement jsonToParse = new JsonParser().parse(jsonString).getAsJsonObject();
+//
+//		clientModel = interpreter.deserialize(jsonToParse);
+//		
+//		cf = new ClientFacade(clientModel);
 				
 	}
 
@@ -61,10 +62,16 @@ public class MovesFacade_Test {
 	@Test
 	public void test()
 	{
-		Interpreter interpreter = new Interpreter();
-		String s = interpreter.serialize(clientModel).toString();
-		clientModel =interpreter.deserialize(s);
-		System.out.println(clientModel);
+//		Interpreter interpreter = new Interpreter();
+//		String s = interpreter.serialize(clientModel).toString();
+//		clientModel =interpreter.deserialize(s);
+//		System.out.println(clientModel);
+		for(int i=0;i<20;i++)
+		{
+			Random rand = new Random();
+		    int randomNum = rand.nextInt(10);
+		    System.out.println(randomNum);
+		}
 		assert(true);
 	}
 
