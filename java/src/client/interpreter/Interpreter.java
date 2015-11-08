@@ -350,7 +350,7 @@ public class Interpreter
 			if(!obj.isJsonNull())
 				count++;
 		}
-		Player[] players = new Player[count];
+		Player[] players = new Player[4];
 		
 		for(int b = 0; b < playersJson.size(); b++)
 		{
@@ -650,6 +650,10 @@ public class Interpreter
 		for(Player p:model.getPlayers())
 		{
 			JsonObject player = new JsonObject();
+			if(p == null)
+			{
+				continue;
+			}
 			player.add("resources", parser.parse(p.getResources().toJsonString()));
 			player.add("oldDevCards", parser.parse(p.getOldDevCards().toJsonString()));
 			player.add("newDevCards", parser.parse(p.getNewDevCards().toJsonString()));
