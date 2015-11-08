@@ -499,6 +499,7 @@ public class ClientModel {
 
 	public void monument(Monument_Input params)
 	{
+		//todo
 		getPlayerByIndex(params.getPlayerIndex()).addVictoryPoint();
 	}
 
