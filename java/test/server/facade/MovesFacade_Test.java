@@ -21,36 +21,35 @@ import com.google.gson.JsonParser;
 
 public class MovesFacade_Test {
 
-//	private ClientModel clientModel;
-//	private ClientFacade cf;
+	private ClientModel clientModel;
+	private IMovesFacade mf;
+	private Interpreter interpreter = new Interpreter();
 	
 	@Before
 	public void setUp() throws Exception
 	{
-//		Interpreter interpreter = new Interpreter();
-//				
-//		StringBuilder result = new StringBuilder("");
-//	    File file = new File("CanDoTestJSON.txt");
-//		
-//		try (Scanner scanner = new Scanner(file)) {
-//
-//			while (scanner.hasNextLine()) {
-//				String line = scanner.nextLine();
-//				result.append(line).append("\n");
-//			}
-//			scanner.close();
-//
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
-//		
-//		String jsonString = result.toString();
-//				
-//		JsonElement jsonToParse = new JsonParser().parse(jsonString).getAsJsonObject();
-//
-//		clientModel = interpreter.deserialize(jsonToParse);
-//		
-//		cf = new ClientFacade(clientModel);
+		
+				
+		StringBuilder result = new StringBuilder("");
+	    File file = new File("MovesFacadeTestJSON.txt");
+		
+		try (Scanner scanner = new Scanner(file)) {
+
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				result.append(line).append("\n");
+			}
+			scanner.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String jsonString = result.toString();
+				
+		JsonElement jsonToParse = new JsonParser().parse(jsonString).getAsJsonObject();
+		
+		mf = new MovesFacade();
 				
 	}
 
