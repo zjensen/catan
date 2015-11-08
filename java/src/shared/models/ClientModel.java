@@ -684,80 +684,116 @@ public class ClientModel {
 				{
 					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
 					{
-						p = map.getSettlements().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
-						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 1));
+						{
+							p = map.getSettlements().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
 					{
-						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
-						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 2));
+						{
+							p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+							p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					
 					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthEast)))
 					{
-						p = map.getSettlements().get(new VertexLocation(h.getLocation(),VertexDirection.NorthEast));
-						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 1));
+						{
+							p = map.getSettlements().get(new VertexLocation(h.getLocation(),VertexDirection.NorthEast));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
 					{
-						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
-						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 2));
+						{
+							p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+							p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					
 					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthEast)))
 					{
-						p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthEast));
-						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 1));
+						{
+							p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthEast));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
 					{
-						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
-						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 2));
+						{
+							p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+							p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					
 					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthWest)))
 					{
-						p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthWest));
-						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 1));
+						{
+							p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.South),VertexDirection.NorthWest));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
 					{
-						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
-						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 2));
+						{
+							p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+							p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					
 					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthWest),VertexDirection.NorthEast)))
 					{
-						p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthWest),VertexDirection.NorthEast));
-						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 1));
+						{
+							p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthWest),VertexDirection.NorthEast));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
 					{
-						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
-						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 2));
+						{
+							p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+							p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					
 					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthEast),VertexDirection.NorthWest)))
 					{
-						p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthEast),VertexDirection.NorthWest));
-						p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 1));
+						{
+							p = map.getSettlements().get(new VertexLocation(h.getLocation().getNeighborLoc(EdgeDirection.SouthEast),VertexDirection.NorthWest));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					else if(map.getCities().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
 					{
-						p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
-						p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
-						bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						if(bank.canChangeResource(ResourceType.valueOf(h.getResource().toString()), 2));
+						{
+							p = map.getCities().get(new VertexLocation(h.getLocation(),VertexDirection.NorthWest));
+							p.getResources().addTwo(ResourceType.valueOf(h.getResource().toString()));
+							bank.subtractTwo(ResourceType.valueOf(h.getResource().toString()));
+						}
 					}
 					
 				}
