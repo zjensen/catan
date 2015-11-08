@@ -3,6 +3,7 @@ package server.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import shared.models.ClientModel;
 import shared.models.Game;
 
 /**
@@ -57,6 +58,16 @@ public class GamesManager {
 		for (Game game : games) {
 			if (game.getId() == id) {
 				return game;
+			}
+		}
+		System.out.println("game id not found, getGameById is returning null");
+		return null;
+	}
+	
+	public ClientModel getClientModelById(int id) {
+		for (Game game : games) {
+			if (game.getId() == id) {
+				return game.getClientModel();
 			}
 		}
 		System.out.println("game id not found, getGameById is returning null");

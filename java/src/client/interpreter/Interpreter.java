@@ -2,6 +2,7 @@ package client.interpreter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import client.data.GameInfo;
 import client.data.PlayerInfo;
@@ -561,6 +562,156 @@ public class Interpreter
 		newClientModel.setWinner(winner);
 
 		return newClientModel;
+	}
+	
+	public JsonElement serialize(ClientModel model)
+	{
+		Gson gson = new Gson();
+		JsonParser parser = new JsonParser();
+		JsonObject result = new JsonObject();
+		
+		result.add("deck",parser.parse(model.getDeck().toJsonString()));
+		
+		JsonObject map = new JsonObject();
+		
+		JsonElement hexes = gson.toJsonTree(model.getMap().getHexes());
+		map.add("hexes", hexes);
+		
+		JsonArray roads = new JsonArray();
+		for (Entry<EdgeLocation, Player> entry : model.getMap().getRoads().entrySet()) //find this person's settlements
+		{
+			JsonObject road = new JsonObject();
+			JsonObject location = new JsonObject();
+			location.addProperty("direction",entry.getKey().toServerFormattedString());
+			location.addProperty("x",entry.getKey().getHexLoc().getX());
+			location.addProperty("y",entry.getKey().getHexLoc().getX());
+		    road.add("owner", new JsonPrimitive(entry.getValue().getIndex()));
+		    road.add("location", location);
+		    roads.add(road);
+		}
+		map.add("roads", roads);
+		
+		JsonArray cities = new JsonArray();
+		for (Entry<VertexLocation, Player> entry : model.getMap().getCities().entrySet()) //find this person's settlements
+		{
+			JsonObject city = new JsonObject();
+			JsonObject location = new JsonObject();
+			location.addProperty("direction",entry.getKey().toServerFormattedString());
+			location.addProperty("x",entry.getKey().getHexLoc().getX());
+			location.addProperty("y",entry.getKey().getHexLoc().getX());
+			city.add("owner", new JsonPrimitive(entry.getValue().getIndex()));
+			city.add("location", location);
+		    cities.add(city);
+		}
+		map.add("cities", cities);
+		
+		JsonArray settlements = new JsonArray();
+		for (Entry<VertexLocation, Player> entry : model.getMap().getSettlements().entrySet()) //find this person's settlements
+		{
+			JsonObject settlement = new JsonObject();
+			JsonObject location = new JsonObject();
+			location.addProperty("direction",entry.getKey().toServerFormattedString());
+			location.addProperty("x",entry.getKey().getHexLoc().getX());
+			location.addProperty("y",entry.getKey().getHexLoc().getX());
+			settlement.add("owner", new JsonPrimitive(entry.getValue().getIndex()));
+			settlement.add("location", location);
+			settlements.add(settlement);
+		}
+		map.add("settlements", settlements);
+		
+		map.addProperty("radius", model.getMap().getRadius());
+		
+		JsonArray ports = new JsonArray();
+		for(Port p :model.getMap().getPorts())
+		{
+			JsonObject port = new JsonObject();
+			port.addProperty("ratio", p.getRatio());
+			if(p.getResourceType()!=null)
+			{
+				port.addProperty("resource", p.getResourceType().toString());
+			}
+			port.addProperty("direction", p.getDirection().toString());
+			JsonObject location = new JsonObject();
+			location.addProperty("x",p.getLocation().getX());
+			location.addProperty("y",p.getLocation().getY());
+			port.add("location", location);
+			ports.add(port);
+		}
+		map.add("ports", ports);
+		
+		JsonObject robber = new JsonObject();
+		robber.addProperty("x",model.getMap().getRobber().getX());
+		robber.addProperty("y",model.getMap().getRobber().getY());
+		map.add("robber", robber);
+		
+		result.add("map", map);
+		
+		JsonArray players = new JsonArray();
+		for(Player p:model.getPlayers())
+		{
+			JsonObject player = new JsonObject();
+			player.add("resources", parser.parse(p.getResources().toJsonString()));
+			player.add("oldDevCards", parser.parse(p.getOldDevCards().toJsonString()));
+			player.add("newDevCards", parser.parse(p.getNewDevCards().toJsonString()));
+			player.addProperty("roads", p.getRoads());
+			player.addProperty("cities", p.getCities());
+			player.addProperty("settlements", p.getSettlements());
+			player.addProperty("soldiers", p.getSoldiers());
+			player.addProperty("victoryPoints", p.getVictoryPoints());
+			player.addProperty("monuments", p.getMonuments());
+			player.addProperty("playedDevCard", p.isPlayedDevCard());
+			player.addProperty("discarded", p.isDiscarded());
+			player.addProperty("playerID", p.getPlayerID());
+			player.addProperty("playerIndex", p.getIndex());
+			player.addProperty("name", p.getName());
+			player.addProperty("color", p.getColor().toLowerCase());
+			
+			players.add(player);
+		}
+		result.add("players", players);
+		
+		JsonArray lines = new JsonArray();
+		for(MessageLine m : model.getLog().getLines())
+		{
+			JsonObject message = new JsonObject();
+			message.addProperty("source", m.getSource());
+			message.addProperty("message", m.getMessage());
+			lines.add(message);
+		}
+		JsonObject log = new JsonObject();
+		log.add("lines", lines);
+		
+		result.add("log", log);
+		
+		JsonArray lines2 = new JsonArray();
+		for(MessageLine m : model.getChat().getLines())
+		{
+			JsonObject message = new JsonObject();
+			message.addProperty("source", m.getSource());
+			message.addProperty("message", m.getMessage());
+			lines2.add(message);
+		}
+		JsonObject chat = new JsonObject();
+		chat.add("lines", lines2);
+		
+		result.add("chat", chat);
+		
+		result.add("bank", parser.parse(model.getBank().toJsonString()));
+		
+		JsonObject turnTracker = new JsonObject();
+		turnTracker.addProperty("status", model.getTurnTracker().getStatus());
+		turnTracker.addProperty("currentTurn", model.getTurnTracker().getCurrentTurn());
+		turnTracker.addProperty("longestRoad", model.getTurnTracker().getLongestRoad());
+		turnTracker.addProperty("largestArmy", model.getTurnTracker().getLargestArmy());
+		
+		result.add("turnTracker", turnTracker);
+		
+		result.addProperty("winner", model.getWinner());
+		result.addProperty("version", model.getVersion());
+		
+		String s = result.toString();
+		
+		return parser.parse(s);
 	}
 	
 }

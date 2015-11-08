@@ -91,5 +91,10 @@ public class DevCards {
 	public int cardCount() {
 		return (this.monopoly + this.monument + this.roadBuilding + this.soldier + this.yearOfPlenty);
 	}
+
+	public String toJsonString()
+	{
+		return "{\"yearOfPlenty\":"+yearOfPlenty+",\"monopoly\":"+monopoly+",\"soldier\":"+soldier+",\"roadBuilding\":"+roadBuilding+",\"monument\":"+monument+"}";
+	}
 	
 }
