@@ -42,11 +42,13 @@ public class ServerHandler implements HttpHandler{
 			//Check the type of response
 			if (response.getClass() == JsonPrimitive.class) {
 				exchange.getResponseHeaders().add("Content-Type", "application/text");
+				String temp = response.getAsString();
+				System.out.println(temp);
 			} else {
 				exchange.getResponseHeaders().add("Content-Type", "application/json");
 			}
 			//Set up Body
-			String stringResponse = response.toString();
+			String stringResponse = response.getAsString();
 			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, stringResponse.length());
 			exchange.getResponseBody().write(stringResponse.getBytes());
 			exchange.getResponseBody().close();

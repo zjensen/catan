@@ -22,11 +22,6 @@ public class CommandFactory implements ICommandFactory {
 		String uri = exchange.getRequestURI().toString();
 		String[] arguments = uri.split("/");
 		String request = arguments[arguments.length-1];
-		//System.out.println("Request: " + request);
-		//System.out.println("Query: " + arg0.getRequestURI().getQuery());
-		
-		//String[] requestSplit = request.split("o");
-		//System.out.println("Test: " + requestSplit[0]);
 		
 		return getCommand(request, exchange);
 		

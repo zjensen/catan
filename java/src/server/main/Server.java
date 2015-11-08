@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 import server.handler.*;
+import server.manager.ServerManager;
 
 import com.sun.net.httpserver.HttpServer;
 
@@ -52,17 +53,25 @@ public class Server
 	}
 	
 private HttpServer server;
+private Boolean testing;
 	
-	private Server() 
+	private Server(Boolean testing) 
 	{
+		this.testing = testing;
 		return;
 	}
-	private Server(int port)
+	private Server(int port, Boolean testing)
 	{
 		Server.SERVER_PORT_NUMBER = port;
+		this.testing = testing;
 	}
 	private void run() 
 	{
+		logger.info("Initializing Server Manager");
+		if(testing)
+			ServerManager.instance().setFakeFacades();
+		else
+			ServerManager.instance().setFacades();
 		logger.info("Initializing HTTP Server");
 		
 		try {
@@ -78,7 +87,7 @@ private HttpServer server;
 		
 		//start a handler with a real command factory
 		// TODO set up a way to switch out factories
-		server.createContext("/", new ServerHandler(true));
+		server.createContext("/", new ServerHandler(testing));
 		server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
 		server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 		
@@ -91,11 +100,11 @@ private HttpServer server;
 	{
 		if(args.length != 1)
 		{
-			new Server().run();
+			new Server(false).run();
 		}
 		else
 		{
-			new Server(Integer.valueOf(args[0])).run();
+			new Server(Integer.valueOf(args[0]), false).run();
 		}
 	}
 }

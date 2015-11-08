@@ -36,7 +36,7 @@ public class Login_Command extends ServerCommand{
 			{
 				int id = responseObject.get("id").getAsInt();
 				String encoded = getEncodedLoginCookie(params.getUsername(), params.getPassword(), Integer.toString(id));
-				httpObj.getResponseHeaders().add("Set-cookie", encoded);
+				super.httpObj.getResponseHeaders().add("Set-cookie", encoded);
 				return new JsonPrimitive("Success");
 			} 
 			else 
