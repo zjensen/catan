@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import shared.models.ClientModel;
 import client.facade.ClientFacade;
-import client.interpreter.Interpreter;
+import shared.utils.Interpreter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
