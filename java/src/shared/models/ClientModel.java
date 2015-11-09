@@ -680,7 +680,7 @@ public class ClientModel {
 			for(Hex h : map.getHexes())
 			{
 				Player p = null;
-				if(h.getNumber() == params.getNumber())
+				if(h.getNumber() == params.getNumber() && !h.getLocation().equals(map.getRobber()))
 				{
 					if(map.getSettlements().containsKey(new VertexLocation(h.getLocation(),VertexDirection.NorthWest)))
 					{

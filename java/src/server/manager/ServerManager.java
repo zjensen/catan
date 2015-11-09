@@ -33,6 +33,14 @@ public class ServerManager {
 		gamesFacade = new FakeGamesFacade();
 		movesFacade = new FakeMovesFacade();
 	}
+	
+	//used by Zack's tests
+	public void reset()
+	{
+		movesFacade = new MovesFacade();
+		gamesManager = new GamesManager();
+		usersManager = new UsersManager();
+	}
 
 	public IUserFacade getUserFacade() {
 		return userFacade;

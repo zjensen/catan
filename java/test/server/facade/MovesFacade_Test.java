@@ -12,17 +12,10 @@ import org.junit.Test;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import client.facade.ClientFacade;
 import server.manager.ServerManager;
 import shared.utils.Interpreter;
 import shared.communication.moves.*;
-import shared.definitions.ResourceType;
-import shared.locations.*;
 import shared.models.ClientModel;
-import shared.models.Game;
-import shared.models.Player;
-import shared.models.ResourceCards;
-import shared.models.TradeOffer;
 
 public class MovesFacade_Test 
 {
@@ -57,9 +50,10 @@ public class MovesFacade_Test
 		
 		ServerManager.instance().setFacades();
 		
+		ServerManager.instance().reset();
+		
 		gameID = ServerManager.instance().getGamesManager().addNewGameGetID(ogModel, "TITLE");
-		mf = ServerManager.instance().getMovesFacade();
-				
+		mf = ServerManager.instance().getMovesFacade();			
 	}
 
 	@Test
@@ -90,30 +84,54 @@ public class MovesFacade_Test
 	
 	
 	@Test
-	public void rollNumber_Test()
+	public void rollNumber_Test1() //test errors
 	{
 		RollNumber_Input params1 = new RollNumber_Input(1, 1); //wrong turn
 		RollNumber_Input params2 = new RollNumber_Input(0, 13); //wrong number
-		RollNumber_Input params3 = new RollNumber_Input(-4, 9); //wrong playerID
+		RollNumber_Input params3 = new RollNumber_Input(-4, 9); //player index out of bounds
 		RollNumber_Input params4 = new RollNumber_Input(0, 12);
 		RollNumber_Input params5 = new RollNumber_Input(0, 2);
-		
-		RollNumber_Input params6 = new RollNumber_Input(0, 12);//good
-		
-		RollNumber_Input params7 = new RollNumber_Input(0, 7); //good
-		
 		
 		assertNull(mf.rollNumber(params1,1,gameID));
 		assertNull(mf.rollNumber(params2,1,gameID));
 		assertNull(mf.rollNumber(params3,1,gameID));
-		assertNull(mf.rollNumber(params4,1,-4206669));
-		assertNull(mf.rollNumber(params5,-4206669,gameID));
-		
-		ClientModel newModel = interpreter.deserialize(mf.rollNumber(params6,1,gameID)); //roll baby roll
-		//todo
+		assertNull(mf.rollNumber(params4,1,-4206669)); //wrong gameID
+		assertNull(mf.rollNumber(params5,-4206669,gameID)); //wrong playerID
 	}
-//	
-//	
+	
+	@Test
+	public void rollNumber_Test2() //roll a seven, players need to discard
+	{
+		RollNumber_Input params1 = new RollNumber_Input(0, 7);
+		
+		ClientModel newModel = interpreter.deserialize(mf.rollNumber(params1,1,gameID)); //roll baby roll
+		
+		assertTrue(newModel.getTurnTracker().getStatus().equals("discarding")); //some players need to discard
+	}
+	
+	@Test
+	public void rollNumber_Test3() //roll a seven, no one needs to discard
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().setOre(0); //make all players have < 7 resources
+		
+		RollNumber_Input params1 = new RollNumber_Input(0, 7);
+		
+		ClientModel newModel = interpreter.deserialize(mf.rollNumber(params1,1,gameID)); //roll baby roll
+		
+		assertTrue(newModel.getTurnTracker().getStatus().equals("robbing")); //no players need to discard, skip to robbing
+	}
+	
+	@Test
+	public void rollNumber_Test4() //roll a seven, no one needs to discard
+	{
+		RollNumber_Input params1 = new RollNumber_Input(0, 6);
+		
+		ClientModel newModel = interpreter.deserialize(mf.rollNumber(params1,1,gameID)); //roll baby roll
+		
+		assertTrue(newModel.getTurnTracker().getStatus().equals("playing")); //no players need to discard, skip to robbing
+	}
+	
+	
 //	@Test
 //	public void canRobPlayer_Test()
 //	{
