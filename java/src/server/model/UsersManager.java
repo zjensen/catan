@@ -80,6 +80,23 @@ public class UsersManager {
 		addUser(newUser);
 		return;
 	}
+	
+	/**
+	 * adds user and returns their ID
+	 * @param username
+	 * @param password
+	 * @return id of user just added
+	 */
+	public int addNewUserGetID(String username, String password) {
+		// Checks to give a unique ID
+		int highestID = users.stream().mapToInt(user -> user.getPlayerID())
+				.reduce(Integer.MAX_VALUE, Integer::max);
+		int newID = highestID + 1;
+		User newUser = new User(username, password, newID);
+
+		addUser(newUser);
+		return newID;
+	}
 
 	/**
 	 * returns a user by looking up their playerID

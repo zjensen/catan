@@ -31,7 +31,8 @@ public class MessageList {
 		{
 			updatedLines[i] = lines[i];
 		}
-		updatedLines[lines.length+1] = new MessageLine(name, content);
+		updatedLines[lines.length] = new MessageLine(name, content);
+		this.lines = updatedLines;
 	}
 
 }

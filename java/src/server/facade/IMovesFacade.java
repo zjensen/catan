@@ -38,7 +38,7 @@ public abstract class IMovesFacade {
 	 * @param playerID
 	 * @return true if game exists and player is in that game, else false
 	 */
-	protected boolean setModel(int gameID,int playerID)
+	protected boolean setModel(int playerID,int gameID)
 	{
 		this.model = null; //defaults global model to null
 		ClientModel modelToValidate = ServerManager.instance().getGamesManager().getClientModelById(gameID); //gets model that matches param

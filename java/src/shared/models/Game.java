@@ -6,9 +6,22 @@ package shared.models;
  *
  */
 public class Game {
+
 	private ClientModel clientModel;
 	private String title;
 	private int id;
+	
+	public Game(ClientModel clientModel, String title, int id)
+	{
+		this.clientModel = clientModel;
+		this.title = title;
+		this.id = id;
+	}
+	
+	public Game()
+	{
+		
+	}
 	
 	/**
 	 * check if there is space in game

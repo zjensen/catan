@@ -408,7 +408,7 @@
       "monuments": 0,
       "playedDevCard": false,
       "discarded": false,
-      "playerID": 0,
+      "playerID": 1,
       "playerIndex": 0,
       "name": "Sam",
       "color": "orange"
@@ -443,7 +443,7 @@
       "monuments": 0,
       "playedDevCard": false,
       "discarded": false,
-      "playerID": 1,
+      "playerID": 3,
       "playerIndex": 1,
       "name": "Brooke",
       "color": "blue"
@@ -478,7 +478,7 @@
       "monuments": 0,
       "playedDevCard": true,
       "discarded": true,
-      "playerID": 10,
+      "playerID": 2,
       "playerIndex": 2,
       "name": "Pete",
       "color": "red"
@@ -513,7 +513,7 @@
       "monuments": 0,
       "playedDevCard": false,
       "discarded": false,
-      "playerID": 11,
+      "playerID": 4,
       "playerIndex": 3,
       "name": "Mark",
       "color": "green"

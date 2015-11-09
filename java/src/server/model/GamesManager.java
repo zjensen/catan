@@ -46,6 +46,33 @@ public class GamesManager {
 	public void addGame(Game newGame) {
 		games.add(newGame);
 	}
+	
+	/**
+	 * adds a game that is brand new by setting it's id
+	 * @param newGame
+	 */
+	public void addNewGame(ClientModel model, String name) {
+		// Checks to give a unique ID
+		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max);
+		int newID = highestID + 1;
+		Game newGame = new Game(model, name, newID);
+		addGame(newGame);
+	}
+	
+	/**
+	 * adds game and returns it's ID
+	 * @param model
+	 * @param name
+	 * @return id of game just added
+	 */
+	public int addNewGameGetID(ClientModel model, String name) {
+		// Checks to give a unique ID
+		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max);
+		int newID = highestID + 1;
+		Game newGame = new Game(model, name, newID);
+		addGame(newGame);
+		return newID;
+	}
 
 	/**
 	 * Get a game by its id
