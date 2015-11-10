@@ -15,6 +15,7 @@ import com.google.gson.JsonParser;
 import server.manager.ServerManager;
 import shared.utils.Interpreter;
 import shared.communication.moves.*;
+import shared.locations.HexLocation;
 import shared.models.ClientModel;
 
 public class MovesFacade_Test 
@@ -82,7 +83,6 @@ public class MovesFacade_Test
 		assertTrue(newModel.getChat().getLines()[0].getSource().equals("Brooke")); //message source was correct
 	}
 	
-	
 	@Test
 	public void rollNumber_Test1() //test errors
 	{
@@ -122,34 +122,122 @@ public class MovesFacade_Test
 	}
 	
 	@Test
-	public void rollNumber_Test4() //roll a seven, no one needs to discard
+	public void rollNumber_Test4() //check handing out resources
 	{
 		RollNumber_Input params1 = new RollNumber_Input(0, 6);
 		
+		//resources before roll
+		int player0Wheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getWheat();
+		int player1Wood = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(1).getResources().getWood();
+		int player3Wood = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getResources().getWood();
+		int bankWood = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getWood();
+		int bankWheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getWheat();
+		
+		
 		ClientModel newModel = interpreter.deserialize(mf.rollNumber(params1,1,gameID)); //roll baby roll
+		
+		//resources after roll
+		int player0Wheat2 = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getWheat();
+		int player1Wood2 = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(1).getResources().getWood();
+		int player3Wood2 = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getResources().getWood();
+		int bankWood2 = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getWood();
+		int bankWheat2 = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getWheat();
+		
+		assertTrue(player0Wheat2 == player0Wheat+1); //player gained wheat
+		assertTrue(bankWheat2 == bankWheat-1); //bank gave up wheat
+		
+		assertTrue(player1Wood2 == player1Wood+1); //player gained wood
+		assertTrue(player3Wood2 == player3Wood+1); //player gained wood
+		assertTrue(bankWood2 == bankWood-2); //bank gave up 2 wood
 		
 		assertTrue(newModel.getTurnTracker().getStatus().equals("playing")); //no players need to discard, skip to robbing
 	}
 	
+	@Test
+	public void robPlayer_Test1() //check for failures
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("robbing"); //set to robbing
+		
+		RobPlayer_Input params1 = new RobPlayer_Input(0, 0, new HexLocation(0,1)); //same person
+		RobPlayer_Input params3 = new RobPlayer_Input(1, 0, new HexLocation(0,1)); //not player's turn
+		RobPlayer_Input params4 = new RobPlayer_Input(0, 3, new HexLocation(2,-2)); //robber is there
+		RobPlayer_Input params5 = new RobPlayer_Input(0, 2, new HexLocation(-4,7)); //invalid hex
+		
+		assertNull(mf.robPlayer(params1,1,gameID));
+		assertNull(mf.robPlayer(params3,1,gameID));
+		assertNull(mf.robPlayer(params4,1,gameID));
+		assertNull(mf.robPlayer(params5,1,gameID));
+	}
 	
-//	@Test
-//	public void canRobPlayer_Test()
-//	{
-//		RobPlayer_Input params1 = new RobPlayer_Input(0, 0, new HexLocation(0,1)); //same person
-//		RobPlayer_Input params3 = new RobPlayer_Input(1, 0, new HexLocation(0,1)); //not player's turn
-//		RobPlayer_Input params4 = new RobPlayer_Input(0, 3, new HexLocation(2,-2)); //robber is there
-//		RobPlayer_Input params5 = new RobPlayer_Input(0, 2, new HexLocation(-4,7)); //invalid hex
-//		
-//		RobPlayer_Input params6 = new RobPlayer_Input(0, 3, new HexLocation(-1,1)); //g2g
-//		
-//		
-//		assertFalse(mf.canRobPlayer(params1));
-//		assertFalse(mf.canRobPlayer(params3));
-//		assertFalse(mf.canRobPlayer(params4));
-//		assertFalse(mf.canRobPlayer(params5));
-//		
-//		assertTrue(mf.canRobPlayer(params6));
-//	}
+	@Test
+	public void robPlayer_Test2() //rob someone
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("robbing"); //set to robbing
+		
+		RobPlayer_Input params = new RobPlayer_Input(0, 3, new HexLocation(-1,1)); //g2g
+		//victim here has wood, sheep, ore
+		
+		//resources before rob
+		int playerWood = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getWood();
+		int playerSheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getSheep();
+		int playerOre = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getOre();
+		int victimWood = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getResources().getWood();
+		int victimSheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getResources().getSheep();
+		int victimOre = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getResources().getOre();
+		
+		ClientModel newModel = interpreter.deserialize(mf.robPlayer(params,1,gameID)); //rob rob rob
+		
+		//resources after rob
+		int playerWood2 = newModel.getPlayerByIndex(0).getResources().getWood();
+		int playerSheep2 = newModel.getPlayerByIndex(0).getResources().getSheep();
+		int playerOre2 = newModel.getPlayerByIndex(0).getResources().getOre();
+		int victimWood2 = newModel.getPlayerByIndex(3).getResources().getWood();
+		int victimSheep2 = newModel.getPlayerByIndex(3).getResources().getSheep();
+		int victimOre2 = newModel.getPlayerByIndex(3).getResources().getOre();
+		
+		//make sure resources were swapped correctly
+		if((victimWood2 == victimWood-1))
+		{
+			assertTrue(playerWood2 == playerWood+1);
+			
+			assertTrue(playerSheep2 == playerSheep);
+			assertTrue(playerOre2 == playerOre);
+		}
+		else if((victimSheep2 == victimSheep-1))
+		{
+			assertTrue(playerSheep2 == playerSheep+1);
+			
+			assertTrue(playerWood2 == playerWood);
+			assertTrue(playerOre2 == playerOre);
+		}
+		else if((victimOre2 == victimOre-1))
+		{
+			assertTrue(playerOre2 == playerOre+1);
+			
+			assertTrue(playerSheep2 == playerSheep);
+			assertTrue(playerWood2 == playerWood);
+		}
+		else
+		{
+			assertTrue(false); //fail
+		}
+		
+		assertTrue(newModel.getTurnTracker().getStatus().equals("playing")); //status correctly changes
+		assertTrue(newModel.getMap().getRobber().equals(params.getLocation())); //robber moved
+	}
+	
+	@Test
+	public void robPlayer_Test3() //rob no one
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("robbing"); //set to robbing
+		
+		RobPlayer_Input params = new RobPlayer_Input(0, -1, new HexLocation(0,-2)); //g2g
+
+		ClientModel newModel = interpreter.deserialize(mf.robPlayer(params,1,gameID)); //rob rob rob
+		
+		assertTrue(newModel.getTurnTracker().getStatus().equals("playing")); //status correctly changes
+		assertTrue(newModel.getMap().getRobber().equals(params.getLocation())); //robber moved
+	}
 //	
 //	@Test
 //	public void canFinishTurn_Test()
