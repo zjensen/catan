@@ -25,6 +25,8 @@ public class Model_Command extends ServerCommand {
 	@Override
 	public JsonElement execute()
 	{
+		int version = identifyVersion();
+		GameModel_Input params = new GameModel_Input(version);
 		return ServerManager.instance().getGameFacade().currentModel(params);
 	}
 
@@ -32,6 +34,28 @@ public class Model_Command extends ServerCommand {
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public int identifyVersion()
+	{
+		String url = httpObj.getRequestURI().toString();
+		String[] split = url.split("/");
+		String modelParam = split[split.length - 1];
+		try
+		{
+			String[] modelSplit = modelParam.split("=");
+			int version = Integer.parseInt(modelSplit[modelSplit.length - 1]);
+			return version;
+		}
+		catch (NumberFormatException e)
+		{
+			return -1;
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
 	}
 
 }
