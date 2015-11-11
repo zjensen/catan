@@ -42,8 +42,6 @@ public class ServerHandler implements HttpHandler{
 			//Check the type of response
 			if (response.getClass() == JsonPrimitive.class) {
 				exchange.getResponseHeaders().add("Content-Type", "application/text");
-				String temp = response.getAsString();
-				System.out.println(temp);
 			} else {
 				exchange.getResponseHeaders().add("Content-Type", "application/json");
 			}

@@ -26,7 +26,7 @@ public class Login_Command extends ServerCommand{
 	@Override
 	public JsonElement execute() throws ServerInvalidRequestException
 	{
-		Login_Input params = gson.fromJson(json, Login_Input.class);
+		params = gson.fromJson(json, Login_Input.class);
 		try 
 		{
 			JsonElement response = ServerManager.instance().getUserFacade().login(params);
