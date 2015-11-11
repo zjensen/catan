@@ -35,6 +35,7 @@ public class BuildRoad_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
+		//TODO get params from json
 		params = gson.fromJson(json, BuildRoad_Input.class);
 		EdgeLocation edgeLocParam = params.getRoadLocation();
 		HexLocation hexLoc = edgeLocParam.getHexLoc();

@@ -109,8 +109,7 @@ public abstract class ServerCommand {
 	}
 	
 	protected String getExampleListString(){
-		String output = "[\n\t{\n\t}\n]";
-		return output;
+		return "[\n\t{\n\t}\n]";
 	}
 	
 	public void setGameID (int gameId){

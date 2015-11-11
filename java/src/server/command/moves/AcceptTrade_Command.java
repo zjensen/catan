@@ -25,15 +25,15 @@ public class AcceptTrade_Command extends ServerCommand {
 	}
 
 	@Override
-	public JsonElement execute()
+	public JsonElement execute() throws ServerInvalidRequestException
 	{
-		return ServerManager.instance().getMovesFacade().acceptTrade(params, super.playerId, super.gameId);
+		return execute(super.json);
 	}
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO Auto-generated method stub
-		return null;
+		params = gson.fromJson(json, AcceptTrade_Input.class);
+		return ServerManager.instance().getMovesFacade().acceptTrade(params, super.playerId, super.gameId);
 	}
 
 }
