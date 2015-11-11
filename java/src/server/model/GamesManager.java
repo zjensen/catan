@@ -1,10 +1,17 @@
 package server.model;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import shared.models.ClientModel;
 import shared.models.Game;
+import shared.utils.Interpreter;
 
 /**
  * This manager class stores all the games on the current server This class
@@ -25,7 +32,35 @@ public class GamesManager {
 	 * new GamesManager constructor should add default games?
 	 */
 	public GamesManager() {
+		
+		loadFirstGame();
 
+	}
+	
+	private void loadFirstGame()
+	{
+		StringBuilder result = new StringBuilder("");
+	    File file = new File("MovesFacadeTestJSON.txt");
+		
+		try (Scanner scanner = new Scanner(file)) {
+
+			while (scanner.hasNextLine()) {
+				String line = scanner.nextLine();
+				result.append(line).append("\n");
+			}
+			scanner.close();
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+		String jsonString = result.toString();
+				
+		JsonElement jsonToParse = new JsonParser().parse(jsonString).getAsJsonObject();
+
+		ClientModel newModel = new Interpreter().deserialize(jsonToParse);
+		
+		addNewGame(newModel,"Default Game");
 	}
 
 	/**
