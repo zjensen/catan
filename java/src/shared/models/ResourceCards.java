@@ -453,6 +453,13 @@ public class ResourceCards {
 	    }
 	    return cards.get(randomNum);
 	}
+	
+	public void buyDevCard()
+	{
+		this.sheep--;
+		this.wheat--;
+		this.ore--;
+	}
 
 	/////////////////////////////////ONLY FOR USE IN CLIENT MODEL BANK/////////////////////////////////////////
 	
@@ -483,6 +490,13 @@ public class ResourceCards {
 		this.wood += cards.getWood();
 		this.brick += cards.getBrick();
 		this.ore += cards.getOre();
+	}
+	
+	public void devCardBought()
+	{
+		this.sheep++;
+		this.wheat++;
+		this.ore++;
 	}
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////

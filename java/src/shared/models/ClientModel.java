@@ -480,6 +480,8 @@ public class ClientModel {
 	public void buyDevCard(BuyDevCard_Input params)
 	{
 		Player p = getPlayerByIndex(params.getPlayerIndex());
+		p.getResources().buyDevCard();
+		bank.devCardBought();
 		//takes random devcard from deck and adds to player's new dev card deck
 		p.getNewDevCards().addDevCard(deck.getRandomCard());
 		log.addLine(p.getName(), (p.getName() + " bought a development card."));
