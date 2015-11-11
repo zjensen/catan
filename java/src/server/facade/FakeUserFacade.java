@@ -1,22 +1,33 @@
 package server.facade;
 
-import com.google.gson.JsonElement;
-
 import shared.communication.user.Login_Input;
 import shared.communication.user.Register_Input;
 
-public class FakeUserFacade implements IUserFacade{
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+
+public class FakeUserFacade implements IUserFacade {
 
 	@Override
 	public JsonElement login(Login_Input params) {
-		// TODO Auto-generated method stub
-		return null;
+		if (params.getUsername().equals("Ian")
+				&& params.getPassword().equals("ian"))
+			return new JsonPrimitive("Success");
+
+		else
+			return new JsonPrimitive(
+					"Failed to login - bad username or password.");
 	}
 
 	@Override
 	public JsonElement register(Register_Input params) {
-		// TODO Auto-generated method stub
-		return null;
+		if (params.getUsername().equals("NewUser")
+				&& params.getPassword().equals("newuser"))
+			return new JsonPrimitive("Success");
+
+		else
+			return new JsonPrimitive(
+					"Failed to register - someone already has that username.");
 	}
 
 }
