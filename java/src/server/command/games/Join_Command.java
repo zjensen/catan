@@ -23,7 +23,7 @@ public class Join_Command extends ServerCommand {
 	}
 
 	@Override
-	public JsonElement execute()
+	public JsonElement execute() throws ServerInvalidRequestException
 	{
 		try 
 		{
