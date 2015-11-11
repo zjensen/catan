@@ -25,7 +25,19 @@ public class Join_Command extends ServerCommand {
 	@Override
 	public JsonElement execute()
 	{
-		return ServerManager.instance().getGamesFacade().join(params);
+		try 
+		{
+			params = gson.fromJson(json, JoinGame_Input.class);
+			JsonElement response = ServerManager.instance().getGamesFacade().join(params);
+			String encodedCookie = getEncodedJoinGameCookie(Integer.toString(params.getId()));
+			httpObj.getResponseHeaders().add("Set-cookie", encodedCookie);
+			return response;
+		} 
+		catch (Exception e) 
+		{
+			e.printStackTrace();
+			throw new ServerInvalidRequestException(e.getMessage());
+		}
 	}
 
 	@Override
