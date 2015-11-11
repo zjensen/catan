@@ -19,9 +19,9 @@ public class BuildSettlement_Command extends ServerCommand {
 	}
 
 	@Override
-	public JsonElement execute()
+	public JsonElement execute() throws ServerInvalidRequestException
 	{
-		return ServerManager.instance().getMovesFacade().buildSettlement(params, super.playerId, super.gameId);
+		return execute(super.json);
 	}
 
 	@Override
