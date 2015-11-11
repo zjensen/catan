@@ -87,7 +87,9 @@ private Boolean testing;
 		
 		//start a handler with a real command factory
 		// TODO set up a way to switch out factories
-		server.createContext("/", new ServerHandler(testing));
+		ServerHandler serverHandler = new ServerHandler(testing);
+		server.createContext("/", serverHandler);
+		serverHandler.setLogger(logger);
 		server.createContext("/docs/api/data", new Handlers.JSONAppender(""));
 		server.createContext("/docs/api/view", new Handlers.BasicFile(""));
 		

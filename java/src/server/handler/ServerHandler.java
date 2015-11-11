@@ -48,7 +48,9 @@ public class ServerHandler implements HttpHandler{
 				exchange.getResponseHeaders().add("Content-Type", "application/json");
 			}
 			//Set up Body
-			String stringResponse = response.getAsString();
+			String stringResponse = response.toString();
+			if(stringResponse.equals("\"Success\""))
+				stringResponse = "Success";
 			exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, stringResponse.length());
 			exchange.getResponseBody().write(stringResponse.getBytes());
 			exchange.getResponseBody().close();
