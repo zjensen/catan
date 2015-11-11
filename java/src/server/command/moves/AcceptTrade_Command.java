@@ -32,7 +32,9 @@ public class AcceptTrade_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
+		//TODO get params from json
 		params = gson.fromJson(json, AcceptTrade_Input.class);
+		
 		return ServerManager.instance().getMovesFacade().acceptTrade(params, super.playerId, super.gameId);
 	}
 

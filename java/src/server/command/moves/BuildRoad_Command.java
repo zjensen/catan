@@ -37,13 +37,7 @@ public class BuildRoad_Command extends ServerCommand {
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
 		//TODO get params from json
 		params = gson.fromJson(json, BuildRoad_Input.class);
-		EdgeLocation edgeLocParam = params.getRoadLocation();
-		HexLocation hexLoc = edgeLocParam.getHexLoc();
-		EdgeDirection edgeDirection = edgeLocParam.getDir();
-		EdgeLocation edgeLocation = new EdgeLocation(hexLoc, edgeDirection);
-//		System.out.println("build road command, build road player index?? " + params.getPlayerIndex());
 		
-//		ServerManager.instance().getMovesFacade().addCommand(json, gameId);
 		return ServerManager.instance().getMovesFacade().buildRoad(params, super.playerId, super.gameId);
 	}
 

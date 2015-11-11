@@ -7,6 +7,9 @@ import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 import shared.communication.moves.BuildCity_Input;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 
 public class BuildCity_Command extends ServerCommand {
 
@@ -25,15 +28,17 @@ public class BuildCity_Command extends ServerCommand {
 	}
 
 	@Override
-	public JsonElement execute()
+	public JsonElement execute() throws ServerInvalidRequestException
 	{
-		return ServerManager.instance().getMovesFacade().buildCity(params, super.playerId, super.gameId);
+		return execute(super.json);
 	}
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO get params from json
+		params = gson.fromJson(json, BuildCity_Input.class);
+		
+		return ServerManager.instance().getMovesFacade().buildCity(params, super.playerId, super.gameId);
 	}
 
 }
