@@ -26,8 +26,10 @@ public class BuildSettlement_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO Auto-generated method stub
-		return null;
+		//TODO get params from json
+		params = gson.fromJson(json, BuildSettlement_Input.class);
+		
+		return ServerManager.instance().getMovesFacade().buildSettlement(params, super.playerId, super.gameId);
 	}
 
 }
