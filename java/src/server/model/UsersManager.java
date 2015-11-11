@@ -166,4 +166,14 @@ public class UsersManager {
 		}
 		return false;
 	}
+	
+	public boolean validateUser(String username, String password) {
+		for (User u : users) {
+			if (u.getName().equals(username)) {
+				if (u.getPassword().equals(password)) return true;
+				else return false;
+			}
+		}
+		return false;
+	}
 }
