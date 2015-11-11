@@ -40,11 +40,10 @@ public class ServerHandler implements HttpHandler{
 			}
 			JsonElement response = event.execute();
 			//Check the type of response
-			if (response.getClass() == JsonPrimitive.class) {
+			if (response.getClass() == JsonPrimitive.class)
 				exchange.getResponseHeaders().add("Content-Type", "application/text");
-			} else {
+			else
 				exchange.getResponseHeaders().add("Content-Type", "application/json");
-			}
 			//Set up Body
 			String stringResponse = response.toString();
 			if(stringResponse.equals("\"Success\""))

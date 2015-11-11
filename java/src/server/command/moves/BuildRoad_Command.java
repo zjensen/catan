@@ -7,6 +7,9 @@ import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 import shared.communication.moves.BuildRoad_Input;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
 
 public class BuildRoad_Command extends ServerCommand {
 
@@ -25,15 +28,22 @@ public class BuildRoad_Command extends ServerCommand {
 	}
 
 	@Override
-	public JsonElement execute()
+	public JsonElement execute() throws ServerInvalidRequestException
 	{
-		return ServerManager.instance().getMovesFacade().buildRoad(params, super.playerId, super.gameId);
+		return execute(super.json);
 	}
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO Auto-generated method stub
-		return null;
+		params = gson.fromJson(json, BuildRoad_Input.class);
+		EdgeLocation edgeLocParam = params.getRoadLocation();
+		HexLocation hexLoc = edgeLocParam.getHexLoc();
+		EdgeDirection edgeDirection = edgeLocParam.getDir();
+		EdgeLocation edgeLocation = new EdgeLocation(hexLoc, edgeDirection);
+//		System.out.println("build road command, build road player index?? " + params.getPlayerIndex());
+		
+//		ServerManager.instance().getMovesFacade().addCommand(json, gameId);
+		return ServerManager.instance().getMovesFacade().buildRoad(params, super.playerId, super.gameId);
 	}
 
 }

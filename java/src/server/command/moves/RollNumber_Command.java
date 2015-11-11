@@ -25,15 +25,17 @@ public class RollNumber_Command extends ServerCommand {
 	}
 
 	@Override
-	public JsonElement execute()
+	public JsonElement execute() throws ServerInvalidRequestException
 	{
-		return ServerManager.instance().getMovesFacade().rollNumber(params, super.playerId, super.gameId);
+		return execute(this.json);
 	}
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO Auto-generated method stub
-		return null;
+		params = gson.fromJson(json, RollNumber_Input.class);
+		
+//		ServerFacade.instance().addCommand(json, gameId);
+		return ServerManager.instance().getMovesFacade().rollNumber(params, super.playerId, super.gameId);
 	}
 
 }
