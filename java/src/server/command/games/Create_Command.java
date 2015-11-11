@@ -23,9 +23,17 @@ public class Create_Command extends ServerCommand {
 	}
 
 	@Override
-	public JsonElement execute()
+	public JsonElement execute() throws ServerInvalidRequestException
 	{
-		return ServerManager.instance().getGamesFacade().create(params);
+		try
+		{
+			params = gson.fromJson(json, CreateGame_Input.class);
+			return ServerManager.instance().getGamesFacade().create(params);
+		} 
+		catch(Exception e)
+		{
+			throw new ServerInvalidRequestException("Malformed JSON");
+		}
 	}
 
 	@Override

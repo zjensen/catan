@@ -26,7 +26,7 @@ public abstract class ServerCommand {
 		
 		httpObj = exchange;
 		httpObj.getRequestMethod();
-		System.out.println("Request: " + httpObj.getRequestURI());
+//		System.out.println("Request: " + httpObj.getRequestURI());
 		
 		//Parse request body
 		try 
@@ -40,11 +40,8 @@ public abstract class ServerCommand {
 		
 		Headers headers = httpObj.getRequestHeaders();
 		List<String> cookies = headers.get("Cookie");
-		if (cookies == null) 
-		{ 
-			// No nomnoms
+		if (cookies == null) // No nomnoms
 			return;
-		}
 		String catanCookie = cookies.get(cookies.size()-1);
 		try 
 		{
