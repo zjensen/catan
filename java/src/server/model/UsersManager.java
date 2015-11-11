@@ -62,7 +62,6 @@ public class UsersManager {
 	 * 
 	 * @param username
 	 * @param password
-	 * @return
 	 */
 	public void addNewUser(String username, String password) {
 		// Checks to give a unique ID
