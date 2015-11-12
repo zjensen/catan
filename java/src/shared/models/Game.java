@@ -1,5 +1,7 @@
 package shared.models;
 
+import java.util.ArrayList;
+
 /**
  * FOR LOGIN PAGE. Displays all games going on
  * @author zsjensen
@@ -60,6 +62,17 @@ public class Game {
 			sb.setLength(sb.length() - 2);
 		}
 		return sb.toString();
+	}
+	
+	public ArrayList<Player> getPlayerList() 
+	{
+		ArrayList<Player> playerList = new ArrayList<Player>();
+		Player[] players = clientModel.getPlayers();
+		for(Player p : players)
+		{
+			playerList.add(p);
+		}
+		return playerList;
 	}
 
 	/**

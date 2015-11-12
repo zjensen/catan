@@ -198,7 +198,7 @@ public class Interpreter
 	{
 		return deserialize(new JsonParser().parse(jsonString).getAsJsonObject());
 	}
-	
+
 	public ClientModel deserialize(JsonElement arg0) throws JsonParseException
 	{	
 		JsonObject mainJson = (JsonObject) arg0;
@@ -722,6 +722,94 @@ public class Interpreter
 		String s = result.toString();
 		
 		return parser.parse(s);
+	}
+	
+	public Map deserializeDefaultMap(JsonElement arg0) throws JsonParseException {
+
+		// Get Map	
+		JsonObject mapJson = (JsonObject) arg0;
+		
+		//Get Hexes
+        JsonArray hexesJson = mapJson.getAsJsonArray("hexes");
+        Hex[] hexes = new Hex[19];
+        
+        for(int a = 0; a < 19; a++)
+        {
+            JsonObject hexJson = hexesJson.get(a).getAsJsonObject();
+            
+            if (hexJson.has("resource"))
+            {
+                JsonElement resource = hexJson.get("resource");
+                
+                JsonObject locationJson = hexJson.getAsJsonObject("location");
+                int x = locationJson.get("x").getAsInt();
+                int y = locationJson.get("y").getAsInt();
+                HexLocation hexLocation = new HexLocation(x, y);
+                int number = hexJson.get("number").getAsInt();
+                hexes[a] = new Hex(hexLocation, determineHexType(resource.getAsString()), number);
+            }
+            else
+            {
+                JsonObject locationJson = hexJson.getAsJsonObject("location");
+                int x = locationJson.get("x").getAsInt();
+                int y = locationJson.get("y").getAsInt();
+                HexLocation hexLocation = new HexLocation(x, y);
+                hexes[a] = new Hex(hexLocation);
+            }
+        }
+		
+	// Get Radius
+		int radius = mapJson.get("radius").getAsInt();
+		
+		
+	// Get Ports
+		JsonArray portsJson = mapJson.getAsJsonArray("ports");
+		Port[] ports = new Port[9];
+		
+		for(int b = 0; b < portsJson.size(); b++)
+		{
+				JsonObject portJson = portsJson.get(b).getAsJsonObject();
+				int ratio = portJson.get("ratio").getAsInt();
+
+				JsonElement resource = portJson.get("resource");
+				ResourceType resourceResult = null;
+				
+				if (resource != null)
+				{
+					resourceResult = determineResourceType(resource.getAsString());
+				}
+				
+				JsonElement direction = portJson.get("direction");
+
+				JsonObject locationJson = portJson.getAsJsonObject("location");
+				int x = locationJson.get("x").getAsInt();
+				int y = locationJson.get("y").getAsInt();
+				HexLocation hexLocation = new HexLocation(x, y);
+
+				if (resourceResult == null)
+				{
+					ports[b] = new Port(hexLocation, determineEdgeDirection(direction.getAsString()), ratio);
+				}
+				else
+				{
+					ports[b] = new Port(resourceResult, hexLocation, determineEdgeDirection(direction.getAsString()), ratio);
+				}	
+		}
+		
+		
+	// Get Robber
+		JsonObject robberJson = mapJson.getAsJsonObject("robber");
+		int x = robberJson.get("x").getAsInt();
+		int y = robberJson.get("y").getAsInt();
+		HexLocation robber = new HexLocation(x, y);
+		
+		HashMap<VertexLocation, Player> settlements = new HashMap<>();
+		HashMap<VertexLocation, Player> cities = new HashMap<>();
+		HashMap<EdgeLocation, Player> roads = new HashMap<>();
+		
+		Map map = new Map(hexes, ports, roads, settlements, cities, radius, robber);
+		
+		return map;
 	}
 	
 }

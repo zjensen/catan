@@ -1,9 +1,16 @@
 package server.facade;
 
-import com.google.gson.JsonElement;
+import com.google.gson.*;
+
+import server.manager.ServerManager;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import shared.communication.games.CreateGame_Input;
 import shared.communication.games.JoinGame_Input;
+import shared.models.Game;
+import shared.models.Player;
 
 //make all methods static
 public class GamesFacade implements IGamesFacade {
@@ -15,6 +22,7 @@ public class GamesFacade implements IGamesFacade {
 	 */
 	@Override
 	public JsonElement create(CreateGame_Input params) {
+		//TODO
 		return null;
 	}
 	
@@ -25,6 +33,7 @@ public class GamesFacade implements IGamesFacade {
 	 */
 	@Override
 	public JsonElement join(JoinGame_Input params) {
+		params.toString();
 		return null;
 	}
 	
@@ -34,6 +43,40 @@ public class GamesFacade implements IGamesFacade {
 	 */
 	@Override
 	public JsonElement list() {
-		return null;
+		ArrayList<Game> games = getGamesList();
+        JsonArray results = new JsonArray();
+        for (int i = 0; i < games.size(); i++) {
+        	results.add(gameToJson(games.get(i).getId(), games.get(i).getTitle(), games.get(i).getPlayerList()));
+        }
+        return results;
 	}
+	
+	private ArrayList<Game> getGamesList() {
+		return (ArrayList<Game>)ServerManager.instance().getGamesManager().getGames();
+	}
+	
+	private JsonElement gameToJson(int id, String title, ArrayList<Player> playersArray) {
+        JsonObject gameJSON = new JsonObject();
+        gameJSON.addProperty("id", id);
+        gameJSON.addProperty("title", title);
+        
+        JsonArray playersJSON = new JsonArray();
+        Gson gson = new Gson();
+        
+        for (int i = 0; i < 4; i++) {
+            if (i >= playersArray.size()) {
+                playersJSON.add(new JsonObject());
+            } else {
+                Player player = playersArray.get(i);
+                String json = gson.toJson(player);
+                JsonParser parser = new JsonParser();
+                playersJSON.add(parser.parse(json));
+            }
+        }
+        
+        gameJSON.add("players", playersJSON);
+        
+        
+        return gameJSON;
+    }
 }
