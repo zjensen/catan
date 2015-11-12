@@ -13,9 +13,9 @@ import com.google.gson.JsonPrimitive;
 public class FakeGameFacade implements IGameFacade {
 
 	@Override
-	public JsonElement currentModel(GameModel_Input params) {
+	public JsonElement currentModel(GameModel_Input params, Integer gameId) {
 
-		if (params.getVersion() == 0) {
+		if (params.getVersion() == 0 && gameId.intValue() == Integer.valueOf(3)) {
 			JsonElement primitive = new JsonPrimitive("true");
 			return primitive;
 		} else {
