@@ -25,15 +25,17 @@ public class MaritimeTrade_Command extends ServerCommand {
 	}
 
 	@Override
-	public JsonElement execute()
+	public JsonElement execute() throws ServerInvalidRequestException
 	{
-		return ServerManager.instance().getMovesFacade().maritimeTrade(params, super.playerId, super.gameId);
+		return execute(super.json);
 	}
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO get params from json
+		params = gson.fromJson(json, MaritimeTrade_Input.class);
+		
+		return ServerManager.instance().getMovesFacade().maritimeTrade(params, super.playerId, super.gameId);
 	}
 
 }
