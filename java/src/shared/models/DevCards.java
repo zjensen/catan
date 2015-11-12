@@ -21,6 +21,13 @@ public class DevCards {
 		this.monument = 0;
 	}
 
+	public DevCards(int soldier, int monopoly, int roadBuilding, int yearOfPlenty, int monument) {
+		this.soldier = soldier;
+		this.monopoly = monopoly;
+		this.roadBuilding = roadBuilding;
+		this.yearOfPlenty = yearOfPlenty;
+		this.monument = monument;
+	}
 	/**
 	 * 
 	 * @param cardTotals

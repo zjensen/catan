@@ -9,8 +9,10 @@ import java.util.Scanner;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import server.manager.ServerManager;
 import shared.models.ClientModel;
 import shared.models.Game;
+import shared.models.Map;
 import shared.utils.Interpreter;
 
 /**
@@ -22,7 +24,9 @@ import shared.utils.Interpreter;
  *
  */
 public class GamesManager {
-
+	
+	private MapGenerator mapGenerator = new MapGenerator();
+	
 	/**
 	 * A list of games stored on the server
 	 */
@@ -33,35 +37,35 @@ public class GamesManager {
 	 */
 	public GamesManager() {
 		
-		loadFirstGame();
+//		loadFirstGame();
 
 	}
 	
-	private void loadFirstGame()
-	{
-		StringBuilder result = new StringBuilder("");
-	    File file = new File("MovesFacadeTestJSON.txt");
-		
-		try (Scanner scanner = new Scanner(file)) {
-
-			while (scanner.hasNextLine()) {
-				String line = scanner.nextLine();
-				result.append(line).append("\n");
-			}
-			scanner.close();
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		String jsonString = result.toString();
-				
-		JsonElement jsonToParse = new JsonParser().parse(jsonString).getAsJsonObject();
-
-		ClientModel newModel = new Interpreter().deserialize(jsonToParse);
-		
-		addNewGame(newModel,"Default Game");
-	}
+//	private void loadFirstGame()
+//	{
+//		StringBuilder result = new StringBuilder("");
+//	    File file = new File("MovesFacadeTestJSON.txt");
+//		
+//		try (Scanner scanner = new Scanner(file)) {
+//
+//			while (scanner.hasNextLine()) {
+//				String line = scanner.nextLine();
+//				result.append(line).append("\n");
+//			}
+//			scanner.close();
+//
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		String jsonString = result.toString();
+//				
+//		JsonElement jsonToParse = new JsonParser().parse(jsonString).getAsJsonObject();
+//
+//		ClientModel newModel = new Interpreter().deserialize(jsonToParse);
+//		
+//		addNewGame(newModel,"Default Game");
+//	}
 
 	/**
 	 * copy constructor
@@ -88,23 +92,31 @@ public class GamesManager {
 	 */
 	public void addNewGame(ClientModel model, String name) {
 		// Checks to give a unique ID
-		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max);
-		int newID = highestID + 1;
+		int newID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max) + 1;
 		Game newGame = new Game(model, name, newID);
 		addGame(newGame);
 	}
 	
-	/**
-	 * adds game and returns it's ID
-	 * @param model
-	 * @param name
-	 * @return id of game just added
-	 */
-	public int addNewGameGetID(ClientModel model, String name) {
-		// Checks to give a unique ID
-		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max);
-		int newID = highestID + 1;
-		Game newGame = new Game(model, name, newID);
+//	/**
+//	 * adds game and returns it's ID
+//	 * @param model
+//	 * @param name
+//	 * @return id of game just added
+//	 */
+//	public int addNewGameGetID(ClientModel model, String name) {
+//		// Checks to give a unique ID
+//		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max);
+//		int newID = highestID + 1;
+//		Game newGame = new Game(model, name, newID);
+//		addGame(newGame);
+//		return newID;
+//	}
+	
+	public int addNewGameGetID(String gameName, boolean randHexes, boolean randPorts, boolean randNumbers) {
+		int newID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max) + 1;
+		Map newGameMap = mapGenerator.generateMap(randHexes, randPorts, randNumbers);
+		ClientModel gameModel = new ClientModel(newGameMap);
+		Game newGame = new Game(gameModel, gameName, newID);
 		addGame(newGame);
 		return newID;
 	}

@@ -22,8 +22,12 @@ public class GamesFacade implements IGamesFacade {
 	 */
 	@Override
 	public JsonElement create(CreateGame_Input params) {
-		//TODO
-		return null;
+
+		int gameID = ServerManager.instance().getGamesManager().addNewGameGetID(params.getName(), params.isRandomTiles(),
+				params.isRandomPorts(), params.isRandomNumbers());
+		Game newGame = ServerManager.instance().getGamesManager().getGameById(gameID);
+        JsonObject gameJSON = (JsonObject) gameToJson(newGame.getId(), newGame.getTitle(), newGame.getPlayerList());
+		return gameJSON;
 	}
 	
 	/**
@@ -33,6 +37,7 @@ public class GamesFacade implements IGamesFacade {
 	 */
 	@Override
 	public JsonElement join(JoinGame_Input params) {
+		
 		params.toString();
 		return null;
 	}
@@ -75,7 +80,6 @@ public class GamesFacade implements IGamesFacade {
         }
         
         gameJSON.add("players", playersJSON);
-        
         
         return gameJSON;
     }

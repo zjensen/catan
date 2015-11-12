@@ -34,6 +34,31 @@ public class ClientModel {
 	}
 	
 	/**
+	 * Initializes a new client model with all the default vaules
+	 * 19 of each of Resource Cards
+	 * 14 Soldiers
+	 * 2 Monopoly,
+	 * 2 Road Building
+	 * 2 Year of Plenty
+	 * 5 Monument
+	 * Initializes the array of players
+	 * @param map
+	 */
+	public ClientModel(Map map) {
+		this.bank = new ResourceCards(19, 19, 19, 19, 19);
+		this.deck = new DevCards(14, 2, 2, 2, 5);
+		this.chat = new MessageList();
+		this.log = new MessageList();
+		this.map = map;
+		this.players = new Player[4];
+		for(Player p : this.players) p = new Player();
+		this.tradeOffer = new TradeOffer();
+		this.turnTracker = new TurnTracker();
+		this.version = -1;
+		this.winner = -1;
+	}
+	
+	/**
 	 * parses json to update member variables
 	 * 
 	 * @param json -> json with the new client model information
