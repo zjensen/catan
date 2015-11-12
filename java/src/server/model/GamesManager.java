@@ -1,19 +1,10 @@
 package server.model;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-
-import server.manager.ServerManager;
 import shared.models.ClientModel;
 import shared.models.Game;
 import shared.models.Map;
-import shared.utils.Interpreter;
 
 /**
  * This manager class stores all the games on the current server This class
@@ -97,20 +88,19 @@ public class GamesManager {
 		addGame(newGame);
 	}
 	
-//	/**
-//	 * adds game and returns it's ID
-//	 * @param model
-//	 * @param name
-//	 * @return id of game just added
-//	 */
-//	public int addNewGameGetID(ClientModel model, String name) {
-//		// Checks to give a unique ID
-//		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max);
-//		int newID = highestID + 1;
-//		Game newGame = new Game(model, name, newID);
-//		addGame(newGame);
-//		return newID;
-//	}
+	/**
+	 * adds game and returns it's ID
+	 * @param model
+	 * @param name
+	 * @return id of game just added
+	 */
+	public int addNewGameGetID(ClientModel model, String name) {
+		// Checks to give a unique ID
+		int newID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max) + 1;
+		Game newGame = new Game(model, name, newID);
+		addGame(newGame);
+		return newID;
+	}
 	
 	public int addNewGameGetID(String gameName, boolean randHexes, boolean randPorts, boolean randNumbers) {
 		int newID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max) + 1;

@@ -24,7 +24,7 @@ public class MapGenerator {
 		loadDefaultMap();
 	}
 	
-	private void loadDefaultMap() {		
+	private void loadDefaultMap() {
 		interpreter = new Interpreter();
 		StringBuilder result = new StringBuilder("");
 	    File file = new File("DefaultMapJSON.txt");
