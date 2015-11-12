@@ -21,7 +21,6 @@ public class Monument_Command extends ServerCommand {
 	public Monument_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a Monument_Input object
 	}
 
 	@Override
@@ -32,7 +31,6 @@ public class Monument_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO get params from json
 		params = gson.fromJson(json, Monument_Input.class);
 		
 		return ServerManager.instance().getMovesFacade().monument(params, super.playerId, super.gameId);

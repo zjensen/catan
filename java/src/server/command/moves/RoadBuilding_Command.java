@@ -1,6 +1,8 @@
 package server.command.moves;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 
 import server.command.ServerCommand;
@@ -21,7 +23,6 @@ public class RoadBuilding_Command extends ServerCommand {
 	public RoadBuilding_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a RoadBuilding_Input object
 	}
 
 	@Override
@@ -32,9 +33,12 @@ public class RoadBuilding_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO get params from json
 		params = gson.fromJson(json, RoadBuilding_Input.class);
-		
+		JsonObject paramsJSON = (JsonObject) new JsonParser().parse(json);
+		JsonObject spot1 = (JsonObject) paramsJSON.get("spot1");
+		JsonObject spot2 = (JsonObject) paramsJSON.get("spot2");
+		params.setSpot1(extractEdgeLocation(spot1));
+		params.setSpot2(extractEdgeLocation(spot2));
 		return ServerManager.instance().getMovesFacade().roadBuilding(params, super.playerId, super.gameId);
 	}
 

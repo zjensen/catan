@@ -21,7 +21,6 @@ public class RobPlayer_Command extends ServerCommand {
 	public RobPlayer_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a RobPlayer_Input object
 	}
 
 	@Override
@@ -32,9 +31,7 @@ public class RobPlayer_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO get params from json
 		params = gson.fromJson(json, RobPlayer_Input.class);
-		
 		return ServerManager.instance().getMovesFacade().robPlayer(params, super.playerId, super.gameId);
 	}
 

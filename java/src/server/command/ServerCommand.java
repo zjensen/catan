@@ -7,10 +7,16 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 
 import server.main.ServerInvalidRequestException;
+import shared.locations.EdgeDirection;
+import shared.locations.EdgeLocation;
+import shared.locations.HexLocation;
+import shared.locations.VertexDirection;
+import shared.locations.VertexLocation;
 import shared.utils.StringUtils;
 
 public abstract class ServerCommand {
@@ -110,6 +116,50 @@ public abstract class ServerCommand {
 	
 	protected String getExampleListString(){
 		return "[\n\t{\n\t}\n]";
+	}
+	
+	protected VertexLocation extractVertexLocation(JsonObject v)
+	{
+		int x = v.get("x").getAsInt();
+		int y = v.get("y").getAsInt();
+		String dir = v.get("direction").getAsString();
+		dir = convertDirection(dir);
+		VertexLocation result = new VertexLocation(new HexLocation(x, y), VertexDirection.valueOf(dir));
+		return result;
+	}
+	
+	protected EdgeLocation extractEdgeLocation(JsonObject e)
+	{
+		int x = e.get("x").getAsInt();
+		int y = e.get("y").getAsInt();
+		String dir = e.get("direction").getAsString();
+		dir = convertDirection(dir);
+		EdgeLocation result = new EdgeLocation(new HexLocation(x, y), EdgeDirection.valueOf(dir));
+		return result;
+	}
+	
+	private String convertDirection(String dir)
+	{
+		switch(dir.toLowerCase())
+		{
+			case "n":
+				return "North";
+			case "ne":
+				return "NorthEast";
+			case "e":
+				return "East";
+			case "se":
+				return "SouthEast";
+			case "s":
+				return "South";
+			case "sw":
+				return "SouthWest";
+			case "w":
+				return "West";
+			case "nw":
+				return "NorthWest";
+		}
+		return null;
 	}
 	
 	public void setGameID (int gameId){

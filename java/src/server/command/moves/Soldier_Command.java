@@ -21,7 +21,6 @@ public class Soldier_Command extends ServerCommand {
 	public Soldier_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a Soldier_Input object
 	}
 
 	@Override
@@ -32,9 +31,7 @@ public class Soldier_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO get params from json
 		params = gson.fromJson(json, Soldier_Input.class);
-		
 		return ServerManager.instance().getMovesFacade().soldier(params, super.playerId, super.gameId);
 	}
 

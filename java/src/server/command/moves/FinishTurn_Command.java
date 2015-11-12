@@ -21,7 +21,6 @@ public class FinishTurn_Command extends ServerCommand {
 	public FinishTurn_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a FinishTurn_Input object
 	}
 
 	@Override
@@ -32,7 +31,6 @@ public class FinishTurn_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		//TODO get params from json
 		params = gson.fromJson(json, FinishTurn_Input.class);
 		
 		return ServerManager.instance().getMovesFacade().finishTurn(params, super.playerId, super.gameId);

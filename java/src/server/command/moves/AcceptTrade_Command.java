@@ -21,7 +21,6 @@ public class AcceptTrade_Command extends ServerCommand {
 	public AcceptTrade_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a AcceptTrade_Input object
 	}
 
 	@Override
@@ -32,7 +31,6 @@ public class AcceptTrade_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		//TODO get params from json
 		params = gson.fromJson(json, AcceptTrade_Input.class);
 		
 		return ServerManager.instance().getMovesFacade().acceptTrade(params, super.playerId, super.gameId);

@@ -1,15 +1,14 @@
 package server.command.moves;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 import shared.communication.moves.BuildRoad_Input;
-import shared.locations.EdgeDirection;
-import shared.locations.EdgeLocation;
-import shared.locations.HexLocation;
 
 public class BuildRoad_Command extends ServerCommand {
 
@@ -24,7 +23,6 @@ public class BuildRoad_Command extends ServerCommand {
 	public BuildRoad_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a BuildRoad_Input object
 	}
 
 	@Override
@@ -35,8 +33,11 @@ public class BuildRoad_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		//TODO get params from json
 		params = gson.fromJson(json, BuildRoad_Input.class);
+		
+		JsonObject paramsJSON = (JsonObject) new JsonParser().parse(json);
+		JsonObject location = (JsonObject) paramsJSON.get("roadLocation");
+		params.setRoadLocation(extractEdgeLocation(location));
 		
 		return ServerManager.instance().getMovesFacade().buildRoad(params, super.playerId, super.gameId);
 	}

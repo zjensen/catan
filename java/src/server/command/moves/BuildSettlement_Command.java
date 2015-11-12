@@ -1,6 +1,8 @@
 package server.command.moves;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 
 import server.command.ServerCommand;
@@ -15,7 +17,6 @@ public class BuildSettlement_Command extends ServerCommand {
 	public BuildSettlement_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a BuildSettlement_Input object
 	}
 
 	@Override
@@ -26,8 +27,12 @@ public class BuildSettlement_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		//TODO get params from json
 		params = gson.fromJson(json, BuildSettlement_Input.class);
+		
+		JsonObject paramsJSON = (JsonObject) new JsonParser().parse(json);
+		JsonObject location = (JsonObject) paramsJSON.get("vertexLocation");
+		
+		params.setVertexLocation(extractVertexLocation(location));
 		
 		return ServerManager.instance().getMovesFacade().buildSettlement(params, super.playerId, super.gameId);
 	}

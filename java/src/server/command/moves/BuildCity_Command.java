@@ -1,15 +1,14 @@
 package server.command.moves;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.sun.net.httpserver.HttpExchange;
 
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 import shared.communication.moves.BuildCity_Input;
-import shared.locations.HexLocation;
-import shared.locations.VertexDirection;
-import shared.locations.VertexLocation;
 
 public class BuildCity_Command extends ServerCommand {
 
@@ -24,7 +23,6 @@ public class BuildCity_Command extends ServerCommand {
 	public BuildCity_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a BuildCity_Input object
 	}
 
 	@Override
@@ -35,8 +33,12 @@ public class BuildCity_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		//TODO get params from json
 		params = gson.fromJson(json, BuildCity_Input.class);
+		
+		JsonObject paramsJSON = (JsonObject) new JsonParser().parse(json);
+		JsonObject location = (JsonObject) paramsJSON.get("vertexLocation");
+		
+		params.setVertexLocation(extractVertexLocation(location));
 		
 		return ServerManager.instance().getMovesFacade().buildCity(params, super.playerId, super.gameId);
 	}

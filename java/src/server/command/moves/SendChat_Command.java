@@ -21,7 +21,6 @@ public class SendChat_Command extends ServerCommand{
 	public SendChat_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a SendChat_Input object
 	}
 
 	@Override
@@ -32,9 +31,7 @@ public class SendChat_Command extends ServerCommand{
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO get params from json
 		params = gson.fromJson(json, SendChat_Input.class);
-		
 		return ServerManager.instance().getMovesFacade().sendChat(params, super.playerId, super.gameId);
 	}
 

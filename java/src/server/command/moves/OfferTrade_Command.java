@@ -21,7 +21,6 @@ public class OfferTrade_Command extends ServerCommand {
 	public OfferTrade_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a OfferTrade_Input object
 	}
 
 	@Override
@@ -32,7 +31,6 @@ public class OfferTrade_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO get params from json
 		params = gson.fromJson(json, OfferTrade_Input.class);
 		
 		return ServerManager.instance().getMovesFacade().offerTrade(params, super.playerId, super.gameId);

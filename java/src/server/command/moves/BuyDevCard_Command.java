@@ -21,7 +21,6 @@ public class BuyDevCard_Command extends ServerCommand {
 	public BuyDevCard_Command(HttpExchange exchange)
 	{
 		super(exchange);
-		//here we will deserialize the JSON into a BuyDevCard_Input object
 	}
 
 	@Override
@@ -32,7 +31,6 @@ public class BuyDevCard_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		//TODO get params from json
 		params = gson.fromJson(json, BuyDevCard_Input.class);
 		
 		return ServerManager.instance().getMovesFacade().buyDevCard(params, super.playerId, super.gameId);
