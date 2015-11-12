@@ -12,6 +12,7 @@ import org.junit.Test;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
+import javafx.stage.FileChooser;
 import server.manager.ServerManager;
 import shared.utils.Interpreter;
 import shared.communication.moves.*;
@@ -30,7 +31,7 @@ public class MovesFacade_Test
 	{
 		StringBuilder result = new StringBuilder("");
 	    File file = new File("MovesFacadeTestJSON.txt");
-		
+	    
 		try (Scanner scanner = new Scanner(file)) {
 
 			while (scanner.hasNextLine()) {

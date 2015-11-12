@@ -50,8 +50,7 @@ public class ClientModel {
 		this.chat = new MessageList();
 		this.log = new MessageList();
 		this.map = map;
-		this.players = new Player[4];
-		for(Player p : this.players) p = new Player();
+		this.players = new Player[0];
 		this.tradeOffer = new TradeOffer();
 		this.turnTracker = new TurnTracker();
 		this.version = -1;

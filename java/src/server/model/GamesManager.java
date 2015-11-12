@@ -83,7 +83,8 @@ public class GamesManager {
 	 */
 	public void addNewGame(ClientModel model, String name) {
 		// Checks to give a unique ID
-		int newID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max) + 1;
+		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(0, Integer::max);
+		int newID = highestID + 1;
 		Game newGame = new Game(model, name, newID);
 		addGame(newGame);
 	}
@@ -96,14 +97,16 @@ public class GamesManager {
 	 */
 	public int addNewGameGetID(ClientModel model, String name) {
 		// Checks to give a unique ID
-		int newID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max) + 1;
+		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(0, Integer::max);
+		int newID = highestID + 1;
 		Game newGame = new Game(model, name, newID);
 		addGame(newGame);
 		return newID;
 	}
 	
 	public int addNewGameGetID(String gameName, boolean randHexes, boolean randPorts, boolean randNumbers) {
-		int newID = games.stream().mapToInt(game -> game.getId()).reduce(Integer.MAX_VALUE, Integer::max) + 1;
+		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(-1, Integer::max);
+		int newID = highestID + 1;
 		Map newGameMap = mapGenerator.generateMap(randHexes, randPorts, randNumbers);
 		ClientModel gameModel = new ClientModel(newGameMap);
 		Game newGame = new Game(gameModel, gameName, newID);
