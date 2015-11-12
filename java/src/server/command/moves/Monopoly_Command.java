@@ -5,8 +5,12 @@ import com.sun.net.httpserver.HttpExchange;
 
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
+import server.manager.ServerManager;
+import shared.communication.moves.Monopoly_Input;
 
 public class Monopoly_Command extends ServerCommand {
+	
+	private Monopoly_Input params;
 
 	public Monopoly_Command(HttpExchange exchange) {
 		super(exchange);
@@ -14,15 +18,17 @@ public class Monopoly_Command extends ServerCommand {
 	}
 
 	@Override
-	public JsonElement execute() throws ServerInvalidRequestException {
-		// TODO Auto-generated method stub
-		return null;
+	public JsonElement execute() throws ServerInvalidRequestException 
+	{
+		return execute(super.json);
 	}
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
-		// TODO Auto-generated method stub
-		return null;
+		// TODO get params from json
+		params = gson.fromJson(json, Monopoly_Input.class);
+		
+		return ServerManager.instance().getMovesFacade().monopoly(params, super.playerId, super.gameId);
 	}
 
 }
