@@ -3,6 +3,7 @@ package server.command.moves;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import com.sun.net.httpserver.HttpExchange;
 
 import server.command.ServerCommand;
@@ -34,6 +35,14 @@ public class YearOfPlenty_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
+		if(!hasUserCookie)
+		{
+			return new JsonPrimitive("The catan.user HTTP cookie is missing.  You must login before calling this method.");
+		}
+		if(!hasGameCookie)
+		{
+			return new JsonPrimitive("The catan.game HTTP cookie is missing.  You must join a game before calling this method.");
+		}
 		params = gson.fromJson(json, YearOfPlenty_Input.class);
 		JsonObject paramsJSON = (JsonObject) new JsonParser().parse(json);
 		params.setResource(ResourceType.valueOf(paramsJSON.get("resource1").getAsString().toUpperCase()));

@@ -26,10 +26,11 @@ public abstract class ServerCommand {
 	protected int playerId;
 	protected Gson gson = new Gson();
 	protected String json;
+	protected boolean hasUserCookie = false;
+	protected boolean hasGameCookie = false;
 	
 	public ServerCommand(HttpExchange exchange)
-	{
-		
+	{	
 		httpObj = exchange;
 		httpObj.getRequestMethod();
 //		System.out.println("Request: " + httpObj.getRequestURI());
@@ -46,8 +47,11 @@ public abstract class ServerCommand {
 		
 		Headers headers = httpObj.getRequestHeaders();
 		List<String> cookies = headers.get("Cookie");
-		if (cookies == null) // No nomnoms
+		if (cookies == null)// No nomnoms
+		{
 			return;
+		}
+			
 		String catanCookie = cookies.get(cookies.size()-1);
 		try 
 		{
@@ -80,6 +84,7 @@ public abstract class ServerCommand {
 				String id = finalChunk.substring(finalChunk.indexOf(":") + 1, finalChunk.indexOf("}"));
 				//System.out.println("PlayerIndex : " + id);
 				this.playerId = Integer.parseInt(id);
+				this.hasUserCookie = true;
 			} else if (string.contains("catan.game")) {
 				String decoded = URLDecoder.decode(string, "UTF-8");
 				//System.out.println("Decoded gameID: " + decoded);
@@ -89,6 +94,7 @@ public abstract class ServerCommand {
 				if(id!=null && !id.equals("") && !id.equals("null")){
 					//System.out.println("Game ID not null");
 					this.gameId = Integer.parseInt(id);
+					this.hasGameCookie = true;
 				}
 			}
 		}
