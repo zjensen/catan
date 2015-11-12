@@ -83,7 +83,7 @@ public class GamesManager {
 	 */
 	public void addNewGame(ClientModel model, String name) {
 		// Checks to give a unique ID
-		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(0, Integer::max);
+		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(-1, Integer::max);
 		int newID = highestID + 1;
 		Game newGame = new Game(model, name, newID);
 		addGame(newGame);
@@ -97,7 +97,7 @@ public class GamesManager {
 	 */
 	public int addNewGameGetID(ClientModel model, String name) {
 		// Checks to give a unique ID
-		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(0, Integer::max);
+		int highestID = games.stream().mapToInt(game -> game.getId()).reduce(-1, Integer::max);
 		int newID = highestID + 1;
 		Game newGame = new Game(model, name, newID);
 		addGame(newGame);

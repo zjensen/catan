@@ -4,6 +4,8 @@ import shared.communication.user.Login_Input;
 import shared.communication.user.Register_Input;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+
+import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 
 //make all methods static
@@ -15,9 +17,9 @@ public class UserFacade implements IUserFacade{
 	 * @return JsonObject with the id, username, password
 	 */
 	@Override
-	public JsonElement login(Login_Input params) {
+	public JsonElement login(Login_Input params) throws ServerInvalidRequestException {
 		if(!validateUser(params.getUsername(), params.getPassword())) {
-			return null; 
+			throw new ServerInvalidRequestException("Failed to validate user"); 
 		}
 		JsonObject result = new JsonObject();
 		result.addProperty("id",getUserId(params.getUsername()));
@@ -32,9 +34,9 @@ public class UserFacade implements IUserFacade{
 	 * @return JsonObject with the id, username, password
 	 */
 	@Override
-	public JsonElement register(Register_Input params) {
+	public JsonElement register(Register_Input params) throws ServerInvalidRequestException {
 		if(userExists(params.getUsername())){
-			return null;
+			throw new ServerInvalidRequestException("Failed to register user"); 
 		}
 		registerUser(params.getUsername(), params.getPassword());
 		JsonObject result = new JsonObject();
