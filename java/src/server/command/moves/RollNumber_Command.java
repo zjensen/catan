@@ -32,9 +32,9 @@ public class RollNumber_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
+		//TODO get params from json
 		params = gson.fromJson(json, RollNumber_Input.class);
 		
-//		ServerFacade.instance().addCommand(json, gameId);
 		return ServerManager.instance().getMovesFacade().rollNumber(params, super.playerId, super.gameId);
 	}
 
