@@ -32,6 +32,7 @@ public class DiscardCards_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute(String json) throws ServerInvalidRequestException {
+		//TODO get params from json
 		params = gson.fromJson(json, DiscardCards_Input.class);
 		
 		return ServerManager.instance().getMovesFacade().discardCards(params, super.playerId, super.gameId);
