@@ -6,8 +6,6 @@ import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 
 import java.util.ArrayList;
-import java.util.List;
-
 import shared.communication.games.CreateGame_Input;
 import shared.communication.games.JoinGame_Input;
 import shared.models.Game;
@@ -44,12 +42,12 @@ public class GamesFacade implements IGamesFacade {
 			throw new ServerInvalidRequestException("Cannot join game because user does not exist");
 		if(!ServerManager.instance().getGamesManager().gameExists(params.getId()))
 			throw new ServerInvalidRequestException("Cannot join game because game does not exist");
-		if(ServerManager.instance().getGamesManager().colorTaken(params.getId(), params.getColor()))
+		if(ServerManager.instance().getGamesManager().colorTaken(params.getId(), playerId, params.getColor()))
 			throw new ServerInvalidRequestException("Cannot join game because the color has already been taken");
 		
 		User user = ServerManager.instance().getUsersManager().getUserById(playerId);
 		if(!ServerManager.instance().getGamesManager().joinGame(user, params.getId(), params.getColor()))
-			throw new ServerInvalidRequestException("Cannot join game because the game is alread full");
+			throw new ServerInvalidRequestException("Cannot join game because the game is already full");
 
 		return new JsonPrimitive("Success");
 	}
