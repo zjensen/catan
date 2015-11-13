@@ -45,6 +45,25 @@ public class Player {
 		this.victoryPoints = 0;
 	}
 	
+	public Player(String name, String color, int playerId, int index) {
+		this.name = name;
+		this.color = color;
+		this.playerID = playerId;
+		this.index = index;
+		this.discarded = false;
+		this.playedDevCard = false;
+		this.newDevCards = new DevCards();
+		this.oldDevCards = new DevCards();
+		this.resources = new ResourceCards();
+		this.roads = 15;
+		this.settlements = 5;
+		this.cities = 4;
+		this.soldiers = 0;
+		this.monuments = 0;
+		this.longestRoad = 0;
+		this.victoryPoints = 0;
+	}
+	
 	/**
 	 * 
 	 * This function will be called on the Player after the ClientModel has received its new version

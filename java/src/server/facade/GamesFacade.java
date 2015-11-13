@@ -2,6 +2,7 @@ package server.facade;
 
 import com.google.gson.*;
 
+import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import shared.communication.games.CreateGame_Input;
 import shared.communication.games.JoinGame_Input;
 import shared.models.Game;
 import shared.models.Player;
+import shared.models.User;
 
 //make all methods static
 public class GamesFacade implements IGamesFacade {
@@ -36,10 +38,20 @@ public class GamesFacade implements IGamesFacade {
 	 * @return "SUCCESS" if successful otherwise an error message in JSON
 	 */
 	@Override
-	public JsonElement join(JoinGame_Input params) {
+	public JsonElement join(JoinGame_Input params, int playerId) throws ServerInvalidRequestException {
 		
-		params.toString();
-		return null;
+		if(!ServerManager.instance().getUsersManager().userExists(playerId))
+			throw new ServerInvalidRequestException("Cannot join game because user does not exist");
+		if(!ServerManager.instance().getGamesManager().gameExists(params.getId()))
+			throw new ServerInvalidRequestException("Cannot join game because game does not exist");
+		if(ServerManager.instance().getGamesManager().colorTaken(params.getId(), params.getColor()))
+			throw new ServerInvalidRequestException("Cannot join game because the color has already been taken");
+		
+		User user = ServerManager.instance().getUsersManager().getUserById(playerId);
+		if(!ServerManager.instance().getGamesManager().joinGame(user, params.getId(), params.getColor()))
+			throw new ServerInvalidRequestException("Cannot join game because the game is alread full");
+
+		return new JsonPrimitive("Success");
 	}
 	
 	/**

@@ -7,6 +7,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
+import server.main.ServerInvalidRequestException;
+
 public class FakeGamesFacade implements IGamesFacade {
 
 	private final String gamesListJSON = "[{\"title\": \"Default Game\",\"id\": 0,\"players\": [{\"color\": \"blue\",\"name\": \"Sam\",\"id\": 0},{\"color\": \"blue\",\"name\": \"Brooke\",\"id\": 1},{\"color\": \"red\",\"name\": \"Pete\",\"id\": 10},{\"color\": \"green\",\"name\": \"Mark\",\"id\": 11}]},"
@@ -23,7 +25,7 @@ public class FakeGamesFacade implements IGamesFacade {
 	}
 
 	@Override
-	public JsonElement join(JoinGame_Input params) {
+	public JsonElement join(JoinGame_Input params, int playerId) throws ServerInvalidRequestException {
 		if (params.getColor().equals("blue"))
 			if (params.getId() == 0 || params.getId() == 2)
 				return new JsonPrimitive("Success");

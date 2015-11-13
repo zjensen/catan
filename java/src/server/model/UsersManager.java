@@ -66,7 +66,7 @@ public class UsersManager {
 	public void addNewUser(String username, String password) {
 		// Checks to give a unique ID
 		int highestID = users.stream().mapToInt(user -> user.getPlayerID())
-				.reduce(Integer.MAX_VALUE, Integer::max);
+				.reduce(-1, Integer::max);
 
 		// for (User u: users){
 		// if (u.getPlayerID() > highestID){
@@ -89,7 +89,7 @@ public class UsersManager {
 	public int addNewUserGetID(String username, String password) {
 		// Checks to give a unique ID
 		int highestID = users.stream().mapToInt(user -> user.getPlayerID())
-				.reduce(Integer.MAX_VALUE, Integer::max);
+				.reduce(-1, Integer::max);
 		int newID = highestID + 1;
 		User newUser = new User(username, password, newID);
 
@@ -161,6 +161,21 @@ public class UsersManager {
 	public boolean userExists(String username) {
 		for (User u : users) {
 			if (u.getName().equals(username)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * determines if a User is already registered with a given id
+	 * 
+	 * @param username
+	 * @return true if a User with that id already exists, false otherwise
+	 */
+	public boolean userExists(int userId) {
+		for (User u : users) {
+			if (u.getPlayerID() == userId) {
 				return true;
 			}
 		}

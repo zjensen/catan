@@ -6,10 +6,12 @@ import shared.communication.user.Register_Input;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 
+import server.main.ServerInvalidRequestException;
+
 public class FakeUserFacade implements IUserFacade {
 
 	@Override
-	public JsonElement login(Login_Input params) {
+	public JsonElement login(Login_Input params) throws ServerInvalidRequestException {
 		if (params.getUsername().equals("Ian")
 				&& params.getPassword().equals("ian"))
 			return new JsonPrimitive("Success");
@@ -20,7 +22,7 @@ public class FakeUserFacade implements IUserFacade {
 	}
 
 	@Override
-	public JsonElement register(Register_Input params) {
+	public JsonElement register(Register_Input params) throws ServerInvalidRequestException {
 		if (params.getUsername().equals("NewUser")
 				&& params.getPassword().equals("newuser"))
 			return new JsonPrimitive("Success");

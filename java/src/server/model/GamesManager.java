@@ -5,6 +5,8 @@ import java.util.List;
 import shared.models.ClientModel;
 import shared.models.Game;
 import shared.models.Map;
+import shared.models.Player;
+import shared.models.User;
 
 /**
  * This manager class stores all the games on the current server This class
@@ -113,6 +115,34 @@ public class GamesManager {
 		addGame(newGame);
 		return newID;
 	}
+	
+	/**
+	 * With the given user and gameId attempts to add the user to the game
+	 * pre - User and Game must exist
+	 * @param user
+	 * @param gameId
+	 * @return true if the user was added to the game, false otherwise
+	 */
+	public boolean joinGame(User user, int gameId, String color) {
+		Game game = getGameById(gameId);
+		
+		//check if the player is already in the game
+		ArrayList<Player> currentPlayers = game.getPlayerList();
+		for(Player p : currentPlayers) {
+			if(user.getPlayerID() == p.getPlayerID())
+				return true;
+		}
+
+		//if the player is not already in the game check if he can join the game
+		if(currentPlayers.size() >= 4)
+			return false;
+		
+		
+		//create Player object and add him to the game's client model
+		Player player = new Player(user.getName(), color, user.getPlayerID(), currentPlayers.size());
+		game.getClientModel().addPlayer(player);
+		return true;
+	}
 
 	/**
 	 * Get a game by its id
@@ -141,6 +171,31 @@ public class GamesManager {
 		return null;
 	}
 
+	/**
+	 * Checks by id to see if the game exists
+	 * @param gameId
+	 * @return true if the game exists, otherwise false
+	 */
+	public boolean gameExists(int gameId) {
+		for(Game g : games)
+			if(g.getId() == gameId) return true;
+		return false;
+	}
+	
+	/**
+	 * Checks to see if the player's color has already been chosen by another player
+	 * @param gameId
+	 * @param color
+	 * @return true if the color is already taken, otherwise false
+	 */
+	public boolean colorTaken(int gameId, int playerId, String color) {
+		for(Player p : getGameById(gameId).getPlayerList())
+			if(p.getColor().equals(color))
+				if(p.getPlayerID() != playerId)
+					return true;
+		return false;
+	}
+	
 	/**
 	 * Returns the list of existing games
 	 * 

@@ -1,5 +1,7 @@
 package shared.models;
 
+import java.util.ArrayList;
+
 import shared.communication.moves.*;
 import shared.definitions.DevCardType;
 import shared.definitions.ResourceType;
@@ -65,6 +67,22 @@ public class ClientModel {
 	public void updateClient(String json)
 	{
 
+	}
+	
+	public void addPlayer(Player player) {
+		if(players == null) {
+			players = new Player[1];
+			players[0] = player;
+		}
+		else {
+			ArrayList<Player> playerList = new ArrayList<>();
+			for(Player p : players) {
+				playerList.add(p);
+			}
+			playerList.add(player);
+			players = playerList.toArray(players);
+			//players = (Player[]) playerList.toArray();
+		}
 	}
 	
 	/**
