@@ -12,12 +12,14 @@ import org.junit.Test;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 
-import javafx.stage.FileChooser;
 import server.manager.ServerManager;
 import shared.utils.Interpreter;
 import shared.communication.moves.*;
+import shared.definitions.ResourceType;
 import shared.locations.HexLocation;
 import shared.models.ClientModel;
+import shared.models.DevCards;
+import shared.models.TurnTracker;
 
 public class MovesFacade_Test 
 {
@@ -31,7 +33,7 @@ public class MovesFacade_Test
 	{
 		StringBuilder result = new StringBuilder("");
 	    File file = new File("MovesFacadeTestJSON.txt");
-	    
+		
 		try (Scanner scanner = new Scanner(file)) {
 
 			while (scanner.hasNextLine()) {
@@ -239,70 +241,192 @@ public class MovesFacade_Test
 		assertTrue(newModel.getTurnTracker().getStatus().equals("playing")); //status correctly changes
 		assertTrue(newModel.getMap().getRobber().equals(params.getLocation())); //robber moved
 	}
-//	
-//	@Test
-//	public void canFinishTurn_Test()
-//	{
-//		FinishTurn_Input params1 = new FinishTurn_Input(1); //not their turn
-//		
-//		FinishTurn_Input params2 = new FinishTurn_Input(0); //g2g
-//		
-//		
-//		assertFalse(mf.canFinishTurn(params1));
-//		
-//		assertFalse(mf.canFinishTurn(params2)); //not correct part of turn
-//		
-//		clientModel.getTurnTracker().setStatus("playing");
-//		
-//		assertTrue(mf.canFinishTurn(params2));
-//		
-//		clientModel.getTurnTracker().setStatus("rolling");
-//	}
-//	
-//	@Test
-//	public void canBuyDevCard_Test()
-//	{
-//		BuyDevCard_Input params1 = new BuyDevCard_Input(1); //not their turn
-//		assertFalse(mf.canBuyDevCard(params1));
-//		
-//		BuyDevCard_Input params2 = new BuyDevCard_Input(0); //nice!
-//		assertTrue(mf.canBuyDevCard(params2));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(3); //switch turns
-//		
-//		BuyDevCard_Input params3 = new BuyDevCard_Input(3);  //not enough cards
-//		assertFalse(mf.canBuyDevCard(params3));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
-//	}
-//	
-//	@Test
-//	public void canYearOfPlenty_Test()
-//	{
-//		YearOfPlenty_Input params1 = new YearOfPlenty_Input(0, ResourceType.BRICK, ResourceType.SHEEP); //good
-//		assertTrue(mf.canYearOfPlenty(params1));
-//		
-//		YearOfPlenty_Input params2 = new YearOfPlenty_Input(1, ResourceType.BRICK, ResourceType.SHEEP); //wrong turn
-//		assertFalse(mf.canYearOfPlenty(params2));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turns
-//		
-//		YearOfPlenty_Input params3 = new YearOfPlenty_Input(1, ResourceType.BRICK, ResourceType.SHEEP); //no old cards to play
-//		assertFalse(mf.canYearOfPlenty(params3));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(2); //switch turns
-//		
-//		YearOfPlenty_Input params4 = new YearOfPlenty_Input(2, ResourceType.BRICK, ResourceType.SHEEP); //already played this turn
-//		assertFalse(mf.canYearOfPlenty(params4));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(3); //switch turns
-//		
-//		YearOfPlenty_Input params5 = new YearOfPlenty_Input(3, ResourceType.BRICK, ResourceType.SHEEP); //doesnt have card
-//		assertFalse(mf.canYearOfPlenty(params5));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
-//	}
-//	
+	
+	@Test
+	public void canFinishTurn_Test() // Changes turn 
+	{
+		FinishTurn_Input params1 = new FinishTurn_Input(1); //not their turn
+		FinishTurn_Input params2 = new FinishTurn_Input(0); //good 2 go
+	
+		assertNull(mf.finishTurn(params1, 1, gameID)); // not this player's turn
+		assertNull(mf.finishTurn(params2, 1, gameID)); // not correct part of turn
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing"); //set to playing
+
+		ClientModel newModel = interpreter.deserialize(mf.finishTurn(params2,1,gameID));
+		
+		assertEquals(newModel.getTurnTracker().getCurrentTurn(), 1);
+		assertTrue(newModel.getTurnTracker().getStatus().equals("rolling")); //status correctly changes
+		assertNull(mf.finishTurn(params2,1,gameID));
+	}
+	
+	@Test
+	public void canFinishTurn_Test2() // Going from player index 3 to 0 test
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing"); //set to playing
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(3);
+
+		FinishTurn_Input params2 = new FinishTurn_Input(3); //good 2 go
+
+		ClientModel newModel = interpreter.deserialize(mf.finishTurn(params2,1,gameID));
+		
+		assertEquals(newModel.getTurnTracker().getCurrentTurn(), 0);
+		assertTrue(newModel.getTurnTracker().getStatus().equals("rolling")); //status correctly changes
+		assertNull(mf.finishTurn(params2,1,gameID));
+	}
+	
+	@Test
+	public void canBuyDevCard_Test()
+	{
+		BuyDevCard_Input params1 = new BuyDevCard_Input(0);
+		
+		assertNull(mf.buyDevCard(params1,1,gameID)); // not their turn
+
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+
+		//resources before buying dev card
+		int player1Wheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getWheat();
+		int player1Sheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getSheep();
+		int player1Ore   = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getOre();
+		int bankWheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getWheat();
+		int bankSheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getSheep();
+		int bankOre   = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getOre();
+		
+		ClientModel newModel = interpreter.deserialize(mf.buyDevCard(params1,1,gameID));
+		
+		//resources after buying dev card
+		int afterPlayer1Wheat = newModel.getPlayerByIndex(0).getResources().getWheat();
+		int afterPlayer1Sheep = newModel.getPlayerByIndex(0).getResources().getSheep();
+		int afterPlayer1Ore   = newModel.getPlayerByIndex(0).getResources().getOre();
+		int afterBankWheat = newModel.getBank().getWheat();
+		int afterBankSheep = newModel.getBank().getSheep();
+		int afterBankOre   = newModel.getBank().getOre();
+		
+		// Check resources of player and bank
+		assertTrue(player1Wheat == afterPlayer1Wheat+1);
+		assertTrue(player1Sheep == afterPlayer1Sheep+1);
+		assertTrue(player1Ore   == afterPlayer1Ore+1);
+		
+		assertTrue(bankWheat == afterBankWheat-1);
+		assertTrue(bankSheep == afterBankSheep-1);
+		assertTrue(bankOre   == afterBankOre-1);
+	}
+
+	@Test
+	public void canYearOfPlenty_Test() // Successfully plays a year of plenty card
+	{
+		YearOfPlenty_Input params1 = new YearOfPlenty_Input(0, ResourceType.WHEAT, ResourceType.SHEEP);
+
+		assertNull(mf.yearOfPlenty(params1,1,gameID)); // not their turn
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		
+		//resources before playing year of plenty card
+		int player1Wheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getWheat();
+		int player1Sheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getSheep();
+		int bankWheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getWheat();
+		int bankSheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getSheep();
+	
+		ClientModel newModel = interpreter.deserialize(mf.yearOfPlenty(params1,1,gameID));
+		
+		//resources after playing year of plenty card
+		int afterPlayer1Wheat = newModel.getPlayerByIndex(0).getResources().getWheat();
+		int afterPlayer1Sheep = newModel.getPlayerByIndex(0).getResources().getSheep();
+		int afterBankWheat = newModel.getBank().getWheat();
+		int afterBankSheep = newModel.getBank().getSheep();
+		
+		// Check resources of player and bank
+		assertTrue(player1Wheat == afterPlayer1Wheat-1);
+		assertTrue(player1Sheep == afterPlayer1Sheep-1);
+		assertTrue(bankWheat == afterBankWheat+1);
+		assertTrue(bankSheep == afterBankSheep+1);
+	}	
+	
+	@Test
+	public void canYearOfPlenty_Test2() // Try to play a year of plenty card that the player doesn't have
+	{	
+		YearOfPlenty_Input params2 = new YearOfPlenty_Input(3, ResourceType.WHEAT, ResourceType.SHEEP);
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(3);
+		
+		//resources before trying to use year of plenty card
+		int player4Wheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getResources().getWheat();
+		int player4Sheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getResources().getSheep();
+		int bankWheat4 = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getWheat();
+		int bankSheep4 = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getSheep();
+		int player4YearOfPlentyCards = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getTotalYearOfPlentyCards();
+		
+		assertNull(mf.yearOfPlenty(params2,1,gameID));
+		
+		//resources before after trying to use year of plenty card
+		int afterPlayer4Wheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getResources().getWheat();
+		int afterPlayer4Sheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getResources().getSheep();
+		int afterBankWheat4 = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getWheat();
+		int afterBankSheep4 = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getSheep();
+		int afterPlayer4YearOfPlentyCards = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getTotalYearOfPlentyCards();
+		
+		assertTrue(player4Wheat == afterPlayer4Wheat);
+		assertTrue(player4Sheep == afterPlayer4Sheep);
+		assertTrue(bankWheat4 == afterBankWheat4);
+		assertTrue(bankSheep4 == afterBankSheep4);
+		assertTrue(player4YearOfPlentyCards == afterPlayer4YearOfPlentyCards);
+	}	
+		
+	@Test
+	public void canYearOfPlenty_Test3() // Plays a card. Then tries to play another one
+	{
+		YearOfPlenty_Input params1 = new YearOfPlenty_Input(0, ResourceType.WHEAT, ResourceType.SHEEP);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		
+		//resources before playing year of plenty card
+		int player1Wheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getWheat();
+		int player1Sheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getResources().getSheep();
+		int bankWheat = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getWheat();
+		int bankSheep = ServerManager.instance().getGamesManager().getClientModelById(gameID).getBank().getSheep();
+		int player1YearOfPlentyCards = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getTotalYearOfPlentyCards();
+		
+		ClientModel newModel = interpreter.deserialize(mf.yearOfPlenty(params1,1,gameID));
+		
+		//resources after playing year of plenty card
+		int afterPlayer1Wheat = newModel.getPlayerByIndex(0).getResources().getWheat();
+		int afterPlayer1Sheep = newModel.getPlayerByIndex(0).getResources().getSheep();
+		int afterBankWheat = newModel.getBank().getWheat();
+		int afterBankSheep = newModel.getBank().getSheep();
+		int afterPlayer1YearOfPlentyCards = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getTotalYearOfPlentyCards();
+		
+		// Check resources of player and bank
+		assertTrue(player1Wheat == afterPlayer1Wheat-1);
+		assertTrue(player1Sheep == afterPlayer1Sheep-1);
+		assertTrue(bankWheat == afterBankWheat+1);
+		assertTrue(bankSheep == afterBankSheep+1);
+		assertTrue(player1YearOfPlentyCards == afterPlayer1YearOfPlentyCards+1);
+		
+		// Give more year of plenty cards to player
+		DevCards cards = new DevCards(0,0,0,2,0);
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).setOldDevCards(cards);
+
+		// Grab new value of year of plenty cards
+		afterPlayer1YearOfPlentyCards = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getTotalYearOfPlentyCards();
+		
+		assertNull(mf.yearOfPlenty(params1,1,gameID));
+
+		//resources after trying to play 2nd year of plenty card
+		int twoAfterPlayer1Wheat = newModel.getPlayerByIndex(0).getResources().getWheat();
+		int twoAfterPlayer1Sheep = newModel.getPlayerByIndex(0).getResources().getSheep();
+		int twoAfterBankWheat = newModel.getBank().getWheat();
+		int twoAfterBankSheep = newModel.getBank().getSheep();
+		int twoAfterPlayer1YearOfPlentyCards = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getTotalYearOfPlentyCards();
+				
+		// Check resources of player and bank after trying to play 2nd year of plenty card
+		assertTrue(afterPlayer1Wheat == twoAfterPlayer1Wheat);
+		assertTrue(afterPlayer1Sheep == twoAfterPlayer1Sheep);
+		assertTrue(afterBankWheat == twoAfterBankWheat);
+		assertTrue(afterBankSheep == twoAfterBankSheep);
+		assertTrue(afterPlayer1YearOfPlentyCards == twoAfterPlayer1YearOfPlentyCards);
+	}	
+
+	
 //	@Test
 //	public void canRoadBuilding_Test()
 //	{
