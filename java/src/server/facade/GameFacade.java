@@ -39,7 +39,7 @@ public class GameFacade implements IGameFacade {
 
 		int currentVersion = model.getVersion();
 
-		if (currentVersion > params.getVersion()) {
+		if (currentVersion != params.getVersion()) {
 			return new Interpreter().serialize(model);
 		} else {
 			return new JsonPrimitive("true");
