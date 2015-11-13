@@ -1,0 +1,20 @@
+Nov 13, 2015 4:07:23 PM server.main.Server run
+INFO: Initializing Server Manager
+Nov 13, 2015 4:07:23 PM server.main.Server run
+INFO: Initializing HTTP Server
+Nov 13, 2015 4:07:24 PM server.main.Server run
+INFO: Starting HTTP Server
+Nov 13, 2015 4:08:08 PM server.handler.ServerHandler logInfo
+INFO: Request: /user/register
+Nov 13, 2015 4:08:09 PM server.handler.ServerHandler logInfo
+INFO: Request: /games/list
+Nov 13, 2015 4:08:09 PM server.handler.ServerHandler logInfo
+INFO: Request: /games/list
+Nov 13, 2015 4:08:14 PM server.handler.ServerHandler logInfo
+INFO: Request: /games/list
+Nov 13, 2015 4:08:26 PM server.handler.ServerHandler logInfo
+INFO: Request: /games/create
+Nov 13, 2015 4:12:39 PM server.handler.ServerHandler logInfo
+INFO: Request: /games/join
+Nov 13, 2015 4:12:39 PM server.handler.ServerHandler logInfo
+INFO: Request: /games/list
