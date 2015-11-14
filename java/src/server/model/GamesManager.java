@@ -129,8 +129,10 @@ public class GamesManager {
 		//check if the player is already in the game
 		ArrayList<Player> currentPlayers = game.getPlayerList();
 		for(Player p : currentPlayers) {
-			if(user.getPlayerID() == p.getPlayerID())
+			if(user.getPlayerID() == p.getPlayerID()) {
+				p.setColor(color); //Sets the players new color in case he has chose differently
 				return true;
+			}
 		}
 
 		//if the player is not already in the game check if he can join the game

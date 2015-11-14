@@ -17,6 +17,8 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
+import client.data.PlayerInfo;
+
 //make all methods static
 public class GamesFacade implements IGamesFacade {
 
@@ -37,7 +39,6 @@ public class GamesFacade implements IGamesFacade {
 						params.isRandomPorts(), params.isRandomNumbers());
 		Game newGame = ServerManager.instance().getGamesManager()
 				.getGameById(gameID);
-		ServerManager.instance().getGamesManager().addGame(newGame);
 		JsonObject gameJSON = (JsonObject) gameToJson(newGame.getId(),
 				newGame.getTitle(), newGame.getPlayerList());
 		return gameJSON;
@@ -111,7 +112,9 @@ public class GamesFacade implements IGamesFacade {
 				playersJSON.add(new JsonObject());
 			} else {
 				Player player = playersArray.get(i);
-				String json = gson.toJson(player);
+				PlayerInfo info = new PlayerInfo(player.getName(), player.getPlayerID(), player.getCatanColor(), i);
+				String json = gson.toJson(info);
+				
 				JsonParser parser = new JsonParser();
 				playersJSON.add(parser.parse(json));
 			}
