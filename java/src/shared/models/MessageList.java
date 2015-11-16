@@ -2,7 +2,7 @@ package shared.models;
 
 public class MessageList {
 	
-	private MessageLine[] lines;
+	private MessageLine[] lines = new MessageLine[0];
 	
 	/**
 	 * update any new notifications

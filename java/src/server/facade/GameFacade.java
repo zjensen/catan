@@ -13,6 +13,8 @@ import com.google.gson.JsonPrimitive;
 //make all methods static
 public class GameFacade implements IGameFacade {
 
+	Interpreter myInterpreter = new Interpreter();
+
 	/**
 	 * Grabs the current state of the game
 	 * 
@@ -40,7 +42,7 @@ public class GameFacade implements IGameFacade {
 		int currentVersion = model.getVersion();
 
 		if (currentVersion != params.getVersion()) {
-			return new Interpreter().serialize(model);
+			return myInterpreter.serialize(model);
 		} else {
 			return new JsonPrimitive("true");
 		}
