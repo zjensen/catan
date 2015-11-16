@@ -431,7 +431,7 @@ public class MovesFacade_Test
 		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
 		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
 		
-		EdgeLocation e1 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North); //Free and connects with other road he controls
+		EdgeLocation e1 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North); // Connects with other road he controls
 		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
 	
 		BuildRoad_Input params2 = new BuildRoad_Input(0, e1, false); 
@@ -569,7 +569,7 @@ public class MovesFacade_Test
 		
 		Soldier_Input params1 = new Soldier_Input(0, 3, new HexLocation(2, -2)); // Robber already here
 		Soldier_Input params2 = new Soldier_Input(0, 0, new HexLocation(1, -1)); // Can't rob self
-		Soldier_Input params3 = new Soldier_Input(0, 3, new HexLocation(0, 0)); // Can't rob this player at this location
+		Soldier_Input params3 = new Soldier_Input(0, 3, new HexLocation(0, 0));  // Can't rob this player at this location
 		Soldier_Input params4 = new Soldier_Input(0, 3, new HexLocation(-3, 1)); // Ocean hex
 		
 		// Testing params1
@@ -605,7 +605,6 @@ public class MovesFacade_Test
 		assertTrue(p0_3before.getResources().getTotal() == p0_3after.getResources().getTotal());
 		assertTrue(p3_3before.getResources().getTotal() == p3_3after.getResources().getTotal());
 		
-		
 		// Testing params4
 		Player p0_4before = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
 		Player p3_4before = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(3);
@@ -618,9 +617,6 @@ public class MovesFacade_Test
 		assertTrue(p3_4before.getResources().getTotal() == p3_4after.getResources().getTotal());
 	}
 
-	
-// TODO	
-	
 	@Test
 	public void canMonument_Test1() // Successful using 1 monument card from 9 victory points
 	{
@@ -701,38 +697,100 @@ public class MovesFacade_Test
 		assertTrue(victoryPointsBefore == victoryPointsAfter-2);
 	}
 	
-	
-// TODO	
-	
-	
-//		Monument_Input params1 = new Monument_Input(0); //bad
-//		assertFalse(mf.canMonument(params1));
-//		
-//		Monument_Input params2 = new Monument_Input(1); //wrong turn
-//		assertFalse(mf.canMonument(params2));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turns
-//		
-//		Monument_Input params3 = new Monument_Input(1); //monument is a new card
-//		assertFalse(mf.canMonument(params3)); //failing
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(2); //switch turns
-//		
-//		Monument_Input params4 = new Monument_Input(2); //already played this turn
-//		assertFalse(mf.canMonument(params4));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(3); //switch turns
-//		
-//		Monument_Input params5 = new Monument_Input(3); //doesnt have card
-//		assertFalse(mf.canMonument(params5));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
+	@Test
+	public void canMonument_Test4() // Tries to play monument card, but doesn't have enough to win the game
+	{
+		Monument_Input params1 = new Monument_Input(0);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).setVictoryPoints(7);
+		
+		int playerMonumentBefore = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getTotalMonumentCards();
+		int victoryPointsBefore = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getVictoryPoints();
+		
+		assertNull(mf.monument(params1,1,gameID));
+		
+		int playerMonumentAfter = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getTotalMonumentCards();
+		int victoryPointsAfter = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getVictoryPoints();
 
+		assertTrue(playerMonumentBefore == playerMonumentAfter);
+		assertTrue(victoryPointsBefore == victoryPointsAfter);
+	}
 	
+	@Test
+	public void canMonument_Test5() // Can't play a monument card. Doesn't have one
+	{
+		Monument_Input params1 = new Monument_Input(3);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(3);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).setVictoryPoints(9);
+		
+		int playerMonumentBefore = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getTotalMonumentCards();
+		int victoryPointsBefore = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getVictoryPoints();
+
+		assertNull(mf.monument(params1,1,gameID));
+		
+		int playerMonumentAfter = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getTotalMonumentCards();
+		int victoryPointsAfter = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(3).getVictoryPoints();
+
+		assertTrue(playerMonumentBefore == playerMonumentAfter);
+		assertTrue(victoryPointsBefore == victoryPointsAfter);
+	}
 	
+	@Test
+	public void canMonument_Test6() // Tries to play monument card from new dev cards pool
+	{
+		Monument_Input params1 = new Monument_Input(3);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(1);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).setVictoryPoints(9);
+		
+		int playerMonumentBefore = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(1).getTotalMonumentCards();
+		int victoryPointsBefore = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(1).getVictoryPoints();
+
+		assertNull(mf.monument(params1,1,gameID));
+		
+		int playerMonumentAfter = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(1).getTotalMonumentCards();
+		int victoryPointsAfter = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(1).getVictoryPoints();
+
+		assertTrue(playerMonumentBefore == playerMonumentAfter);
+		assertTrue(victoryPointsBefore == victoryPointsAfter);
+	}
+	
+	@Test
+	public void canMonument_Test7() // "Plays" a dev card, then plays a monument card to win
+	{
+		Monument_Input params1 = new Monument_Input(0);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).setVictoryPoints(9);
+		
+		int playerMonumentBefore = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getTotalMonumentCards();
+		int victoryPointsBefore = ServerManager.instance().getGamesManager().getClientModelById(gameID).getPlayerByIndex(0).getVictoryPoints();
+
+		ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0).setPlayedDevCard(true);
+				
+		ClientModel newModel = interpreter.deserialize(mf.monument(params1,1,gameID));
+		
+		int playerMonumentAfter = newModel.getPlayerByIndex(0).getTotalMonumentCards();
+		int victoryPointsAfter = newModel.getPlayerByIndex(0).getVictoryPoints();
+		
+		assertTrue(playerMonumentBefore == playerMonumentAfter+1);
+		assertTrue(victoryPointsBefore == victoryPointsAfter-1);
+	}
+	
+// TODO ASK ZACK ABOUT THIS
 	
 //	@Test
-//	public void canBuildRoad_Test()
+//	public void canBuildRoad_Test() 
 //	{
 //		BuildRoad_Input params1 = new BuildRoad_Input(0, new EdgeLocation(new HexLocation(2,1), EdgeDirection.North), false); //good
 //		BuildRoad_Input params2 = new BuildRoad_Input(0, new EdgeLocation(new HexLocation(2,1), EdgeDirection.NorthEast), false); //not connected
@@ -752,7 +810,79 @@ public class MovesFacade_Test
 //		
 //		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
 //	}
+
+// TODO	
+	
+	
+	@Test
+	public void canBuildSettlement_Test1() // Builds a settlement successfully
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		// Sets up two roads together so we can build a settlement
+		ResourceCards newCards = new ResourceCards(5,5,5,5,5);
+		ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0).setResources(newCards);
+		EdgeLocation e1 = new EdgeLocation(new HexLocation(2,0), EdgeDirection.NorthWest); 
+		BuildRoad_Input params2 = new BuildRoad_Input(0, e1, false); 
+		mf.buildRoad(params2,1,gameID);
+		
+		// Building a settlement
+		BuildSettlement_Input params1 = new BuildSettlement_Input(0, new VertexLocation(new HexLocation(2,0), VertexDirection.NorthWest),false); // Good Spot to build
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		int p0settlements = p0.getSettlements();
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+
+		HashMap<VertexLocation, Player> curSettlements = ServerManager.instance().getGamesManager().getClientModelById(0).getMap().getSettlements();
+		VertexLocation v1 = new VertexLocation(new HexLocation(2,0), VertexDirection.NorthWest);
+		
+		// No settlement there currently
+		assertNull(curSettlements.get(v1));
+
+		mf.buildSettlement(params1,1,gameID);
+		
+		int p0settlementsAfter = p0.getSettlements();
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		
+		assertTrue(p0settlements == p0settlementsAfter+1);
+		assertTrue(curSettlements.get(v1).getIndex() == 0);
+		assertTrue(p0sheepBefore == p0sheepAfter+1);
+		assertTrue(p0wheatBefore == p0wheatAfter+1);
+		assertTrue(p0woodBefore == p0woodAfter+1);
+		assertTrue(p0brickBefore == p0brickAfter+1);
+	}
+		
+		
+		
+		
+//		EdgeLocation e1 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North); // Connects with other road he controls
+//		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
 //	
+//		BuildRoad_Input params2 = new BuildRoad_Input(0, e1, false); 
+//
+//		int p0roads = p0.getRoads();
+//		
+//		HashMap<EdgeLocation, Player> curRoads = ServerManager.instance().getGamesManager().getClientModelById(0).getMap().getRoads();
+//		
+//		assertNull(curRoads.get(e1));
+//
+//		mf.buildRoad(params2,1,gameID);
+//		
+//		int afterp0roads = p0.getRoads();
+//		
+//		assertTrue(p0roads == afterp0roads+1);
+//		assertTrue(curRoads.get(e1).getIndex() == 0);
+		
+		
+// TODO
+	
 //	@Test
 //	public void canBuildSettlement_Test()
 //	{
@@ -785,7 +915,15 @@ public class MovesFacade_Test
 //		clientModel.getMap().getRoads().remove(new EdgeLocation(new HexLocation(1,1),EdgeDirection.North));
 //		clientModel.getMap().getRoads().remove(new EdgeLocation(new HexLocation(-1,1),EdgeDirection.NorthWest));
 //	}
-//	
+
+	
+	
+	
+	
+	
+// TODO
+	
+	
 //	@Test
 //	public void canBuildCity_Test()
 //	{
