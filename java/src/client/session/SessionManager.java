@@ -114,6 +114,8 @@ public class SessionManager extends Observable{
 	{
 		for(Player p : this.clientModel.getPlayers())
 		{
+			if(p==null)
+				continue;
 			int id = p.getPlayerID();
 			PlayerInfo pi = new PlayerInfo(p.getName(),id,p.getCatanColor(),p.getIndex());
 			gameInfo.updatePlayer(pi);
