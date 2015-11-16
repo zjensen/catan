@@ -11,9 +11,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-
-import shared.communication.game.GameModel_Input;
-import shared.communication.game.GameModel_Output;
 import shared.communication.games.CreateGame_Input;
 import shared.communication.games.CreateGame_Output;
 import shared.communication.games.JoinGame_Input;
@@ -256,6 +253,8 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 		for(PlayerInfo pi : game.getPlayers())
 		{
+			if(pi==null)
+				continue;
 			if(pi.getId()!=SessionManager.instance().getPlayerInfo().getId())
 				getSelectColorView().setColorEnabled(pi.getColor(), false); //disables colors already taken
 		}
@@ -481,17 +480,18 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 		}
 		ListGames_Output output = null;
 		JsonElement je = null;
+		GameInfo[] updatedInfo = null;
 		try {
 			output = SessionManager.instance().getServer().listGames(new ListGames_Input());
-			Gson gson = new Gson();
-			 je = gson.fromJson (output.getResponse(), JsonElement.class);
+			updatedInfo = SessionManager.instance().getInterpreter().deserializeGameInfoList(output.getResponse());
+			 
 			
 		} catch (Exception e) {
 			getMessageView().setTitle("Error");
 			getMessageView().setMessage("Something went wrong while fetching active games. " + e.getMessage());
 			getMessageView().showModal();
 		}
-		GameInfo[] updatedInfo = this.getGameInfo(je);
+//		GameInfo[] updatedInfo = this.getGameInfo(je);
 		if(needsUpdate(updatedInfo)){
 			if(getJoinGameView().isModalShowing())
 			{
