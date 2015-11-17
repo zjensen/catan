@@ -513,6 +513,7 @@ public class ClientModel {
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		p.buildCity(); // remove resources from player
 		bank.cityBuilt(); // add resources to bank
+		map.getSettlements().remove(params.getVertexLocation().getNormalizedLocation());
 		map.getCities().put(params.getVertexLocation().getNormalizedLocation(),
 				p); // place city on map
 		log.addLine(p.getName(), (p.getName() + " upgraded to a city."));
