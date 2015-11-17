@@ -522,6 +522,10 @@ public class Player {
 		resources.setBrick(resources.getBrick()-1);
 		resources.setWood(resources.getWood()-1);
 	}
+	public void buildFreeRoad()
+	{
+		roads--;
+	}
 
 	public void buildSettlement()
 	{
@@ -531,6 +535,11 @@ public class Player {
 		resources.setWood(resources.getWood()-1);
 		resources.setSheep(resources.getSheep()-1);
 		resources.setWheat(resources.getWheat()-1);
+	}
+	public void buildFreeSettlement()
+	{
+		settlements--;
+		victoryPoints++;
 	}
 
 	public void addVictoryPoint()
