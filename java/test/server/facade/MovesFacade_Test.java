@@ -31,7 +31,7 @@ public class MovesFacade_Test
 	public void setUp() throws Exception
 	{
 		StringBuilder result = new StringBuilder("");
-	    File file = new File("java/MovesFacadeTestJSON.txt");
+	    File file = new File("json/MovesFacadeTestJSON.txt");
 		
 		try (Scanner scanner = new Scanner(file)) {
 

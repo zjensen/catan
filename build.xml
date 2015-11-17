@@ -33,6 +33,7 @@
 	<property name="java.lib" location="${java.dir}/lib"/>
 	<property name="java.docs" location="${java.dir}/docs"/>
 	<property name="java.test" location="${java.dir}/test"/>
+	<property name="java.json" location="${java.dir}/json"/>
 
 	<!-- Default command line arguments -->
 	<property name="host" value="localhost"/>
@@ -147,6 +148,12 @@
 				<include name="**"/>
 			</fileset>
 		</copy>
+		<mkdir dir="${java.dist}/json"/>
+		<copy todir="${java.dist}/json">
+			<fileset dir="${java.json}">
+				<include name="**"/>
+			</fileset>
+		</copy>
  		<jar jarfile="${java.dist}/catan-client.jar" basedir="${java.build}">
 			<manifest>
 				<attribute name="Main-Class" value="client.main.Catan"/>
@@ -188,7 +195,7 @@
         <zip destfile="./tester.zip" basedir="${java.dist}" />
     </target>
 
-    <target name="test" depends="compile, compile-test" description="compiles, packages, and runs the JUnit tests for the project">
+    <target name="test" depends="compile, compile-test, package" description="compiles, packages, and runs the JUnit tests for the project">
 		<java classname="phase_one.RunAllTests" fork="yes">
 			<classpath>
 				<path refid="all-classpath"/>
