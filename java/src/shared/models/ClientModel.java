@@ -527,7 +527,11 @@ public class ClientModel {
 	public void buildRoad(BuildRoad_Input params) {
 		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
-		p.buildRoad(); // remove resources from player
+		if(!params.isFree())
+		{
+			p.buildRoad(); // remove resources from player
+		}
+		
 		if (p.getRoadsPlayed() >= 5) // player could possible have longest road
 		{
 			int mostRoads = 0; // most roads any of the other players have
@@ -567,7 +571,10 @@ public class ClientModel {
 	public void buildSettlement(BuildSettlement_Input params) {
 		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
-		p.buildSettlement(); // remove resources from player
+		if(!params.isFree())
+		{
+			p.buildSettlement(); // remove resources from player
+		}
 		map.getSettlements().put(
 				params.getVertexLocation().getNormalizedLocation(), p); // add
 																		// settlement
