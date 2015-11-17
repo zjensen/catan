@@ -10,7 +10,7 @@ public class TurnTracker {
 	public TurnTracker() {
 		
 		this.currentTurn = 0;
-		this.status = "FirstRound";
+		this.status = "firstround";
 		this.longestRoad = -1;
 		this.largestArmy = -1;
 		
