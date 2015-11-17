@@ -186,7 +186,7 @@ public abstract class IMovesFacade {
 			case "secondround":
 				return this.getModel().canFinishTurnSecondRound(params.getPlayerIndex());
 			case "playing":
-				return this.getModel().getTradeOffer()==null; //ensures user does not end turn when trade offer is waiting
+				return true;//this.getModel().getTradeOffer()==null; //ensures user does not end turn when trade offer is waiting
 			case "robbing":
 			case "rolling":
 			case "discarding":

@@ -20,8 +20,10 @@ import shared.communication.moves.SendChat_Input;
 import shared.communication.moves.Soldier_Input;
 import shared.communication.moves.YearOfPlenty_Input;
 import shared.definitions.DevCardType;
+import shared.definitions.HexType;
 import shared.definitions.ResourceType;
 import shared.locations.EdgeDirection;
+import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 
@@ -574,6 +576,77 @@ public class ClientModel {
 		bank.settlementBuilt(); // add resources to bank
 		checkThenSetWinner(); // check if this move made a player win the game
 		log.addLine(p.getName(), (p.getName() + " built a settlement."));
+		if(turnTracker.getStatus().equals("secondround"))
+		{
+			VertexLocation v = params.getVertexLocation().getNormalizedLocation();
+			HexLocation h1 = v.getHexLoc();
+			VertexDirection d = v.getDir();
+			
+			if(d.equals(VertexDirection.NorthEast))
+			{
+				HexLocation h2 = h1.getNeighborLoc(EdgeDirection.North);
+				HexLocation h3 = h1.getNeighborLoc(EdgeDirection.NorthWest);
+				for(Hex h : map.getHexes())
+				{
+					if(h.getLocation().equals(h1))
+					{
+						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						{
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						}
+					}
+					else if(h.getLocation().equals(h2))
+					{
+						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						{
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						}
+					}
+					else if(h.getLocation().equals(h3))
+					{
+						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						{
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						}
+					}
+				}
+			}
+			else if(d.equals(VertexDirection.NorthWest))
+			{
+				HexLocation h2 = h1.getNeighborLoc(EdgeDirection.North);
+				HexLocation h3 = h1.getNeighborLoc(EdgeDirection.NorthWest);
+				for(Hex h : map.getHexes())
+				{
+					if(h.getLocation().equals(h1))
+					{
+						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						{
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						}
+					}
+					else if(h.getLocation().equals(h2))
+					{
+						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						{
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						}
+					}
+					else if(h.getLocation().equals(h3))
+					{
+						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						{
+							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
+							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
+						}
+					}
+				}
+			}
+		}
 	}
 
 	public void buyDevCard(BuyDevCard_Input params) {
