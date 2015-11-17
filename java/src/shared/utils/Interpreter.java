@@ -590,7 +590,7 @@ public class Interpreter
 			JsonObject location = new JsonObject();
 			location.addProperty("direction",entry.getKey().toServerFormattedString());
 			location.addProperty("x",entry.getKey().getHexLoc().getX());
-			location.addProperty("y",entry.getKey().getHexLoc().getX());
+			location.addProperty("y",entry.getKey().getHexLoc().getY());
 		    road.add("owner", new JsonPrimitive(entry.getValue().getIndex()));
 		    road.add("location", location);
 		    roads.add(road);
@@ -604,7 +604,7 @@ public class Interpreter
 			JsonObject location = new JsonObject();
 			location.addProperty("direction",entry.getKey().toServerFormattedString());
 			location.addProperty("x",entry.getKey().getHexLoc().getX());
-			location.addProperty("y",entry.getKey().getHexLoc().getX());
+			location.addProperty("y",entry.getKey().getHexLoc().getY());
 			city.add("owner", new JsonPrimitive(entry.getValue().getIndex()));
 			city.add("location", location);
 		    cities.add(city);
@@ -618,7 +618,7 @@ public class Interpreter
 			JsonObject location = new JsonObject();
 			location.addProperty("direction",entry.getKey().toServerFormattedString());
 			location.addProperty("x",entry.getKey().getHexLoc().getX());
-			location.addProperty("y",entry.getKey().getHexLoc().getX());
+			location.addProperty("y",entry.getKey().getHexLoc().getY());
 			settlement.add("owner", new JsonPrimitive(entry.getValue().getIndex()));
 			settlement.add("location", location);
 			settlements.add(settlement);
