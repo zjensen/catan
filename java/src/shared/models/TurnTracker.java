@@ -11,8 +11,8 @@ public class TurnTracker {
 		
 		this.currentTurn = 0;
 		this.status = "FirstRound";
-		this.longestRoad = 0;
-		this.largestArmy = 0;
+		this.longestRoad = -1;
+		this.largestArmy = -1;
 		
 	}
 
@@ -69,7 +69,7 @@ public class TurnTracker {
 		if(currentTurn == 4)
 		{
 			currentTurn = 0;
-			if(status.equals("firstround"))
+			if(status.equalsIgnoreCase("firstround"))
 			{
 				status = "secondround";
 			}
@@ -80,7 +80,7 @@ public class TurnTracker {
 			return;
 		}
 		
-		if(status.equals("playing"))
+		if(status.equalsIgnoreCase("playing"))
 		{
 			status = "rolling";
 		}
