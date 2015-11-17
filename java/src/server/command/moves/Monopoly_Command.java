@@ -39,7 +39,12 @@ public class Monopoly_Command extends ServerCommand {
 		params = gson.fromJson(json, Monopoly_Input.class);
 		JsonObject paramsJSON = (JsonObject) new JsonParser().parse(json);
 		params.setResource(ResourceType.valueOf(paramsJSON.get("resource").getAsString().toUpperCase()));
-		return ServerManager.instance().getMovesFacade().monopoly(params, super.playerId, super.gameId);
+		JsonElement result = ServerManager.instance().getMovesFacade().monopoly(params, super.playerId, super.gameId);
+		if(result == null)
+		{
+			result = new JsonPrimitive("Invalid Move");
+		}
+		return result;
 	}
 
 }

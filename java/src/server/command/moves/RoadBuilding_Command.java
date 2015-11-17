@@ -48,7 +48,12 @@ public class RoadBuilding_Command extends ServerCommand {
 		JsonObject spot2 = (JsonObject) paramsJSON.get("spot2");
 		params.setSpot1(extractEdgeLocation(spot1));
 		params.setSpot2(extractEdgeLocation(spot2));
-		return ServerManager.instance().getMovesFacade().roadBuilding(params, super.playerId, super.gameId);
+		JsonElement result = ServerManager.instance().getMovesFacade().roadBuilding(params, super.playerId, super.gameId);
+		if(result == null)
+		{
+			result = new JsonPrimitive("Invalid Move");
+		}
+		return result;
 	}
 
 }

@@ -47,7 +47,12 @@ public class YearOfPlenty_Command extends ServerCommand {
 		JsonObject paramsJSON = (JsonObject) new JsonParser().parse(json);
 		params.setResource(ResourceType.valueOf(paramsJSON.get("resource1").getAsString().toUpperCase()));
 		params.setResource1(ResourceType.valueOf(paramsJSON.get("resource2").getAsString().toUpperCase()));
-		return ServerManager.instance().getMovesFacade().yearOfPlenty(params, super.playerId, super.gameId);
+		JsonElement result =  ServerManager.instance().getMovesFacade().yearOfPlenty(params, super.playerId, super.gameId);
+		if(result == null)
+		{
+			result = new JsonPrimitive("Invalid Move");
+		}
+		return result;
 	}
 
 }

@@ -48,7 +48,12 @@ public class BuildRoad_Command extends ServerCommand {
 		JsonObject location = (JsonObject) paramsJSON.get("roadLocation");
 		params.setRoadLocation(extractEdgeLocation(location));
 		
-		return ServerManager.instance().getMovesFacade().buildRoad(params, super.playerId, super.gameId);
+		JsonElement result = ServerManager.instance().getMovesFacade().buildRoad(params, super.playerId, super.gameId);
+		if(result == null)
+		{
+			result = new JsonPrimitive("Invalid Move");
+		}
+		return result;
 	}
 
 }

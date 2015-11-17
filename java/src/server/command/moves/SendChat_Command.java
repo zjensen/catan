@@ -41,7 +41,12 @@ public class SendChat_Command extends ServerCommand{
 			return new JsonPrimitive("The catan.game HTTP cookie is missing.  You must join a game before calling this method.");
 		}
 		params = gson.fromJson(json, SendChat_Input.class);
-		return ServerManager.instance().getMovesFacade().sendChat(params, super.playerId, super.gameId);
+		JsonElement result = ServerManager.instance().getMovesFacade().sendChat(params, super.playerId, super.gameId);
+		if(result == null)
+		{
+			result = new JsonPrimitive("Invalid Move");
+		}
+		return result;
 	}
 
 }

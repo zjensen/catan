@@ -49,7 +49,12 @@ public class BuildCity_Command extends ServerCommand {
 		
 		params.setVertexLocation(extractVertexLocation(location));
 		
-		return ServerManager.instance().getMovesFacade().buildCity(params, super.playerId, super.gameId);
+		JsonElement result = ServerManager.instance().getMovesFacade().buildCity(params, super.playerId, super.gameId);
+		if(result == null)
+		{
+			result = new JsonPrimitive("Invalid Move");
+		}
+		return result;
 	}
 
 }

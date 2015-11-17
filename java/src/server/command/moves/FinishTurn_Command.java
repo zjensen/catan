@@ -42,7 +42,12 @@ public class FinishTurn_Command extends ServerCommand {
 		}
 		params = gson.fromJson(json, FinishTurn_Input.class);
 		
-		return ServerManager.instance().getMovesFacade().finishTurn(params, super.playerId, super.gameId);
+		JsonElement result = ServerManager.instance().getMovesFacade().finishTurn(params, super.playerId, super.gameId);
+		if(result == null)
+		{
+			result = new JsonPrimitive("Invalid Move");
+		}
+		return result;
 	}
 
 }

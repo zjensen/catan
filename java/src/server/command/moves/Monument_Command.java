@@ -42,7 +42,12 @@ public class Monument_Command extends ServerCommand {
 		}
 		params = gson.fromJson(json, Monument_Input.class);
 		
-		return ServerManager.instance().getMovesFacade().monument(params, super.playerId, super.gameId);
+		JsonElement result = ServerManager.instance().getMovesFacade().monument(params, super.playerId, super.gameId);
+		if(result == null)
+		{
+			result = new JsonPrimitive("Invalid Move");
+		}
+		return result;
 	}
 
 }

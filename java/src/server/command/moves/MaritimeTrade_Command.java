@@ -47,7 +47,12 @@ public class MaritimeTrade_Command extends ServerCommand {
 		JsonObject paramsJSON = (JsonObject) new JsonParser().parse(json);
 		params.setInputResource(ResourceType.valueOf(paramsJSON.get("inputResource").getAsString().toUpperCase()));
 		params.setOutputResource(ResourceType.valueOf(paramsJSON.get("outputResource").getAsString().toUpperCase()));
-		return ServerManager.instance().getMovesFacade().maritimeTrade(params, super.playerId, super.gameId);
+		JsonElement result = ServerManager.instance().getMovesFacade().maritimeTrade(params, super.playerId, super.gameId);
+		if(result == null)
+		{
+			result = new JsonPrimitive("Invalid Move");
+		}
+		return result;
 	}
 
 }

@@ -65,24 +65,38 @@ public class TurnTracker {
 	
 	public void endTurn()
 	{
-		currentTurn++;
-		if(currentTurn == 4)
+		if(status.equalsIgnoreCase("secondround"))
 		{
-			currentTurn = 0;
-			if(status.equalsIgnoreCase("firstround"))
+			currentTurn--;
+			if(currentTurn == -1)
 			{
-				status = "secondround";
+				currentTurn = 0;
+				status = "rolling";
+				return;
 			}
-			else
+		}
+		else
+		{
+			currentTurn++;
+			if(currentTurn == 4)
+			{
+				currentTurn = 0;
+				if(status.equalsIgnoreCase("firstround"))
+				{
+					status = "secondround";
+					currentTurn = 3;
+				}
+				else
+				{
+					status = "rolling";
+				}
+				return;
+			}
+			
+			if(status.equalsIgnoreCase("playing"))
 			{
 				status = "rolling";
 			}
-			return;
-		}
-		
-		if(status.equalsIgnoreCase("playing"))
-		{
-			status = "rolling";
 		}
 	}
 	
