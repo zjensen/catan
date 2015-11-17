@@ -350,7 +350,7 @@ public class JoinGameController extends Controller implements IJoinGameControlle
 				continue;
 			String string_color = gson.fromJson(player.get("color"), String.class);
 			CatanColor color;
-			switch (string_color)
+			switch (string_color.toLowerCase())
 			{
 				case "orange":
 					color = CatanColor.ORANGE;

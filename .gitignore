@@ -4,6 +4,7 @@ java/bin/
 bin/
 java/doc/
 .recommenders/
+java/log*
 
 
 *.class
