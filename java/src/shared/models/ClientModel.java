@@ -482,6 +482,7 @@ public class ClientModel {
 	// ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	public void acceptTrade(AcceptTrade_Input params) {
+		version++;
 		Player receiver = getPlayerByIndex(params.getPlayerIndex()); // player
 																		// on
 																		// receiving
@@ -510,6 +511,7 @@ public class ClientModel {
 	}
 
 	public void buildCity(BuildCity_Input params) {
+		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		p.buildCity(); // remove resources from player
 		bank.cityBuilt(); // add resources to bank
@@ -521,6 +523,7 @@ public class ClientModel {
 	}
 
 	public void buildRoad(BuildRoad_Input params) {
+		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		p.buildRoad(); // remove resources from player
 		if (p.getRoadsPlayed() >= 5) // player could possible have longest road
@@ -560,6 +563,7 @@ public class ClientModel {
 	}
 
 	public void buildSettlement(BuildSettlement_Input params) {
+		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		p.buildSettlement(); // remove resources from player
 		map.getSettlements().put(
@@ -573,6 +577,7 @@ public class ClientModel {
 	}
 
 	public void buyDevCard(BuyDevCard_Input params) {
+		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		p.getResources().buyDevCard();
 		bank.devCardBought();
@@ -582,6 +587,7 @@ public class ClientModel {
 	}
 
 	public void discardCards(DiscardCards_Input params) {
+		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		p.sendCards(params.getDiscardedCards()); // removes all cards in list
 		bank.addCards(params.getDiscardedCards()); // add cards from player to
@@ -605,6 +611,7 @@ public class ClientModel {
 	}
 
 	public void finishTurn(FinishTurn_Input params) {
+		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex()); // player ending
 																// turn
 		p.getOldDevCards().addCards(p.getNewDevCards()); // adds new devCards to
@@ -616,6 +623,7 @@ public class ClientModel {
 	}
 
 	public void maritimeTrade(MaritimeTrade_Input params) {
+		version++;
 		getPlayerByIndex(params.getPlayerIndex()).maritimeTrade(params); // updates
 																			// player's
 																			// resources
@@ -633,6 +641,7 @@ public class ClientModel {
 	}
 
 	public void monopoly(Monopoly_Input params) {
+		version++;
 		Player receiver = getPlayerByIndex(params.getPlayerIndex()); // player
 																		// that
 																		// played
@@ -722,6 +731,7 @@ public class ClientModel {
 	}
 
 	public void monument(Monument_Input params) {
+		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		// subtracts 1 monument card from player's hand, adds victory point, and
 		// sets playedDevCard to true
@@ -733,6 +743,7 @@ public class ClientModel {
 	}
 
 	public void offerTrade(OfferTrade_Input params) {
+		version++;
 		tradeOffer = new TradeOffer(params.getPlayerIndex(),
 				params.getReceiver(), params.getOffer()); // sets trade offer
 		Player sender = getPlayerByIndex(params.getPlayerIndex());
@@ -742,6 +753,7 @@ public class ClientModel {
 	}
 
 	public void roadBuilding(RoadBuilding_Input params) {
+		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		p.getOldDevCards().subtractDevCard(DevCardType.ROAD_BUILD); // remove
 																	// card from
@@ -789,6 +801,7 @@ public class ClientModel {
 	}
 
 	public void robPlayer(RobPlayer_Input params) {
+		version++;
 		Player player = getPlayerByIndex(params.getPlayerIndex()); // player
 																	// that did
 																	// the
@@ -818,6 +831,7 @@ public class ClientModel {
 	}
 
 	public void rollNumber(RollNumber_Input params) {
+		version++;
 		Player player = getPlayerByIndex(params.getPlayerIndex());
 
 		if (params.getNumber() == 7) {
@@ -1069,11 +1083,13 @@ public class ClientModel {
 	}
 
 	public void sendChat(SendChat_Input params) {
+		version++;
 		chat.addLine(getPlayerByIndex(params.getPlayerIndex()).getName(),
 				params.getContent());
 	}
 
 	public void soldier(Soldier_Input params) {
+		version++;
 		Player player = getPlayerByIndex(params.getPlayerIndex()); // player
 																	// that did
 																	// the
@@ -1136,6 +1152,7 @@ public class ClientModel {
 	}
 
 	public void yearOfPlenty(YearOfPlenty_Input params) {
+		version++;
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		bank.subtractOne(params.getResource()); // remove resource 1 from bank
 		bank.subtractOne(params.getResource1()); // remove resource 2 from bank
