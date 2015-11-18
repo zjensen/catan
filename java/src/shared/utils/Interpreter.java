@@ -716,6 +716,15 @@ public class Interpreter
 		
 		result.add("turnTracker", turnTracker);
 		
+		if(model.getTradeOffer()!=null)
+		{
+			JsonObject tradeOffer = new JsonObject();
+			tradeOffer.addProperty("sender", model.getTradeOffer().getSender());
+			tradeOffer.addProperty("receiver", model.getTradeOffer().getReceiver());
+			tradeOffer.add("offer", parser.parse(model.getTradeOffer().getOffer().toJsonString()));
+			result.add("tradeOffer", tradeOffer);
+		}
+		
 		result.addProperty("winner", model.getWinner());
 		result.addProperty("version", model.getVersion());
 		
