@@ -600,13 +600,13 @@ public class Player {
 	{
 		if(offer.getBrick() != 0)
 			resources.changeBrick(offer.getBrick());
-		else if (offer.getOre() != 0)
+		if (offer.getOre() != 0)
 			resources.changeOre(offer.getOre());
-		else if (offer.getSheep() != 0)
+		if (offer.getSheep() != 0)
 			resources.changeSheep(offer.getSheep());
-		else if (offer.getWheat() != 0)
+		if (offer.getWheat() != 0)
 			resources.changeWheat(offer.getWheat());
-		else if (offer.getWood() != 0)
+		if (offer.getWood() != 0)
 			resources.changeWood(offer.getWood());
 	}
 
