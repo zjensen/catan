@@ -336,6 +336,14 @@ public class Map {
 		{
 			return false;
 		}
+		else if(params.getVictimIndex() == -1) //no player at location
+		{
+			return true;
+		}
+		else if(isOceanHex(params.getLocation()))
+		{
+			return false;
+		}
 		else
 		{
 			for (Entry<VertexLocation, Player> entry : settlements.entrySet()) //loop through each settlement
