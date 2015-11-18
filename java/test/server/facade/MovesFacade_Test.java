@@ -904,43 +904,49 @@ public class MovesFacade_Test
 	}
 		
 	@Test
-	public void canBuildSettlement_Test2() // Will not build a settlement. NEED TODO
+	public void canBuildSettlement_Test2() // Will not build a settlement
 	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		// Sets up two roads together so we can build a settlement
+		ResourceCards newCards = new ResourceCards(5,0,5,5,5); // Lacks wheat to build settlement
+		ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0).setResources(newCards);
+		EdgeLocation e1 = new EdgeLocation(new HexLocation(2,0), EdgeDirection.NorthWest); 
+		BuildRoad_Input params2 = new BuildRoad_Input(0, e1, false); 
+		mf.buildRoad(params2,1,gameID);
+		
+		// Building a settlement
+		BuildSettlement_Input params1 = new BuildSettlement_Input(0, new VertexLocation(new HexLocation(2,0), VertexDirection.NorthWest),false); // Good Spot to build
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		int p0settlements = p0.getSettlements();
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
 
+		HashMap<VertexLocation, Player> curSettlements = ServerManager.instance().getGamesManager().getClientModelById(0).getMap().getSettlements();
+		VertexLocation v1 = new VertexLocation(new HexLocation(2,0), VertexDirection.NorthWest);
+		
+		// No settlement there currently
+		assertNull(curSettlements.get(v1));
+
+		assertNull(mf.buildSettlement(params1,1,gameID));
+		
+		int p0settlementsAfter = p0.getSettlements();
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		
+		assertTrue(p0settlements == p0settlementsAfter);
+		assertNull(curSettlements.get(v1));
+		assertTrue(p0sheepBefore == p0sheepAfter);
+		assertTrue(p0wheatBefore == p0wheatAfter);
+		assertTrue(p0woodBefore == p0woodAfter);
+		assertTrue(p0brickBefore == p0brickAfter);
 	}	
-	
-//	@Test
-//	public void canBuildSettlement_Test()
-//	{
-//		Player p = clientModel.getPlayerByIndex(0);
-//		Player p3 = clientModel.getPlayerByIndex(3);
-//		clientModel.getMap().getRoads().put(new EdgeLocation(new HexLocation(2,0),EdgeDirection.NorthWest), p);
-//		clientModel.getMap().getRoads().put(new EdgeLocation(new HexLocation(1,1),EdgeDirection.North), p);
-//		clientModel.getMap().getRoads().put(new EdgeLocation(new HexLocation(-1,1),EdgeDirection.NorthWest), p3);
-//		
-//		
-//		BuildSettlement_Input params1 = new BuildSettlement_Input(0, new VertexLocation(new HexLocation(2,0), VertexDirection.NorthWest),false); //true
-//		BuildSettlement_Input params2 = new BuildSettlement_Input(0, new VertexLocation(new HexLocation(1,1), VertexDirection.NorthWest),false); //too close
-//		BuildSettlement_Input params3 = new BuildSettlement_Input(0, new VertexLocation(new HexLocation(-1,0), VertexDirection.NorthEast),false); //nooo
-//		BuildSettlement_Input params4 = new BuildSettlement_Input(0, new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest),false); //something already there
-//		BuildSettlement_Input params5 = new BuildSettlement_Input(1, new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest),false); //wrong turn
-//		assertTrue(mf.canBuildSettlement(params1));
-//		assertFalse(mf.canBuildSettlement(params2));
-//		assertFalse(mf.canBuildSettlement(params3));
-//		assertFalse(mf.canBuildSettlement(params4));
-//		assertFalse(mf.canBuildSettlement(params5));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(3); //switch turn back
-//		
-//		BuildSettlement_Input params6 = new BuildSettlement_Input(3, new VertexLocation(new HexLocation(-1,1), VertexDirection.NorthWest),false); //no supplies
-//		assertFalse(mf.canBuildSettlement(params6));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
-//		
-//		clientModel.getMap().getRoads().remove(new EdgeLocation(new HexLocation(2,0),EdgeDirection.NorthWest));
-//		clientModel.getMap().getRoads().remove(new EdgeLocation(new HexLocation(1,1),EdgeDirection.North));
-//		clientModel.getMap().getRoads().remove(new EdgeLocation(new HexLocation(-1,1),EdgeDirection.NorthWest));
-//	}
 
 	@Test
 	public void canBuildCity_Test1() // Builds a city successfully
@@ -963,7 +969,7 @@ public class MovesFacade_Test
 		// No settlement there currently
 		assertNull(curCities.get(v1));
 		
-		ClientModel newModel = interpreter.deserialize(mf.buildCity(params1,1,gameID));
+		mf.buildCity(params1,1,gameID);
 		
 		int afterp0ore = p0.getResources().getOre();
 		int afterp0wheat = p0.getResources().getWheat();
@@ -999,147 +1005,422 @@ public class MovesFacade_Test
 		assertTrue(p0oreBefore == afterp0ore);
 		assertTrue(p0wheatBefore == afterp0wheat);
 	}
-	
-	
-// TODO	
-	
+
 	@Test
-	public void canOfferTrade_Test()
+	public void canOfferTrade_Test1() // Valid Trade Offer
 	{
-		ResourceCards curOffer = new ResourceCards(-1,-1,-1,-1,1);
+												 //sheep,wheat,wood,brick,ore
+		ResourceCards curOffer = new ResourceCards(-1,	   2,	1,	  1,   4); // Positive means giving away. Negative is requesting
+		OfferTrade_Input params1 = new OfferTrade_Input(0, curOffer, 3); // Valid Trade Offer
 		
-//		OfferTrade_Input params1 = new OfferTrade_Input(0, r, 3); // Valid Offer
-//		Sam
-//		"resources": {
-//	        "brick": 1,
-//	        "wood": 1,
-//	        "sheep": 1,
-//	        "wheat": 2,
-//	        "ore": 4
-//	      },
-//		Mark
-//		"resources": {
-//	        "brick": 0,
-//	        "wood": 1,
-//	        "sheep": 1,
-//	        "wheat": 0,
-//	        "ore": 1
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
 		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		Player p3 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(3);
+
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
 		
+		int p3sheepBefore = p3.getResources().getSheep();
+		int p3wheatBefore = p3.getResources().getWheat();
+		int p3woodBefore = p3.getResources().getWood();
+		int p3brickBefore = p3.getResources().getBrick();
+		int p3oreBefore = p3.getResources().getOre();
 		
+		@SuppressWarnings("unused")
+		ClientModel newModel = interpreter.deserialize(mf.offerTrade(params1,1,gameID));
 		
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
 		
+		int p3sheepAfter = p3.getResources().getSheep();
+		int p3wheatAfter = p3.getResources().getWheat();
+		int p3woodAfter = p3.getResources().getWood();
+		int p3brickAfter = p3.getResources().getBrick();
+		int p3oreAfter = p3.getResources().getOre();
+
+		assertTrue(p0sheepBefore == p0sheepAfter);
+		assertTrue(p0wheatBefore == p0wheatAfter);
+		assertTrue(p0woodBefore == p0woodAfter);
+		assertTrue(p0brickBefore == p0brickAfter);
+		assertTrue(p0oreBefore == p0oreAfter);
 		
+		assertTrue(p3sheepBefore == p3sheepAfter);
+		assertTrue(p3wheatBefore == p3wheatAfter);
+		assertTrue(p3woodBefore == p3woodAfter);
+		assertTrue(p3brickBefore == p3brickAfter);
+		assertTrue(p3oreBefore == p3oreAfter);
+	}
+
+	@Test
+	public void canOfferTrade_Test2() // Not a valid trade offer
+	{
+												 //sheep,wheat,wood,brick,ore
+		ResourceCards curOffer = new ResourceCards(-1,	   2,	1,	  1,   10); // Positive means giving away. Negative is requesting
+		OfferTrade_Input params1 = new OfferTrade_Input(0, curOffer, 3); // Valid Trade Offer
 		
+		assertNull(mf.offerTrade(params1,1,gameID)); // Not currently in playing status
 		
-//		assertTrue(mf.canOfferTrade(params1));
-//		assertFalse(mf.canOfferTrade(params2));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn
-//		
-//		OfferTrade_Input params3 = new OfferTrade_Input(1, r, 0); //no cards
-//		assertTrue(mf.canOfferTrade(params3));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		Player p3 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(3);
+
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
+		
+		int p3sheepBefore = p3.getResources().getSheep();
+		int p3wheatBefore = p3.getResources().getWheat();
+		int p3woodBefore = p3.getResources().getWood();
+		int p3brickBefore = p3.getResources().getBrick();
+		int p3oreBefore = p3.getResources().getOre();
+		
+		assertNull(mf.offerTrade(params1,1,gameID));
+
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
+		
+		int p3sheepAfter = p3.getResources().getSheep();
+		int p3wheatAfter = p3.getResources().getWheat();
+		int p3woodAfter = p3.getResources().getWood();
+		int p3brickAfter = p3.getResources().getBrick();
+		int p3oreAfter = p3.getResources().getOre();
+
+		assertTrue(p0sheepBefore == p0sheepAfter);
+		assertTrue(p0wheatBefore == p0wheatAfter);
+		assertTrue(p0woodBefore == p0woodAfter);
+		assertTrue(p0brickBefore == p0brickAfter);
+		assertTrue(p0oreBefore == p0oreAfter);
+		
+		assertTrue(p3sheepBefore == p3sheepAfter);
+		assertTrue(p3wheatBefore == p3wheatAfter);
+		assertTrue(p3woodBefore == p3woodAfter);
+		assertTrue(p3brickBefore == p3brickAfter);
+		assertTrue(p3oreBefore == p3oreAfter);
 	}
 	
+	@Test
+	public void canAcceptTrade_Test1()
+	{
+												//sheep,wheat,wood,brick,ore
+		ResourceCards curOffer = new ResourceCards(-1,	   2,	1,	  1,   4); // Positive means giving away. Negative is requesting
+		OfferTrade_Input params1 = new OfferTrade_Input(0, curOffer, 3); // Valid Trade Offer
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		Player p3 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(3);
+		
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
+		
+		int p3sheepBefore = p3.getResources().getSheep();
+		int p3wheatBefore = p3.getResources().getWheat();
+		int p3woodBefore = p3.getResources().getWood();
+		int p3brickBefore = p3.getResources().getBrick();
+		int p3oreBefore = p3.getResources().getOre();
+		
+		@SuppressWarnings("unused")
+		ClientModel newModel = interpreter.deserialize(mf.offerTrade(params1,1,gameID));
+		
+		AcceptTrade_Input params2 = new AcceptTrade_Input(3, true); // Will accept trade offer
+		
+		newModel = interpreter.deserialize(mf.acceptTrade(params2,4,gameID));
+		
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
+		
+		int p3sheepAfter = p3.getResources().getSheep();
+		int p3wheatAfter = p3.getResources().getWheat();
+		int p3woodAfter = p3.getResources().getWood();
+		int p3brickAfter = p3.getResources().getBrick();
+		int p3oreAfter = p3.getResources().getOre();
+		
+		assertTrue(p0sheepBefore == p0sheepAfter-1);
+		assertTrue(p0wheatBefore == p0wheatAfter+2);
+		assertTrue(p0woodBefore == p0woodAfter+1);
+		assertTrue(p0brickBefore == p0brickAfter+1);
+		assertTrue(p0oreBefore == p0oreAfter+4);
+		
+		assertTrue(p3sheepBefore == p3sheepAfter+1);
+		assertTrue(p3wheatBefore == p3wheatAfter-2);
+		assertTrue(p3woodBefore == p3woodAfter-1);
+		assertTrue(p3brickBefore == p3brickAfter-1);
+		assertTrue(p3oreBefore == p3oreAfter-4);
+	}
 	
-	
-	
-	
-//	@Test
-//	public void canOfferTrade_Test()
-//	{
-//		ResourceCards r = new ResourceCards(-1,-2,-1,-1,-3);
-//		
-//		OfferTrade_Input params1 = new OfferTrade_Input(0, r, 3); //yes
-//		OfferTrade_Input params2 = new OfferTrade_Input(0, r, 0); //no
-//		assertTrue(mf.canOfferTrade(params1));
-//		assertFalse(mf.canOfferTrade(params2));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn
-//		
-//		OfferTrade_Input params3 = new OfferTrade_Input(1, r, 0); //no cards
-//		assertTrue(mf.canOfferTrade(params3));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
-//	}
+	@Test
+	public void canAcceptTrade_Test2() // Doesn't accept trade offer
+	{
+												//sheep,wheat,wood,brick,ore
+		ResourceCards curOffer = new ResourceCards(-1,	   2,	1,	  1,   4); // Positive means giving away. Negative is requesting
+		OfferTrade_Input params1 = new OfferTrade_Input(0, curOffer, 3); // Valid Trade Offer
+		
+		assertNull(mf.offerTrade(params1,1,gameID)); // Not currently in playing status
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		Player p3 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(3);
+		
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
+		
+		int p3sheepBefore = p3.getResources().getSheep();
+		int p3wheatBefore = p3.getResources().getWheat();
+		int p3woodBefore = p3.getResources().getWood();
+		int p3brickBefore = p3.getResources().getBrick();
+		int p3oreBefore = p3.getResources().getOre();
+		
+		@SuppressWarnings("unused")
+		ClientModel newModel = interpreter.deserialize(mf.offerTrade(params1,1,gameID));
+		
+		AcceptTrade_Input params2 = new AcceptTrade_Input(3, false); // Doesn't accept trade offer
+		
+		assertNull(mf.acceptTrade(params2,4,gameID));
 
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
+		
+		int p3sheepAfter = p3.getResources().getSheep();
+		int p3wheatAfter = p3.getResources().getWheat();
+		int p3woodAfter = p3.getResources().getWood();
+		int p3brickAfter = p3.getResources().getBrick();
+		int p3oreAfter = p3.getResources().getOre();
+		
+		assertTrue(p0sheepBefore == p0sheepAfter);
+		assertTrue(p0wheatBefore == p0wheatAfter);
+		assertTrue(p0woodBefore == p0woodAfter);
+		assertTrue(p0brickBefore == p0brickAfter);
+		assertTrue(p0oreBefore == p0oreAfter);
+		
+		assertTrue(p3sheepBefore == p3sheepAfter);
+		assertTrue(p3wheatBefore == p3wheatAfter);
+		assertTrue(p3woodBefore == p3woodAfter);
+		assertTrue(p3brickBefore == p3brickAfter);
+		assertTrue(p3oreBefore == p3oreAfter);
+	}
+
+	@Test
+	public void canMaritimeTrade_Test1() // Successful Trade. Uses 3:1 ratio port
+	{
+		MaritimeTrade_Input params1 = new MaritimeTrade_Input(0, 3, ResourceType.ORE, ResourceType.WHEAT);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
+				
+		mf.maritimeTrade(params1,1,gameID);
+		
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
+		
+		
+		System.out.println(p0.getResources().toString());
+		
+		assertTrue(p0sheepBefore == p0sheepAfter);
+		assertTrue(p0wheatBefore == p0wheatAfter-1);
+		assertTrue(p0woodBefore  == p0woodAfter);
+		assertTrue(p0brickBefore == p0brickAfter);
+		assertTrue(p0oreBefore   == p0oreAfter+3);
+	}
 	
+	@Test
+	public void canMaritimeTrade_Test2() // Successful Trade. Uses 4:1 ratio
+	{
+		MaritimeTrade_Input params4 = new MaritimeTrade_Input(0, 4, ResourceType.ORE, ResourceType.WHEAT);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
+				
+		mf.maritimeTrade(params4,1,gameID);
+		
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
+		
+		assertTrue(p0sheepBefore == p0sheepAfter);
+		assertTrue(p0wheatBefore == p0wheatAfter-1);
+		assertTrue(p0woodBefore  == p0woodAfter);
+		assertTrue(p0brickBefore == p0brickAfter);
+		assertTrue(p0oreBefore   == p0oreAfter+4);
+	}
+
+	@Test
+	public void canMaritimeTrade_Test3() // Doesn't not have a 2:1 ratio port
+	{
+		MaritimeTrade_Input params2 = new MaritimeTrade_Input(0, 2, ResourceType.ORE, ResourceType.WHEAT); 
+
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
+				
+		assertNull(mf.maritimeTrade(params2,1,gameID));
+		
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
+		
+		assertTrue(p0sheepBefore == p0sheepAfter);
+		assertTrue(p0wheatBefore == p0wheatAfter);
+		assertTrue(p0woodBefore  == p0woodAfter);
+		assertTrue(p0brickBefore == p0brickAfter);
+		assertTrue(p0oreBefore   == p0oreAfter);
+	}
 	
-// TODO	
+	@Test
+	public void canMaritimeTrade_Test4() // Not enough resources to use maritime trade
+	{
+		MaritimeTrade_Input params3 = new MaritimeTrade_Input(0, 3, ResourceType.WOOD, ResourceType.WHEAT); 
+		
+		assertNull(mf.maritimeTrade(params3,1,gameID)); // Not currently in playing status
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
+				
+		assertNull(mf.maritimeTrade(params3,1,gameID));
+		
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
+		
+		assertTrue(p0sheepBefore == p0sheepAfter);
+		assertTrue(p0wheatBefore == p0wheatAfter);
+		assertTrue(p0woodBefore  == p0woodAfter);
+		assertTrue(p0brickBefore == p0brickAfter);
+		assertTrue(p0oreBefore   == p0oreAfter);
+	}
 	
-//	@Test
-//	public void canAccepTrade_Test()
-//	{
-//		ResourceCards r = new ResourceCards(1,2,1,1,3);
-//		clientModel.setTradeOffer(new TradeOffer());
-//		clientModel.getTradeOffer().setOffer(r);
-//		clientModel.getTradeOffer().setReceiver(0);
-//		clientModel.getTradeOffer().setSender(1);
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn
-//		
-//		AcceptTrade_Input params1 = new AcceptTrade_Input(0, false); //good
-//		AcceptTrade_Input params2 = new AcceptTrade_Input(0, true); //good
-//		AcceptTrade_Input params3 = new AcceptTrade_Input(1, false); //wrong user
-//		assertTrue(mf.canAcceptTrade(params1));
-//		assertTrue(mf.canAcceptTrade(params2));
-//		assertFalse(mf.canAcceptTrade(params3));
-//		
-//		clientModel.getTradeOffer().setReceiver(2);
-//		AcceptTrade_Input params4 = new AcceptTrade_Input(2, true);
-//		assertTrue(mf.canAcceptTrade(params4));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
-//	}
-//	
-//	@Test
-//	public void canMaritimeTrade_Test()
-//	{
-//		MaritimeTrade_Input params1 = new MaritimeTrade_Input(0, 3, ResourceType.ORE, ResourceType.WHEAT); //good
-//		MaritimeTrade_Input params2 = new MaritimeTrade_Input(0, 2, ResourceType.ORE, ResourceType.WHEAT); //not a 2 port
-//		MaritimeTrade_Input params3 = new MaritimeTrade_Input(0, 3, ResourceType.WOOD, ResourceType.WHEAT); //not enough resources
-//		MaritimeTrade_Input params4 = new MaritimeTrade_Input(0, 4, ResourceType.ORE, ResourceType.WHEAT); //yassss
-//		MaritimeTrade_Input params5 = new MaritimeTrade_Input(1, 4, ResourceType.ORE, ResourceType.WHEAT); //nooooo
-//		
-//		assertTrue(mf.canMaritimeTrade(params1));
-//		assertFalse(mf.canMaritimeTrade(params2));
-//		assertFalse(mf.canMaritimeTrade(params3));
-//		assertTrue(mf.canMaritimeTrade(params4));
-//		assertFalse(mf.canMaritimeTrade(params5));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn
-//		
-//		MaritimeTrade_Input params6 = new MaritimeTrade_Input(1, 2, ResourceType.WOOD, ResourceType.WHEAT); //yesss
-//		MaritimeTrade_Input params7 = new MaritimeTrade_Input(1, 3, ResourceType.WOOD, ResourceType.WHEAT); //nooooo
-//		MaritimeTrade_Input params8 = new MaritimeTrade_Input(1, 2, ResourceType.ORE, ResourceType.WHEAT); //nooooo
-//		
-//		assertTrue(mf.canMaritimeTrade(params6));
-//		assertFalse(mf.canMaritimeTrade(params7));
-//		assertFalse(mf.canMaritimeTrade(params8));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
-//	}
-//	
-//	@Test
-//	public void canDiscardCards_Test()
-//	{
-//		ResourceCards r1 = new ResourceCards(1,2,1,1,3);
-//		ResourceCards r2 = new ResourceCards(3,2,1,1,3);
-//		
-//		DiscardCards_Input params1 = new DiscardCards_Input(0, r1); //yes
-//		DiscardCards_Input params2 = new DiscardCards_Input(0, r2); //too many cards
-//		DiscardCards_Input params3 = new DiscardCards_Input(1, r2); //wrong turn
-//		
-//		assertTrue(mf.canDiscardCards(params1));
-//		assertFalse(mf.canDiscardCards(params2));
-//		assertFalse(mf.canDiscardCards(params3));
-//		
-//		clientModel.getPlayerByIndex(0).setDiscarded(true);
-//		
-//		DiscardCards_Input params4 = new DiscardCards_Input(0, r1); //already discarded
-//		assertFalse(mf.canDiscardCards(params4));
-//	}
+	@Test
+	public void canDiscardCards_Test1() // Will successfully discard
+	{
+		ResourceCards r1 = new ResourceCards(1,0,1,0,2); //sheep,wheat,wood,brick,ore
+		DiscardCards_Input params1 = new DiscardCards_Input(0, r1);
+		
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("discarding");
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
+				
+		mf.discardCards(params1,1,gameID);
+		
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
+		
+		assertTrue(p0sheepBefore == p0sheepAfter+1);
+		assertTrue(p0wheatBefore == p0wheatAfter);
+		assertTrue(p0woodBefore  == p0woodAfter+1);
+		assertTrue(p0brickBefore == p0brickAfter);
+		assertTrue(p0oreBefore   == p0oreAfter+2);
+	}	
+		
+	@Test
+	public void canDiscardCards_Test2() // Can't discard more cards than you have
+	{
+		ResourceCards r2 = new ResourceCards(3,2,1,1,3);
+		
+		DiscardCards_Input params2 = new DiscardCards_Input(0, r2);
+		
+		assertNull(mf.discardCards(params2,1,gameID));
+
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("discarding");
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		
+		int p0sheepBefore = p0.getResources().getSheep();
+		int p0wheatBefore = p0.getResources().getWheat();
+		int p0woodBefore = p0.getResources().getWood();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0oreBefore = p0.getResources().getOre();
+				
+		assertNull(mf.discardCards(params2,1,gameID));
+		
+		int p0sheepAfter = p0.getResources().getSheep();
+		int p0wheatAfter = p0.getResources().getWheat();
+		int p0woodAfter = p0.getResources().getWood();
+		int p0brickAfter = p0.getResources().getBrick();
+		int p0oreAfter = p0.getResources().getOre();
+		
+		assertTrue(p0sheepBefore == p0sheepAfter);
+		assertTrue(p0wheatBefore == p0wheatAfter);
+		assertTrue(p0woodBefore == p0woodAfter);
+		assertTrue(p0brickBefore == p0brickAfter);
+		assertTrue(p0oreBefore == p0oreAfter);
+	}	
 
 }
