@@ -1208,6 +1208,7 @@ public class ClientModel {
 
 		map.setRobber(params.getLocation()); // set robber to new location
 		player.setSoldiers(player.getSoldiers() + 1);
+		player.getOldDevCards().subtractDevCard(DevCardType.SOLDIER);
 		if (player.getSoldiers() >= 3) // player could possible have largest
 										// army
 		{
