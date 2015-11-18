@@ -3,6 +3,7 @@ package server.command.games;
 import com.google.gson.JsonElement;
 import com.sun.net.httpserver.HttpExchange;
 
+import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
@@ -12,7 +13,7 @@ public class List_Command extends ServerCommand {
 	/**
 	 * Command object for listing all games
 	 */
-	public List_Command(HttpExchange exchange)
+	public List_Command(ExchangeWrapper exchange)
 	{
 		super(exchange);
 	}

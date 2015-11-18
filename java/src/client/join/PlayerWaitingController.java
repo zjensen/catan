@@ -62,8 +62,6 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 			}
 		}
 		updatePlayers();
-		if(!isFull())
-			session.getPoller().getClientModel().setVersion(-1);
 		
 		if(isFull()) 
 		{

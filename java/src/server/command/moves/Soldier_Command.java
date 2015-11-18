@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.sun.net.httpserver.HttpExchange;
 
+import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
@@ -19,7 +20,7 @@ public class Soldier_Command extends ServerCommand {
 	 * @param playerID
 	 * @param gameID
 	 */
-	public Soldier_Command(HttpExchange exchange)
+	public Soldier_Command(ExchangeWrapper exchange)
 	{
 		super(exchange);
 	}

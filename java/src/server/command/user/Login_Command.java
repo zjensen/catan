@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.sun.net.httpserver.HttpExchange;
 
+import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
@@ -18,7 +19,7 @@ public class Login_Command extends ServerCommand{
 	 * Command object for logging in
 	 * @param exchange
 	 */
-	public Login_Command(HttpExchange exchange)
+	public Login_Command(ExchangeWrapper exchange)
 	{
 		super(exchange);
 	}
@@ -36,7 +37,7 @@ public class Login_Command extends ServerCommand{
 			{
 				int id = responseObject.get("id").getAsInt();
 				String encoded = getEncodedLoginCookie(params.getUsername(), params.getPassword(), Integer.toString(id));
-				super.httpObj.getResponseHeaders().add("Set-cookie", encoded);
+				super.httpObj.getExchange().getResponseHeaders().add("Set-cookie", encoded);
 				return new JsonPrimitive("Success");
 			} 
 			else 

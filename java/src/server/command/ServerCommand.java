@@ -21,7 +21,7 @@ import shared.utils.StringUtils;
 
 public abstract class ServerCommand {
 	
-	protected HttpExchange httpObj;
+	protected ExchangeWrapper httpObj;
 	protected int gameId;
 	protected int playerId;
 	protected Gson gson = new Gson();
@@ -29,23 +29,23 @@ public abstract class ServerCommand {
 	protected boolean hasUserCookie = false;
 	protected boolean hasGameCookie = false;
 	
-	public ServerCommand(HttpExchange exchange)
+	public ServerCommand(ExchangeWrapper exchange)
 	{	
 		httpObj = exchange;
-		httpObj.getRequestMethod();
+		httpObj.getExchange().getRequestMethod();
 //		System.out.println("Request: " + httpObj.getRequestURI());
 		
 		//Parse request body
 		try 
 		{
-			json = StringUtils.getString(httpObj.getRequestBody());
+			json = StringUtils.getString(httpObj.getExchange().getRequestBody());
 		} 
 		catch (Exception e) 
 		{
 			json = "";
 		}
 		
-		Headers headers = httpObj.getRequestHeaders();
+		Headers headers = httpObj.getExchange().getRequestHeaders();
 		List<String> cookies = headers.get("Cookie");
 		if (cookies == null)// No nomnoms
 		{
