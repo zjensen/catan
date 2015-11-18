@@ -1181,7 +1181,7 @@ public class ClientModel {
 		Player player = getPlayerByIndex(params.getPlayerIndex()); // player
 																	// that did
 																	// the
-																	// robbing
+		player.setPlayedDevCard(true);															// robbing
 		log.addLine(player.getName(),
 				(player.getName() + " played a soldier card."));
 
