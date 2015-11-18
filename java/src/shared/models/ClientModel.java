@@ -535,7 +535,7 @@ public class ClientModel {
 		{
 			p.buildRoad();
 		}
-		
+		p.setLongestRoad(p.getRoadsPlayed());
 		if (p.getRoadsPlayed() >= 5) // player could possible have longest road
 		{
 			int mostRoads = 0; // most roads any of the other players have
@@ -851,6 +851,7 @@ public class ClientModel {
 									// player has been playing dev cards
 		p.setRoads(p.getRoads() - 2); // take away the two roads they just
 										// player
+		p.setLongestRoad(p.getRoadsPlayed());
 		map.getRoads().put(params.getSpot1().getNormalizedLocation(), p); // add
 																			// first
 																			// road
