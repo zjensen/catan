@@ -23,11 +23,11 @@ public class CommandFactory implements ICommandFactory {
 		String[] arguments = uri.split("/");
 		String request = arguments[arguments.length-1];
 		
-		return getCommand(request, exchange);
+		return getCommand(request, new ExchangeWrapper(exchange));
 		
 	}
 	
-	public ServerCommand getCommand(String request, HttpExchange exchange){
+	public ServerCommand getCommand(String request, ExchangeWrapper exchange){
 		if (request.startsWith("model"))
 		{
 			//System.out.println("stripping version off model request");

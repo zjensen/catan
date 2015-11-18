@@ -9,17 +9,17 @@ import server.main.ServerInvalidRequestException;
 public class MockCommand extends ServerCommand {
 	boolean list = false;
 
-	public MockCommand(HttpExchange arg0) 
+	public MockCommand(ExchangeWrapper arg0) 
 	{
 		super(arg0);
-		String uri = arg0.getRequestURI().toString();
+		String uri = arg0.getExchange().getRequestURI().toString();
 		if(uri.equals("/user/register")||uri.equalsIgnoreCase("/user/login"))
 		{
 			//include login cookie in JSON
 			try
 			{
 				String encoded = getEncodedLoginCookie("Davis", "davis", "0");
-				arg0.getResponseHeaders().add("Set-cookie", encoded);
+				arg0.getExchange().getResponseHeaders().add("Set-cookie", encoded);
 			}
 			catch(Exception e)
 			{
@@ -36,7 +36,7 @@ public class MockCommand extends ServerCommand {
 			try
 			{
 				String encoded = this.getEncodedJoinGameCookie("1");
-				arg0.getResponseHeaders().add("Set-cookie", encoded);
+				arg0.getExchange().getResponseHeaders().add("Set-cookie", encoded);
 			}
 			catch(Exception e)
 			{

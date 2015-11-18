@@ -1,5 +1,6 @@
 package server.command.game;
 
+import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
@@ -17,7 +18,7 @@ public class Model_Command extends ServerCommand {
 	 * 
 	 * @param version
 	 */
-	public Model_Command(HttpExchange exchange) {
+	public Model_Command(ExchangeWrapper exchange) {
 		super(exchange);
 		// here we will deserialize the JSON into a GameModel_Input object
 	}
@@ -38,7 +39,7 @@ public class Model_Command extends ServerCommand {
 	}
 
 	public int identifyVersion() {
-		String url = httpObj.getRequestURI().toString();
+		String url = httpObj.getExchange().getRequestURI().toString();
 		String[] split = url.split("/");
 		String modelParam = split[split.length - 1];
 		try {

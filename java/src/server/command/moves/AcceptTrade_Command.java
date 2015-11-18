@@ -4,6 +4,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.sun.net.httpserver.HttpExchange;
 
+import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
@@ -19,7 +20,7 @@ public class AcceptTrade_Command extends ServerCommand {
 	 * @param playerID
 	 * @param gameID
 	 */
-	public AcceptTrade_Command(HttpExchange exchange)
+	public AcceptTrade_Command(ExchangeWrapper exchange)
 	{
 		super(exchange);
 	}

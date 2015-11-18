@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.sun.net.httpserver.HttpExchange;
 
+import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
@@ -22,7 +23,7 @@ public class MaritimeTrade_Command extends ServerCommand {
 	 * @param playerID
 	 * @param gameID
 	 */
-	public MaritimeTrade_Command(HttpExchange exchange)
+	public MaritimeTrade_Command(ExchangeWrapper exchange)
 	{
 		super(exchange);
 	}

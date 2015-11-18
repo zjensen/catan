@@ -6,6 +6,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import com.sun.net.httpserver.HttpExchange;
 
+import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
@@ -16,7 +17,7 @@ public class Monopoly_Command extends ServerCommand {
 	
 	private Monopoly_Input params;
 
-	public Monopoly_Command(HttpExchange exchange) {
+	public Monopoly_Command(ExchangeWrapper exchange) {
 		super(exchange);
 	}
 

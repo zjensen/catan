@@ -5,6 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 import com.sun.net.httpserver.HttpExchange;
 
+import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.facade.UserFacade;
 import server.main.ServerInvalidRequestException;
@@ -19,7 +20,7 @@ public class Register_Command extends ServerCommand {
 	 * Command object for registering a new user
 	 * @param json
 	 */
-	public Register_Command(HttpExchange exchange)
+	public Register_Command(ExchangeWrapper exchange)
 	{
 		super(exchange);
 		//here we will deserialize the JSON into a Register_Input object
@@ -38,7 +39,7 @@ public class Register_Command extends ServerCommand {
 			{
 				int id = responseObject.get("id").getAsInt();
 				String encoded = getEncodedLoginCookie(params.getUsername(), params.getPassword(), Integer.toString(id));
-				httpObj.getResponseHeaders().add("Set-cookie", encoded);
+				httpObj.getExchange().getResponseHeaders().add("Set-cookie", encoded);
 				return new JsonPrimitive("Success");
 			} 
 			else 

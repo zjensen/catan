@@ -423,86 +423,79 @@ public class MovesFacade_Test
 		assertTrue(afterBankWheat == twoAfterBankWheat);
 		assertTrue(afterBankSheep == twoAfterBankSheep);
 		assertTrue(afterPlayer1YearOfPlentyCards == twoAfterPlayer1YearOfPlentyCards);
-	}	
-
+	}
+	
 	@Test
-	public void canRoadBuilding_Test1() // Builds a road successfully
+	public void canRoadBuild_Test1() // Successfully plays a Road Building Dev Card
 	{
 		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
-		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
 		
 		EdgeLocation e1 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North); // Connects with other road he controls
+		EdgeLocation e2 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.NorthWest); // Connects with the previously place road
 		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
-	
-		BuildRoad_Input params2 = new BuildRoad_Input(0, e1, false); 
-
-		int p0roads = p0.getRoads();
+		
+		RoadBuilding_Input params1 = new RoadBuilding_Input(0,e1,e2);
+		
+		int p0roadsBefore = p0.getRoads();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0woodBefore = p0.getResources().getWood();
 		
 		HashMap<EdgeLocation, Player> curRoads = ServerManager.instance().getGamesManager().getClientModelById(0).getMap().getRoads();
 		
 		assertNull(curRoads.get(e1));
-
-		mf.buildRoad(params2,1,gameID);
+		assertNull(curRoads.get(e2));
+		
+		
+		mf.roadBuilding(params1, 1, gameID);
 		
 		int afterp0roads = p0.getRoads();
+		int afterp0brick = p0.getResources().getBrick();
+		int afterp0wood = p0.getResources().getWood();
 		
-		assertTrue(p0roads == afterp0roads+1);
+		assertTrue(p0roadsBefore == afterp0roads+2);
 		assertTrue(curRoads.get(e1).getIndex() == 0);
-	}
-
-	@Test
-	public void canRoadBuilding_Test2() // Doesn't build a road
-	{
-		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
-		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		assertTrue(curRoads.get(e2).getIndex() == 0);
 		
-		EdgeLocation e1 = new EdgeLocation(new HexLocation(0,0), EdgeDirection.North); // Available
-		EdgeLocation e2 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.NorthEast); // Taken
-		EdgeLocation e3 = new EdgeLocation(new HexLocation(0,3), EdgeDirection.NorthEast); // Off map
-
-		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
-
-		BuildRoad_Input params1 = new BuildRoad_Input(0, e1, false); // Not next to a road he owns
-		BuildRoad_Input params2 = new BuildRoad_Input(0, e2, false); // On a road he already owns
-		BuildRoad_Input params3 = new BuildRoad_Input(0, e3, true);  // In the ocean
-		
-		
-		int p0roads1 = p0.getRoads();
-		mf.buildRoad(params1,1,gameID);
-		int afterp0roads1 = p0.getRoads();
-		assertTrue(p0roads1 == afterp0roads1);
-		
-		
-		int p0roads2 = p0.getRoads();
-		mf.buildRoad(params2,1,gameID);
-		int afterp0roads2 = p0.getRoads();
-		assertTrue(p0roads2 == afterp0roads2);
-		
-		
-		int p0roads3 = p0.getRoads();
-		mf.buildRoad(params3,1,gameID);
-		int afterp0roads3 = p0.getRoads();
-		assertTrue(p0roads3 == afterp0roads3);
+		assertTrue(p0brickBefore == afterp0brick);
+		assertTrue(p0woodBefore == afterp0wood);
 	}
 	
+
 	@Test
-	public void canRoadBuilding_Test3() // Not their turn
+	public void canRoadBuild_Test2() // Can't play a Road Building Dev Card
 	{
 		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
 		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(3);
 		
-		EdgeLocation e1 = new EdgeLocation(new HexLocation(0,0), EdgeDirection.North); // Free
-		
+		EdgeLocation e1 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North); // Connects with other road he controls
+		EdgeLocation e2 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.NorthWest); // Connects with the previously place road
 		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
-
-		BuildRoad_Input params1 = new BuildRoad_Input(0, e1, false); // Not next to a road he owns
 		
-		int p0roads1 = p0.getRoads();
-		mf.buildRoad(params1,1,gameID);
-		int afterp0roads1 = p0.getRoads();
-		assertTrue(p0roads1 == afterp0roads1);
+		RoadBuilding_Input params1 = new RoadBuilding_Input(0,e1,e2);
+		
+		int p0roadsBefore = p0.getRoads();
+		int p0brickBefore = p0.getResources().getBrick();
+		int p0woodBefore = p0.getResources().getWood();
+		
+		HashMap<EdgeLocation, Player> curRoads = ServerManager.instance().getGamesManager().getClientModelById(0).getMap().getRoads();
+		
+		assertNull(curRoads.get(e1));
+		assertNull(curRoads.get(e2));
+		
+		mf.roadBuilding(params1, 1, gameID);
+		
+		int afterp0roads = p0.getRoads();
+		int afterp0brick = p0.getResources().getBrick();
+		int afterp0wood = p0.getResources().getWood();
+		
+		assertTrue(p0roadsBefore == afterp0roads);
+		assertNull(curRoads.get(e1));
+		assertNull(curRoads.get(e2));
+		
+		assertTrue(p0brickBefore == afterp0brick);
+		assertTrue(p0woodBefore == afterp0wood);
 	}
-	
+
 	@Test
 	public void canSoldier_Test1() // Soldier works
 	{
@@ -787,32 +780,83 @@ public class MovesFacade_Test
 		assertTrue(victoryPointsBefore == victoryPointsAfter-1);
 	}
 	
-// TODO ASK ZACK ABOUT THIS
+	@Test
+	public void canRoadBuilding_Test1() // Builds a road successfully
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		EdgeLocation e1 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North); // Connects with other road he controls
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
 	
-//	@Test
-//	public void canBuildRoad_Test() 
-//	{
-//		BuildRoad_Input params1 = new BuildRoad_Input(0, new EdgeLocation(new HexLocation(2,1), EdgeDirection.North), false); //good
-//		BuildRoad_Input params2 = new BuildRoad_Input(0, new EdgeLocation(new HexLocation(2,1), EdgeDirection.NorthEast), false); //not connected
-//		BuildRoad_Input params3 = new BuildRoad_Input(0, new EdgeLocation(new HexLocation(1,1), EdgeDirection.NorthEast), false); //location already taken
-//		assertTrue(mf.canBuildRoad(params1));
-//		assertFalse(mf.canBuildRoad(params2));
-//		assertFalse(mf.canBuildRoad(params3));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn
-//		
-//		BuildRoad_Input params4 = new BuildRoad_Input(1, new EdgeLocation(new HexLocation(2,1), EdgeDirection.North), true); //good
-//		BuildRoad_Input params5 = new BuildRoad_Input(1, new EdgeLocation(new HexLocation(-3,2), EdgeDirection.North), false); //not on land
-//		BuildRoad_Input params6 = new BuildRoad_Input(1, new EdgeLocation(new HexLocation(1,1), EdgeDirection.NorthEast), true); //location already taken
-//		assertTrue(mf.canBuildRoad(params4));
-//		assertFalse(mf.canBuildRoad(params5));
-//		assertFalse(mf.canBuildRoad(params6));
-//		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
-//	}
+		BuildRoad_Input params2 = new BuildRoad_Input(0, e1, false); 
 
-// TODO	
+		int p0roads = p0.getRoads();
+		
+		HashMap<EdgeLocation, Player> curRoads = ServerManager.instance().getGamesManager().getClientModelById(0).getMap().getRoads();
+		
+		assertNull(curRoads.get(e1));
+
+		mf.buildRoad(params2,1,gameID);
+		
+		int afterp0roads = p0.getRoads();
+		
+		assertTrue(p0roads == afterp0roads+1);
+		assertTrue(curRoads.get(e1).getIndex() == 0);
+	}
+
+	@Test
+	public void canRoadBuilding_Test2() // Doesn't build a road
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		EdgeLocation e1 = new EdgeLocation(new HexLocation(0,0), EdgeDirection.North); // Available
+		EdgeLocation e2 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.NorthEast); // Taken
+		EdgeLocation e3 = new EdgeLocation(new HexLocation(0,3), EdgeDirection.NorthEast); // Off map
+
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+
+		BuildRoad_Input params1 = new BuildRoad_Input(0, e1, false); // Not next to a road he owns
+		BuildRoad_Input params2 = new BuildRoad_Input(0, e2, false); // On a road he already owns
+		BuildRoad_Input params3 = new BuildRoad_Input(0, e3, true);  // In the ocean
+		
+		
+		int p0roads1 = p0.getRoads();
+		mf.buildRoad(params1,1,gameID);
+		int afterp0roads1 = p0.getRoads();
+		assertTrue(p0roads1 == afterp0roads1);
+		
+		
+		int p0roads2 = p0.getRoads();
+		mf.buildRoad(params2,1,gameID);
+		int afterp0roads2 = p0.getRoads();
+		assertTrue(p0roads2 == afterp0roads2);
+		
+		
+		int p0roads3 = p0.getRoads();
+		mf.buildRoad(params3,1,gameID);
+		int afterp0roads3 = p0.getRoads();
+		assertTrue(p0roads3 == afterp0roads3);
+	}
 	
+	@Test
+	public void canRoadBuilding_Test3() // Not their turn
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(3);
+		
+		EdgeLocation e1 = new EdgeLocation(new HexLocation(0,0), EdgeDirection.North); // Free
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+
+		BuildRoad_Input params1 = new BuildRoad_Input(0, e1, false); // Not next to a road he owns
+		
+		int p0roads1 = p0.getRoads();
+		mf.buildRoad(params1,1,gameID);
+		int afterp0roads1 = p0.getRoads();
+		assertTrue(p0roads1 == afterp0roads1);
+	}
 	
 	@Test
 	public void canBuildSettlement_Test1() // Builds a settlement successfully
@@ -859,29 +903,11 @@ public class MovesFacade_Test
 		assertTrue(p0brickBefore == p0brickAfter+1);
 	}
 		
-		
-		
-		
-//		EdgeLocation e1 = new EdgeLocation(new HexLocation(1,1), EdgeDirection.North); // Connects with other road he controls
-//		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
-//	
-//		BuildRoad_Input params2 = new BuildRoad_Input(0, e1, false); 
-//
-//		int p0roads = p0.getRoads();
-//		
-//		HashMap<EdgeLocation, Player> curRoads = ServerManager.instance().getGamesManager().getClientModelById(0).getMap().getRoads();
-//		
-//		assertNull(curRoads.get(e1));
-//
-//		mf.buildRoad(params2,1,gameID);
-//		
-//		int afterp0roads = p0.getRoads();
-//		
-//		assertTrue(p0roads == afterp0roads+1);
-//		assertTrue(curRoads.get(e1).getIndex() == 0);
-		
-		
-// TODO
+	@Test
+	public void canBuildSettlement_Test2() // Will not build a settlement. NEED TODO
+	{
+
+	}	
 	
 //	@Test
 //	public void canBuildSettlement_Test()
@@ -916,30 +942,111 @@ public class MovesFacade_Test
 //		clientModel.getMap().getRoads().remove(new EdgeLocation(new HexLocation(-1,1),EdgeDirection.NorthWest));
 //	}
 
+	@Test
+	public void canBuildCity_Test1() // Builds a city successfully
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		VertexLocation v1 = new VertexLocation(new HexLocation(1,1), VertexDirection.West).getNormalizedLocation();
+		//VertexLocation v2 = new VertexLocation(new HexLocation(1,1), VertexDirection.SouthWest);
+		
+		BuildCity_Input params1 = new BuildCity_Input(0, v1); // Works
+		//BuildCity_Input params2 = new BuildCity_Input(1, v2)); // No settlement here
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		int p0oreBefore = p0.getResources().getOre();
+		int p0wheatBefore = p0.getResources().getWheat();
+		
+		HashMap<VertexLocation, Player> curCities = ServerManager.instance().getGamesManager().getClientModelById(0).getMap().getCities();
+		
+		// No settlement there currently
+		assertNull(curCities.get(v1));
+		
+		ClientModel newModel = interpreter.deserialize(mf.buildCity(params1,1,gameID));
+		
+		int afterp0ore = p0.getResources().getOre();
+		int afterp0wheat = p0.getResources().getWheat();
+		
+		assertTrue(p0oreBefore == afterp0ore+3);
+		assertTrue(p0wheatBefore == afterp0wheat+2);
+	}
+	
+	@Test
+	public void canBuildCity_Test2() // Can't build a city
+	{
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setStatus("playing");
+		ServerManager.instance().getGamesManager().getClientModelById(gameID).getTurnTracker().setCurrentTurn(0);
+		
+		VertexLocation v2 = new VertexLocation(new HexLocation(1,1), VertexDirection.SouthWest).getNormalizedLocation();
+		
+		BuildCity_Input params2 = new BuildCity_Input(1, v2); // No settlement here
+		
+		Player p0 = ServerManager.instance().getGamesManager().getClientModelById(0).getPlayerByIndex(0);
+		int p0oreBefore = p0.getResources().getOre();
+		int p0wheatBefore = p0.getResources().getWheat();
+		
+		HashMap<VertexLocation, Player> curCities = ServerManager.instance().getGamesManager().getClientModelById(0).getMap().getCities();
+		
+		// No settlement there currently
+		assertNull(curCities.get(v2));
+		
+		assertNull(mf.buildCity(params2,1,gameID));
+		
+		int afterp0ore = p0.getResources().getOre();
+		int afterp0wheat = p0.getResources().getWheat();
+		
+		assertTrue(p0oreBefore == afterp0ore);
+		assertTrue(p0wheatBefore == afterp0wheat);
+	}
 	
 	
+// TODO	
 	
-	
-	
-// TODO
-	
-	
-//	@Test
-//	public void canBuildCity_Test()
-//	{
-//		BuildCity_Input params1 = new BuildCity_Input(0, new VertexLocation(new HexLocation(2,1), VertexDirection.NorthWest)); //yee
-//		BuildCity_Input params2 = new BuildCity_Input(0, new VertexLocation(new HexLocation(0,1), VertexDirection.NorthWest)); //no settlement here
-//		assertTrue(mf.canBuildCity(params1));
-//		assertFalse(mf.canBuildCity(params2));
+	@Test
+	public void canOfferTrade_Test()
+	{
+		ResourceCards curOffer = new ResourceCards(-1,-1,-1,-1,1);
+		
+//		OfferTrade_Input params1 = new OfferTrade_Input(0, r, 3); // Valid Offer
+//		Sam
+//		"resources": {
+//	        "brick": 1,
+//	        "wood": 1,
+//	        "sheep": 1,
+//	        "wheat": 2,
+//	        "ore": 4
+//	      },
+//		Mark
+//		"resources": {
+//	        "brick": 0,
+//	        "wood": 1,
+//	        "sheep": 1,
+//	        "wheat": 0,
+//	        "ore": 1
+		
+		
+		
+		
+		
+		
+		
+		
+//		assertTrue(mf.canOfferTrade(params1));
+//		assertFalse(mf.canOfferTrade(params2));
 //		
-//		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn back
+//		cf.getClientModel().getTurnTracker().setCurrentTurn(1); //switch turn
 //		
-//		BuildCity_Input params3 = new BuildCity_Input(1, new VertexLocation(new HexLocation(0,1), VertexDirection.NorthWest)); //no resources
-//		assertFalse(mf.canBuildCity(params3));
+//		OfferTrade_Input params3 = new OfferTrade_Input(1, r, 0); //no cards
+//		assertTrue(mf.canOfferTrade(params3));
 //		
 //		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
-//	}
-//	
+	}
+	
+	
+	
+	
+	
 //	@Test
 //	public void canOfferTrade_Test()
 //	{
@@ -957,7 +1064,11 @@ public class MovesFacade_Test
 //		
 //		cf.getClientModel().getTurnTracker().setCurrentTurn(0); //switch turn back
 //	}
-//	
+
+	
+	
+// TODO	
+	
 //	@Test
 //	public void canAccepTrade_Test()
 //	{

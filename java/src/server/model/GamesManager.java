@@ -130,7 +130,8 @@ public class GamesManager {
 		ArrayList<Player> currentPlayers = game.getPlayerList();
 		for(Player p : currentPlayers) {
 			if(user.getPlayerID() == p.getPlayerID()) {
-				p.setColor(color); //Sets the players new color in case he has chose differently
+				p.setColor(color); //Sets the players new color in case he has chose differently				
+				game.getClientModel().setVersion(game.getClientModel().getVersion() + 1);
 				return true;
 			}
 		}
@@ -143,6 +144,7 @@ public class GamesManager {
 		//create Player object and add him to the game's client model
 		Player player = new Player(user.getName(), color, user.getPlayerID(), currentPlayers.size());
 		game.getClientModel().addPlayer(player);
+		game.getClientModel().setVersion(game.getClientModel().getVersion() + 1);
 		return true;
 	}
 
