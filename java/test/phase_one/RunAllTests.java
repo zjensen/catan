@@ -40,7 +40,30 @@ public class RunAllTests
 				"client.interpreter.InterpreterTest",		// interpreter tests
 				"client.facade.CanDoMasterTest",
 				"client.server.FakeServerTests",
-				"server.facade.MovesFacade_Test"
+				"server.facade.MovesFacade_Test", 
+				"server.command.CreateCommand_Test",		// command object tests
+				"server.command.JoinCommand_Test",
+				"server.command.ListCommand_Test",
+				"server.command.LoginCommand_Test",
+				"server.command.ModelCommand_Test",
+				"server.command.RegisterCommand_Test",
+				"server.command.moves.AcceptTradeCommand_Test",
+				"server.command.moves.BuildCityCommand_Test",
+				"server.command.moves.BuildRoadCommand_Test",
+				"server.command.moves.BuildSettlement_Test",
+				"server.command.moves.BuyDevCardCommand_Test",
+				"server.command.moves.DiscardCardsCommand_Test",
+				"server.command.moves.FinishTurnCommand_Test",
+				"server.command.moves.MaritimeTradeCommand_Test",
+				"server.command.moves.MonopolyCommand_Test",
+				"server.command.moves.MonumentCommand_Test",
+				"server.command.moves.OfferTradeCommand_Test",
+				"server.command.moves.RoadBuildingCommand_Test",
+				"server.command.moves.RobPlayerCommand_Test",
+				"server.command.moves.RollNumberCommand_Test",
+				"server.command.moves.SendChatCommand_Test",
+				"server.command.moves.SoldierCommand_Test",
+				"server.command.moves.YearOfPlentyCommand_Test"
 		};
 
 		org.junit.runner.JUnitCore.main(testClasses);
