@@ -33,7 +33,7 @@ public class FakeUserFacade implements IUserFacade {
 
 		else
 			return new JsonPrimitive(
-					"Failed to register - someone already has that username.");
+					"Failed to register user");
 	}
 
 }

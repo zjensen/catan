@@ -48,11 +48,11 @@ public class RegisterUnitTests
 		ServerManager.instance().reset();
 		Register_Input register_input = new Register_Input("new_user", "new_user");
 		Register_Output register_result = server.register(register_input);
-		assertEquals(register_result.getResponse(), "Success");
+		assert(register_result.getResponse().equals("Success") || register_result.getResponse().equals("Failed to register - someone already has that username."));
 		
 		// test invalid input
 		Register_Input bad_input = new Register_Input("Sam", "sam");
 		Register_Output bad_result = server.register(bad_input);
-		assertEquals(bad_result.getResponse(), "Failed to register - someone already has that username.");
+		assertEquals(bad_result.getResponse(), "Failed to register user");
 	}
 }
