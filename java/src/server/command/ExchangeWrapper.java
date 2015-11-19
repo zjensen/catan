@@ -37,6 +37,7 @@ public class ExchangeWrapper
 	public void setJson(JsonElement json)
 	{
 		this.json = json;
+		this.setJsonString(json.toString());
 	}
 
 	public void setJsonString(String jsonStr)

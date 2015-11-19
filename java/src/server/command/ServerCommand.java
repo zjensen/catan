@@ -173,6 +173,13 @@ public abstract class ServerCommand {
 	
 	public void setGameID (int gameId){
 		this.gameId = gameId;
+		this.hasGameCookie = true;
+	}
+	
+	public void setPlayerID(int playerId)
+	{
+		this.playerId = playerId;
+		this.hasUserCookie = true;
 	}
 
 }
