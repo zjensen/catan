@@ -8,9 +8,10 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import client.server.Server;
+import server.manager.ServerManager;
 import shared.communication.user.Register_Input;
 import shared.communication.user.Register_Output;
+import client.server.Server;
 
 public class RegisterUnitTests 
 {
@@ -44,6 +45,7 @@ public class RegisterUnitTests
 	public void testLogin() 
 	{
 		// test valid input
+		ServerManager.instance().reset();
 		Register_Input register_input = new Register_Input("new_user", "new_user");
 		Register_Output register_result = server.register(register_input);
 		assertEquals(register_result.getResponse(), "Success");
