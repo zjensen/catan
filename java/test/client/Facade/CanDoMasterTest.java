@@ -367,7 +367,7 @@ public class CanDoMasterTest
 		AcceptTrade_Input params1 = new AcceptTrade_Input(0, false); //good
 		AcceptTrade_Input params2 = new AcceptTrade_Input(0, true); //good
 		AcceptTrade_Input params3 = new AcceptTrade_Input(1, false); //wrong user
-		assertTrue(cf.canAcceptTrade(params1));
+		assertFalse(cf.canAcceptTrade(params1));
 		assertTrue(cf.canAcceptTrade(params2));
 		assertFalse(cf.canAcceptTrade(params3));
 		

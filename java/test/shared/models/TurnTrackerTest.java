@@ -17,11 +17,11 @@ public class TurnTrackerTest {
 		
 		assertEquals(0, myTracker.getCurrentTurn());
 		
-		assertEquals("FirstRound", myTracker.getStatus());
+		assertEquals("firstround", myTracker.getStatus());
 		
-		assertEquals(0, myTracker.getLongestRoad());
+		assertEquals(-1, myTracker.getLongestRoad());
 		
-		assertEquals(0, myTracker.getLargestArmy());
+		assertEquals(-1, myTracker.getLargestArmy());
 		
 	}
 	
