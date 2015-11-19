@@ -1,28 +1,20 @@
 package server.command.moves;
 
-import static org.junit.Assert.*;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.Scanner;
-
 import org.junit.Before;
 import org.junit.Test;
 
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
 import server.command.ExchangeWrapper;
-import server.command.game.Model_Command;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 
-public class BuildRoadCommand_Test 
+public class RobPlayerCommand_Test 
 {
 	ExchangeWrapper mockExchange; 
-	BuildRoad_Command cmdObj; 
+	RobPlayer_Command cmdObj; 
 	
 	@Before
 	public void init(){
@@ -33,13 +25,13 @@ public class BuildRoadCommand_Test
 	}
 	
 	@Test
-	public void testBuildRoad() throws ServerInvalidRequestException{
-		String jsonString = "{\"type\": \"buildRoad\",\"playerIndex\": 1,"
-				+ "\"roadLocation\":{\"x\": 1, \"y\": 1, \"direction\": \"N\"},\"free\": true}";
+	public void testRobPlayer() throws ServerInvalidRequestException{
+		String jsonString = "{\"type\": \"robPlayer\",\"playerIndex\": 1,"
+				+ "\"victimIndex\": 2, \"location\": {\"x\": 1, \"y\": 1}}";
 		JsonObject json = new JsonParser().parse(jsonString)
 				.getAsJsonObject();
 		mockExchange.setJson(json);
-		cmdObj = new BuildRoad_Command(mockExchange);
+		cmdObj = new RobPlayer_Command(mockExchange);
 		cmdObj.setPlayerID(1);
 		cmdObj.setGameID(1);
 		
