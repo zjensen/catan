@@ -67,7 +67,7 @@ public class ClientModel {
 		this.log = new MessageList();
 		this.map = map;
 		this.players = new Player[0];
-		this.tradeOffer = new TradeOffer();
+		this.tradeOffer = null;
 		this.turnTracker = new TurnTracker();
 		this.version = 0;
 		this.winner = -1;
