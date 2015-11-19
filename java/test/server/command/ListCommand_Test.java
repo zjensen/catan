@@ -16,9 +16,7 @@ public class ListCommand_Test {
 	ExchangeWrapper mockExchange; 
 	List_Command cmdObj; 
 	
-	private final String gamesListJSON = "[{\"title\": \"Default Game\",\"id\": 0,\"players\": [{\"color\": \"blue\",\"name\": \"Sam\",\"id\": 0},{\"color\": \"blue\",\"name\": \"Brooke\",\"id\": 1},{\"color\": \"red\",\"name\": \"Pete\",\"id\": 10},{\"color\": \"green\",\"name\": \"Mark\",\"id\": 11}]},"
-			+ "{\"title\": \"AI Game\",\"id\": 1,\"players\": [{\"color\": \"orange\",\"name\": \"Pete\",\"id\": 10},{\"color\": \"green\",\"name\": \"Quinn\",\"id\": -2},{\"color\": \"white\",\"name\": \"Hannah\",\"id\": -3},{\"color\": \"red\",\"name\": \"Ken\",\"id\": -4}]},"
-			+ "{\"title\": \"Empty Game\",\"id\": 2,\"players\": [{\"color\": \"red\",\"name\": \"Sam\",\"id\": 0},{\"color\": \"blue\",\"name\": \"Brooke\",\"id\": 1},{\"color\": \"red\",\"name\": \"Pete\",\"id\": 10},{\"color\": \"green\",\"name\": \"Mark\",\"id\": 11}]}]";
+	private final String gamesListJSON = "[{\"title\":\"Default Game\",\"id\":0,\"players\":[{},{},{},{}]}]";
 	
 	@Before
 	public void init(){
@@ -32,7 +30,7 @@ public class ListCommand_Test {
 	public void testCreateGame() throws ServerInvalidRequestException{
 		cmdObj = new List_Command(mockExchange);
 		JsonElement response = cmdObj.execute();
-		assertEquals(gamesListJSON, response);
+		assertEquals(gamesListJSON, response.toString());
 	}
 	
 //	@Test (expected = ServerInvalidRequestException.class)

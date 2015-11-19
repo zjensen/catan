@@ -4,6 +4,7 @@ import server.main.ServerInvalidRequestException;
 import shared.communication.games.CreateGame_Input;
 import shared.communication.games.JoinGame_Input;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -11,7 +12,7 @@ import com.google.gson.JsonPrimitive;
 
 public class FakeGamesFacade implements IGamesFacade {
 
-	private final String gamesListJSON = "[{\"title\": \"Default Game\",\"id\": 0,\"players\": [{\"color\": \"blue\",\"name\": \"Sam\",\"id\": 0},{\"color\": \"blue\",\"name\": \"Brooke\",\"id\": 1},{\"color\": \"red\",\"name\": \"Pete\",\"id\": 10},{\"color\": \"green\",\"name\": \"Mark\",\"id\": 11}]}]";
+	private final String gamesListJSON = "[{\"title\": \"Default Game\",\"id\": 0,\"players\": [{},{},{},{}]}]";
 
 	@Override
 	public JsonElement create(CreateGame_Input params) {
@@ -34,9 +35,22 @@ public class FakeGamesFacade implements IGamesFacade {
 
 	@Override
 	public JsonElement list() {
+		JsonParser parser = new JsonParser();
 		JsonObject obj = new JsonObject();
-//		obj.add(property, value);
-		return new JsonParser().parse(gamesListJSON).getAsJsonObject();
+		obj.add("title", new JsonPrimitive("Default Game"));
+		obj.addProperty("id", 0);
+		JsonArray array = new JsonArray();
+		array.add(new JsonObject());
+		array.add(new JsonObject());
+		array.add(new JsonObject());
+		array.add(new JsonObject());
+		obj.add("players", array);
+		JsonArray myArray = new JsonArray();
+		
+		
+		
+		myArray.add(obj);
+		return myArray;//new JsonParser().parse(gamesListJSON).getAsJsonObject();
 	}
 
 }
