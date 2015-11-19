@@ -50,6 +50,7 @@ public class ServerManager {
 		movesFacade = new MovesFacade();
 		gamesFacade = new GamesFacade();
 		userFacade = new UserFacade();
+		gameFacade = new GameFacade();
 		gamesManager = new GamesManager();
 		usersManager = new UsersManager();
 	}

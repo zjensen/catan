@@ -1,15 +1,14 @@
 package server.command.user;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonPrimitive;
-import com.sun.net.httpserver.HttpExchange;
-
 import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 import shared.communication.user.Login_Input;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 
 public class Login_Command extends ServerCommand{
 	
@@ -37,7 +36,8 @@ public class Login_Command extends ServerCommand{
 			{
 				int id = responseObject.get("id").getAsInt();
 				String encoded = getEncodedLoginCookie(params.getUsername(), params.getPassword(), Integer.toString(id));
-				super.httpObj.getExchange().getResponseHeaders().add("Set-cookie", encoded);
+				if (httpObj.getExchange() != null)
+					super.httpObj.getExchange().getResponseHeaders().add("Set-cookie", encoded);
 				return new JsonPrimitive("Success");
 			} 
 			else 

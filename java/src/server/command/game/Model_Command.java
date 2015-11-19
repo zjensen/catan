@@ -7,7 +7,6 @@ import server.manager.ServerManager;
 import shared.communication.game.GameModel_Input;
 
 import com.google.gson.JsonElement;
-import com.sun.net.httpserver.HttpExchange;
 
 public class Model_Command extends ServerCommand {
 
@@ -39,6 +38,8 @@ public class Model_Command extends ServerCommand {
 	}
 
 	public int identifyVersion() {
+		if (httpObj.getExchange() == null)
+			return Integer.parseInt(httpObj.getJsonString());
 		String url = httpObj.getExchange().getRequestURI().toString();
 		String[] split = url.split("/");
 		String modelParam = split[split.length - 1];

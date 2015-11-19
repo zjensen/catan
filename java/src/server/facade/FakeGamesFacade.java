@@ -1,19 +1,17 @@
 package server.facade;
 
+import server.main.ServerInvalidRequestException;
 import shared.communication.games.CreateGame_Input;
 import shared.communication.games.JoinGame_Input;
 
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 
-import server.main.ServerInvalidRequestException;
-
 public class FakeGamesFacade implements IGamesFacade {
 
-	private final String gamesListJSON = "[{\"title\": \"Default Game\",\"id\": 0,\"players\": [{\"color\": \"blue\",\"name\": \"Sam\",\"id\": 0},{\"color\": \"blue\",\"name\": \"Brooke\",\"id\": 1},{\"color\": \"red\",\"name\": \"Pete\",\"id\": 10},{\"color\": \"green\",\"name\": \"Mark\",\"id\": 11}]},"
-			+ "{\"title\": \"AI Game\",\"id\": 1,\"players\": [{\"color\": \"orange\",\"name\": \"Pete\",\"id\": 10},{\"color\": \"green\",\"name\": \"Quinn\",\"id\": -2},{\"color\": \"white\",\"name\": \"Hannah\",\"id\": -3},{\"color\": \"red\",\"name\": \"Ken\",\"id\": -4}]},"
-			+ "{\"title\": \"Empty Game\",\"id\": 2,\"players\": [{\"color\": \"red\",\"name\": \"Sam\",\"id\": 0},{\"color\": \"blue\",\"name\": \"Brooke\",\"id\": 1},{\"color\": \"red\",\"name\": \"Pete\",\"id\": 10},{\"color\": \"green\",\"name\": \"Mark\",\"id\": 11}]}]";
+	private final String gamesListJSON = "[{\"title\": \"Default Game\",\"id\": 0,\"players\": [{\"color\": \"blue\",\"name\": \"Sam\",\"id\": 0},{\"color\": \"blue\",\"name\": \"Brooke\",\"id\": 1},{\"color\": \"red\",\"name\": \"Pete\",\"id\": 10},{\"color\": \"green\",\"name\": \"Mark\",\"id\": 11}]}]";
 
 	@Override
 	public JsonElement create(CreateGame_Input params) {
@@ -36,6 +34,8 @@ public class FakeGamesFacade implements IGamesFacade {
 
 	@Override
 	public JsonElement list() {
+		JsonObject obj = new JsonObject();
+//		obj.add(property, value);
 		return new JsonParser().parse(gamesListJSON).getAsJsonObject();
 	}
 

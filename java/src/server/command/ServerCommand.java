@@ -5,12 +5,6 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.sun.net.httpserver.Headers;
-import com.sun.net.httpserver.HttpExchange;
-
 import server.main.ServerInvalidRequestException;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
@@ -18,6 +12,11 @@ import shared.locations.HexLocation;
 import shared.locations.VertexDirection;
 import shared.locations.VertexLocation;
 import shared.utils.StringUtils;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.sun.net.httpserver.Headers;
 
 public abstract class ServerCommand {
 	
@@ -32,6 +31,10 @@ public abstract class ServerCommand {
 	public ServerCommand(ExchangeWrapper exchange)
 	{	
 		httpObj = exchange;
+		if (exchange.getExchange() == null){
+			json = exchange.getJsonString();
+			return;
+		}
 		httpObj.getExchange().getRequestMethod();
 //		System.out.println("Request: " + httpObj.getRequestURI());
 		

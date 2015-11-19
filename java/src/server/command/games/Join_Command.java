@@ -8,7 +8,6 @@ import shared.communication.games.JoinGame_Input;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.sun.net.httpserver.HttpExchange;
 
 public class Join_Command extends ServerCommand {
 
@@ -26,6 +25,10 @@ public class Join_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute() throws ServerInvalidRequestException {
+		if (httpObj.getExchange() == null){
+			params = gson.fromJson(json, JoinGame_Input.class);
+			return ServerManager.instance().getGamesFacade().join(params, playerId);
+		}
 		if(!hasUserCookie)
 		{
 			return new JsonPrimitive("The catan.user HTTP cookie is missing.  You must login before calling this method.");

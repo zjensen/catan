@@ -7,6 +7,7 @@ public class ExchangeWrapper
 {
 	private HttpExchange exchange;
 	private JsonElement json;
+	private String jsonString;
 	
 	/**
 	 * Wrapper class that holds http exchange. If no http exchange is provided,
@@ -36,5 +37,14 @@ public class ExchangeWrapper
 	public void setJson(JsonElement json)
 	{
 		this.json = json;
+	}
+
+	public void setJsonString(String jsonStr)
+	{
+		this.jsonString = jsonStr;
+	}
+	
+	public String getJsonString() {
+		return this.jsonString;
 	}
 }

@@ -1,14 +1,13 @@
 package server.command.games;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonPrimitive;
-import com.sun.net.httpserver.HttpExchange;
-
 import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
 import server.manager.ServerManager;
 import shared.communication.games.CreateGame_Input;
+
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
 
 public class Create_Command extends ServerCommand {
 
@@ -27,6 +26,11 @@ public class Create_Command extends ServerCommand {
 	@Override
 	public JsonElement execute() throws ServerInvalidRequestException
 	{
+		if (httpObj.getExchange() == null)
+		{
+			params = gson.fromJson(json, CreateGame_Input.class);
+			return ServerManager.instance().getGamesFacade().create(params);
+		}
 		if(!hasUserCookie)
 		{
 			return new JsonPrimitive("The catan.user HTTP cookie is missing.  You must login before calling this method.");
