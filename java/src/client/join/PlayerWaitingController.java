@@ -109,19 +109,24 @@ public class PlayerWaitingController extends Controller implements IPlayerWaitin
 	@Override
 	public void addAI() 
 	{
-		try 
-		{
-			AddAI_Input req = new AddAI_Input("LARGEST_ARMY"); //only type of AI supported by current server
-			SessionManager.instance().getServer().addAI(req);
-			SessionManager.instance().forceUpdate();
-		} 
-		catch (Exception e) 
-		{
-			MessageView alertView = new MessageView();
-			alertView.setTitle("Error");
-			alertView.setMessage(e.getLocalizedMessage());
-			alertView.showModal();
-		}
+		MessageView alertView = new MessageView();
+		alertView.setTitle("No AI yet :(");
+		alertView.setMessage("AI has not been implemented for this server yet");
+		alertView.showModal();
+		//TODO replace when AI is implemented
+//		try 
+//		{
+//			AddAI_Input req = new AddAI_Input("LARGEST_ARMY"); //only type of AI supported by current server
+//			SessionManager.instance().getServer().addAI(req);
+//			SessionManager.instance().forceUpdate();
+//		} 
+//		catch (Exception e) 
+//		{
+//			MessageView alertView = new MessageView();
+//			alertView.setTitle("Error");
+//			alertView.setMessage(e.getLocalizedMessage());
+//			alertView.showModal();
+//		}
 	}
 	
 	private boolean isFull()
