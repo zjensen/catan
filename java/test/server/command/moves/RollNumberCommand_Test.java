@@ -17,8 +17,8 @@ public class RollNumberCommand_Test {
 	
 	String jsonInput = "{ "+
   "\"type\": \"rollNumber\"," +
-  "\"playerIndex\": \"0\"," +
-  "\"number\": \"6\"," +
+  "\"playerIndex\": 0," +
+  "\"number\": 6" +
   "}";
 	
 	@Before

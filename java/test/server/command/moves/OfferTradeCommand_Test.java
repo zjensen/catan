@@ -14,7 +14,7 @@ import server.manager.ServerManager;
 public class OfferTradeCommand_Test 
 {
 	ExchangeWrapper mockExchange; 
-	BuildRoad_Command cmdObj; 
+	OfferTrade_Command cmdObj; 
 	
 	@Before
 	public void init(){
@@ -39,7 +39,7 @@ public class OfferTradeCommand_Test
 		JsonObject json = new JsonParser().parse(jsonString)
 				.getAsJsonObject();
 		mockExchange.setJson(json);
-		cmdObj = new BuildRoad_Command(mockExchange);
+		cmdObj = new OfferTrade_Command(mockExchange);
 		cmdObj.setPlayerID(1);
 		cmdObj.setGameID(1);
 		

@@ -16,7 +16,7 @@ public class BuyDevCardCommand_Test {
 	
 	String jsonInput = "{ "+
   "\"type\": \"rollNumber\"," +
-  "\"playerIndex\": \"0\"," +
+  "\"playerIndex\": 0" +
   "}";
 	
 	@Before
@@ -27,7 +27,7 @@ public class BuyDevCardCommand_Test {
 	}
 	
 	@Test
-	public void testRollNumber() throws ServerInvalidRequestException{
+	public void testBuyDevCard() throws ServerInvalidRequestException{
 		mockExchange.setJsonString(jsonInput);
 		cmdObj = new BuyDevCard_Command(mockExchange);
 		cmdObj.setPlayerID(0);

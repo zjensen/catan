@@ -18,7 +18,7 @@ public class RoadBuildingCommand_Test {
   "\"type\": \"Road_Building\"," +
   "\"playerIndex\": \"0\"," +
   "\"spot1\": {\"x\":1,\"y\":1,\"direction\": \"N\"}," +
-  "\"spot2\": {\"x\":0,\"y\":0,\"direction\": \"N\"}," +
+  "\"spot2\": {\"x\":0,\"y\":0,\"direction\": \"N\"}" +
   "}";
 	
 	
@@ -30,13 +30,13 @@ public class RoadBuildingCommand_Test {
 	}
 	
 	@Test
-	public void testRollNumber() throws ServerInvalidRequestException{
+	public void testRoadBuilding() throws ServerInvalidRequestException{
 		mockExchange.setJsonString(jsonInput);
 		cmdObj = new RoadBuilding_Command(mockExchange);
 		cmdObj.setPlayerID(0);
 		cmdObj.setGameID(0);
 		
-		assert(cmdObj.execute().getClass() != JsonPrimitive.class);
+		assert(cmdObj.execute().getClass() == JsonPrimitive.class);
 	}
 	
 }

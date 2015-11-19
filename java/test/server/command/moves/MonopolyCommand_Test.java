@@ -14,7 +14,7 @@ import server.manager.ServerManager;
 public class MonopolyCommand_Test 
 {
 	ExchangeWrapper mockExchange; 
-	BuildRoad_Command cmdObj; 
+	Monopoly_Command cmdObj; 
 	
 	@Before
 	public void init(){
@@ -25,16 +25,16 @@ public class MonopolyCommand_Test
 	}
 	
 	@Test
-	public void testGetCurrentModel() throws ServerInvalidRequestException{
-		String jsonString = "{\"type\": \"Monopoly\",\"resource\": \"wood\"," 
-				+ "\"playerIndex\": \"integer\"}";
+	public void testMonopoly() throws ServerInvalidRequestException{
+		String jsonString = "{\"type\": \"Monopoly\",\"resource\": \"WOOD\"," 
+				+ "\"playerIndex\": 1}";
 		JsonObject json = new JsonParser().parse(jsonString)
 				.getAsJsonObject();
 		mockExchange.setJson(json);
-		cmdObj = new BuildRoad_Command(mockExchange);
+		cmdObj = new Monopoly_Command(mockExchange);
 		cmdObj.setPlayerID(1);
 		cmdObj.setGameID(1);
 		
-		assert(cmdObj.execute().getClass() != JsonPrimitive.class);
+		assert(cmdObj.execute().getClass() == JsonPrimitive.class);
 	}
 }

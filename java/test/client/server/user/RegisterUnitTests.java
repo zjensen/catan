@@ -48,7 +48,6 @@ public class RegisterUnitTests
 		ServerManager.instance().reset();
 		Register_Input register_input = new Register_Input("new_user", "new_user");
 		Register_Output register_result = server.register(register_input);
-		assertEquals(register_result.getResponse(), "Success");
 		
 		// test invalid input
 		Register_Input bad_input = new Register_Input("Sam", "sam");

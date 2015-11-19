@@ -27,7 +27,7 @@ public class BuildSettlement_Test
 	@Test
 	public void testBuildSettlement() throws ServerInvalidRequestException{
 		String jsonString = "{\"type\": \"buildSettlement\",\"playerIndex\": 1,"
-				+ "\"vertexLocation\":{\"x\": 1, \"y\": 1, \"direction\": \"N\"},\"free\": true}";
+				+ "\"vertexLocation\":{\"x\": 1, \"y\": 1, \"direction\": \"NW\"},\"free\": true}";
 		JsonObject json = new JsonParser().parse(jsonString)
 				.getAsJsonObject();
 		mockExchange.setJson(json);

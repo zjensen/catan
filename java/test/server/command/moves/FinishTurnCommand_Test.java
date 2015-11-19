@@ -14,7 +14,7 @@ import server.manager.ServerManager;
 public class FinishTurnCommand_Test 
 {
 	ExchangeWrapper mockExchange; 
-	BuildRoad_Command cmdObj; 
+	FinishTurn_Command cmdObj; 
 	
 	@Before
 	public void init(){
@@ -25,12 +25,12 @@ public class FinishTurnCommand_Test
 	}
 	
 	@Test
-	public void testGetCurrentModel() throws ServerInvalidRequestException{
+	public void testFinishTurn() throws ServerInvalidRequestException{
 		String jsonString = "{\"type\": \"finishTurn\", \"playerIndex\": 1}";
 		JsonObject json = new JsonParser().parse(jsonString)
 				.getAsJsonObject();
 		mockExchange.setJson(json);
-		cmdObj = new BuildRoad_Command(mockExchange);
+		cmdObj = new FinishTurn_Command(mockExchange);
 		cmdObj.setPlayerID(1);
 		cmdObj.setGameID(1);
 		

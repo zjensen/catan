@@ -16,8 +16,8 @@ public class BuildCityCommand_Test {
 	
 	String jsonInput = "{ "+
   "\"type\": \"buildCity\"," +
-  "\"playerIndex\": \"0\"," +
-  "\"vertexLocation\": {\"x\":1,\"y\":1,\"direction\": \"N\"}," +
+  "\"playerIndex\": 0," +
+  "\"vertexLocation\": {\"x\":1,\"y\":1,\"direction\": \"NW\"}" +
   "}";
 	
 	
@@ -30,7 +30,7 @@ public class BuildCityCommand_Test {
 	}
 	
 	@Test
-	public void testRollNumber() throws ServerInvalidRequestException{
+	public void testBuildCity() throws ServerInvalidRequestException{
 		mockExchange.setJsonString(jsonInput);
 		cmdObj = new BuildCity_Command(mockExchange);
 		cmdObj.setPlayerID(0);
