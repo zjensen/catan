@@ -25,7 +25,7 @@ public class FakeGameFacade implements IGameFacade {
 
 	private JsonElement serializeTestClientModel() {
 		StringBuilder result = new StringBuilder("");
-		File file = new File("MovesFacadeTestJSON.txt");
+		File file = new File("java/MovesFacadeTestJSON.txt");
 
 		try (Scanner scanner = new Scanner(file)) {
 

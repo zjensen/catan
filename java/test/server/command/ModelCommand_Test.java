@@ -33,7 +33,7 @@ public class ModelCommand_Test {
 	@Test
 	public void testGetCurrentModel() throws ServerInvalidRequestException{
 		StringBuilder result = new StringBuilder("");
-		File file = new File("MovesFacadeTestJSON.txt");
+		File file = new File("java/MovesFacadeTestJSON.txt");
 
 		try (Scanner scanner = new Scanner(file)) {
 

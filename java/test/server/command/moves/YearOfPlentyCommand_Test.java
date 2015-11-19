@@ -35,6 +35,6 @@ public class YearOfPlentyCommand_Test
 		cmdObj.setPlayerID(1);
 		cmdObj.setGameID(1);
 		
-		assert(cmdObj.execute().getClass() != JsonPrimitive.class);
+		assert(cmdObj.execute().getClass() == JsonPrimitive.class);
 	}
 }

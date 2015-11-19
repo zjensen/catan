@@ -14,7 +14,7 @@ import server.manager.ServerManager;
 public class MonumentCommand_Test 
 {
 	ExchangeWrapper mockExchange; 
-	BuildRoad_Command cmdObj; 
+	Monument_Command cmdObj; 
 	
 	@Before
 	public void init(){
@@ -30,10 +30,10 @@ public class MonumentCommand_Test
 		JsonObject json = new JsonParser().parse(jsonString)
 				.getAsJsonObject();
 		mockExchange.setJson(json);
-		cmdObj = new BuildRoad_Command(mockExchange);
+		cmdObj = new Monument_Command(mockExchange);
 		cmdObj.setPlayerID(1);
 		cmdObj.setGameID(1);
 		
-		assert(cmdObj.execute().getClass() != JsonPrimitive.class);
+		assert(cmdObj.execute().getClass() == JsonPrimitive.class);
 	}
 }
