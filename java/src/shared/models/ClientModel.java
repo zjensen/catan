@@ -486,22 +486,26 @@ public class ClientModel {
 	public void acceptTrade(AcceptTrade_Input params) {
 		version++;
 		Player receiver = getPlayerByIndex(params.getPlayerIndex()); // player
-																		// on
-																		// receiving
-																		// end
-																		// of
-																		// trade
-		receiver.receiveCards(tradeOffer.getOffer()); // gives receiver the
-														// cards he was offered,
-														// takes away the cards
-														// he agreed to trade
-		Player sender = getPlayerByIndex(tradeOffer.getSender()); // player that
-																	// sent the
-																	// trade
-																	// initially
-		sender.sendCards(tradeOffer.getOffer()); // gives send the cards he
-													// asked for, takes away the
-													// cards he offered
+		if(params.isWillAccept())
+		{
+			
+			// on
+			// receiving
+			// end
+			// of
+			// trade
+			receiver.receiveCards(tradeOffer.getOffer()); // gives receiver the
+			// cards he was offered,
+			// takes away the cards
+			// he agreed to trade
+			Player sender = getPlayerByIndex(tradeOffer.getSender()); // player that
+					// sent the
+					// trade
+					// initially
+			sender.sendCards(tradeOffer.getOffer()); // gives send the cards he
+			// asked for, takes away the
+			// cards he offered
+		}
 		tradeOffer = null; // sets tradeOffer to null
 		String content = "";
 		if (params.isWillAccept()) {
@@ -600,12 +604,12 @@ public class ClientModel {
 			if(d.equals(VertexDirection.NorthEast))
 			{
 				HexLocation h2 = h1.getNeighborLoc(EdgeDirection.North);
-				HexLocation h3 = h1.getNeighborLoc(EdgeDirection.NorthWest);
+				HexLocation h3 = h1.getNeighborLoc(EdgeDirection.NorthEast);
 				for(Hex h : map.getHexes())
 				{
 					if(h.getLocation().equals(h1))
 					{
-						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						if(h.getResource()!=null && !h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
 						{
 							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
 							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
@@ -613,7 +617,7 @@ public class ClientModel {
 					}
 					else if(h.getLocation().equals(h2))
 					{
-						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						if(h.getResource()!=null && !h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
 						{
 							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
 							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
@@ -621,7 +625,7 @@ public class ClientModel {
 					}
 					else if(h.getLocation().equals(h3))
 					{
-						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						if(h.getResource()!=null && !h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
 						{
 							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
 							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
@@ -637,7 +641,7 @@ public class ClientModel {
 				{
 					if(h.getLocation().equals(h1))
 					{
-						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						if(h.getResource()!=null && !h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
 						{
 							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
 							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
@@ -645,7 +649,7 @@ public class ClientModel {
 					}
 					else if(h.getLocation().equals(h2))
 					{
-						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						if(h.getResource()!=null && !h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
 						{
 							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
 							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
@@ -653,7 +657,7 @@ public class ClientModel {
 					}
 					else if(h.getLocation().equals(h3))
 					{
-						if(!h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
+						if(h.getResource()!=null && !h.getResource().equals(HexType.DESERT) && !h.getResource().equals(HexType.WATER))
 						{
 							bank.subtractOne(ResourceType.valueOf(h.getResource().toString()));
 							p.getResources().addOne(ResourceType.valueOf(h.getResource().toString()));
