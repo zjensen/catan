@@ -87,6 +87,10 @@ public class MapGenerator {
 		while(portList.size() > 0) {
 			randomNumber = rand.nextInt(portList.size());
 			m.getPorts()[i].setResourceType(portList.get(randomNumber));
+			if(portList.get(randomNumber) == null)
+				m.getPorts()[i].setRatio(3);
+			else
+				m.getPorts()[i].setRatio(2);
 			portList.remove(randomNumber);
 			i++;
 		}
