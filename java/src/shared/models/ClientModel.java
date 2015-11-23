@@ -178,7 +178,7 @@ public class ClientModel {
 		if (!params.isWillAccept()) // user is declining, so we don't need to
 									// check if they have the cards
 		{
-			return false;
+			return true;
 		}
 
 		return receiver.canReceiveCards(this.getTradeOffer().getOffer());
