@@ -1,5 +1,7 @@
 package shared.models;
 
+import java.util.ArrayList;
+
 import shared.communication.moves.DiscardCards_Input;
 import shared.communication.moves.MaritimeTrade_Input;
 import shared.communication.moves.RoadBuilding_Input;
@@ -25,6 +27,7 @@ public class Player {
 	private int monuments;
 	private int longestRoad;
 	private int victoryPoints;
+	private ArrayList<EdgeValue> builtRoads;
 	
 	public Player() {
 		this.name = null;
@@ -43,6 +46,7 @@ public class Player {
 		this.monuments = 0;
 		this.longestRoad = 0;
 		this.victoryPoints = 0;
+		this.setBuiltRoads(new ArrayList<EdgeValue>());
 	}
 	
 	public Player(String name, String color, int playerId, int index) {
@@ -62,6 +66,7 @@ public class Player {
 		this.monuments = 0;
 		this.longestRoad = 0;
 		this.victoryPoints = 0;
+		this.setBuiltRoads(new ArrayList<EdgeValue>());
 	}
 	
 	/**
@@ -663,5 +668,18 @@ public class Player {
 				resources.changeWood(1);
 				break;
 		}
+	}
+
+	public ArrayList<EdgeValue> getBuiltRoads() {
+		return builtRoads;
+	}
+
+	public void setBuiltRoads(ArrayList<EdgeValue> builtRoads) {
+		this.builtRoads = builtRoads;
+	}
+	
+	public void addBuiltRoad(EdgeValue value)
+	{
+		this.builtRoads.add(value);
 	}
 }

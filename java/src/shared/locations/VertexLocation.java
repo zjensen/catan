@@ -57,7 +57,8 @@ public class VertexLocation
 	
 	@Override
 	public boolean equals(Object obj)
-	{
+	{	
+		VertexLocation tempThis = this.getNormalizedLocation();
 		if(this == obj)
 			return true;
 		if(obj == null)
@@ -65,14 +66,15 @@ public class VertexLocation
 		if(getClass() != obj.getClass())
 			return false;
 		VertexLocation other = (VertexLocation)obj;
-		if(dir != other.dir)
+		other = other.getNormalizedLocation();
+		if(tempThis.dir != other.dir)
 			return false;
-		if(hexLoc == null)
+		if(tempThis.hexLoc == null)
 		{
 			if(other.hexLoc != null)
 				return false;
 		}
-		else if(!hexLoc.equals(other.hexLoc))
+		else if(!tempThis.hexLoc.equals(other.hexLoc))
 			return false;
 		return true;
 	}

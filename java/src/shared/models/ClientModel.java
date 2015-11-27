@@ -39,6 +39,7 @@ public class ClientModel {
 	private TurnTracker turnTracker;
 	private int version;
 	private int winner;
+	private int longestRoadIndex;
 
 	public ClientModel() {
 		this.bank = null;
@@ -51,6 +52,7 @@ public class ClientModel {
 		this.turnTracker = null;
 		this.version = -1;
 		this.winner = -1;
+		this.longestRoadIndex = -1;
 	}
 
 	/**
@@ -71,6 +73,7 @@ public class ClientModel {
 		this.turnTracker = new TurnTracker();
 		this.version = 0;
 		this.winner = -1;
+		this.longestRoadIndex = -1;
 	}
 
 	/**
@@ -533,45 +536,28 @@ public class ClientModel {
 		Player p = getPlayerByIndex(params.getPlayerIndex());
 		if(params.isFree())
 		{
-			p.buildFreeRoad(); // remove resources from player
+			p.buildFreeRoad();
 		}
 		else
 		{
-			p.buildRoad();
+			p.buildRoad(); // remove resources from player
 		}
-		p.setLongestRoad(p.getRoadsPlayed());
-		if (p.getRoadsPlayed() >= 5) // player could possible have longest road
+
+		p.addBuiltRoad(new EdgeValue(p, params.getRoadLocation()));
+		
+		//calc longest road
+		int tempIdx = this.getLongestRoadIndex();
+		if(this.longestRoadIndex != tempIdx)
 		{
-			int mostRoads = 0; // most roads any of the other players have
-			for (Player p2 : players) {
-				if (p2.getIndex() != p.getIndex()
-						&& p2.getRoadsPlayed() > mostRoads) {
-					mostRoads = p2.getRoadsPlayed();
-				}
-			}
-			if (p.getRoadsPlayed() > mostRoads) // player has more roads than
-												// any other player
-			{
-				if (turnTracker.getLongestRoad() != -1) // if someone currently
-														// has longest road
-				{
-					// remove victory points from previous longestRoad holder
-					getPlayerByIndex(turnTracker.getLongestRoad())
-							.subtract2VictoryPoints();
-				}
-				p.add2VictoryPoints(); // add victory points to player
-				turnTracker.setLongestRoad(p.getIndex()); // update the turn
-															// tracker to
-															// reflect new
-															// longest road
-															// holder
-			}
+			this.longestRoadIndex = tempIdx;
+			updateLongestRoadPoints();
 		}
+
 		map.getRoads().put(params.getRoadLocation().getNormalizedLocation(), p); // add
 																					// road
 																					// to
-																					// map
-		bank.roadBuilt(); // add resources to bank
+		if(!params.isFree())														// map
+			bank.roadBuilt(); // add resources to bank
 		log.addLine(p.getName(), (p.getName() + " built a road."));
 		checkThenSetWinner(); // check if this move made a player win the game
 	}
@@ -592,7 +578,8 @@ public class ClientModel {
 																		// settlement
 																		// to
 																		// map
-		bank.settlementBuilt(); // add resources to bank
+		if(!params.isFree())
+			bank.settlementBuilt(); // add resources to bank
 		checkThenSetWinner(); // check if this move made a player win the game
 		log.addLine(p.getName(), (p.getName() + " built a settlement."));
 		if(turnTracker.getStatus().equals("secondround"))
@@ -859,36 +846,20 @@ public class ClientModel {
 		map.getRoads().put(params.getSpot1().getNormalizedLocation(), p); // add
 																			// first
 																			// road
+		p.addBuiltRoad(new EdgeValue(p, params.getSpot1().getNormalizedLocation()));
 		map.getRoads().put(params.getSpot2().getNormalizedLocation(), p); // add
 																			// second
 																			// road
-		if (p.getRoadsPlayed() >= 5) // player could possible have longest road
+		p.addBuiltRoad(new EdgeValue(p, params.getSpot2().getNormalizedLocation()));
+		
+		//calc longest road
+		int tempIdx = this.getLongestRoadIndex();
+		if(this.longestRoadIndex != tempIdx)
 		{
-			int mostRoads = 0; // most roads any of the other players have
-			for (Player p2 : players) {
-				if (p2.getIndex() != p.getIndex()
-						&& p2.getRoadsPlayed() > mostRoads) {
-					mostRoads = p2.getRoadsPlayed();
-				}
-			}
-			if (p.getRoadsPlayed() > mostRoads) // player has more roads than
-												// any other player
-			{
-				if (turnTracker.getLongestRoad() != -1) // if someone currently
-														// has longest road
-				{
-					// remove victory points from previous longestRoad holder
-					getPlayerByIndex(turnTracker.getLongestRoad())
-							.subtract2VictoryPoints();
-				}
-				p.add2VictoryPoints(); // add victory points to player
-				turnTracker.setLongestRoad(p.getIndex()); // update the turn
-															// tracker to
-															// reflect new
-															// longest road
-															// holder
-			}
+			this.longestRoadIndex = tempIdx;
+			updateLongestRoadPoints();
 		}
+		
 		log.addLine(p.getName(), (p.getName() + " built two roads."));
 		checkThenSetWinner(); // check if this move made a player win the game
 	}
@@ -1177,8 +1148,20 @@ public class ClientModel {
 
 	public void sendChat(SendChat_Input params) {
 		version++;
-		chat.addLine(getPlayerByIndex(params.getPlayerIndex()).getName(),
-				params.getContent());
+		if(params.getContent().startsWith("!"))
+		{
+			Player p = getPlayerByIndex(params.getPlayerIndex());
+			System.out.println("Cheat called by: " + p.getName());
+			p.addCard(ResourceType.WOOD);
+			p.addCard(ResourceType.BRICK);
+			bank.changeBrick(-1);
+			bank.changeWood(-1);
+		}
+		else
+		{
+			chat.addLine(getPlayerByIndex(params.getPlayerIndex()).getName(),
+					params.getContent());
+		}
 	}
 
 	public void soldier(Soldier_Input params) {
@@ -1278,6 +1261,118 @@ public class ClientModel {
 				setWinner(p.getIndex());
 				return;
 			}
+		}
+	}
+	
+	/**
+	 * determines which player has the longest road
+	 */
+	public int getLongestRoadIndex(){
+		int index = -1;
+		int longestRoad = 0;
+		
+		//finds longest road of each player
+		for(Player player: players)
+		{
+			System.out.println("Checking longest road for: " + player.getName());
+			if(player.getRoadsPlayed()<5)
+			{
+				System.out.println("\tIgnored " + player.getName() + " (not enought roads built)");
+				continue; //don't check until the player has 5+ roads
+			}
+			//checks for longest road beginning at each road
+			try
+			{
+				System.out.println("\t" + player.getName() + " has at leat 5 roads");
+				for(EdgeValue e : player.getBuiltRoads())
+				{
+					ArrayList<EdgeValue> edges = excludeEdge(player.getBuiltRoads(),e);
+					VertexLocation[] vertices = e.getLocation().getAdjacentVertices();
+					int temp = Math.max(rGetLongestRoad(vertices[0], edges), rGetLongestRoad(vertices[1], edges));
+					if(temp > longestRoad)
+					{
+						longestRoad = temp;
+						index = player.getIndex();
+					}
+					else if (temp == longestRoad && player.getIndex()==longestRoadIndex)
+					{
+						index = player.getIndex(); //keeps previous longest as winner
+					}
+				}
+			} catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		
+		// finally, return the winner
+		if(longestRoad < 5)
+			return -1;
+		else
+			return index;
+	}
+	
+	/**
+	 * removes the provided edge from a list and returns a new list
+	 * @param l - previous list
+	 * @param e - edge to be removed
+	 * @return
+	 */
+	private ArrayList<EdgeValue> excludeEdge(ArrayList<EdgeValue> l, EdgeValue e){
+		ArrayList<EdgeValue> list = new ArrayList<EdgeValue>();
+		for(EdgeValue edge : l){
+			if(!edge.getLocation().equals(e.getLocation())){
+				list.add(edge);
+			}
+		}
+		return list;
+	}
+	
+	/**
+	 * recursive check for longest road from a given point
+	 * @param v - current vertex to search from
+	 * @param edges - remaining roads to search through
+	 * @return
+	 */
+	private int rGetLongestRoad(VertexLocation v, ArrayList<EdgeValue> edges) {
+		if(edges.size()==0){
+			return 1; 			//base case, accounts for road just removed
+		}
+		ArrayList<Integer> permutations = new ArrayList<Integer>();
+		for(EdgeValue edge : edges){
+			//this checks whether the given edge is connected to our vertex of interest, if so, uses that edge as the next recursive call
+			VertexLocation[] adjacentVertices = edge.getLocation().getAdjacentVertices();
+			
+			if(adjacentVertices[0].equals(v))
+				permutations.add(1 + rGetLongestRoad(adjacentVertices[1], this.excludeEdge(edges, edge)));
+			else if(adjacentVertices[1].equals(v))
+				permutations.add(1 + rGetLongestRoad(adjacentVertices[0], this.excludeEdge(edges, edge)));
+			else
+				permutations.add(1);
+		}
+		
+		// get max road length from all calls
+		int output = 0;
+		for(int i : permutations){
+			if(i>output)
+				output = i;
+		}
+		return output;
+	}
+	
+	private void updateLongestRoadPoints()
+	{
+		// remove vp from previous player
+		if(turnTracker.getLongestRoad() != -1)
+			getPlayerByIndex(turnTracker.getLongestRoad()).subtract2VictoryPoints();
+		try
+		{
+			// give points to new player
+			getPlayerByIndex(this.longestRoadIndex).add2VictoryPoints();
+			turnTracker.setLongestRoad(this.longestRoadIndex);
+		}
+		catch(NullPointerException e)
+		{
+			System.out.println("No player has built 5 roads yet");
 		}
 	}
 }
