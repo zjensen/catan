@@ -32,7 +32,11 @@ public class ServerHandler implements HttpHandler{
 	@Override
 	public void handle(HttpExchange exchange) throws IOException {
 		ServerCommand event = factory.create(exchange);
-		this.logInfo("Request: " + exchange.getRequestURI().toString());
+		String uri = exchange.getRequestURI().toString();
+		String[] arguments = uri.split("/");
+		String request = arguments[arguments.length-1];
+		if(!request.startsWith("model"))
+			this.logInfo("Request: " + exchange.getRequestURI().toString());
 		try{
 			//Check if it is a valid request
 			if (event == null) {

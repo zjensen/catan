@@ -2,6 +2,7 @@ package shared.models;
 
 import java.util.ArrayList;
 
+import server.cheats.CheatInterpreter;
 import shared.communication.moves.AcceptTrade_Input;
 import shared.communication.moves.BuildCity_Input;
 import shared.communication.moves.BuildRoad_Input;
@@ -899,6 +900,8 @@ public class ClientModel {
 		Player player = getPlayerByIndex(params.getPlayerIndex());
 
 		if (params.getNumber() == 7) {
+			log.addLine(player.getName(), (player.getName() + " rolled a "
+					+ params.getNumber() + "."));
 			boolean needToDiscard = false; // can we skip discarding?
 			for (Player p : players) {
 				if (needsToDiscard(p.getIndex())) {
@@ -1151,11 +1154,7 @@ public class ClientModel {
 		if(params.getContent().startsWith("!"))
 		{
 			Player p = getPlayerByIndex(params.getPlayerIndex());
-			System.out.println("Cheat called by: " + p.getName());
-			p.addCard(ResourceType.WOOD);
-			p.addCard(ResourceType.BRICK);
-			bank.changeBrick(-1);
-			bank.changeWood(-1);
+			CheatInterpreter.instance().interpret(params.getContent(), p, this);
 		}
 		else
 		{
@@ -1169,7 +1168,7 @@ public class ClientModel {
 		Player player = getPlayerByIndex(params.getPlayerIndex()); // player
 																	// that did
 																	// the
-		player.setPlayedDevCard(true);															// robbing
+		player.setPlayedDevCard(true);								// robbing
 		log.addLine(player.getName(),
 				(player.getName() + " played a soldier card."));
 
