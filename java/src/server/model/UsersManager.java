@@ -151,6 +151,14 @@ public class UsersManager {
 	public List<User> getUsers() {
 		return Collections.unmodifiableList(users);
 	}
+	
+	/**
+	 * sets the list of users
+	 *
+	 */
+	public void setUsers(List<User> users) {
+		this.users = users;
+	}
 
 	/**
 	 * determines if a User is already registered with a given username

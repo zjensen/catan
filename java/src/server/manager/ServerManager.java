@@ -14,6 +14,7 @@ import server.facade.MovesFacade;
 import server.facade.UserFacade;
 import server.model.GamesManager;
 import server.model.UsersManager;
+import server.persistence.provider.IProvider;
 
 public class ServerManager {
 
@@ -24,6 +25,7 @@ public class ServerManager {
 	private IMovesFacade movesFacade;
 	private GamesManager gamesManager = new GamesManager();
 	private UsersManager usersManager = new UsersManager();
+	private IProvider provider = null;
 
 	public static ServerManager instance() {
 		if (_instance == null)
@@ -85,5 +87,15 @@ public class ServerManager {
 
 	public void setUsersManager(UsersManager usersManager) {
 		this.usersManager = usersManager;
+	}
+
+	public IProvider getProvider()
+	{
+		return provider;
+	}
+
+	public void setProvider(IProvider provider)
+	{
+		this.provider = provider;
 	}
 }

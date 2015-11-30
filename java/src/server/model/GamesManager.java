@@ -208,4 +208,11 @@ public class GamesManager {
 	public List<Game> getGames() {
 		return games;
 	}
+	
+	/**
+	 * Sets the game list
+	 */
+	public void setGames(List<Game> games) {
+		this.games = games;
+	}
 }
