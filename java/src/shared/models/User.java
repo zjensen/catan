@@ -1,6 +1,14 @@
 package shared.models;
 
-public class User {
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
+
+public class User implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4389014523860776611L;
 	private String name;
 	private String password;
 	private int playerID;
@@ -61,6 +69,23 @@ public class User {
 	 */
 	public void setPlayerID(int playerID) {
 		this.playerID = playerID;
+	}
+	
+	public String serialize()
+	{
+		 String serializedObject = "";
+
+		 // serialize the object
+		 try {
+		     ByteArrayOutputStream bo = new ByteArrayOutputStream();
+		     ObjectOutputStream so = new ObjectOutputStream(bo);
+		     so.writeObject(this);
+		     so.flush();
+		     serializedObject = bo.toString("ISO-8859-1");
+		 } catch (Exception e) {
+		     e.printStackTrace();
+		 }
+		 return serializedObject;
 	}
 
 }

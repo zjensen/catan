@@ -11,22 +11,22 @@ public class NonRelational_CommandDAO implements ICommandDAO {
 		// TODO Auto-generated constructor stub
 	}
 
-	@Override
-	public void saveCommands(List<ServerCommand> commands)
-	{
-		// TODO Auto-generated method stub
+//	@Override
+//	public void saveCommands(List<ServerCommand> commands)
+//	{
+//		// TODO Auto-generated method stub
+//
+//	}
 
-	}
-
 	@Override
-	public List<ServerCommand> loadCommands()
+	public List<String> loadCommands()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void addCommand(ServerCommand command)
+	public void addCommand(String command, int gameID)
 	{
 		// TODO Auto-generated method stub
 

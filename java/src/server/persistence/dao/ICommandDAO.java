@@ -10,18 +10,18 @@ public interface ICommandDAO {
 	 * saves a list of commands
 	 * @param commands to be saved
 	 */
-	public void saveCommands(List<ServerCommand> commands);
+//	public void saveCommands(List<ServerCommand> commands);
 	
 	/**
 	 * loads all saved commands
 	 * @return list of saved commands
 	 */
-	public List<ServerCommand> loadCommands();
+	public List<String> loadCommands();
 	
 	/**
 	 * saves a new command
 	 * @param command
 	 */
-	public void addCommand(ServerCommand command);
+	public void addCommand(String command, int gameID);
 
 }

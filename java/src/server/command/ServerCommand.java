@@ -83,8 +83,8 @@ public abstract class ServerCommand implements Serializable{
 	
 	public void addCommand()
 	{
-		if(ServerManager.instance().getProvider()==null)
-			return;
+//		if(ServerManager.instance().getProvider()==null)
+//			return;
 		IProvider p = ServerManager.instance().getProvider();
 		p.startTransaction();
 		try
@@ -218,14 +218,15 @@ public abstract class ServerCommand implements Serializable{
 		
 		 String serializedObject = "";
 
-		 // serialize the object
 		 try {
+			 //serialize
 		     ByteArrayOutputStream bo = new ByteArrayOutputStream();
 		     ObjectOutputStream so = new ObjectOutputStream(bo);
 		     so.writeObject(this);
 		     so.flush();
 		     serializedObject = bo.toString("ISO-8859-1");
 		    
+		     //deserialize
 		     byte b[] = serializedObject.getBytes("ISO-8859-1");
 		     ByteArrayInputStream bi = new ByteArrayInputStream(b);
 		     ObjectInputStream si = new ObjectInputStream(bi);
@@ -234,17 +235,6 @@ public abstract class ServerCommand implements Serializable{
 		 } catch (Exception e) {
 		     e.printStackTrace();
 		 }
-
-		 // deserialize the object
-//		 try {
-//		     byte b[] = serializedObject.getBytes(); 
-//		     ByteArrayInputStream bi = new ByteArrayInputStream();
-//		     ObjectInputStream si = new ObjectInputStream(bi);
-//		     ServerCommand obj = (ServerCommand) si.readObject();
-//		     System.out.println(1);
-//		 } catch (Exception e) {
-//		     e.printStackTrace();
-//		 }
 	}
 	
 	public String serialize()
