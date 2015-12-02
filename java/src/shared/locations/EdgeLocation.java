@@ -1,11 +1,17 @@
 package shared.locations;
 
+import java.io.Serializable;
+
 /**
  * Represents the location of an edge on a hex map
  */
-public class EdgeLocation
+public class EdgeLocation implements Serializable
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4711603676676247189L;
 	private HexLocation hexLoc;
 	private EdgeDirection dir;
 	

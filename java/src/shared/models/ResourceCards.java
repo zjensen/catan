@@ -1,12 +1,17 @@
 package shared.models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Random;
 
 import shared.definitions.ResourceType;
 
-public class ResourceCards {
+public class ResourceCards implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3734632712127421754L;
 	private int sheep;
 	private int wheat;
 	private int wood;
