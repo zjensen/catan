@@ -1,9 +1,15 @@
 package shared.communication.game;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
-public class AddAI_Input 
+public class AddAI_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7090784884090247646L;
 	// used only for testing purposes
 	private boolean catan_user;
 	private boolean catan_game;

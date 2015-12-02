@@ -1,10 +1,16 @@
 package server.command;
 
+import java.io.Serializable;
+
 import com.google.gson.JsonElement;
 import com.sun.net.httpserver.HttpExchange;
 
-public class ExchangeWrapper 
+public class ExchangeWrapper implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3674216438370104287L;
 	private HttpExchange exchange;
 	private JsonElement json;
 	private String jsonString;

@@ -1,7 +1,13 @@
 package shared.communication.game;
 
-public class POSTCommands_Input 
+import java.io.Serializable;
+
+public class POSTCommands_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 348326544717941319L;
 	// used only for testing purposes
 	private boolean catan_user;
 	private boolean catan_game;

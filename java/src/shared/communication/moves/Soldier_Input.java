@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.locations.HexLocation;
 
-public class Soldier_Input 
+public class Soldier_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8812355271575287275L;
 	private final String type = "Soldier";
 	private int playerIndex;
 	private int victimIndex;

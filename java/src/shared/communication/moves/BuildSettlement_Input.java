@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.locations.VertexLocation;
 
-public class BuildSettlement_Input 
+public class BuildSettlement_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 4966174067304345085L;
 	private final String type = "buildSettlement";
 	private int playerIndex;
 	private VertexLocation vertexLocation;

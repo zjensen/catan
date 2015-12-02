@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
-public class SendChat_Input 
+public class SendChat_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8109207815789113775L;
 	private final String type = "sendChat";
 	private int playerIndex;
 	private String content;

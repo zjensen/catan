@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.definitions.ResourceType;
 
-public class YearOfPlenty_Input 
+public class YearOfPlenty_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5989252473325469003L;
 	private final String type = "Year_Of_Plenty";
 	private int playerIndex;
 	private ResourceType resource1;

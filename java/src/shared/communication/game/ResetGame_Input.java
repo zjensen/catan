@@ -1,7 +1,13 @@
 package shared.communication.game;
 
-public class ResetGame_Input 
+import java.io.Serializable;
+
+public class ResetGame_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7668635180342023376L;
 	// used only for testing purposes
 	private boolean catan_user;
 	private boolean catan_game;

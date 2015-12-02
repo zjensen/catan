@@ -2,8 +2,6 @@ package server.command.moves;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.sun.net.httpserver.HttpExchange;
-
 import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
@@ -12,6 +10,10 @@ import shared.communication.moves.DiscardCards_Input;
 
 public class DiscardCards_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2801751798563819909L;
 	private DiscardCards_Input params = null;
 	
 	/**
@@ -47,6 +49,10 @@ public class DiscardCards_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

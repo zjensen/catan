@@ -12,6 +12,10 @@ import com.google.gson.JsonPrimitive;
 
 public class Login_Command extends ServerCommand{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -2086855380677342822L;
 	private Login_Input params = null;
 	
 	/**

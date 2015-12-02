@@ -1,7 +1,13 @@
 package shared.communication.game;
 
-public class GameModel_Input 
+import java.io.Serializable;
+
+public class GameModel_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 9136512411611998000L;
 	private int version;
 	
 	public GameModel_Input()

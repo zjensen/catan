@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
-public class RollNumber_Input 
+public class RollNumber_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6248661541206730973L;
 	private int playerIndex;
 	private int number;
 	private final String type = "rollNumber";

@@ -1,9 +1,15 @@
 package shared.communication.user;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
-public class Register_Input {
+public class Register_Input implements Serializable{
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5493553057804752531L;
 	private String username;
 	private String password;
 	

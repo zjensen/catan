@@ -12,6 +12,10 @@ import shared.communication.moves.SendChat_Input;
 
 public class SendChat_Command extends ServerCommand{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6432908627868857949L;
 	private SendChat_Input params = null;
 
 	/**
@@ -46,6 +50,10 @@ public class SendChat_Command extends ServerCommand{
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

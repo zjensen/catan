@@ -12,6 +12,10 @@ import shared.communication.moves.OfferTrade_Input;
 
 public class OfferTrade_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3453869605812463372L;
 	private OfferTrade_Input params = null;
 	
 	/**
@@ -47,6 +51,10 @@ public class OfferTrade_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

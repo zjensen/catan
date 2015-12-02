@@ -10,6 +10,10 @@ import com.google.gson.JsonElement;
 
 public class Model_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5600133826989794087L;
 	private GameModel_Input params = null;
 
 	/**

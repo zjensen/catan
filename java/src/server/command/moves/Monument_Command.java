@@ -12,6 +12,10 @@ import shared.communication.moves.Monument_Input;
 
 public class Monument_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1223243990325394228L;
 	private Monument_Input params = null;
 	
 	/**
@@ -47,6 +51,10 @@ public class Monument_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

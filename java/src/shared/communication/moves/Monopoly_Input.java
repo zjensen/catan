@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.definitions.ResourceType;
 
-public class Monopoly_Input 
+public class Monopoly_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3010726303675176803L;
 	private final String type = "Monopoly";
 	private int playerIndex;
 	private ResourceType resource;

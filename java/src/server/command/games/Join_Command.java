@@ -11,6 +11,10 @@ import com.google.gson.JsonPrimitive;
 
 public class Join_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8540101442963586124L;
 	private JoinGame_Input params = null;
 
 	/**
@@ -40,6 +44,7 @@ public class Join_Command extends ServerCommand {
 			String encodedCookie = getEncodedJoinGameCookie(Integer
 					.toString(params.getId()));
 			httpObj.getExchange().getResponseHeaders().add("Set-cookie", encodedCookie);
+			super.addCommand();
 			return response;
 		} catch (Exception e) {
 			e.printStackTrace();

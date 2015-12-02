@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
-public class AcceptTrade_Input 
+public class AcceptTrade_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9043763126228271506L;
 	private final String type = "acceptTrade";
 	private int playerIndex;
 	private boolean willAccept;

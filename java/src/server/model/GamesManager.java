@@ -215,4 +215,9 @@ public class GamesManager {
 	public void setGames(List<Game> games) {
 		this.games = games;
 	}
+
+	public Game getMostRecent()
+	{
+		return games.get(games.size()-1);
+	}
 }

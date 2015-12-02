@@ -12,6 +12,10 @@ import shared.communication.moves.BuyDevCard_Input;
 
 public class BuyDevCard_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -499733217493337640L;
 	private BuyDevCard_Input params = null;
 	
 	/**
@@ -47,6 +51,10 @@ public class BuyDevCard_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

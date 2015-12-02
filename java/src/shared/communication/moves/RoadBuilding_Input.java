@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.locations.EdgeLocation;
 
-public class RoadBuilding_Input 
+public class RoadBuilding_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7763694212273820185L;
 	private final String type = "Road_Building";
 	private int playerIndex;
 	private EdgeLocation spot1;

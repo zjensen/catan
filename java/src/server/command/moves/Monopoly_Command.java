@@ -15,6 +15,10 @@ import shared.definitions.ResourceType;
 
 public class Monopoly_Command extends ServerCommand {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1710481300604140610L;
 	private Monopoly_Input params;
 
 	public Monopoly_Command(ExchangeWrapper exchange) {
@@ -44,6 +48,10 @@ public class Monopoly_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

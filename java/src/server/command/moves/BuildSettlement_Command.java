@@ -14,6 +14,10 @@ import shared.communication.moves.BuildSettlement_Input;
 
 public class BuildSettlement_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6937157712678230596L;
 	private BuildSettlement_Input params = null;
 	
 	public BuildSettlement_Command(ExchangeWrapper exchange)
@@ -48,6 +52,10 @@ public class BuildSettlement_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

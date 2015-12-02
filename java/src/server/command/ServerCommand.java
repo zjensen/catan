@@ -1,11 +1,18 @@
 package server.command;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.List;
 
 import server.main.ServerInvalidRequestException;
+import server.manager.ServerManager;
+import server.persistence.provider.IProvider;
 import shared.locations.EdgeDirection;
 import shared.locations.EdgeLocation;
 import shared.locations.HexLocation;
@@ -18,8 +25,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.sun.net.httpserver.Headers;
 
-public abstract class ServerCommand {
+public abstract class ServerCommand implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected ExchangeWrapper httpObj;
 	protected int gameId;
 	protected int playerId;
@@ -68,6 +79,24 @@ public abstract class ServerCommand {
 		{
 			e2.printStackTrace();
 		}		
+	}
+	
+	public void addCommand()
+	{
+		if(ServerManager.instance().getProvider()==null)
+			return;
+		IProvider p = ServerManager.instance().getProvider();
+		p.startTransaction();
+		try
+		{
+			p.addCommand(serialize(), this.gameId);
+			p.endTransaction(true);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			p.endTransaction(false);
+		}
 	}
 
 	/**
@@ -180,6 +209,76 @@ public abstract class ServerCommand {
 	{
 		this.playerId = playerId;
 		this.hasUserCookie = true;
+	}
+
+	public void test()
+	{
+		this.httpObj = null;
+		this.gson = null;
+		
+		 String serializedObject = "";
+
+		 // serialize the object
+		 try {
+		     ByteArrayOutputStream bo = new ByteArrayOutputStream();
+		     ObjectOutputStream so = new ObjectOutputStream(bo);
+		     so.writeObject(this);
+		     so.flush();
+		     serializedObject = bo.toString("ISO-8859-1");
+		    
+		     byte b[] = serializedObject.getBytes("ISO-8859-1");
+		     ByteArrayInputStream bi = new ByteArrayInputStream(b);
+		     ObjectInputStream si = new ObjectInputStream(bi);
+		     ServerCommand obj = (ServerCommand) si.readObject();
+		     obj.gson = new Gson();
+		 } catch (Exception e) {
+		     e.printStackTrace();
+		 }
+
+		 // deserialize the object
+//		 try {
+//		     byte b[] = serializedObject.getBytes(); 
+//		     ByteArrayInputStream bi = new ByteArrayInputStream();
+//		     ObjectInputStream si = new ObjectInputStream(bi);
+//		     ServerCommand obj = (ServerCommand) si.readObject();
+//		     System.out.println(1);
+//		 } catch (Exception e) {
+//		     e.printStackTrace();
+//		 }
+	}
+	
+	public String serialize()
+	{
+		this.httpObj = null;
+		this.gson = null;
+		
+		 String serializedObject = "";
+
+		 // serialize the object
+		 try {
+		     ByteArrayOutputStream bo = new ByteArrayOutputStream();
+		     ObjectOutputStream so = new ObjectOutputStream(bo);
+		     so.writeObject(this);
+		     so.flush();
+		     serializedObject = bo.toString("ISO-8859-1");
+		 } catch (Exception e) {
+		     e.printStackTrace();
+		 }
+		 return serializedObject;
+	}
+	
+	public void deserialize(String s)
+	{
+		 // deserialize the object
+		 try {
+			 byte b[] = s.getBytes("ISO-8859-1");
+		     ByteArrayInputStream bi = new ByteArrayInputStream(b);
+		     ObjectInputStream si = new ObjectInputStream(bi);
+		     ServerCommand obj = (ServerCommand) si.readObject();
+		     obj.gson = new Gson();
+		 } catch (Exception e) {
+		     e.printStackTrace();
+		 }
 	}
 
 }

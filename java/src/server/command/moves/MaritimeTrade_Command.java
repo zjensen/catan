@@ -15,6 +15,10 @@ import shared.definitions.ResourceType;
 
 public class MaritimeTrade_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8314782416698928724L;
 	private MaritimeTrade_Input params = null;
 	
 	/**
@@ -52,6 +56,10 @@ public class MaritimeTrade_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

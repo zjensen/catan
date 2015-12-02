@@ -2,8 +2,6 @@ package server.command.moves;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
-import com.sun.net.httpserver.HttpExchange;
-
 import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
@@ -12,6 +10,10 @@ import shared.communication.moves.AcceptTrade_Input;
 
 public class AcceptTrade_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 226039177329646576L;
 	private AcceptTrade_Input params = null;
 	
 	/**
@@ -47,6 +49,11 @@ public class AcceptTrade_Command extends ServerCommand {
 		{
 			result = new JsonPrimitive("Invalid Move");
 		}
+		else
+		{
+			super.addCommand();
+		}
+		
 		return result;
 	}
 

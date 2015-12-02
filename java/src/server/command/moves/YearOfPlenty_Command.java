@@ -15,6 +15,10 @@ import shared.definitions.ResourceType;
 
 public class YearOfPlenty_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8637392409489567448L;
 	private YearOfPlenty_Input params = null;
 	
 	/**
@@ -52,6 +56,10 @@ public class YearOfPlenty_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

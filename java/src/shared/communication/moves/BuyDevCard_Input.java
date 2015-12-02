@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
-public class BuyDevCard_Input 
+public class BuyDevCard_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4387513443085187989L;
 	private final String type = "buyDevCard";
 	private int playerIndex;
 	public BuyDevCard_Input(int playerIndex)

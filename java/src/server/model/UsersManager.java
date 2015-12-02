@@ -199,4 +199,10 @@ public class UsersManager {
 		}
 		return false;
 	}
+
+	public int getNewestUserID()
+	{
+		// TODO Auto-generated method stub
+		return users.get(users.size()-1).getPlayerID();
+	}
 }

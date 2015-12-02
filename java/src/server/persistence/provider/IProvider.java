@@ -2,7 +2,6 @@ package server.persistence.provider;
 
 import java.util.List;
 
-import server.command.ServerCommand;
 import shared.models.Game;
 import shared.models.User;
 
@@ -65,24 +64,19 @@ public interface IProvider {
 	 * saves a list of commands
 	 * @param commands to be saved
 	 */
-	public void saveCommands(List<ServerCommand> commands);
+	public void saveCommands(List<String> commands);
 	
 	/**
 	 * loads all saved commands
 	 * @return list of saved commands
 	 */
-	public List<ServerCommand> loadCommands();
+	public List<String> loadCommands();
 	
 	/**
 	 * saves a new command
-	 * @param command
+	 * @param string
 	 */
-	public void addCommand(ServerCommand command);
+	public void addCommand(String command, int gameID);
 	
-	/**
-	 * Takes a server command, figures out what to with it
-	 * @param command
-	 */
-	public void handleCommand(ServerCommand command);
 	
 }

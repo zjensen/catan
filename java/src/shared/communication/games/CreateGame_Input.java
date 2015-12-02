@@ -1,9 +1,15 @@
 package shared.communication.games;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
-public class CreateGame_Input 
+public class CreateGame_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -997220044274241846L;
 	private boolean randomTiles;
 	private boolean randomNumbers;
 	private boolean randomPorts;

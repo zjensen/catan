@@ -14,6 +14,10 @@ import shared.communication.moves.RoadBuilding_Input;
 
 public class RoadBuilding_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5954172457834244098L;
 	private RoadBuilding_Input params = null;
 	
 	/**
@@ -53,6 +57,10 @@ public class RoadBuilding_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

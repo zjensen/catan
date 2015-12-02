@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
-public class FinishTurn_Input 
+public class FinishTurn_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6903234440036088024L;
 	private final String type = "finishTurn";
 	private int playerIndex;
 	

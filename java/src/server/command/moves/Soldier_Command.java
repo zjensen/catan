@@ -12,6 +12,10 @@ import shared.communication.moves.Soldier_Input;
 
 public class Soldier_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -3813508428394122624L;
 	private Soldier_Input params = null;
 	
 	/**
@@ -46,6 +50,10 @@ public class Soldier_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

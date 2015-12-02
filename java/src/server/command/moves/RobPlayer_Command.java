@@ -12,6 +12,10 @@ import shared.communication.moves.RobPlayer_Input;
 
 public class RobPlayer_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 6529704197409021514L;
 	private RobPlayer_Input params = null;
 	
 	/**
@@ -46,6 +50,10 @@ public class RobPlayer_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.definitions.ResourceType;
 
-public class MaritimeTrade_Input 
+public class MaritimeTrade_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -527491220154377042L;
 	private final String type = "maritimeTrade";
 	private int playerIndex;
 	private int ratio;

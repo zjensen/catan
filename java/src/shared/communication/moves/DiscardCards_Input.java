@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.models.ResourceCards;
 
-public class DiscardCards_Input 
+public class DiscardCards_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2704108941700713279L;
 	private final String type = "discardCards";
 	private int playerIndex;
 	private ResourceCards discardedCards;

@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.locations.HexLocation;
 
-public class RobPlayer_Input 
+public class RobPlayer_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -6718832394450679039L;
 	private final String type = "robPlayer";
 	private int playerIndex;
 	private int victimIndex;

@@ -12,6 +12,10 @@ import shared.communication.moves.FinishTurn_Input;
 
 public class FinishTurn_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8431913533686189932L;
 	private FinishTurn_Input params = null;
 	
 	/**
@@ -47,6 +51,10 @@ public class FinishTurn_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

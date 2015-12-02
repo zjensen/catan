@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import com.google.gson.Gson;
 
-public class Monument_Input 
+public class Monument_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7555688633806781206L;
 	private final String type = "Monument";
 	private int playerIndex;
 	

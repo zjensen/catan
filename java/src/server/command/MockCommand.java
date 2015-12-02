@@ -7,6 +7,10 @@ import com.sun.net.httpserver.HttpExchange;
 import server.main.ServerInvalidRequestException;
 
 public class MockCommand extends ServerCommand {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -1830040186671755302L;
 	boolean list = false;
 
 	public MockCommand(ExchangeWrapper arg0) 

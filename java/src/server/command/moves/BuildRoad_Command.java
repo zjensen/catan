@@ -4,8 +4,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
-import com.sun.net.httpserver.HttpExchange;
-
 import server.command.ExchangeWrapper;
 import server.command.ServerCommand;
 import server.main.ServerInvalidRequestException;
@@ -14,6 +12,10 @@ import shared.communication.moves.BuildRoad_Input;
 
 public class BuildRoad_Command extends ServerCommand {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 2709631100069781438L;
 	private BuildRoad_Input params = null;
 	
 	/**
@@ -53,6 +55,10 @@ public class BuildRoad_Command extends ServerCommand {
 		if(result == null)
 		{
 			result = new JsonPrimitive("Invalid Move");
+		}
+		else
+		{
+			super.addCommand();
 		}
 		return result;
 	}

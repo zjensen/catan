@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.locations.VertexLocation;
 
-public class BuildCity_Input 
+public class BuildCity_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4534690491682673624L;
 	private final String type = "buildCity";
 	private int playerIndex;
 	private VertexLocation vertexLocation;

@@ -1,9 +1,15 @@
 package shared.communication.moves;
 
+import java.io.Serializable;
+
 import shared.models.ResourceCards;
 
-public class OfferTrade_Input 
+public class OfferTrade_Input implements Serializable
 {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8331738052921807071L;
 	private final String type = "offerTrade";
 	private int playerIndex;
 	private ResourceCards offer;

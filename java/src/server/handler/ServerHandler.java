@@ -57,10 +57,6 @@ public class ServerHandler implements HttpHandler{
 			exchange.getResponseBody().write(stringResponse.getBytes());
 			exchange.getResponseBody().close();
 			exchange.close();
-			if(ServerManager.instance().getProvider()!=null)
-			{
-				ServerManager.instance().getProvider().handleCommand(event);
-			}
 		} catch(ServerInvalidRequestException e1){
 			e1.printStackTrace();
 			String errorMessage = e1.getMessage();
