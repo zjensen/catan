@@ -6,9 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import server.command.ServerCommand;
+import server.manager.ServerManager;
 import server.persistence.dao.*;
 import shared.models.Game;
 import shared.models.User;
+import shared.utils.Interpreter;
 
 public abstract class IProvider {
 
@@ -16,6 +18,7 @@ public abstract class IProvider {
 	protected IGameDAO gameDAO;
 	protected ICommandDAO commandDAO;
 	protected int delta;
+	private Interpreter interpreter = new Interpreter();
 	
 	public IProvider()
 	{
@@ -39,7 +42,14 @@ public abstract class IProvider {
 	 */
 	public List<Game> loadGames()
 	{
-		return null;
+		List<String> gameStrings = gameDAO.loadGames();
+		List<Game> games = new ArrayList<Game>();
+		for(String gameString : gameStrings)
+		{
+			Game g = interpreter.deserializeGame(gameString);
+			games.add(g);
+		}
+		return games;
 	}
 	
 	/**
@@ -48,7 +58,8 @@ public abstract class IProvider {
 	 */
 	public void updateGame(Game game)
 	{
-		return;
+		String gameString = interpreter.serializeGame(game);
+		gameDAO.updateGame(gameString, game.getId());
 	}
 	
 	/**
@@ -57,7 +68,8 @@ public abstract class IProvider {
 	 */
 	public void addGame(Game game)
 	{
-		
+		String gameString = interpreter.serializeGame(game);
+		gameDAO.addGame(gameString, game.getId());
 	}
 	
 	/**
@@ -103,7 +115,24 @@ public abstract class IProvider {
 	 */
 	public List<ServerCommand> loadCommands()
 	{
-		return null;
+		List<String> commmandStrings = commandDAO.loadCommands();
+		List<ServerCommand> commands = new ArrayList<ServerCommand>();
+		for(String commmandString : commmandStrings)
+		{
+			try 
+			{
+				byte b[] = commmandString.getBytes("ISO-8859-1");
+				ByteArrayInputStream bi = new ByteArrayInputStream(b);
+				ObjectInputStream si = new ObjectInputStream(bi);
+				ServerCommand c = (ServerCommand) si.readObject();
+				commands.add(c);
+			} 
+			catch (Exception e) 
+			{
+				e.printStackTrace();
+			}
+		}
+		return commands;
 	}
 	
 	/**
@@ -112,8 +141,12 @@ public abstract class IProvider {
 	 */
 	public void addCommand(String command, int gameID)
 	{
-		
+		commandDAO.addCommand(command, gameID);
+		int savedCommands = commandDAO.getNumberOfSavedCommands(gameID);
+		if(savedCommands >= delta)
+		{
+			updateGame(ServerManager.instance().getGamesManager().getGameById(gameID));
+			commandDAO.purge(gameID);
+		}
 	}
-	
-	
 }

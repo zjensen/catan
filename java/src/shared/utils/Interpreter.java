@@ -27,6 +27,29 @@ public class Interpreter
 
 	}
 	
+	public String serializeGame(Game game)
+	{
+		JsonObject gameJSON = new JsonObject();
+		gameJSON.addProperty("id", game.getId());
+		gameJSON.addProperty("title", game.getTitle());
+		gameJSON.addProperty("clientModel", serialize(game.getClientModel()).toString());
+		return gameJSON.toString();
+	}
+	
+	public Game deserializeGame(String json)
+	{
+		JsonObject game = (JsonObject) new JsonParser().parse(json).getAsJsonObject();
+		
+		String title = game.get("title").getAsString();
+		int id = game.get("id").getAsInt();
+		String modelString = game.get("clientModel").getAsString();
+		ClientModel clientModel = deserialize(modelString);
+		
+		Game g = new Game(clientModel,title,id);
+		
+		return g;
+	}
+	
 	public HexType determineHexType(String resourceType)
 	{
 		HexType result = null;

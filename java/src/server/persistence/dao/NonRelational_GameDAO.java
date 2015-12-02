@@ -2,8 +2,6 @@ package server.persistence.dao;
 
 import java.util.List;
 
-import shared.models.Game;
-
 public class NonRelational_GameDAO implements IGameDAO {
 
 	public NonRelational_GameDAO()
@@ -12,31 +10,26 @@ public class NonRelational_GameDAO implements IGameDAO {
 	}
 
 	@Override
-	public void saveGames(List<Game> games)
-	{
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public List<Game> loadGames()
+	public List<String> loadGames()
 	{
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void updateGame(Game game)
+	public void updateGame(String game, int gameID)
 	{
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override
-	public void addGame(Game game)
+	public void addGame(String game, int gameID)
 	{
 		// TODO Auto-generated method stub
-
+		
 	}
+
+	
 
 }

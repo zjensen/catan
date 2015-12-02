@@ -83,8 +83,8 @@ public abstract class ServerCommand implements Serializable{
 	
 	public void addCommand()
 	{
-//		if(ServerManager.instance().getProvider()==null)
-//			return;
+		if(ServerManager.instance().getProvider()==null)
+			return;
 		IProvider p = ServerManager.instance().getProvider();
 		p.startTransaction();
 		try
