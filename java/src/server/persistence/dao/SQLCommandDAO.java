@@ -28,7 +28,7 @@ public class SQLCommandDAO implements ICommandDAO {
 		
 		try {
 			connection = ((SQLProvider) provider).getConnection();
-			String getSQL = "select * form command";
+			String getSQL = "select * from command order by gameId";
 			pstmt = connection.prepareStatement(getSQL);
 			
 			rs = pstmt.executeQuery();
@@ -52,22 +52,75 @@ public class SQLCommandDAO implements ICommandDAO {
 	@Override
 	public void addCommand(String command, int gameID)
 	{
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connection = ((SQLProvider) provider).getConnection();
+			String insertSQL = "insert into game (gameId, command) "
+					+ "values (?, ?)";
+			pstmt = connection.prepareStatement(insertSQL);
+			pstmt.setInt(1, gameID+1); //server starts counting at 0, database starts at 1
+			pstmt.setString(2,  command);
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+		}
+		catch (SQLException e) {
+			System.out.println("ERROR\n\tWas unable to add a user SQLCommandDAO.addCommand()");
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void purge(int gameID)
 	{
-		// TODO Auto-generated method stub
+		Connection connection = null;
+		PreparedStatement pstmt = null;
 		
+		try {
+			connection = ((SQLProvider) provider).getConnection();
+			String insertSQL = "delete from command "
+					+ "where gameId = ?";
+			pstmt = connection.prepareStatement(insertSQL);
+			pstmt.setInt(1, gameID+1); //server starts counting at 0, database starts at 1
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+		}
+		catch (SQLException e) {
+			System.out.println("ERROR\n\tWas unable to add a user SQLCommandDAO.purge()");
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public int getNumberOfSavedCommands(int gameID)
 	{
-		// TODO Auto-generated method stub
-		return 0;
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int count = 0;
+		
+		try {
+			connection = ((SQLProvider) provider).getConnection();
+			String getSQL = "select count(*) from command where gameid = ?";
+			pstmt = connection.prepareStatement(getSQL);
+			pstmt.setInt(1, gameID+1); //server starts counting at 0, database starts at 1
+			
+			rs = pstmt.executeQuery();
+			
+			count = rs.getInt(1); //should only have one number as the result
+			
+			pstmt.close();
+		}
+		catch (SQLException e){
+			System.out.println("ERROR\n\tWas unable to get all commands SQLCommandDAO.getNumberOfSavedCommands()");
+			e.printStackTrace();
+			return 0; //should this be an empty or -1 for the error?
+		}
+		return count;
 	}
 
 }

@@ -54,11 +54,12 @@ public class SQLUserDAO implements IUserDAO {
 		
 		try {
 			connection = ((SQLProvider) provider).getConnection();
-			String insertSQL = "insert into player (playerJSON)"
+			String insertSQL = "insert into player (playerJSON) "
 					+ "values (?)";
 			pstmt = connection.prepareStatement(insertSQL);
 			pstmt.setString(1,  user);
 			
+			pstmt.executeQuery();
 			pstmt.close();
 		}
 		catch (SQLException e) {

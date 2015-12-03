@@ -59,11 +59,10 @@ public class SQLGameDAO implements IGameDAO {
 			connection = ((SQLProvider) provider).getConnection();
 			
 			String updateSQL = "update game set gameJSON = ? "
-					+ "WHERE gameId = ?";
-
+					+ "where gameId = ?";
 			pstmt = connection.prepareStatement(updateSQL);
 			pstmt.setString(1, game);
-			pstmt.setInt(2, gameID+1);
+			pstmt.setInt(2, gameID+1); //server starts counting at 0, database starts at 1
 			
 			pstmt.executeUpdate();
 			pstmt.close();		
@@ -82,11 +81,12 @@ public class SQLGameDAO implements IGameDAO {
 		
 		try {
 			connection = ((SQLProvider) provider).getConnection();
-			String insertSQL = "insert into game (gameJSON)"
+			String insertSQL = "insert into game (gameJSON) "
 					+ "values (?)";
 			pstmt = connection.prepareStatement(insertSQL);
 			pstmt.setString(1,  game);
 			
+			pstmt.executeUpdate();
 			pstmt.close();
 		}
 		catch (SQLException e) {
