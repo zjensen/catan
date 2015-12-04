@@ -1,0 +1,7 @@
+<!-- List Below the necessary jar file names-->
+
+<!--Example "file:\\C:\\Users\\Trevor\\Desktop\\testClass03.jar"-->
+<StartJarFile>
+<FilePathName="file:\\C:\\Users\\Trevor\\Desktop\\testClass03.jar">
+<ClassName="shared.utils.TestClass3">
+<EndJarFile> 
