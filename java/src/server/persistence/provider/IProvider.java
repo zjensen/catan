@@ -149,4 +149,21 @@ public abstract class IProvider {
 			commandDAO.purge(gameID);
 		}
 	}
+
+	public IUserDAO getUserDAO() {
+		return userDAO;
+	}
+
+	public IGameDAO getGameDAO() {
+		return gameDAO;
+	}
+
+	public ICommandDAO getCommandDAO() {
+		return commandDAO;
+	}
+
+	public int getDelta() {
+		return delta;
+	}
+	
 }
