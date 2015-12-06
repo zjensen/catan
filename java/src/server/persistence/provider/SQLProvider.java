@@ -24,12 +24,16 @@ public class SQLProvider extends IProvider {
 	{
 		String dbName = /*"Database" + File.separator + */"catandb.sqlite";
 		try {
+			Class.forName("org.sqlite.JDBC"); 
 			connection = DriverManager.getConnection("jdbc:sqlite:" + dbName);
 			connection.setAutoCommit(false);
 						
 		}
 		catch (SQLException e) {
 			System.out.println("Failed to connect to the SQL database");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			System.out.println("Exception caused by \"Class.forName(org.sqlite.JDBC)\"");
 			e.printStackTrace();
 		}
 	}
