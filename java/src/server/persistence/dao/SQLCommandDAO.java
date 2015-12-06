@@ -57,7 +57,7 @@ public class SQLCommandDAO implements ICommandDAO {
 		
 		try {
 			connection = ((SQLProvider) provider).getConnection();
-			String insertSQL = "insert into game (gameId, command) "
+			String insertSQL = "insert into command (gameId, command) "
 					+ "values (?, ?)";
 			pstmt = connection.prepareStatement(insertSQL);
 			pstmt.setInt(1, gameID+1); //server starts counting at 0, database starts at 1

@@ -59,7 +59,7 @@ public class SQLUserDAO implements IUserDAO {
 			pstmt = connection.prepareStatement(insertSQL);
 			pstmt.setString(1,  user);
 			
-			pstmt.executeQuery();
+			pstmt.executeUpdate();
 			pstmt.close();
 		}
 		catch (SQLException e) {
