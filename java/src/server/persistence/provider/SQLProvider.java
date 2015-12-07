@@ -58,4 +58,11 @@ public class SQLProvider extends IProvider {
 	public Connection getConnection() {
 		return connection;
 	}
+
+	@Override
+	public void clean()
+	{
+		// TODO Auto-generated method stub
+		
+	}
 }

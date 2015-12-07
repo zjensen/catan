@@ -26,6 +26,11 @@ public abstract class IProvider {
 	}
 	
 	/**
+	 * Resets persistence provider
+	 */
+	public abstract void clean();
+	
+	/**
 	 * Starts transaction with the database
 	 */
 	public abstract void startTransaction();
