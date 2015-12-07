@@ -62,7 +62,10 @@ public class SQLProvider extends IProvider {
 	@Override
 	public void clean()
 	{
-		// TODO Auto-generated method stub
-		
+		this.startTransaction();
+		((SQLUserDAO) userDAO).resetUserTable();
+		((SQLGameDAO) gameDAO).resetGameTable();
+		((SQLCommandDAO) commandDAO).resetCommandTable();
+		this.endTransaction(true);
 	}
 }

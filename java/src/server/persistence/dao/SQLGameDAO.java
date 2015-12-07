@@ -94,4 +94,26 @@ public class SQLGameDAO implements IGameDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public void resetGameTable() {
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connection = ((SQLProvider) provider).getConnection();
+			String insertSQL = "drop table if exists game;"
+					+ "create table game ("
+					+ " gameId integer primary key autoincrement not null,"
+					+ "	gameJSON varchar(2000) not null"
+					+ ");";
+			pstmt = connection.prepareStatement(insertSQL);
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+		}
+		catch (SQLException e) {
+			System.out.println("ERROR\n\tWas unable to reset the game table SQLGameDAO.resetGameTable()");
+			e.printStackTrace();
+		}
+	}
 }

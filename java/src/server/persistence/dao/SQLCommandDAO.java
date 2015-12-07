@@ -123,4 +123,27 @@ public class SQLCommandDAO implements ICommandDAO {
 		return count;
 	}
 
+	public void resetCommandTable() {
+		
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connection = ((SQLProvider) provider).getConnection();
+			String insertSQL = "drop table if exists command;"
+					+ "create table command ("
+					+ "gameId int not null,"
+					+ "command varchar(2000) not null"
+					+ ");";
+			pstmt = connection.prepareStatement(insertSQL);
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+		}
+		catch (SQLException e) {
+			System.out.println("ERROR\n\tWas unable to reset command table SQLCommandDAO.resetCommandTable()");
+			e.printStackTrace();
+		}
+
+	}
 }

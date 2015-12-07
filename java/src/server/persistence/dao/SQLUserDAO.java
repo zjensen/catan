@@ -67,4 +67,25 @@ public class SQLUserDAO implements IUserDAO {
 			e.printStackTrace();
 		}
 	}
+	
+	public void resetUserTable() {
+		Connection connection = null;
+		PreparedStatement pstmt = null;
+		
+		try {
+			connection = ((SQLProvider) provider).getConnection();
+			String insertSQL = "drop table if exists player; "
+					+ "create table player ("
+					+ "playerJSON varchar(50) unique not null"
+					+ ");";
+			pstmt = connection.prepareStatement(insertSQL);
+			
+			pstmt.executeUpdate();
+			pstmt.close();
+		}
+		catch (SQLException e) {
+			System.out.println("ERROR\n\tWas unable to reset the table SQLUserDAO.resetUserTable()");
+			e.printStackTrace();
+		}
+	}
 }
