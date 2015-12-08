@@ -4,5 +4,4 @@
 <StartJarFile>
 <FilePathName="file:\\"..\\java\\plugins\\sqlProviderPlugin.jar">
 <ClassName="server.persistence.provider.SQLProvider">
-<Delta="5">
 <EndJarFile> 

@@ -89,23 +89,11 @@ public class ProviderLoader
 					quoteIndexClassName = curLine.indexOf('\"', 12);
 					if (quoteIndexClassName == 12)
 					{
-						System.out.println("You did not specify a file path name");
+						System.out.println("You did not specify a class name");
 					}
 					else
 					{
 						className = curLine.substring(12, quoteIndexClassName);
-					}
-				}
-				else if (curLine.contains("Delta"))
-				{
-					quoteIndexDelta = curLine.indexOf('\"', 8);
-					if (quoteIndexClassName == 8)
-					{
-						System.out.println("You did not specify a delta");
-					}
-					else
-					{
-						delta = Integer.parseUnsignedInt(curLine.substring(8, quoteIndexDelta));
 					}
 				}
 			}
