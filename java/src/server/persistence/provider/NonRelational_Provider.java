@@ -11,12 +11,12 @@ import server.persistence.dao.*;
 public class NonRelational_Provider extends IProvider {
 	
 	
-	public NonRelational_Provider(int delta)
+	public NonRelational_Provider()
 	{
 		super.userDAO = new NonRelational_UserDAO();
 		super.gameDAO = new NonRelational_GameDAO();
 		super.commandDAO = new NonRelational_CommandDAO();
-		super.delta = delta;
+//		super.delta = delta;
 		
 		File f = new File("TextPersistance/master.txt");
 		if (!f.exists()) 
