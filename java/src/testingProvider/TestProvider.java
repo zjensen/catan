@@ -7,7 +7,8 @@ import server.persistence.provider.SQLProvider;
 public class TestProvider {
 	
 	public static void main(String[] args) {
-		SQLProvider p = new SQLProvider(5);
+		SQLProvider p = new SQLProvider();
+		p.setDelta(5);
 		p.startTransaction();
 		
 		p.getUserDAO().addUser("Somestring11", 0);

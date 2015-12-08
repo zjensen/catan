@@ -2,6 +2,7 @@
 
 <!--Example "file:\\C:\\Users\\Trevor\\Desktop\\testClass03.jar"-->
 <StartJarFile>
-<FilePathName="file:\\C:\\Users\\Trevor\\Desktop\\testClass03.jar">
-<ClassName="shared.utils.TestClass3">
+<FilePathName="file:\\"..\\java\\plugins\\sqlProviderPlugin.jar">
+<ClassName="server.persistence.provider.SQLProvider">
+<Delta="5">
 <EndJarFile> 

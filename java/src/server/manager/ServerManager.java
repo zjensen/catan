@@ -1,5 +1,9 @@
 package server.manager;
 
+import java.lang.reflect.InvocationTargetException;
+import java.net.MalformedURLException;
+import java.util.List;
+
 import server.facade.FakeGameFacade;
 import server.facade.FakeGamesFacade;
 import server.facade.FakeMovesFacade;
@@ -15,6 +19,9 @@ import server.facade.UserFacade;
 import server.model.GamesManager;
 import server.model.UsersManager;
 import server.persistence.provider.IProvider;
+import shared.models.Game;
+import shared.models.User;
+import shared.utils.ProviderLoader;
 
 public class ServerManager {
 
@@ -56,6 +63,15 @@ public class ServerManager {
 		gamesManager = new GamesManager();
 		usersManager = new UsersManager();
 	}
+	
+	public void initializeProvider() {
+		ProviderLoader providerLoader = new ProviderLoader();
+		provider = providerLoader.initializeProvider();
+
+		gamesManager.setGames(provider.loadGames());
+		usersManager.setUsers(provider.loadUsers());
+	}
+	
 
 	public IUserFacade getUserFacade() {
 		return userFacade;

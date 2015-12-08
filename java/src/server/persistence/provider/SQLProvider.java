@@ -10,12 +10,12 @@ public class SQLProvider extends IProvider {
 	
 	private Connection connection;
 
-	public SQLProvider(int delta)
+	public SQLProvider()
 	{
 		super.userDAO = new SQLUserDAO(this);
 		super.gameDAO = new SQLGameDAO(this);
 		super.commandDAO = new SQLCommandDAO(this);
-		super.delta = delta;
+		//super.delta = delta;
 		this.connection = null;
 	}
 
@@ -59,6 +59,10 @@ public class SQLProvider extends IProvider {
 		return connection;
 	}
 
+	public void setDelta(int delta_in){
+		this.delta = delta_in;
+	}
+	
 	@Override
 	public void clean()
 	{

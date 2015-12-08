@@ -25,7 +25,7 @@ public class Server
 	{
 		try 
 		{
-			initLog();
+			initLog(); 
 		}
 		catch (IOException e) 
 		{
@@ -71,7 +71,10 @@ private Boolean testing;
 		if(testing)
 			ServerManager.instance().setFakeFacades();
 		else
+		{
 			ServerManager.instance().setFacades();
+			ServerManager.instance().initializeProvider();
+		}
 		logger.info("Initializing HTTP Server");
 		
 		try {

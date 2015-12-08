@@ -155,6 +155,14 @@ public abstract class IProvider {
 		}
 	}
 
+	public void setDelta(int delta_in) {
+		this.delta = delta_in;
+	}
+	
+	public Interpreter getInterpreter() {
+		return interpreter;
+	}
+	
 	public IUserDAO getUserDAO() {
 		return userDAO;
 	}
