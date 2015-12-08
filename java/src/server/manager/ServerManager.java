@@ -68,8 +68,18 @@ public class ServerManager {
 		ProviderLoader providerLoader = new ProviderLoader();
 		provider = providerLoader.initializeProvider();
 
-		gamesManager.setGames(provider.loadGames());
-		usersManager.setUsers(provider.loadUsers());
+		provider.startTransaction();
+		try
+		{
+			gamesManager.setGames(provider.loadGames());
+			usersManager.setUsers(provider.loadUsers());
+			provider.endTransaction(true);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			provider.endTransaction(false);
+		}
 	}
 	
 
