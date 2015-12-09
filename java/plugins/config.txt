@@ -1,13 +1,24 @@
 <!-- List Below the necessary jar file names-->
 
-<!--Example "file:\\C:\\Users\\Trevor\\Desktop\\testClass03.jar"-->
+<!--Example "file:\\C:\\Users\\Username\\Desktop\\testClass03.jar"-->
+
+<!--Below is the format to run our program-->
+
+
+
+
+
+
+
+<!--Below you can register your plugin-->
+
 <PersistenceType="sqlite">
-<FilePathName="file:\\"..\\java\\plugins\\sqlProviderPlugin.jar">
+<FilePathName="file:\\"..\\java\\plugins\\sqlPlugin.jar">
 <ClassName="server.persistence.provider.SQLProvider">
 
 <PersistenceType="text">
-<FilePathName="file:\\"..\\java\\plugins\\sqlProviderPlugin.jar">
-<ClassName="server.persistence.provider.SQLProvider">
+<FilePathName="file:\\"..\\java\\plugins\\textPlugin.jar">
+<ClassName="server.persistence.provider.NonRelational_Provider">
 
 
 
