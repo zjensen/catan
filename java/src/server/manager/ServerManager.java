@@ -1,9 +1,7 @@
 package server.manager;
 
-import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
-import java.util.List;
-
+import java.util.ArrayList;
+import server.command.ServerCommand;
 import server.facade.FakeGameFacade;
 import server.facade.FakeGamesFacade;
 import server.facade.FakeMovesFacade;
@@ -16,11 +14,10 @@ import server.facade.IMovesFacade;
 import server.facade.IUserFacade;
 import server.facade.MovesFacade;
 import server.facade.UserFacade;
+import server.main.ServerInvalidRequestException;
 import server.model.GamesManager;
 import server.model.UsersManager;
 import server.persistence.provider.IProvider;
-import shared.models.Game;
-import shared.models.User;
 import shared.utils.ProviderLoader;
 
 public class ServerManager {
@@ -69,16 +66,27 @@ public class ServerManager {
 		provider = providerLoader.initializeProvider();
 
 		provider.startTransaction();
+		ArrayList<ServerCommand> commands = new ArrayList<ServerCommand>();
 		try
 		{
 			gamesManager.setGames(provider.loadGames());
 			usersManager.setUsers(provider.loadUsers());
+			commands = (ArrayList<ServerCommand>) provider.loadCommands();
 			provider.endTransaction(true);
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			provider.endTransaction(false);
+		}
+		
+		for(ServerCommand sc : commands)
+		{
+			try {
+				sc.execute();
+			} catch (ServerInvalidRequestException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
