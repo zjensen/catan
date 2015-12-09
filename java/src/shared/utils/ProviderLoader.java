@@ -25,9 +25,7 @@ public class ProviderLoader
 	{
 		this.delta = delta;
 		this.persistenceType = persistenceType;
-		System.out.println("Starting ProviderLoader...");
 		IProvider newProvider = registerJarFile();
-        System.out.println("Ended loading provider");
         return newProvider;
 	}
 	
@@ -61,9 +59,10 @@ public class ProviderLoader
 		
 		int quoteIndexFileName = 0;
 		int quoteIndexClassName = 0;
-		int quoteIndexDelta = 0;
 		String curLine = "";
-		
+		String fileNameLine = "";
+		String classNameLine = "";
+					
 		try (Scanner scanner = new Scanner(file)) 
 		{
 			while (scanner.hasNextLine()) 
@@ -72,29 +71,20 @@ public class ProviderLoader
 				if (curLine.contains("<!--")) {
 					//System.out.println("\tIgnore This Line");
 				}
-				if (curLine.contains("FilePathName"))
+				else if (curLine.contains("PersistenceType") && curLine.contains(persistenceType))
 				{
 					quoteIndexFileName = curLine.indexOf('\"', 15);
-					if (quoteIndexFileName == 15)
-					{
-						System.out.println("You did not specify a file path name");
-					}
-					else
-					{
-						fileName = curLine.substring(15, quoteIndexFileName);
-					}
-				}
-				else if (curLine.contains("ClassName"))
-				{
 					quoteIndexClassName = curLine.indexOf('\"', 12);
-					if (quoteIndexClassName == 12)
-					{
-						System.out.println("You did not specify a class name");
-					}
-					else
-					{
-						className = curLine.substring(12, quoteIndexClassName);
-					}
+					
+					fileNameLine = scanner.nextLine();
+					classNameLine = scanner.nextLine();
+					
+					fileName = fileNameLine.substring(15, quoteIndexFileName);
+					className = curLine.substring(12, quoteIndexClassName);
+					
+					System.out.println("fileName=" + fileName);
+					System.out.println("className=" + className);
+					System.out.println("persistencetype=" + persistenceType);
 				}
 			}
 			scanner.close();
