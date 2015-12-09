@@ -23,6 +23,7 @@ public class ProviderLoader
 	
 	public IProvider initializeProvider(String persistenceType, int delta) 
 	{
+		System.out.println("Initializing Provider...");
 		this.delta = delta;
 		this.persistenceType = persistenceType;
 		IProvider newProvider = registerJarFile();
@@ -55,7 +56,17 @@ public class ProviderLoader
 
 	public void grabJarFile()
 	{
-		File file = new File("..\\java\\plugins\\config.txt");
+		System.out.println("Starting grabJarFile");
+		File newFile = new File(".");
+		System.out.println("FILE: " + newFile.getAbsolutePath());
+
+		String filePath = "plugins" + File.separator + "config.txt";
+		
+		
+		
+		File file = new File(filePath);
+		
+		
 		
 		int quoteIndexFileName = 0;
 		int quoteIndexClassName = 0;

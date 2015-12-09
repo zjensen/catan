@@ -65,6 +65,7 @@ public class ServerManager {
 //		ProviderLoader providerLoader = new ProviderLoader();
 //		provider = providerLoader.initializeProvider();
 
+		System.out.println("ServerManager: Setting up persistence");
 		provider.startTransaction();
 		ArrayList<ServerCommand> commands = new ArrayList<ServerCommand>();
 		try

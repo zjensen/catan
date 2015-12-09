@@ -115,21 +115,25 @@ private Boolean testing;
 		
 		if(args.length == 0)
 		{
+			System.out.println("Arg 0");
 			new Server(false).run(false);
 		}
 		else if (args.length == 4 && Integer.valueOf(args[2]) == -1){
+			System.out.println("Arg 4. No persistence");
 			new Server(Integer.valueOf(args[0]), false).run(false);
 		}
 		else if (args.length == 4 && !args[1].equals("none") && !args[3].equals("clean")){
+			System.out.println("Arg 4. Yes persistence. No clean");
 			Server myServer = new Server(false);
 			providerLoader = new ProviderLoader();
-			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[0], Integer.valueOf(args[1])));
+			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[1], Integer.valueOf(args[2])));
 			myServer.run(true);
 		}
 		else if (args.length == 4 && !args[1].equals("none") && args[3].equals("clean")){
+			System.out.println("Arg 4. Yes persistence. Yes clean");
 			Server myServer = new Server(false);
 			providerLoader = new ProviderLoader();
-			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[0], Integer.valueOf(args[1])));
+			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[1], Integer.valueOf(args[2])));
 			ServerManager.instance().getProvider().clean();
 			myServer.run(true);
 		}
