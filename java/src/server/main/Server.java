@@ -111,17 +111,25 @@ private Boolean testing;
 	
 	public static void main(String[] args) 
 	{
+		System.out.println("****************" + args.length + "**" + "****************");
+		
 		if(args.length == 0)
 		{
 			new Server(false).run(false);
 		}
-		else if (args.length == 1){
+		else if (args.length == 4 && Integer.valueOf(args[2]) == -1){
 			new Server(Integer.valueOf(args[0]), false).run(false);
 		}
-		else if (args.length == 2 && !args[1].contains("-D")){
+		else if (args.length == 4 && !args[1].equals("none") && !args[3].equals("clean")){
 			Server myServer = new Server(false);
 			providerLoader = new ProviderLoader();
-			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[1], Integer.valueOf(args[2])));
+			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[0], Integer.valueOf(args[1])));
+			myServer.run(true);
+		}
+		else if (args.length == 4 && !args[1].equals("none") && args[3].equals("clean")){
+			Server myServer = new Server(false);
+			providerLoader = new ProviderLoader();
+			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[0], Integer.valueOf(args[1])));
 			myServer.run(true);
 		}
 	}
