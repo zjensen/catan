@@ -37,6 +37,9 @@ public class ProviderLoader
 		this.grabJarFile();
 		URL[] classLoaderUrls;
 		try {
+			
+			System.out.println("FN=" + fileName);
+			System.out.println("CN=" + className);
 			classLoaderUrls = new URL[]{new URL(fileName)};
 			// Create a new URLClassLoader
 			URLClassLoader urlClassLoader = new URLClassLoader(classLoaderUrls);
@@ -57,16 +60,12 @@ public class ProviderLoader
 	public void grabJarFile()
 	{
 		System.out.println("Starting grabJarFile");
-		File newFile = new File(".");
-		System.out.println("FILE: " + newFile.getAbsolutePath());
+		//File newFile = new File(".");
+		//System.out.println("FILE: " + newFile.getAbsolutePath());
 
 		String filePath = "plugins" + File.separator + "config.txt";
 		
-		
-		
 		File file = new File(filePath);
-		
-		
 		
 		int quoteIndexFileName = 0;
 		int quoteIndexClassName = 0;
@@ -84,8 +83,8 @@ public class ProviderLoader
 				}
 				else if (curLine.contains("PersistenceType") && curLine.contains(persistenceType))
 				{
-					quoteIndexFileName = curLine.indexOf('\"', 15);
-					quoteIndexClassName = curLine.indexOf('\"', 12);
+					quoteIndexFileName = curLine.indexOf('\"', 16);
+					quoteIndexClassName = curLine.indexOf('\"', 13);
 					
 					fileNameLine = scanner.nextLine();
 					classNameLine = scanner.nextLine();
