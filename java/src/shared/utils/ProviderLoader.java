@@ -14,14 +14,17 @@ public class ProviderLoader
 	private String fileName;
 	private String className;
 	private int delta;
+	private String persistenceType;
 	
 	public ProviderLoader()
 	{
 		
 	}
 	
-	public IProvider initializeProvider() 
+	public IProvider initializeProvider(String persistenceType, int delta) 
 	{
+		this.delta = delta;
+		this.persistenceType = persistenceType;
 		System.out.println("Starting ProviderLoader...");
 		IProvider newProvider = registerJarFile();
         System.out.println("Ended loading provider");

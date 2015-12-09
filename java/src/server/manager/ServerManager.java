@@ -1,6 +1,7 @@
 package server.manager;
 
 import java.util.ArrayList;
+
 import server.command.ServerCommand;
 import server.facade.FakeGameFacade;
 import server.facade.FakeGamesFacade;
@@ -18,7 +19,6 @@ import server.main.ServerInvalidRequestException;
 import server.model.GamesManager;
 import server.model.UsersManager;
 import server.persistence.provider.IProvider;
-import shared.utils.ProviderLoader;
 
 public class ServerManager {
 
@@ -61,9 +61,9 @@ public class ServerManager {
 		usersManager = new UsersManager();
 	}
 	
-	public void initializeProvider() {
-		ProviderLoader providerLoader = new ProviderLoader();
-		provider = providerLoader.initializeProvider();
+	public void setUpPersistence() {
+//		ProviderLoader providerLoader = new ProviderLoader();
+//		provider = providerLoader.initializeProvider();
 
 		provider.startTransaction();
 		ArrayList<ServerCommand> commands = new ArrayList<ServerCommand>();

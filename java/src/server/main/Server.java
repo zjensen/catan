@@ -9,8 +9,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
-import server.handler.*;
+import server.handler.Handlers;
+import server.handler.ServerHandler;
 import server.manager.ServerManager;
+import shared.utils.ProviderLoader;
 
 import com.sun.net.httpserver.HttpServer;
 
@@ -20,6 +22,7 @@ public class Server
 	private static final int MAX_WAITING_CONNECTIONS = 10;
 	
 	private static Logger logger;
+	private static ProviderLoader providerLoader;
 	
 	static 
 	{
@@ -65,6 +68,7 @@ private Boolean testing;
 		Server.SERVER_PORT_NUMBER = port;
 		this.testing = testing;
 	}
+	
 	private void run() 
 	{
 		logger.info("Initializing Server Manager");
@@ -73,7 +77,7 @@ private Boolean testing;
 		else
 		{
 			ServerManager.instance().setFacades();
-			ServerManager.instance().initializeProvider();
+			ServerManager.instance().setUpPersistence();
 		}
 		logger.info("Initializing HTTP Server");
 		
@@ -101,9 +105,18 @@ private Boolean testing;
 		server.start();
 	}
 	
+	
+	
+	
 	public static void main(String[] args) 
 	{
-		if(args.length != 1)
+		if (args.length == 2){
+			Server myServer = new Server(false);
+			providerLoader = new ProviderLoader();
+			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[1], Integer.valueOf(args[2])));
+			myServer.run();
+		}
+		if(args.length == 0)
 		{
 			new Server(false).run();
 		}

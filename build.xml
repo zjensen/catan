@@ -38,7 +38,7 @@
 	<!-- Default command line arguments -->
 	<property name="host" value="localhost"/>
 	<property name="port" value="8081"/>
-	<property name="persistance" value=""/>
+	<property name="persistence" value=""/>
 	<property name="delta" value="5"/>
   
 	<!-- CLASSPATHS -->
@@ -190,7 +190,7 @@
 				<enable/>
 			</assertions>
 			<arg value="${port}"/>
-			<arg value="${persistance}"/>
+			<arg value="${persistence}"/>
 			<arg value="${delta}"/>
 		</java>
 	</target>
