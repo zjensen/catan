@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
@@ -33,21 +34,17 @@ public class NonRelational_CommandDAO implements ICommandDAO {
 			while(scan.hasNextInt())
 			{
 				int gameID = scan.nextInt();
-				File f = new File("TextPersistance/commands	"+gameID+".txt");
+				File f = new File("TextPersistance/commands"+gameID+".txt");
 				if(f.exists())
 				{
-					Scanner scan2 = null;
 					try {
-						scan2 = new Scanner(f);
+						String content = new Scanner(f).useDelimiter("\\Z").next();
+						List<String> list = new ArrayList<String>(Arrays.asList(content.split("THISISFREAKINGSTUPID")));
+						commands.addAll(list);
 					} catch (FileNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-					while(scan2.hasNextLine())
-					{
-						commands.add(scan2.nextLine());
-					}
-					scan2.close();
 				}
 			}
 			scan.close();
@@ -64,6 +61,7 @@ public class NonRelational_CommandDAO implements ICommandDAO {
 		try {
 			out = new PrintWriter(new FileOutputStream(f, true));
 			out.println(command);
+			out.println("THISISFREAKINGSTUPID");
 			out.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -95,19 +93,16 @@ public class NonRelational_CommandDAO implements ICommandDAO {
 		File f = new File("TextPersistance/commands"+gameID+".txt");
 		if (f.exists() && !f.isDirectory()) 
 		{
-			Scanner scan = null;
+			String content;
 			try {
-				scan = new Scanner(f);
+				content = new Scanner(f).useDelimiter("\\Z").next();
+				List<String> list = new ArrayList<String>(Arrays.asList(content.split("THISISFREAKINGSTUPID")));
+				count+=list.size();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			while(scan.hasNextLine())
-			{
-				count++;
-				scan.nextLine();
-			}
-			scan.close();
+			
 		}
 		
 		return count;

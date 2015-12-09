@@ -34,7 +34,7 @@ public abstract class ServerCommand implements Serializable{
 	protected ExchangeWrapper httpObj;
 	protected int gameId;
 	protected int playerId;
-	protected Gson gson = new Gson();
+	public Gson gson = new Gson();
 	protected String json;
 	protected boolean hasUserCookie = false;
 	protected boolean hasGameCookie = false;
@@ -250,6 +250,7 @@ public abstract class ServerCommand implements Serializable{
 		     ObjectOutputStream so = new ObjectOutputStream(bo);
 		     so.writeObject(this);
 		     so.flush();
+		     so.close();
 		     serializedObject = bo.toString("ISO-8859-1");
 		 } catch (Exception e) {
 		     e.printStackTrace();

@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.google.gson.Gson;
+
 import server.command.ServerCommand;
 import server.manager.ServerManager;
 import server.persistence.dao.*;
@@ -126,10 +128,13 @@ public abstract class IProvider {
 		{
 			try 
 			{
+				commmandString = commmandString.trim();
 				byte b[] = commmandString.getBytes("ISO-8859-1");
 				ByteArrayInputStream bi = new ByteArrayInputStream(b);
 				ObjectInputStream si = new ObjectInputStream(bi);
 				ServerCommand c = (ServerCommand) si.readObject();
+				si.close();
+				c.gson = new Gson();
 				commands.add(c);
 			} 
 			catch (Exception e) 

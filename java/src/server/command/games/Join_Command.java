@@ -29,7 +29,7 @@ public class Join_Command extends ServerCommand {
 
 	@Override
 	public JsonElement execute() throws ServerInvalidRequestException {
-		if (httpObj.getExchange() == null){
+		if (httpObj == null){
 			params = gson.fromJson(json, JoinGame_Input.class);
 			return ServerManager.instance().getGamesFacade().join(params, playerId);
 		}
