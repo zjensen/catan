@@ -379,7 +379,7 @@ public class Interpreter
 		
 	// Get Players
 		JsonArray playersJson = mainJson.getAsJsonArray("players");
-		Player[] players = new Player[4];
+		Player[] players = new Player[playersJson.size()];
 		
 		for(int b = 0; b < playersJson.size(); b++)
 		{

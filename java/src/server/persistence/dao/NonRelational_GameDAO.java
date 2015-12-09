@@ -57,8 +57,16 @@ public class NonRelational_GameDAO implements IGameDAO {
 
 	@Override
 	public void updateGame(String game, int gameID)
-	{
-		addGame(game,gameID);
+	{	
+		File f = new File("TextPersistance/game"+gameID+".txt");
+		PrintWriter out;
+		try {
+			out = new PrintWriter(f);
+			out.write(game);
+			out.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override

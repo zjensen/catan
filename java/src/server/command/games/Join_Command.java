@@ -44,6 +44,7 @@ public class Join_Command extends ServerCommand {
 			String encodedCookie = getEncodedJoinGameCookie(Integer
 					.toString(params.getId()));
 			httpObj.getExchange().getResponseHeaders().add("Set-cookie", encodedCookie);
+			super.gameId=params.getId();
 			super.addCommand();
 			return response;
 		} catch (Exception e) {
