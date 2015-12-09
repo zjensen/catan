@@ -69,7 +69,7 @@ private Boolean testing;
 		this.testing = testing;
 	}
 	
-	private void run() 
+	private void run(boolean persistent) 
 	{
 		logger.info("Initializing Server Manager");
 		if(testing)
@@ -77,7 +77,8 @@ private Boolean testing;
 		else
 		{
 			ServerManager.instance().setFacades();
-			ServerManager.instance().setUpPersistence();
+			if (persistent)
+				ServerManager.instance().setUpPersistence();
 		}
 		logger.info("Initializing HTTP Server");
 		
@@ -110,19 +111,18 @@ private Boolean testing;
 	
 	public static void main(String[] args) 
 	{
-		if (args.length == 2){
+		if(args.length == 0)
+		{
+			new Server(false).run(false);
+		}
+		else if (args.length == 1){
+			new Server(Integer.valueOf(args[0]), false).run(false);
+		}
+		else if (args.length == 2 && !args[1].contains("-D")){
 			Server myServer = new Server(false);
 			providerLoader = new ProviderLoader();
 			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[1], Integer.valueOf(args[2])));
-			myServer.run();
-		}
-		if(args.length == 0)
-		{
-			new Server(false).run();
-		}
-		else
-		{
-			new Server(Integer.valueOf(args[0]), false).run();
+			myServer.run(true);
 		}
 	}
 }
