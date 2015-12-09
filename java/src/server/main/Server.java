@@ -130,6 +130,7 @@ private Boolean testing;
 			Server myServer = new Server(false);
 			providerLoader = new ProviderLoader();
 			ServerManager.instance().setProvider(providerLoader.initializeProvider(args[0], Integer.valueOf(args[1])));
+			ServerManager.instance().getProvider().clean();
 			myServer.run(true);
 		}
 	}
